@@ -1,0 +1,19 @@
+{
+  "name": "@tap-payments/payment-gateway",
+  "version": "1.0.0",
+  "description": "Tap Payment Gateway ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tap-Payments/tap-payment.git"
+  },
+  "author": "Hala Q. <h.qutmosh@tap.company> (https://tap.company)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tap-Payments/tap-payment/issues"
+  },
+  "homepage": "https://github.com/Tap-Payments/tap-payment#readme"
+}
