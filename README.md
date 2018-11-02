@@ -1,1 +1,1 @@
-# tap-payment
+# payment-gateway
