@@ -1,0 +1,14 @@
+.tap-timer{
+  width: 100%;
+  color: #007AFF;
+  opacity: 1;
+  color: #007AFF;
+  font-size: 17px;
+  font-weight: bold;
+  margin: 0px;
+  transition: opacity 0.5s ease-out;
+}
+
+.fadeOut{
+  opacity: 0;
+}

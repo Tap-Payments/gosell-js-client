@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="10px" viewBox="0 0 13 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.1 (67048) - http://www.bohemiancoding.com/sketch -->
+    <title>Checkmark</title>
+    <desc>Created with Sketch.</desc>
+    <g id="IOS-(light-design)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="when-click-on-saved-card-after-adding-the-visa-card-details" transform="translate(-25.000000, -272.000000)" fill="#2ACE00">
+            <g id="Overrides/Cell/Accessory/Checkmark" transform="translate(25.000000, 272.000000)">
+                <polygon id="Checkmark" points="1.5 4.5 0 6 4 10 13 1.5 11.5 0 4 7"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

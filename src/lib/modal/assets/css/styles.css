@@ -1,0 +1,510 @@
+body{
+    font-family: sans-serif;
+}
+
+.animatedModal{
+  z-index: 1000;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin: auto;
+  position: relative;
+  opacity: 0;
+}
+
+.modal{
+  z-index: 1000;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin: auto;
+  position: relative;
+  opacity: 1;
+}
+
+.animate{
+  transform: translateY(0%);
+  visibility: visible;
+  -webkit-animation-name: modalSlideUp;
+  -webkit-animation-duration: 1s;
+  animation-name: modalSlideUp;
+  animation-duration: 1s;
+/*  animation-delay: 0.5s;*/
+  opacity: 1;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes modalSlideUp {
+  0%   {opacity: 0; visibility: visible; transform: translateY(50%)}
+  75% {transform: translateY(-10px)}
+  100% {opacity: 1; visibility: visible; transform: translateY(0%)}
+}
+
+/* Standard syntax */
+@keyframes modalSlideUp {
+  0%   {opacity: 0; visibility: visible; transform: translateY(50%)}
+  75% { transform: translateY(-10px)}
+  100% {opacity: 1; visibility: visible; transform: translateY(0%)}
+}
+
+
+.modal_container{
+  width: 100%;
+  /*padding: 2px;*/
+  overflow: auto;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  margin: 0 auto;
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-duration: 0.1s;
+  animation-name: fadeIn;
+  animation-duration: 0.1s;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100%;
+  -webkit-box-pack: stretch;
+      -ms-flex-pack: stretch;
+          justify-content: stretch;
+  justify-items: stretch;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+
+.body-container{
+  z-index: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+
+.modal-wrapper{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+body.modal-open {
+    /*overflow: hidden;
+    position: fixed;*/
+    overflow: hidden;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes fadeIn {
+    0%   {opacity: 0}
+    50%   {opacity: 0.4}
+    75%   {opacity: 0.8}
+    100% {opacity: 1}
+}
+
+/* Standard syntax */
+@keyframes fadeIn {
+  0%   {opacity: 0}
+  50%   {opacity: 0.4}
+  75%   {opacity: 0.8}
+  100% {opacity: 1}
+}
+
+.modal-body {
+    margin: 0 auto;
+    /*background-color: #fff;*/
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background: #fff;
+    height: 100%;
+    color: #463F3E;
+    /*margin-bottom: 10px;*/
+    width: 100%;
+    border: 1px solid #eaeaea;
+    border-top: none;
+    /*box-shadow: 0px 5px 7px #eee;*/
+}
+
+.modal-background-color {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    /* semi-transparent black  */
+    background-color: #000;
+    opacity: 0.55;
+
+    /* z-index must be below .modal and above everything else  */
+    z-index: 900;
+
+    -webkit-animation-name: bgFadeIn; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 0.3s;/* Safari 4.0 - 8.0 */
+    animation-name: bgFadeIn;
+    animation-duration: 0.3s;
+    /*filter:blur(3px);*/
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+
+  }
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes bgFadeIn {
+    0%   {opacity: 0.1}
+    100% {opacity: 0.75; -webkit-transform: scale(1.1); transform: scale(1.1); filter:blur(2px);}
+}
+
+/* Standard syntax */
+@keyframes bgFadeIn {
+    0%   {opacity: 0.1}
+    100% {opacity: 0.75; -webkit-transform: scale(1.1); transform: scale(1.1); filter:blur(2px);}
+}
+
+.page {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    /* z-index must be below .modal and above everything else  */
+    z-index: 900;
+
+}
+
+.modal-header{
+  width: 100%;
+  height: 50px;
+  display: flex;
+  /*justify-content: space-between;*/
+  align-items: center;
+  background-color: #fff;
+  /*align-items: center;*/
+  border-radius: 8px 8px 0px 0px;
+  margin: 0 auto;
+  border: 1px solid #eaeaea;
+  border-bottom: none;
+}
+
+.header-icon{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  /*  align-items: flex-end;*/
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+
+}
+
+.header-icon img{
+  /* margin: 16px 16px 0px 16px;*/
+}
+
+.header-title{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  /*align-items: flex-start;
+  margin: 16px 16px 0px 0px;*/
+}
+
+.header-close-icon{
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  cursor: pointer;
+  position: absolute;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes bgFadeOut {
+    0%   {opacity: 0.75}
+    100% {opacity: 0.1; -webkit-filter:blur(3px); filter:blur(3px); -webkit-transform: scale(1.1); transform: scale(1.1);}
+}
+
+/* Standard syntax */
+@keyframes bgFadeOut {
+    0%   {opacity: 0.75}
+    100% {opacity: 0.1; -webkit-filter:blur(3px); filter:blur(3px); -webkit-transform: scale(1.1); transform: scale(1.1);}
+}
+
+.header-close-icon img{
+  /*margin: 16px 16px 0px 16px;*/
+}
+
+.btn_part{
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    background: #1185FF;
+    color: #fff;
+    height: 40px;
+    width: 100%;
+    border-radius: 100px;
+    /*box-shadow: 4px 4px 15px -5px #000;*/
+    font-size: 17px;
+    border: none;
+    margin: 8px auto;
+    outline: none;
+}
+
+.btn_part:hover{
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.avatarContainer{
+  margin: auto;
+}
+
+.avatar{
+  background-color: #4b4847;
+  color: white;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  margin: inherit;
+}
+
+.text{
+  z-index: 999;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 90px;
+}
+
+.circle_icon_wrapper{
+  /*position: absolute;
+  width: fit-content;
+  top: 0;
+  margin: auto;
+  left: 0;
+  right: 0;
+  z-index: 999999;
+  height: fit-content;
+  display: -ms-flexbox;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;*/
+
+    display: -webkit-box;
+
+    display: -ms-flexbox;
+
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    /*position: absolute;
+     margin-top: -45px; */
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top: -45px;
+    /* top: -28px; */
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+
+}
+
+.circle_icon{
+    /*border-radius: 100%;
+    background: #fff;
+    border: 1px solid white;
+    width: 85px;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .4s ease-out;
+    overflow: hidden;*/
+    border-radius: 100%;
+    background: #fff;
+    border: 1px solid white;
+    width: 85px;
+    height: 85px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.avatar_title{
+  /*  display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .4s ease-out;
+    overflow: hidden;
+    line-height: 40px;
+    font-size: 25px;
+    font-weight: 100;*/
+
+    line-height: 40px;
+    font-size: 25px;
+    font-weight: 100;
+}
+
+.circle_icon img{
+    width: 100%;
+}
+
+.notification_bar{
+  display: none;
+}
+
+.notification_true{
+  position: fixed;
+  width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: 40px;
+  top: 0;
+  text-align: center;
+  left: 0;
+  right: 0;
+  z-index: 888888;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-animation-name: slideDown;
+  -webkit-animation-duration: 0.7s;
+  animation-name: slideDown;
+  animation-duration: 0.7s;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes slideDown {
+  0%   {top:-50px;}
+  100% {top:0px;}
+}
+
+/* Standard syntax */
+@keyframes slideDown {
+    0%   {top:-50px;}
+    100% {top:0px;}
+}
+
+
+.close {
+    float: right;
+    font-size: 21px;
+    font-weight: 100;
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .7;
+}
+a.close {
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+a.close:hover {
+  opacity: 1;
+}
+
+.notification_bar .close {
+  position: absolute;
+  padding: 0px 20px;
+  line-height: 0;
+}
+
+.notification_title{
+  padding: 10px 50px;
+  margin: 0px;
+  width: 100%;
+}
+
+.notification_false {
+  top: -50px;
+  -webkit-animation-name: slideUp; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 0.7s; /* Safari 4.0 - 8.0 */
+  animation-name: slideUp;
+  animation-duration: 0.7s;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes slideUp {
+  0%   {top:0px;}
+  100% {top:-50px;}
+}
+
+/* Standard syntax */
+@keyframes slideUp {
+    0%   {top:0px;}
+    100% {top:-50px;}
+}
+
+
+@media(max-width: 440px){
+  .modal_container {
+    width: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+
+
+  .animatedModal, .modal{
+    width: 100% !important;
+  }
+
+  .header-close-icon{
+    margin: 0px 16px 0px 16px;
+  }
+
+  .modal-header{
+    width: 90%;
+  }
+
+  .modal-body{
+    width: 90%;
+  }
+
+  .btn_part{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 90%;
+  }
+}

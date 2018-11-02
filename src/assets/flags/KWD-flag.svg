@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="22px" viewBox="0 0 28 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>KW_flag</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M8,20 L456,20 C460.418278,20 464,23.581722 464,28 L464,437.411911 L464,445.466726 L464,519 C464,523.418278 460.418278,527 456,527 L8,527 C3.581722,527 5.41083001e-16,523.418278 0,519 L0,28 C-5.41083001e-16,23.581722 3.581722,20 8,20 Z" id="path-1"></path>
+        <filter x="-12.4%" y="-10.0%" width="124.8%" height="122.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="7" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="18" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.269106658 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-2.4%" y="-3.3%" width="104.9%" height="108.6%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <rect x="13" y="22" width="30" height="22" id="rect-4"></rect>
+        <filter x="-10.0%" y="-13.6%" width="120.0%" height="127.3%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="currencies-list---1-(dark-gray-background)" transform="translate(-478.000000, -252.000000)">
+            <rect id="Rectangle-2-Copy-2" fill-opacity="0.55" fill="#000000" x="-6" y="-1" width="1376" height="771"></rect>
+            <g id="Group-20" transform="translate(450.000000, 98.000000)">
+                <g id="Group-18">
+                    <g id="Group-6">
+                        <g id="Rectangle-10" fill="black" fill-opacity="1">
+                            <use filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        </g>
+                        <g id="Group-12" filter="url(#filter-3)" transform="translate(14.000000, 0.000000)">
+                            <path d="M8,49 L349,49 L349,197 L8,197 C3.581722,197 5.41083001e-16,193.418278 0,189 L0,57 C-5.41083001e-16,52.581722 3.581722,49 8,49 Z" id="Rectangle-4" fill="#F5F5F7"></path>
+                            <g id="Group-3" transform="translate(0.000000, 132.000000)">
+                                <path d="M0.25,0.25 L0.25,58 C0.25,62.2802068 3.71979319,65.75 8,65.75 L348.75,65.75 L348.75,0.25 L0.25,0.25 Z" id="Rectangle-8" stroke="#D8D8D8" stroke-width="0.5" fill="#FFFFFF"></path>
+                                <g id="KW_flag">
+                                    <use fill="black" fill-opacity="1" filter="url(#filter-5)" xlink:href="#rect-4"></use>
+                                    <image x="13" y="22" width="30" height="22" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAoCAIAAAAkMq7SAAAABGdBTUEAALGOGCHvlwAAAcZJREFUWAntmDFLw0AUx98lBwo66KKbWx0dXEQQFz+FboKujjrpoHQSP5EIigUXJ2ljApUWAzoEUkqDTUma+C4UTG2uTa+FuyFHCCTvXt4v/7x7LxzZO97vbwNooPjQtA+gjwC+4pyJksQBeg+kpTTr4JOTH6APoH2qy5rKzT7oL6C/AcQq4qZAEzztHWgFIFCO9T8oApKvJGU7arFmgDLWTsL6rRBrNigDDIA+A2aCIoMPioAxW1u4wqAvn3YsaIKHNQsrF9YvuWMyKPJhL2AdwZGJmguUAfqs02K/lTXoFIEj0F+hcvc0hcv8puZWdH4hxZ5UgIrpxvcqFOVrI2YpFBXTje9VKMrXRsxSKCqmG9+rUJSvjZhlir8nGsdn9ToQIhZpRq+8oCtBcGMYW+32jPGE3XOBljyvbBjrvswNqsmgB45zblmLUSQsxlwcx4FiRThpNI5sW05WDr8fF3QpDC9Nc9d1h+dLu8oG3eh2y9UqnqVxjQTOAN1x3SvTXA7DkckybwyBYi4e2vZps6nFym09/oEuRNGFZeEal6kbP/YAdK3XK9dqm57HnynZwkCx31wbxmqg3u5tWpzbUikgBFNS8eMXh5KmVkmqPK8AAAAASUVORK5CYII="></image>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

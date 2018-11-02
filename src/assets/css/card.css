@@ -1,0 +1,71 @@
+.tap-cards-container{
+  display: flex;
+  flex-direction: row;
+  margin: 0 15px;
+}
+
+.tap-card-container{
+  border-radius: 8px;
+  background-color: rgba(255,255,255,0.75);
+  margin: 0px 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  justify-items: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tap-card-container:hover, .tap-card-container:active{
+  background-color: white;
+  box-shadow: 0px 0px 4px #2ACE00;
+}
+
+.tap-card-active{
+  background-color: white;
+  box-shadow: 0px 0px 4px #2ACE00;
+}
+
+.tap-contents{
+  pointer-events: none;
+}
+
+.last4digits{
+  font-size: 13px;
+  color: #474747;
+  margin-left: 10px;
+}
+
+.checkbox:after {
+  content: "";
+  position: absolute;
+  width: 0px;
+  height: 2px;
+  background: #2ACE00;
+  transform:translate(3px, 11px) rotate(-45deg);
+  transform-origin: left;
+  transition: all 150ms;
+  transition-delay: 0ms;
+}
+
+.checkbox:before {
+  content: "";
+  position: absolute;
+  width: 0px;
+  height: 2px;
+  background: #2ACE00;
+  transform: translate(0px, 7px) rotate(45deg);
+  transform-origin: left;
+  transition: all 150ms;
+  transition-delay: 150ms;
+}
+
+.show:before{
+  width: 6px;
+  transition-delay: 0ms;
+}
+
+.show:after{
+  width: 12px;
+  transition-delay: 150ms;
+}

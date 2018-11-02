@@ -1,0 +1,47 @@
+.tap-msg{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.tap-msg-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  -webkit-animation-name: fadeIn; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 0.7s; /* Safari 4.0 - 8.0 */
+  animation-name: fadeIn;
+  animation-duration: 0.7s;
+}
+
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes fadeIn {
+  0%   {opacity:0;}
+  100% {opacity:1;}
+}
+
+/* Standard syntax */
+@keyframes fadeIn {
+  0%   {opacity:0;}
+  100% {opacity:1;}
+}
+
+.tap-msg-title{
+  margin: 24px;
+  font-size: 17px;
+  color: #535353;
+  letter-spacing: -0.08px;
+  text-align: center;
+}
+
+.tap-msg-desc{
+  margin: 0 20px;
+  font-size: 13px;
+  color: #9D9FA4;
+  letter-spacing: -0.06px;
+  text-align: center;
+}

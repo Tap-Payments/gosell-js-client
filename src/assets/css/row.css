@@ -1,0 +1,71 @@
+.tap-row-container{
+  display: flex;
+  justify-content:center;
+}
+
+.tap-row{
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+.tap-arrow{
+  width: 65px;
+  padding: 0 16px 0 16px;
+}
+
+.tap-value{
+  width: 65px;
+  padding: 0 16px 0 16px;
+  font-size: 13px;
+  color: rgba(0,0,0,0.26);
+  pointer-events: none;
+}
+
+.hidden-value{
+  display: none;
+}
+
+.tap-icon{
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
+
+}
+
+.tap-text-container{
+  color: #535353;
+  pointer-events: none;
+  margin: 0 16px;
+}
+
+.tap-subtitle{
+  margin: 0;
+  font-size:13px;
+  font-family: 'Roboto-Light', sans-serif;
+}
+
+.tap-title{
+  margin: 0;
+  font-size:20px;
+  font-family: 'Roboto-Regular', sans-serif;
+}

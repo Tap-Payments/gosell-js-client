@@ -1,0 +1,119 @@
+.right-social-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    left: 0;
+    position: absolute;
+}
+
+.left-social-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    right: 0;
+    position: absolute;
+}
+
+.social-icon-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    left: 0;
+    position: absolute;
+}
+
+.tap-social .left-social-icon:hover .tap-social-info, .tap-social .right-social-icon:hover .tap-social-info{
+  visibility: visible;
+  opacity: 1;
+}
+
+.tap-social-empty{
+  width: 60px;
+  height: 60px;
+}
+
+.tap-social-info{
+  width: fit-content;
+  height: 100%;
+  float: left;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  transition: width 0.5s ease, opacity 1s ease 0.5ms;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  font-size: 15px;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+  direction: ltr;
+
+/*  -webkit-animation-name: expand;
+  -webkit-animation-duration: 0.5s;
+  animation-name: expand;
+  animation-duration: 0.5s;*/
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes expand {
+    0% {
+      visibility: hidden;
+      opacity: 0;
+    }
+    100% {
+      visibility: visible;
+      opacity: 1;
+      position: absolute;
+      float: right;
+      text-align: right;
+      right: 0;
+    }
+}
+
+/* Standard syntax */
+@keyframes expand {
+    0% {
+      visibility: hidden;
+      opacity: 0;
+    }
+    100% {
+      visibility: visible;
+      opacity: 1;
+      position: absolute;
+      float: right;
+      text-align: right;
+      right: 0;
+    }
+}
+
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
+
+/*
+.tap-social-info:after{
+  content: '';
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: -20px;
+    top: 0px;
+    border: 10px solid transparent;
+    border-right: 10px solid #222;
+}*/

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="23px" viewBox="0 0 30 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Bitmap</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect x="0" y="121" width="30" height="22" id="rect-1"></rect>
+        <filter x="-5.0%" y="-6.8%" width="110.0%" height="113.6%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="currencies-list---1-(dark-gray-background)" transform="translate(-824.000000, -283.000000)">
+            <g id="Group-20" transform="translate(450.000000, 98.000000)">
+                <g id="Group-17" transform="translate(365.000000, 49.000000)">
+                    <g id="Group-16" transform="translate(9.000000, 16.000000)">
+                        <g id="Bitmap">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#rect-1"></use>
+                            <image x="0" y="121" width="30" height="22" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAsCAYAAAA5KtvpAAAABGdBTUEAALGOGCHvlwAAAbxJREFUaAXtmr1uwjAUhe2qP0OHiq0vwOshsbDCwMDE+1aguPdLY8miY47FAeVKFztIhHw69ydOnFNKefKXZh7Tp7ESJPgwjQnQ9zLX9vsSZ7V1GMNhTa/hn3N5x98bQ8M4saa3mHxJgDmJKTSM4bCOUq9kwKbQwbmCdYxpqKWWqYO+RjLrFD4cLAsXjOGwCkPaFJbuoQc2hm2BdTlMID+I6XLYtCW1CqOJDti0JfUFNoUOYZc+rLnZMq3WVWFtDpvC9slhY9gWWNeHB9bXj2G6trTbWd5HtwojiQ6YsrfdWkIHZ4fFA8DDUMpmYwddgXU5TKxgrIXX67+56ac2pM/nUnK2VRgNdMCnkx0oBatP0ToebWFbYF0OXy6mGfv/snQhvayHfd5EhM6d+jC92FDpCqzL4TZVlufS9w/tqjC66IqW8RJRD2wM26cPc9vxIKYLacPqjLqtwmiiAzZtSX2BTaFD2OW5NNrMN9NqXRXW5rAp7G0Oaza1GMNOwOOmFrYsxXG65py/Y/wI57tnsmvA/IQzFnafsIAAEqUZ+ywo4sR3Mt4QAMsTimvddljB6/Gdrq3L3xLB+Lj18BfgLvfCQD9MFwAAAABJRU5ErkJggg=="></image>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

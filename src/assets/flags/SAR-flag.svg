@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="23px" viewBox="0 0 30 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>Bitmap</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect x="0" y="31" width="30" height="22" id="rect-1"></rect>
+        <filter x="-5.0%" y="-6.8%" width="110.0%" height="113.6%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="currencies-list---1-(dark-gray-background)" transform="translate(-824.000000, -193.000000)">
+            <g id="Group-20" transform="translate(450.000000, 98.000000)">
+                <g id="Group-17" transform="translate(365.000000, 49.000000)">
+                    <g id="Group-16" transform="translate(9.000000, 16.000000)">
+                        <g id="Bitmap">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#rect-1"></use>
+                            <image x="0" y="31" width="30" height="22" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAAsCAYAAAA5KtvpAAAABGdBTUEAALGOGCHvlwAAATVJREFUaAXtmsEOwiAMhrdlxosvpAd9H30efR896At5MS5qfzKi7Ni0Al1JsHCA8vergSxtm6Zpx979jGlopr1JCfoLtqcfCO7Xx+2DrNl2O1yWJG4AVfSFWaVfYdDYxTQGaestZHMUDGu9Ba1zEJqAdMFJOAxOnLBBqImk2RFm37/X/TmJ3L8nm9OO5XJ2hF0wK08qWuSEK4LFOqoTZoWtokVOuCJYrKOyX1rclw7rlIKLPKUFg1nkVk64SCyCh3LCgsEsciv2tTRVo/1BQOoa9JSekrM2F0tpqZTTDrCntHaEc+/vhHMT0PbvhLUjnHt/J5ybgLZ/EI41TNq+cu8f6rRCjRadBDVMq9GKvb5yKxz9D2RRg3aHhWBQhkjUMcFa+1+DLEQ/YSE4dgiNYxqaaUnp4Qf1BCGejw3RmAAAAABJRU5ErkJggg=="></image>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
