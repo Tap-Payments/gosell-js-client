@@ -31,9 +31,10 @@
 }
 
 .tap-msg-title{
-  margin: 24px;
+  margin-top: 20px;
+  margin-bottom: 10px;
   font-size: 17px;
-  color: #535353;
+  color: #4b4847;
   letter-spacing: -0.08px;
   text-align: center;
 }

@@ -1,29 +1,73 @@
+.tap-cards{
+  overflow: auto;
+  height: fit-content;
+  display: flex;
+  padding: 10px 0px 5px 0px;
+}
+
+.tap-cards {
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+.tap-cards::-webkit-scrollbar {
+    display: none;
+}
+
 .tap-cards-container{
   display: flex;
   flex-direction: row;
-  margin: 0 15px;
+  align-items: center;
+  padding: 0 15px;
+  width: auto;
+}
+
+.tap-card{
+  height: 100px;
+  width: 100px;
+  margin: 0px 5px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* transition: all 2s; */
+}
+
+.tap-progressbar-container{
+  border-radius: 8px;
+  background-color: rgba(0,0,0,0.75);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  justify-items: center;
+  align-items: center;
+  pointer-events: none;
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
 
 .tap-card-container{
   border-radius: 8px;
   background-color: rgba(255,255,255,0.75);
-  margin: 0px 5px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   justify-items: center;
   align-items: center;
   cursor: pointer;
+  height: 100%;
+  width: 100%;
+  box-shadow: 0px 0px 4px rgba(0,0,0,0.08);
 }
 
-.tap-card-container:hover, .tap-card-container:active{
+.tap-card-container:hover, .tap-card-container:active {
   background-color: white;
   box-shadow: 0px 0px 4px #2ACE00;
 }
 
 .tap-card-active{
   background-color: white;
-  box-shadow: 0px 0px 4px #2ACE00;
+  box-shadow: 0px 0px 5px #2ACE00;
 }
 
 .tap-contents{
@@ -34,6 +78,9 @@
   font-size: 13px;
   color: #474747;
   margin-left: 10px;
+}
+.checkbox{
+  position: relative;
 }
 
 .checkbox:after {
@@ -68,4 +115,103 @@
 .show:after{
   width: 12px;
   transition-delay: 150ms;
+}
+
+/*shake animation */
+.tap-card-shake{
+  border-radius: 8px;
+  background-color: rgba(255,255,255,0.75);
+  /* margin: 0px 5px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  justify-items: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  box-shadow: 0px 0px 4px rgba(0,0,0,0.08);
+
+	-webkit-animation-name: wiggle;
+	-webkit-animation-duration: 0.3s;
+	-webkit-transform-origin:50% 50%;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+}
+
+@keyframes wiggle {
+    0% { transform: rotate(-3deg); }
+   50% { transform: rotate(3deg); }
+  100% { transform: rotate(-3deg); }
+}
+
+.tap-remove-card{
+  position: absolute;
+  left: 90px;
+  top: -7px;
+  cursor: pointer;
+}
+
+.tap-card-disabled{
+  border-radius: 8px;
+  background-color: rgb(255,255,255);
+  opacity: 0.50;
+  /* margin: 0px 5px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  justify-items: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  /* box-shadow: 0px 0px 4px rgba(0,0,0,0.08); */
+  pointer-events: none;
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+/*
+.tap-card-deleted{
+  border-radius: 8px;
+  background-color: rgb(255,255,255);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  justify-items: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  transition: all 5s;
+} */
+
+.tap-card.delete-card-width{
+  width: 0;
+  opacity: 0;
+  margin: 0px;
+  -webkit-animation-name: card-width;
+	-webkit-animation-duration: 0.3s;
+	-webkit-animation-timing-function: linear;
+}
+
+.tap-card.delete-card-height{
+  height: 0;
+  opacity: 0;
+  margin: 0px;
+  -webkit-animation-name: card-height;
+  -webkit-animation-duration: 0.3s;
+  -webkit-animation-timing-function: linear;
+}
+
+@keyframes card-width {
+  0% { width: 100px; }
+  90% { width: 0px; opacity: 0; }
+  100% { width: 0px; opacity: 0; margin: 0px; }
+}
+
+@keyframes card-height {
+  0% { height: 100px; }
+  90% { height: 0px; opacity: 0; }
+  100% { height: 0px; opacity: 0; margin: 0px; }
 }

@@ -1,4 +1,4 @@
-.tap-timer{
+.tap-otp-timer{
   width: 100%;
   color: #007AFF;
   opacity: 1;
@@ -9,6 +9,6 @@
   transition: opacity 0.5s ease-out;
 }
 
-.fadeOut{
+.tap-otp-fadeOut{
   opacity: 0;
 }

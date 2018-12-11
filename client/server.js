@@ -40,13 +40,14 @@ app.post('/key', (req, res) => {
   var Request = require("request");
 
   var mode = req.body.mode === 'Development' ? 'http://35.194.57.148:8080' : 'https://api.tap.company';
+  //var mode = 'https://api.tap.company';
   var requestbody = req.body.reqBody ? req.body.reqBody : {};
+  var header = Object.assign({}, req.body.headers, {"access_key": "ak_XKokBfNWv6FIYuTMg5sLPjhJ"});
 
-  Request.post({
+  Request.get({
     "headers": req.body.headers,
-    "url": mode + "/v2/js_library/auth",
-    "body": JSON.stringify(requestbody)
-    }, (error, response, body) => {
+    "url": mode + "/v2/init",
+    }, (error, response) => {
         if(error) {
             return console.dir(error);
         }
@@ -61,7 +62,10 @@ app.post('/api', (req, res) => {
   var Request = require("request");
 
   var mode = req.body.mode === 'Development' ? 'http://35.194.57.148:8080' : 'https://api.tap.company';
+  // var mode = 'https://api.tap.company';
   var requestbody = req.body.reqBody ? JSON.stringify(req.body.reqBody) : JSON.stringify({});
+
+  console.log('req', requestbody);
 
   if(req.body.method.toLowerCase() === 'post'){
     Request.post({
@@ -71,7 +75,7 @@ app.post('/api', (req, res) => {
         if(error) {
             res.send(error);
         }
-        console.log('body', req.body.headers);
+        console.log('body', requestbody);
         res.send(response);
     });
   }
@@ -83,13 +87,46 @@ app.post('/api', (req, res) => {
         if(error) {
             res.send(error);
         }
-        console.log('get path', mode + req.body.path);
-        console.log('get header', req.body.headers);
         res.send(response);
     });
   }
+  else if(req.body.method.toLowerCase() === 'put'){
 
+    // Request.put({
+    // "headers": req.body.headers,
+    // "url": mode + req.body.path}, (error, response) => {
+    //     if(error) {
+    //         res.send(error);
+    //     }
+    //     console.log('header', req.body.headers);
+    //     res.send(response);
+    // });
 
+    Request.put({
+        "headers": req.body.headers,
+        "url": mode + req.body.path,
+        "body": requestbody
+    }, (error, response, body) => {
+        if(error) {
+          res.send(error);
+        }
+        res.send(response);
+        console.log(response);
+    });
+
+  }
+  else if(req.body.method.toLowerCase() === 'delete'){
+
+    Request.delete({
+    "headers": req.body.headers,
+    "url": mode + req.body.path}, (error, response) => {
+        if(error) {
+            res.send(error);
+        }
+        console.log('body', req.body.headers);
+        res.send(response);
+    });
+  }
 });
 /*
 app.get('/api/:mode/:headers', (req, res) => {

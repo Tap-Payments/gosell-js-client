@@ -5,10 +5,13 @@ const htmlWebpackPlugin = new HtmlWebpackPlugin({
     filename: "./index.html"
 });
 module.exports = {
-    entry: ['babel-polyfill', path.join(__dirname, "demo/src/index.js")],
+    entry: path.join(__dirname, "demo/src/index.js"),
     output: {
         path: path.join(__dirname, "demo/dist"),
-        filename: "bundle.js"
+        filename: "gosell.js",
+        // library: 'goSell',
+        // globalObject: 'this',
+        // libraryTarget: 'umd'
     },
     module: {
         rules: [

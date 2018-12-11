@@ -3,10 +3,10 @@ import security from '../assets/imgs/3d-security.svg';
 import '../assets/css/btn.css';
 import {Loader} from '@tap-payments/loader';
 import styled from "styled-components";
-import * as animationData from '../assets/json/white-loader.json';
-import gatewayStore from '../Store/GatewayStore.js';
+import * as animationData from '../assets/loader/white-loader.json';
 
 class TapButton extends Component {
+  static btns = [];
 
   constructor(props){
     super(props);
@@ -17,11 +17,19 @@ class TapButton extends Component {
     }
   }
 
-  handleClick(){
-    this.props.onClick();
+  componentDidMount(){
+    TapButton.btns.push(this.tapBtn);
+  }
+
+  handleClick(e){
+   if(!this.props.animate){
+     this.props.handleClick(e);
+   }
+
   }
 
   render() {
+
     const Btn = styled.button`
       width: ${this.props.width};
       height: ${this.props.height};
@@ -48,20 +56,23 @@ class TapButton extends Component {
       text-align: center;
       margin: 0;
       text-transform: uppercase;
+      pointer-events: none;
     `;
-
+//
     return (
-      <Btn id={this.props.id} className="tap-btn"  onClick={this.handleClick.bind(this)} dir={this.props.dir}>
-            <div style={{width: '30px', height: '30px', margin: '0px 10px'}}>
-              <Loader
-                toggleAnimation={this.props.animate}
-                animationData={animationData}
-                duration={5}
-              />
-            </div>
-            <BtnTitle style={this.props.style ? this.props.style.titleStyle : {}}>{this.props.children}</BtnTitle>
-            <div style={{width: '30px', height: '30px', margin: '0px 10px'}}><img src={security} width="15"/></div>
-      </Btn>
+
+        <Btn id={this.props.id} ref={(node) => this.tapBtn = node} className="tap-btn"  onClick={this.handleClick.bind(this)} dir={this.props.dir}>
+              <div style={{width: '30px', height: '30px', margin: '0px 10px', pointerEvents: 'none'}}>
+                <Loader
+                  toggleAnimation={this.props.animate}
+                  animationData={animationData}
+                  duration={5}
+                />
+              </div>
+              <BtnTitle style={this.props.style ? this.props.style.titleStyle : {}}>{this.props.children}</BtnTitle>
+              <div style={{width: '30px', height: '30px', margin: '0px 10px',pointerEvents: 'none'}}><img src={security} width="15"/></div>
+        </Btn>
+
     );
   }
 }

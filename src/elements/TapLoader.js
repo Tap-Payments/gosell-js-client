@@ -1,0 +1,115 @@
+import React, { Component }  from 'react';
+import security from '../assets/imgs/3d-security.svg';
+import '../assets/css/btn.css';
+import styled from "styled-components";
+import '../assets/css/msg.css';
+import errorIcon from '../assets/imgs/error-icon.svg';
+import AlertIcon from './AlertIcon';
+import {Loader} from '@tap-payments/loader';
+import * as shortBlackLoader from '../assets/loader/black-loader.json';
+import * as shortWhiteLoader from '../assets/loader/white-loader.json';
+
+import * as successBlackLoader from '../assets/loader/black-success-green-green.json';
+import * as successWhiteLoader from '../assets/loader/white-success-green-green.json';
+
+import * as errorBlackLoader from '../assets/loader/black-error.json';
+import * as errorWhiteLoader from '../assets/loader/white-error.json';
+
+import * as warningBlackLoader from '../assets/loader/black-warning.json';
+import * as warningWhiteLoader from '../assets/loader/white-warning.json';
+
+class TapLoader extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      status: this.props.status,
+      type: this.props.type,
+      loader: null,
+      second: true,
+      duration: this.props.duration,
+    }
+  }
+
+  componentWillMount(){
+    this.load(this.props);
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.load(nextProps);
+  }
+
+  load(value){
+    var loader = null, second = true;
+
+    if(value.color === 'white'){
+      loader = shortWhiteLoader;
+
+      switch (value.type) {
+        case 'success':
+          second = successWhiteLoader;
+          break;
+        case 'error':
+          second = errorWhiteLoader;
+          break;
+        case 'warning':
+          second = warningWhiteLoader;
+          break;
+
+      }
+    }
+    else if(value.color === 'black'){
+      loader = shortBlackLoader;
+      switch (value.type) {
+        case 'success':
+          second = successBlackLoader;
+          break;
+        case 'error':
+          second = errorBlackLoader;
+          break;
+        case 'warning':
+          second = warningBlackLoader;
+          break;
+
+      }
+    }
+
+    this.setState({
+      status: value.status,
+      type: value.type,
+      loader: loader,
+      second: second,
+      duration: value.duration,
+    });
+  }
+
+  // closeModal(){
+  //   setTimeout(function(){
+  //       this.props.onStop();
+  //    }, 5000);
+  // }
+
+  render() {
+    return (
+      <div className="tap-msg" style={{zIndex: '99999999999999'}}>
+          <div className='tap-msg-wrapper'>
+            <div style={{width: '60px', height: '60px', margin: '0px 10px'}}>
+              <Loader
+                toggleAnimation={this.state.status}
+                animationData={this.state.loader}
+                duration={this.state.type != 'loader' ? (this.state.status ? 4 : 3) : this.state.duration}
+                secondData={this.state.second}
+                secondDuration={10}
+              //  completeIndicator={this.closeModal.bind(this)}
+              />
+            </div>
+            <p className='tap-msg-title' style={{color: this.props.color === 'white' ? this.props.color : '#4b4847'}}>{this.props.title}</p>
+            <p className="tap-msg-desc" style={{color: this.props.color === 'white' ? '#a4a5a7' : '#f7f7f7'}}>{this.props.desc}</p>
+            <br/>
+          </div>
+      </div>
+    );
+  }
+}
+
+export default TapLoader;

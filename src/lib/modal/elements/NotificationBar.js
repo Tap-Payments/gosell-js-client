@@ -10,7 +10,6 @@ class NotificationBar extends Component{
         show: this.props.show ? true : false
       }
 
-      this.handleClose = this.handleClose.bind(this);
   }
 
   componentWillMount(){
@@ -54,6 +53,11 @@ class NotificationBar extends Component{
   }
 
   componentWillReceiveProps(nextProps){
+
+    this.setState({
+      show: nextProps.show
+    });
+
     if(nextProps.mode === 'success')
     {
       this.setState({
@@ -92,18 +96,32 @@ class NotificationBar extends Component{
     }
   }
 
-  handleClose(props){
+  handleClose(){
     this.setState({
       show: false
     });
+    this.props.close();
   }
 
   render(){
 
+      var options = this.props.options ? this.props.options.map(function(option, index){
+        return(<a className="tap-option" key={index} onClick={option.action}>
+              {option.title}
+            </a>);
+      }) : null;
+
       return(
         <div dir={this.props.dir} className={'notification_bar notification_'+this.state.show} style={Object.assign({}, this.state.modeStyle, this.props.style)}>
-            <a className="close" onClick={this.handleClose} title="close" style={this.props.dir == 'rtl' ? {left: '0'} : {right: '0'}}>×</a>
-            <p className="notification_title" style={this.props.onClick? {cursor: 'pointer'} : null} onClick={this.props.onClick}>{this.props.children}</p>
+
+            {this.props.options ? <div className="tap-options" style={this.props.dir == 'rtl' ? {textAlign: 'left', left: '0'} : {textAlign: 'right', right: '0'}}>
+              {options}
+              </div>
+            : <a className="close" onClick={this.handleClose.bind(this)} title="close" style={this.props.dir == 'rtl' ? {left: '0'} : {right: '0'}}>×</a>}
+
+            <div className="notification_title" style={this.props.options ? {display: 'flex', textAlign: this.props.dir == 'rtl' ? 'right' : 'left'} : {}} onClick={this.props.onClick}>
+              {this.props.children}
+            </div>
         </div>
         );
   }

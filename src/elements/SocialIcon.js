@@ -1,7 +1,6 @@
 import React, { Component }  from 'react';
 import styles from '../assets/css/social.css';
 import styled from "styled-components";
-import gatewayStore from '../Store/gatewayStore';
 
 class SocialIcon extends Component {
 
@@ -19,7 +18,9 @@ class SocialIcon extends Component {
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: 'rgba(0,0,0,0.25)',
-      borderRadius: '8px'
+      borderRadius: '8px',
+      margin:'5px',
+      pointerEvents:'none'
     }
 
     const SocialBtn = styled.a`

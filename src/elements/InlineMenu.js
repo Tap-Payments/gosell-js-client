@@ -4,7 +4,6 @@ import Row from './Row';
 import Img from './Img';
 import Separator from './Separator';
 import Search from './Search';
-import gatewayStore from '../Store/GatewayStore.js';
 import leftArrow from '../assets/imgs/leftArrow.svg';
 import rightArrow from '../assets/imgs/rightArrow.svg';
 import searchIcon from '../assets/imgs/search.svg';

@@ -1,109 +1,313 @@
 import React, { Component }  from 'react';
-import config from '../assets/json/tap_js_config_secure.json';
+import Row from './Row';
+import Img from './Img';
+import TapButton from './TapButton';
+import Switcher from './Switcher';
+import '../assets/css/CardsForm.css';
+import {observer} from 'mobx-react';
 
 class CardsForm extends Component {
 
   constructor(props){
     super(props);
-
-    this.state = {}
+    this.state = {
+      tap: null,
+      card: null,
+      active: false,
+      animate: false,
+      focus: false,
+      hide: false
+    }
   }
 
-  componentDidMount () {
+  //
+  // componentWillMount () {
+  //   const script = document.createElement("script");
+  //
+  //   script.src = "https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js";
+  //   script.async = true;
+  //
+  //   document.head.appendChild(script);
+  //
+  //   script.src = "https://secure.gosell.io/js/sdk/tapjsli.js";
+  //   script.async = true;
+  //
+  //   document.head.appendChild(script);
+  // }
 
-      const script = document.createElement("script");
+  componentDidMount(){
 
-      script.src = "https://use.typekit.net/foobar.js";
-      script.async = true;
+    var tap = null;
+    var self = this;
+    tap = Tapjsli(this.props.store.merchantStore.pk);
 
-      document.body.appendChild(script);
+    this.setState({
+      tap: tap
+    });
 
-      var tap = Tapjsli(config);
+    var elements = tap.elements({});
 
-      var elements = tap.elements({});
-      var style = {
-        base: {
-          color: 'black',
-          lineHeight: '18px',
-          fontFamily: '"Serif',
-          fontSmoothing: 'antialiased',
-          fontSize: '16px',
-          '::placeholder': {
-            color: '#aab7c4'
-          }
-        },
-        invalid: {
-          color: 'red',
-          iconColor: '#fa755a'
-        }
-      };
+    var style = {
+     base: {
+       color: '#535353 ',
+       lineHeight: '18px',
+       fontFamily: 'sans-serif',
+       fontSmoothing: 'antialiased',
+       fontSize: '16px',
+       '::placeholder': {
+         color: 'rgba(0, 0, 0, 0.26)',
+         fontSize:'15px'
+       }
+     },
+     invalid: {
+       color: 'red',
+       iconColor: '#fa755a '
+     }
+    };
 
-      var labels = {
+    var labels = {};
 
-      };
-
-      var paymentOptions = {
-        currencyCode:"KWD",
-        labels : {
+    // console.log('currency', this.props.store.paymentStore.getCurrentCurrency.currency);
+    var paymentOptions = {
+      currencyCode: this.props.store.paymentStore.current_currency.currency,
+      labels : {
           cardNumber:"Card Number",
           expirationDate:"MM/YY",
           cvv:"CVV",
-          cardHolder:"Card Holder Name"
+          cardHolder:"Name on Card"
         },
-        TextDirection:'ltr'
+      paymentAllowed: ['VISA','MASTERCARD','AMEX','MADA', 'KNET'],
+      TextDirection: this.props.store.paymentStore.getDir
+    }
+
+    var card = elements.create('card', {style: style}, paymentOptions);
+    card.mount('#element-container');
+
+    card.addEventListener('change', function(event) {
+
+      console.log('event', event);
+
+      if(event.success){
+        self.props.store.uIStore.setIsActive('FORM');
       }
 
-      var card = elements.create('card', {style: style},paymentOptions);
+      if(event.loaded){
+        console.log('loaded!!!!! ', event.loaded);
+        self.props.store.uIStore.JSLibisLoading = true;
+      }
 
-      card.mount('#element-container');
+      if(event.error){
+      	if(event.error.code && (event.error.code === 409 || event.error.code === 403)){
+      		//hide form here
+          self.setState({
+            hide: true
+          });
 
-      card.addEventListener('change', function(event) {
-        //console.log(event);
-        var displayError = document.getElementById('error-handler');
-        if (event.error) {
-          displayError.textContent = event.error.message;
-        } else {
-          displayError.textContent = '';
-        }
-      });
-
-      // Handle form submission
-      var form = document.getElementById('form-container');
-      form.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        tap.createToken(card).then(function(result) {
-          //console.log(result);
-          if (result.error) {
-            // Inform the user if there was an error
-            var errorElement = document.getElementById('error-handler');
-            errorElement.textContent = result.error.message;
-          } else {
-            // Send the token to your server
-            var errorElement = document.getElementById('success');
-            errorElement.style.display = "block";
-            var tokenElement = document.getElementById('token');
-            tokenElement.textContent = result.id;
-
-            console.log(result.id);
+          if(event.error.code === 403){
+            self.props.store.apiStore.setErrorHandler({
+              visable: true,
+              code: event.error.code,
+              msg: event.error.message,
+              type: 'error'
+            });
           }
-        });
+      	}
+        else {
+          self.setState({
+            hide: false
+          });
+        }
+
+      }
+
+      if(event.error_interactive.code === 400){
+        console.log(event.error_interactive.message);
+        self.props.store.apiStore.setErrorHandler({
+            visable: true,
+            code: event.error_interactive.code,
+            msg: event.error_interactive.message,
+            type: 'error'
+          });
+        self.props.store.paymentStore.save_card_active = false;
+      }
+      else {
+        console.log("Why you are here?");
+        //self.props.store.paymentStore.save_card_active = true;
+      }
+
+      // if(event.code==400 && event.error_interactive){
+      //   self.props.store.apiStore.setErrorHandler({
+      //     visable: true,
+      //     code: event.code,
+      //     msg: event.error_interactive,
+      //     type: 'error'
+      //   });
+      //  //console.log('done', event.error_interactive)
+      // }
+
+    });
+
+    window.setInterval(self.checkFocus.bind(this), 10);
+
+    this.setState({
+        card: card,
+        tap: tap
       });
+
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.state.card.currency(this.props.store.paymentStore.current_currency.currency);
+  }
+
+ checkFocus() {
+
+   var self = this;
+   var statusFocus = null;
+
+   //document.getElementByid
+   var isfocused = document.getElementById("myFrame");
+   //console.log('focus', isfocused);
+       if(document.activeElement == isfocused) {
+
+         if(statusFocus != false){
+             //console.log('iframe has focus', this.formRef);
+             statusFocus=false;
+             self.props.store.actionStore.cardFormHandleClick(self.formRef);
+             //return {"statusFocus":statusFocus,'message':"iframe has focus"};
+         }
+
+       } else {
+         if(statusFocus != true){
+             //console.log('iframe not focused');
+             statusFocus=true;
+             //return {"statusFocus":statusFocus,'message':"iframe has not focused"};
+         }
+       }
+
+       return;
+ }
+
+  async generateToken() {
+    var self = this;
+
+    await this.state.tap.createToken(this.state.card).then(function(result) {
+
+        if (result.error) {
+              // Inform the user if there was an error
+              self.props.store.apiStore.setErrorHandler({
+                visable: true,
+                code: 0,
+                msg: result.error.message,
+                type: 'error'
+              });
+
+        } else {
+              // Send the token to your server
+              self.props.store.apiStore.setErrorHandler({
+                visable: true,
+                code: 200,
+                msg: result.id,
+                type: 'success'
+              });
+
+              self.props.store.uIStore.setIsActive('FORM');
+              self.props.store.paymentStore.source_id = result.id;
+              self.props.store.paymentStore.active_payment_option = result.card;
+
+              console.log('card token >>>>>>>>>>> ', result.card);
+        }
+
+    });
+
+   }
+
+   clearCardForm(){
+     this.state.card.clearForm();
+   }
+
+   handleCollapse(e){
+     var content = e.target.nextElementSibling;
+
+     if(!this.state.active){
+       content.style.maxHeight = null;
+     }
+     else {
+       content.style.maxHeight = content.scrollHeight + "px";
+     }
+
+     this.setState({
+       active: !this.state.active
+     });
+   }
+
+  handleClick(){
+    this.setState({
+      animate: false
+    });
+  }
+
+  handleSwitch(cb){
+      this.props.store.paymentStore.saveCardOption(cb);
+      this.props.store.actionStore.cardFormHandleClick(this.formRef);
   }
 
   render() {
 
+    let store = this.props.store;
+
+    let styles = {
+      'rowContainer': { backgroundColor: 'white',
+        '&:hover': {
+        //    boxShadow: 'inset 0px 11px 0px -10px #2ACE00, inset 0px -11px 0px -10px #2ACE00'
+        }
+      },
+      'iconStyle': {width: '100%', height: '48px', display: 'flex', flexDirection: 'row', justifyContent: store.uIStore.getDir === 'ltr' ? 'left' : 'right'},
+      'textStyle': {width: '100%'},
+      'subtitle':{
+        fontSize: '15px'
+      }
+    }
+
+
     return (
-      <form id="form-container" method="post" action="/charge">
-          <div id="element-container"></div>
-          <div id="error-handler" role="alert"></div>
-          <div id="success" style=" display: none;;position: relative;float: left;">
-            Success! Your token is <span id="token"></span>
+      <div style={{margin: '0px'}}>
+
+          <div
+            id="tap-cards-form"
+            ref={(node) => this.formRef = node}
+            className={store.uIStore.getIsActive === 'FORM' ? 'tap-card-active tap-form-content' : 'tap-form-content'}
+            style={{ backgroundColor: 'white', display: this.state.hide ? 'none' : 'block'}}>
+
+            <form id="form-container" method="post" ref={(node) => this.cardFormRef = node}>
+                <div id="element-container"></div>
+            </form>
+
+            {store.configStore.gateway.saveCardOption ?
+            <div className="tap-save-card">
+              <div style={{ width: '15%'}}>
+
+              </div>
+              <div className="tap-save-msg">
+                <p>
+                  For faster and more secure
+                  checkout, save your card
+                </p>
+              </div>
+              <div style={{ width: '25%' }}>
+                <Switcher
+                  enabled={store.paymentStore.save_card_active}
+                  onClick={this.handleSwitch.bind(this)}
+                  style={{ float: store.uIStore.getDir === 'ltr' ? 'right' : 'left'}} />
+              </div>
+            </div>
+            : null}
+
           </div>
-          <button id="tap-btn">Submit</button>
-      </form>
+        </div>
     );
+
   }
 }
 
-export default CardsForm;
+export default observer(CardsForm);

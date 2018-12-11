@@ -4,12 +4,9 @@ import Row from './Row';
 import Img from './Img';
 import Separator from './Separator';
 import Search from './Search';
-import gatewayStore from '../Store/GatewayStore.js';
-import mainStore from '../Store/MainStore.js';
 import leftArrow from '../assets/imgs/leftArrow.svg';
 import rightArrow from '../assets/imgs/rightArrow.svg';
 import searchIcon from '../assets/imgs/search.svg';
-import Message from './Message';
 
 class SupportedCurrencies extends Component {
 
@@ -23,22 +20,24 @@ class SupportedCurrencies extends Component {
   }
 
   componentWillMount(){
+    if(this.props.store.paymentStore.supported_currencies.length > 1){
       this.setState({
-         currenciesList: gatewayStore.getSupportedCurrencies,
-         items: gatewayStore.getSupportedCurrencies
+         currenciesList: this.props.store.paymentStore.supported_currencies,
+         items: this.props.store.paymentStore.supported_currencies
       });
+    }
+
   }
 
   handleClick = (current) => {
+    
+      this.props.store.paymentStore.setCurrentCurrency(current);
 
-      gatewayStore.setCurrentCurrency(current);
-
-      gatewayStore.setActivePage(0);
-      gatewayStore.getIsMobile ? gatewayStore.setSubPage(0) : gatewayStore.setSubPage(-1);
+      this.props.store.uIStore.setActivePage(0);
+      this.props.store.uIStore.getIsMobile ? this.props.store.uIStore.setSubPage(0) : this.props.store.uIStore.setSubPage(-1);
   }
 
   filterList(event){
-    console.log('e', event.target.value.toLowerCase());
       var updatedList = this.state.currenciesList;
       updatedList = updatedList.filter(function(item){
 
@@ -51,13 +50,12 @@ class SupportedCurrencies extends Component {
   render() {
     var self = this;
 
-
-      const lightView = this.state.items.map((currency, index) =>
+    var lightView = this.state.items.map((currency, index) =>
         <div key={'div-'+index}>
           <Row
             id={index}
             key={index}
-            dir={gatewayStore.getDir}
+            dir={this.props.dir}
             style={{'rowContainer': {width: '100%', backgroundColor: 'white', height: '44px'}, 'textStyle': {width: '100%'}}}
             rowTitle={{'secondary': currency.symbol + ' - ' + currency.name}}
             onClick={this.handleClick.bind(this, currency)}
@@ -68,11 +66,11 @@ class SupportedCurrencies extends Component {
         </div>
       );
 
-      const darkView = this.state.items.map((currency, index) =>
+    var darkView = this.state.items.map((currency, index) =>
           <Row
             id={index}
             key={index}
-            dir={gatewayStore.getDir}
+            dir={this.props.dir}
             style={{
               'rowContainer': {width: '100%', height: '40px',justifyContent: 'center',
               '&:hover': {
@@ -88,17 +86,18 @@ class SupportedCurrencies extends Component {
             />
       );
 
+
       return (
-        <div className="supported_currencies" style={this.props.theme === 'inline' ? {background: 'transparent'} : {background: 'rgba(0,0,0,0.25)'}}>
+        <div className="supported_currencies" style={this.props.theme === 'inline' ? {height: '100%', background: 'transparent'} : {height: '100%', background: 'rgba(0,0,0,0.25)'}}>
           {this.props.theme === 'inline'?
               <div>
               <Separator />
               <Row
-                dir={gatewayStore.getDir}
-                style={{'rowContainer': {height:'48px', backgroundColor: 'white'}, 'textStyle': {width: '100%', textAlign: gatewayStore.getDir === 'ltr' ? 'left' : 'right'}}}
-                rowIcon={<Img imgSrc={gatewayStore.getDir === 'ltr'? leftArrow : rightArrow} imgWidth="7"/>}
+                dir={this.props.dir}
+                style={{'rowContainer': {height:'48px', backgroundColor: 'white'}, 'iconStyle':{width: '45px'}, 'textStyle': {width: '100%', margin:'0', textAlign: this.props.dir === 'ltr' ? 'left' : 'right'}}}
+                rowIcon={<Img imgSrc={this.props.dir === 'ltr'? leftArrow : rightArrow} imgWidth="7"/>}
                 rowTitle={{'secondary': 'Select Currency'}}
-                onClick={this.handleClick.bind(this, gatewayStore.getCurrentCurrency)}/>
+                onClick={this.handleClick.bind(this, this.props.store.paymentStore.current_currency)}/>
               <Separator />
 
               </div>
@@ -108,7 +107,7 @@ class SupportedCurrencies extends Component {
                 <div>
                   <Search
                     id="searchbar"
-                    dir={gatewayStore.getDir}
+                    dir={this.props.dir}
                     style={{'searchContainer': {width: this.props.width}}}
                     searchIcon={<img src={searchIcon} width="13"/>}
                     searchPlaceholderText={'Search'}
@@ -119,12 +118,12 @@ class SupportedCurrencies extends Component {
                <div>
                  <Search
                    id="searchbar"
-                   dir={gatewayStore.getDir}
+                   dir={this.props.dir}
                    style={{'searchContainer': {width: this.props.width}, 'searchbar': {color: 'white', border: '1px solid #777578',backgroundColor: 'rgba(0,0,0,0.20)'}}}
                    searchIcon={<img src={searchIcon} width="13"/>}
                    searchPlaceholderText={'Search'}
                    filterList={this.filterList.bind(this)}/>
-                 <div className='list-container' style={{direction: gatewayStore.getDir}}>
+                 <div className='list-container' style={{direction: this.props.dir}}>
                     {darkView}
                     </div>
                 </div>

@@ -1,0 +1,18 @@
+.tap-save-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.tap-save-msg{
+  font-size: 13px;
+  color: rgba(0,0,0,0.64);
+  letter-spacing: -0.36px;
+  text-align: left;
+  width: 55%;
+}
+
+form#form-container{
+  margin: 0px;
+}

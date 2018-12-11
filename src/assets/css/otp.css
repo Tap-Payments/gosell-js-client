@@ -75,9 +75,9 @@
   font-size: 13px;
   font-weight: bold;
   width: 50%;
-
 }
-.tap-resend{
+
+.tap-otp-resend{
   cursor: pointer;
   margin: 0px;
   transition: opacity 0.5s ease-out;

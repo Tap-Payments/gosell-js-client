@@ -2,7 +2,7 @@ body{
     font-family: sans-serif;
 }
 
-.animatedModal{
+.showModal{
   z-index: 1000;
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -10,6 +10,16 @@ body{
   margin: auto;
   position: relative;
   opacity: 0;
+}
+
+.hideModal{
+  z-index: 1000;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin: auto;
+  position: relative;
+  opacity: 1;
 }
 
 .modal{
@@ -22,7 +32,7 @@ body{
   opacity: 1;
 }
 
-.animate{
+.animateUp{
   transform: translateY(0%);
   visibility: visible;
   -webkit-animation-name: modalSlideUp;
@@ -45,6 +55,31 @@ body{
   0%   {opacity: 0; visibility: visible; transform: translateY(50%)}
   75% { transform: translateY(-10px)}
   100% {opacity: 1; visibility: visible; transform: translateY(0%)}
+}
+
+.animateDown{
+  transform: translateY(0%);
+  visibility: visible;
+  -webkit-animation-name: modalSlideDown;
+  -webkit-animation-duration: 1s;
+  animation-name: modalSlideDown;
+  animation-duration: 1s;
+/*  animation-delay: 0.5s;*/
+  opacity: 0;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes modalSlideDown {
+  0%   {opacity: 1; visibility: visible; transform: translateY(0%)}
+  /* 75% {transform: translateY(10px)} */
+  100% {opacity: 0; transform: translateY(50%); visibility: hidden;}
+}
+
+/* Standard syntax */
+@keyframes modalSlideDown {
+  0%   {opacity: 1; visibility: visible; transform: translateY(0%)}
+/*  75% {transform: translateY(10px)}*/
+  100% {opacity: 0; transform: translateY(50%); visibility: hidden;}
 }
 
 
@@ -143,8 +178,8 @@ body.modal-open {
     left: 0;
 
     /* semi-transparent black  */
-    background-color: #000;
-    opacity: 0.55;
+    background-color: rgba(0,0,0,0.55);
+    /* opacity: 0.55; */
 
     /* z-index must be below .modal and above everything else  */
     z-index: 900;
@@ -427,13 +462,13 @@ body.modal-open {
     font-weight: 100;
     line-height: 1;
     color: #fff;
-    text-shadow: 0 1px 0 #fff;
-    filter: alpha(opacity=20);
-    opacity: .7;
+    /* text-shadow: 0 1px 0 #fff; */
+    /* filter: alpha(opacity=20); */
+    opacity: .9;
 }
 a.close {
     text-decoration: none;
-    font-size: 18px;
+    font-size: 30px;
     line-height: 1.2;
     cursor: pointer;
 }
@@ -474,6 +509,30 @@ a.close:hover {
     100% {top:-50px;}
 }
 
+.tap-options{
+  padding: 0px 50px;
+  display: flex;
+  height: 100%;
+}
+
+.tap-option{
+  padding: 0 15px;
+  /* text-decoration: underline; */
+  font-weight: bold;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  font-size: 15px;
+}
+
+.tap-option:hover{
+  background-color: rgba(255,255,255,0.20);
+  border-left: .5px solid rgba(255,255,255,0.25);
+  border-right: .5px solid rgba(255,255,255,0.25);
+}
 
 @media(max-width: 440px){
   .modal_container {
@@ -485,7 +544,11 @@ a.close:hover {
   }
 
 
-  .animatedModal, .modal{
+  .showModal, .modal{
+    width: 100% !important;
+  }
+
+  .hideModal, .modal{
     width: 100% !important;
   }
 
@@ -507,4 +570,15 @@ a.close:hover {
     display: flex;
     width: 90%;
   }
+
+  .notification_title{
+    padding: 10px 20px;
+    margin: 0px;
+    width: 90%;
+  }
+
+  .tap-options{
+    padding: 10px 20px;
+  }
+
 }

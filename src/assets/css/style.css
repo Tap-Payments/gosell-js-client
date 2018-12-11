@@ -2,9 +2,17 @@
   height: fit-content;
 }
 
-.modal-background-color{
-  opacity: 0.55 !important;
+/* .tap-vertical-swipeable{
+  height: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
 }
+
+.tap-vertical-swipeable-fadeIn{
+  opacity: 1;
+  visibility: visible;
+} */
 
 .list-container{
   top: 40px;
@@ -14,7 +22,7 @@
 }
 
 .modal-background-color {
-    background-image: url(../banks/NBK.svg);
+    background-image: url(../imgs/thawte.svg);
     background-position: 90% 90%;
     background-repeat: no-repeat;
 }
@@ -28,6 +36,32 @@
   justify-content: center;
   align-items: center;
 }
+
+/* .tap-hidden-section {
+  height: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+.tap-visible-section{
+  height: 100%;
+  opacity: 1;
+  visibility: visible;
+} */
+
+.tap-hidden-section {
+  height: 100%;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+
+.tap-visible-section{
+  opacity: 1;
+  visibility: visible;
+}
+
 
 @media (max-width: 440px){
   .modal-body {

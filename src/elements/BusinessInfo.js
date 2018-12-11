@@ -4,8 +4,6 @@ import Row from './Row';
 import Label from './Label';
 import Social from './Social';
 import Separator from './Separator';
-import businessStore from '../Store/BusinessStore.js';
-import gatewayStore from '../Store/GatewayStore.js';
 import styled from "styled-components";
 import SocialIcon from './SocialIcon';
 import '../assets/css/businessInfo.css';
@@ -54,66 +52,77 @@ class BusinessInfo extends Component {
   render() {
 
     const Business = styled.div`
-      ${this.props.style};
-    `
+      ${this.props.style};`
+
     var self = this;
 
-    var contactIcons = null, more = null, socialIcons = null;
+    let store = this.props.store;
+
+    var contactIcons = [], more = null, socialIcons = [];
     var darkView = null;
 
-    if(businessStore.getContact){
-      contactIcons = businessStore.getContact.map((contact, index) =>
-          contact.type !== 'social' ?
-            <SocialIcon
+    if(store.merchantStore.contact){
+
+    store.merchantStore.contact.map((contact, index) => {
+        if(contact.type !== 'social'){
+          contactIcons.push(
+            <a className="tap-contact-btn-container" onClick={this.handleClick.bind(this, contact)}>
+              <SocialIcon
               key={'div-'+index}
               mode={'self'}
               style={{width: '40px', height: '40px', '&:hover': {backgroundColor: contact.color}}}
               img={contact.img}
               width="18" height="18"
               alt={contact.key}
-              onClick={this.handleSelfClick.bind(this, contact)}>
-            </SocialIcon>
-          : null
-      );
+              //onClick={this.handleClick.bind(this, contact)}
+              ></SocialIcon>
+              <div style={{pointerEvents: 'none', color:'#535353'}}>{contact.value}</div>
+            </a>)
+        }
+      });
 
-      more = businessStore.getContact.map((contact, index) =>
-          contact.type !== 'social' ?
-            <div key={'div-'+index}>
-              {contact.value}
-            </div>
-          : null
-      );
+      // more = store.merchantStore.contact.map((contact, index) =>{
+      //   if(contact.type !== 'social'){
+      //     return(<div key={'div-'+index}>
+      //       {contact.value}
+      //     </div>);
+      //   }
+      // });
 
-      socialIcons = businessStore.getContact.map((contact, index) =>
-          contact.type === 'social' ?
-            <SocialIcon
-              key={'div-'+index}
-              mode={'blank'}
-              url={contact.value}
-              style={{
-                width: '40px',
-                height: '40px',
-                '&:hover':{
-                  backgroundColor: contact.color
-                }
-              }}
-              img={contact.img}
-              width="18" height="18"
-              alt={contact.key}
-              onClick={this.handleClick.bind(this, contact)}>
-            </SocialIcon>
-          : null
-      );
+      store.merchantStore.contact.map((contact, index) =>{
+        if(contact.type === 'social'){
+          socialIcons.push(<SocialIcon
+            key={'div-'+index}
+            mode={'blank'}
+            url={contact.value}
+            style={{
+              width: '40px',
+              height: '40px',
+              margin:'5px',
+              '&:hover':{
+                backgroundColor: contact.color
+              }
+            }}
+            img={contact.img}
+            width="18" height="18"
+            alt={contact.key}
+            onClick={this.handleClick.bind(this, contact)}>
+          </SocialIcon>)
+        }
+
+      });
+
+      console.log('social icons', socialIcons);
 
       var styles = {};
-      var align = gatewayStore.getDir === 'ltr' ? 'right' : 'left';
+      var align = store.uIStore.getDir === 'ltr' ? 'right' : 'left';
 
-      darkView = businessStore.getContact.map((contact, index) =>
+      darkView = store.merchantStore.contact.map((contact, index) =>
           <div key={'div-'+index}>
             <Social
               id={index}
               key={index}
-              dir={gatewayStore.getDir}
+              dir={store.uIStore.getDir}
               style={{
                 'iconStyle':{
                   width: this.props.width,
@@ -148,33 +157,35 @@ class BusinessInfo extends Component {
 
     return (
       <Business className={align+"-business-info"}>
-        {gatewayStore.getIsMobile ?
+        {store.uIStore.getIsMobile ?
             <React.Fragment>
               <Separator />
-              {gatewayStore.getDesc ?
+              {store.merchantStore.desc ?
                 <React.Fragment>
                   <Row
-                    dir={gatewayStore.getDir}
-                    style={{'rowContainer': { backgroundColor: 'white', height: '72px'}}}
-                    rowTitle={{'secondary': gatewayStore.getDesc}}
+                    dir={store.uIStore.getDir}
+                    style={{'rowContainer': { backgroundColor: 'white', height: 'auto', padding: '16px'}, 'subtitle':{margin: '0'}}}
+                    rowTitle={{'secondary': store.merchantStore.desc}}
                     addArrow={false}/>
                   <Separator />
                 </React.Fragment>
               : null}
 
-              {socialIcons != null || contactIcons != null ?
-              <Label title="Social Media" dir={gatewayStore.getDir}></Label> : null}
-
-              {contactIcons != null ?
-              <div className="tap-social-btn-container">
+              {contactIcons.length > 0 ?
+                <React.Fragment>
+                  <Label title="Contact Info" dir={store.uIStore.getDir}></Label>
                   {contactIcons}
-              </div>
+                </React.Fragment>
+
               : null}
 
-              {socialIcons != null ?
-              <div className="tap-social-btn-container">
-                  {socialIcons}
-              </div> : null}
+              {socialIcons.length > 0 ?
+                <React.Fragment>
+                  <Label title="Social Media" dir={store.uIStore.getDir}></Label>
+                  <div className="tap-social-btn-container">
+                    {socialIcons}
+                  </div>
+                </React.Fragment> : null}
             </React.Fragment>
           :
           darkView

@@ -1,12 +1,11 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
-import gatewayStore from '../Store/GatewayStore.js';
 import ReactCodeInput from '../lib/codeInput/src/ReactCodeInput';
 import '../assets/css/otp.css';
 import back from '../assets/imgs/back-arrow.svg';
 import Timer from './Timer';
 import TapButton from './TapButton';
-import mainStore from '../Store/MainStore.js';
+import Confirm from './Confirm';
 
 class Otp extends Component {
 
@@ -17,14 +16,15 @@ class Otp extends Component {
       running: false,
       animate: false,
       active: false,
-      updated: false
+      updated: false,
+      value: null
     }
   }
 
   componentDidMount(){
     this.setState({
-      count: mainStore.getOtpResendInterval,
-      running: true
+      count: this.props.store.paymentStore.otp_resend_interval,
+      running: this.props.store.paymentStore.authenticate ? (this.props.store.paymentStore.authenticate.status === 'INITIATED' ? true : false)  : null
     });
   }
 
@@ -66,24 +66,66 @@ class Otp extends Component {
   }
 
   handleClick(){
-   this.setState({
-      animate: true,
-      updated: true
+    var self = this;
+    var store = this.props.store;
+
+    this.setState({
+      active: true,
+      animate: true
+    });
+
+    setTimeout(function(){
+      self.props.store.uIStore.startLoading('loader', 'Please Wait', null);
+    }, 1000);
+
+    store.apiStore.chargeAuthentication(this.props.store.paymentStore.authenticate.type, this.state.value).then(result => {
+
+      setTimeout(function(){
+          store.uIStore.setOpenModal(false);
+          store.uIStore.load = false;
+          store.uIStore.isLoading = false;
+          store.uIStore.stopBtnLoader();
+          store.uIStore.setIsActive(null);
+          store.paymentStore.selected_card = null;
+       }, 5000);
+
     });
   }
 
-  handleBackClick(){
-    gatewayStore.setPageIndex(0);
-  }
-
   handleChange(event){
-    this.setState({  updated: false, animate: false  });
+    this.setState({  updated: false, animate: false, value: event});
 
     if(event.length === 6){
       this.setState({
         active: true
       });
     }
+    else {
+      this.setState({
+        active: false
+      });
+    }
+  }
+
+  resendOTP(){
+
+     this.props.store.apiStore.requestAuthentication().then(result => {
+
+         this.setState({
+           animate:false,
+           active:false,
+           updated:true,
+           count: this.props.store.paymentStore.otp_resend_interval,
+           running: this.props.store.paymentStore.authenticate ? (this.props.store.paymentStore.authenticate.status === 'INITIATED' ? true : false)  : null
+         });
+
+     })
+
+  }
+
+  componentWillUnmount(){
+    this.handleStop();
+    this.handleReset();
   }
 
   render() {
@@ -121,40 +163,29 @@ class Otp extends Component {
     }
 
     return (
-        <div  className={gatewayStore.getPageIndex === 1 ? "tap-otp fadeIn" : "tap-otp"} style={{height: '100%', position: 'relative'}}>
-          <a className="tap-back" onClick={this.handleBackClick.bind(this)}>
-            <img src={back} width="43"/>
-          </a>
+      <Confirm index={1} store={this.props.store} animate_btn={this.state.animate} active_btn={this.state.active} handleBtnClick={this.handleClick.bind(this)}>
 
           <div className={this.state.animate ? "wrong-entry" : null}>
             <ReactCodeInput
               updated={this.state.updated}
               type='number'
-              onChange={this.handleChange.bind(this)} 
+              onChange={this.handleChange.bind(this)}
               fields={6} {...props}/>
           </div>
 
           <div className="tap-details-wrapper">
-            <p className="tap-otp-msg">Please enter the OTP that has been sent to <span className="tap-otp-span">+965 ••• 99•• ••19</span></p>
+            <p className="tap-otp-msg">Please enter the OTP that has been sent to <span className="tap-otp-span">{this.props.store.paymentStore.authenticate ? this.props.store.paymentStore.authenticate.value : null}</span></p>
 
             <div className='tap-otp-settings' style={this.props.dir === 'ltr' ? {textAlign: 'right'} : {textAlign: 'left'}}>
             {this.state.running ?
              <Timer running={this.state.running} time={count}/> :
-             <a className={!this.state.running ? "tap-resend" : "tap-resend fadeOut"}>RESEND</a>
+             <a className={!this.state.running ? "tap-otp-resend" : "tap-otp-resend tap-otp-fadeOut"} onClick={this.resendOTP.bind(this)}>RESEND</a>
             }
             </div>
 
           </div>
 
-          <TapButton
-            id="tap-confirm-btn"
-            width="90%" height="44px"
-            btnColor='#007AFF'
-            animate={this.state.animate ? true : false}
-            onClick={this.handleClick.bind(this)}
-            active={this.state.active}>Confirm</TapButton>
-
-        </div>
+        </Confirm>
       );
 
   }

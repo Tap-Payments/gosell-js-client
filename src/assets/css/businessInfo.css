@@ -22,11 +22,25 @@
   border-radius: 8px;
 }
 
-.tap-social-btn-container{
+.tap-social-btns-container{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  padding: 10px;
+  justify-content: start;
+  padding: 5px 10px 5px 10px;
+}
+
+.tap-contact-btn-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 10px 5px 10px;
+  border: 1px solid #E1E1E1;
+  padding: 16px;
+}
+
+.tap-contact-btn-container:hover{
+  border: 1px solid #afafaf;
 }
 
 .tap-more-content{

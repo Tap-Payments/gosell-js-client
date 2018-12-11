@@ -1,7 +1,6 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
 import '../assets/css/sideMenu.css';
-import gatewayStore from '../Store/GatewayStore.js';
 
 class SideMenu extends Component{
 
@@ -14,7 +13,7 @@ class SideMenu extends Component{
 
   render(){
 
-    let dir= gatewayStore.getDir;
+    let dir= this.props.dir;
     let expandMenu, styles, alian;
     var duration = this.props.animationDuration;
 

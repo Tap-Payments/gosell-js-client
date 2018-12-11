@@ -1,7 +1,6 @@
 import React, { Component }  from 'react';
 import styles from '../assets/css/social.css';
 import styled from "styled-components";
-import gatewayStore from '../Store/gatewayStore';
 
 class Social extends Component {
 
@@ -20,7 +19,7 @@ class Social extends Component {
       ${this.props.style.SocialContainer};
     `
 
-    var align = gatewayStore.getDir === 'ltr' ? 'right' : 'left';
+    var align = this.props.dir === 'ltr' ? 'right' : 'left';
 
 
     var iconStyle = {

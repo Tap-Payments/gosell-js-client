@@ -1,6 +1,6 @@
 .tap-label-container{
   height: 27px;
-  padding: 20px 20px 10px 20px;
+  padding: 16px 20px 5px 20px;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -15,4 +15,14 @@
   color: #595959;
   text-transform: uppercase;
   margin: 0;
+  width: 50%;
+}
+
+.tap-edit{
+  font-family: 'Roboto-Regular', sans-serif;
+  font-size: 13px;
+  color: #595959;
+  margin: 0;
+  width: 50%;
+  cursor: pointer;
 }

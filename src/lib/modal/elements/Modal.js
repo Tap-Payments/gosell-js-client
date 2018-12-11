@@ -20,7 +20,7 @@ class Modal extends React.Component {
 
     modal.setState({ isOpen: true });
 
-    setTimeout(function(){ modal.setState({ isOpenWait: "animatedModal animate" }); }, 700);
+    setTimeout(function(){ modal.setState({ isOpenWait: "showModal animateUp" }); }, 700);
     var mymd = document.getElementById('mymd');
 
     document.body.classList.add('modal-open');
@@ -34,14 +34,17 @@ class Modal extends React.Component {
 
     let modal = Modal.modals.find(x => x.props.id === id);
     modal.setState({ isOpen: false });
+    //modal.forceUpdate();
 
     document.body.classList.remove('modal-open');
+
+
   }
 
   constructor(props) {
     super(props);
 
-    this.state = { isOpen: false, isOpenWait: "animatedModal", modalStyle: {}, bodyStyle: {}, bodyContainerStyle: {}, dir: 'ltr', width: 400};
+    this.state = { isOpen: this.props.open, loading: this.props.isLoading, isOpenWait: "showModal", modalStyle: {}, bodyStyle: {}, bodyContainerStyle: {}, dir: 'ltr', width: 400};
 
     this.handleClose = this.handleClose.bind(this);
 
@@ -49,15 +52,21 @@ class Modal extends React.Component {
 
   componentWillMount(){
 
-    if(this.props.open){
-      this.setState({
-        isOpen: this.props.open
-      });
+    this.setState({
+      isOpen: this.props.open
+    });
 
+    if(this.props.animate && !this.props.isLoading){
       var self = this;
-      setTimeout(function(){ self.setState({ isOpenWait: "animatedModal animate" }); }, 700);
+      setTimeout(function(){ self.setState({ isOpenWait: "showModal animateUp", loading: this.props.isLoading }); }, 700);
       document.body.classList.add('modal-open');
     }
+    // else if(this.props.animate && this.props.isLoading){
+    //   console.log('down animation');
+    //   var self = this;
+    //   setTimeout(function(){ self.setState({ isOpenWait: "hideModal animateDown", loading: this.props.isLoading }); }, 700);
+    //   //document.body.classList.remove('modal-open');
+    // }
 
     if(this.props.width){
       this.setState({
@@ -101,22 +110,32 @@ class Modal extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.open){
-        this.setState({
-          isOpen: nextProps.open
-        });
 
-        var self = this;
-        setTimeout(function(){ self.setState({ isOpenWait: "animatedModal animate" }); }, 700);
+    this.setState({
+      isOpen: nextProps.open
+    });
+    console.log('is loading from modal', nextProps.isLoading);
+    console.log('is animate from modal', nextProps.animate);
 
-        document.body.classList.add('modal-open');
+     if(!nextProps.isLoading){ // && nextProps.animate
+       var self = this;
+       setTimeout(function(){ self.setState({ isOpenWait: "showModal animateUp", loading: nextProps.isLoading }); }, 1000);
+       //document.body.classList.add('modal-open');
+     }
+     else if(nextProps.animate && nextProps.isLoading){
+       var self = this;
+       self.setState({ isOpenWait: "hideModal animateDown"});
+       setTimeout(function(){ self.setState({loading: nextProps.isLoading }); }, 1000);
      }
   }
 
   componentWillUnmount() {
     // remove this modal instance from modal service
     Modal.modals = Modal.modals.filter(x => x.props.id !== this.props.id);
-    this.element.remove();
+  //  console.log('elements', this.element);
+    //this.element.remove();
+
+    this.setState({ isOpen: false });
   }
 
   handleClose(e) {
@@ -133,10 +152,11 @@ class Modal extends React.Component {
     return (
       <div className="modal_container" dir={this.state.dir} style={{display: this.state.isOpen ? '' : 'none'}} onClick={this.handleClose} ref={el => this.modaldialog = el}>
         {this.props.notification}
-          {this.props.isLoading ?
+
+        {this.state.isOpen && this.state.loading ?
             this.props.loader
             :
-            <div className={this.props.animate ? this.state.isOpenWait : "modal"}  style={this.state.modalStyle}>
+            <div className={this.state.isOpenWait}  style={this.state.modalStyle}>
               <div className="modal-wrapper">
                 {(this.props.close == 'closeIn' || this.props.close == 'closeInOut')?
                   <div className="header-close-icon closeIn" onClick={this.handleClose} style={this.state.dir == 'rtl' ? {left: '0'} : {right: '0'}}>
@@ -174,7 +194,6 @@ class Modal extends React.Component {
             : this.props.mode === 'popup'?
             <div className={"modal-background-color "+this.props.close} onClick={this.handleClose}></div> : null
             }
-
           </div>
 
         );

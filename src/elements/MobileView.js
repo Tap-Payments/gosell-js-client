@@ -5,42 +5,43 @@ import SupportedCurrencies from './SupportedCurrencies';
 import BusinessInfo from './BusinessInfo';
 import InlineMenu from './InlineMenu';
 import Otp from './Otp';
-import Message from './Message';
-import gatewayStore from '../Store/GatewayStore.js';
 import SwipeableViews from 'react-swipeable-views';
 
 class MobileView extends Component {
 
   render() {
+    let store = this.props.store;
 
     return(
       <SwipeableViews
-        index={gatewayStore.getActivePage}
+        index={store.uIStore.getActivePage}
         springConfig={{
           duration: '0.5s',
           easeFunction: 'cubic-bezier(0.15, 0.3, 0.25, 1)',
           delay: '0.1s'
         }}
         style={{width: '100%', height: '100%'}}
-        axis={gatewayStore.getDir === 'ltr'? "x" : "x-reverse"}
+        containerStyle={{height: 'fit-content'}}
+        axis={store.uIStore.getDir === 'ltr'? "x" : "x-reverse"}
         animateHeight={false}
         disabled={true}>
-        <div><PaymentOptions /></div>
-        <InlineMenu>
+        <div><PaymentOptions store={store}/></div>
+        <div style={{height: '100%', position:'relative'}}>
+        {store.uIStore.getActivePage == 1 ?
            <SwipeableViews
              springConfig={{
                duration: '0.5s',
                easeFunction: 'cubic-bezier(0.15, 0.3, 0.25, 1)',
                delay: '0s'
              }}
-             axis={gatewayStore.getDir === 'ltr'? "x" : "x-reverse"}
-             index={gatewayStore.getSubPage}>
-              <SupportedCurrencies theme="inline" bgColor="white"/>
-              <BusinessInfo width="100%"/>
-              <Message />
+             axis={store.uIStore.getDir === 'ltr'? "x" : "x-reverse"}
+             index={store.uIStore.getSubPage}>
+              <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.getDir} store={store}/>
+              <BusinessInfo store={store} width="100%"/>
 
             </SwipeableViews>
-        </InlineMenu>
+            :null}
+        </div>
       </SwipeableViews>
     );
   }

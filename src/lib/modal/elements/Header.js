@@ -38,7 +38,6 @@ class Header extends Component{
          separator: {borderBottom: '1px solid #000'}
       }) : this.setState({ separator: {borderBottom: 'none'} })
 
-
    }
 
   componentWillReceiveProps(nextProps){
@@ -108,7 +107,7 @@ class Header extends Component{
     var Circle = styled.div`
         border-radius: 100%;
         background: #fff;
-        border: 1px solid white;
+        border: 1px solid #e9e9e9;
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;

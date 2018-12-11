@@ -1,6 +1,7 @@
 .tap-row-container{
   display: flex;
   justify-content:center;
+  cursor: pointer;
 }
 
 .tap-row{
@@ -18,12 +19,14 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  cursor: pointer;
+
+  pointer-events: none;
 }
 
 .tap-arrow{
   width: 65px;
   padding: 0 16px 0 16px;
+  pointer-events: none;
 }
 
 .tap-value{
@@ -31,6 +34,7 @@
   padding: 0 16px 0 16px;
   font-size: 13px;
   color: rgba(0,0,0,0.26);
+  pointer-events: none;
   pointer-events: none;
 }
 
@@ -43,6 +47,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  pointer-events: none;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;

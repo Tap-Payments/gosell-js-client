@@ -10,10 +10,12 @@ class Row extends Component {
     super(props);
 
     this.state = {
-      isMouseOver: false
+      isMouseOver: false,
+      active: false
     }
 
-    this.onClickHandler = this.onClickHandler.bind(this)
+    this.onClickHandler = this.onClickHandler.bind(this);
+
   }
 
   onClickHandler(e){
@@ -68,6 +70,8 @@ class Row extends Component {
       <RowContainer
       className='tap-row-container'
       dir={this.props.dir}
+      id={this.props.id}
+      ref={(node) => this.rowRef = node}
       onClick={this.onClickHandler}>
 
         <div className="tap-row">
@@ -77,6 +81,7 @@ class Row extends Component {
            </Icon>
          : null
         }
+
          {title}
 
          {(this.props.value) ?
@@ -87,12 +92,12 @@ class Row extends Component {
           : null
          }
 
-           {(this.props.addArrow ||  this.props.addArrow === true) ?
-             <div className="tap-arrow" style={this.props.dir === 'ltr'? {textAlign: 'right'} : {textAlign:'left'}}>
+         {(this.props.addArrow ||  this.props.addArrow === true) ?
+           <div className="tap-arrow" style={this.props.dir === 'ltr'? {textAlign: 'right'} : {textAlign:'left'}}>
                 <img src={this.props.style.arrowImg? this.props.style.arrowImg : this.props.dir === 'ltr' ? rightArrow : leftArrow } alt="Arrow"/>
-             </div>
-            : null
-           }
+          </div>
+        : null}
+
           </div>
 
       </RowContainer>
