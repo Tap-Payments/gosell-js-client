@@ -114,7 +114,7 @@ class Header extends Component{
         ${this.state.iconStyle}
     `;
 
-      console.log(typeof this.props.modalIcon);
+      // console.log(typeof this.props.modalIcon);
 
       return(
           <Header className="modal-header" dir={this.props.dir? this.props.dir : null} style={Object.assign(this.state.separator, this.state.headerStyle)}>

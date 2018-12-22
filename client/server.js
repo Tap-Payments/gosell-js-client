@@ -42,7 +42,12 @@ app.post('/key', (req, res) => {
   var mode = req.body.mode === 'Development' ? 'http://35.194.57.148:8080' : 'https://api.tap.company';
   //var mode = 'https://api.tap.company';
   var requestbody = req.body.reqBody ? req.body.reqBody : {};
-  var header = Object.assign({}, req.body.headers, {"access_key": "ak_XKokBfNWv6FIYuTMg5sLPjhJ"});
+  var header = Object.assign({}, req.body.headers,
+    {
+      "access_key": "ak_XKokBfNWv6FIYuTMg5sLPjhJ",
+      'Content-Type': 'application/json',
+      "Application":"app_locale=en_UA|requirer=checkout|app_id=company.tap.checkout|requirer_os=pc|requirer_version=2.0.0|requirer_os_version=11.3"
+    });
 
   Request.get({
     "headers": req.body.headers,
@@ -63,13 +68,20 @@ app.post('/api', (req, res) => {
 
   var mode = req.body.mode === 'Development' ? 'http://35.194.57.148:8080' : 'https://api.tap.company';
   // var mode = 'https://api.tap.company';
+
+  var header = Object.assign({}, req.body.headers,
+    {
+      'Content-Type': 'application/json',
+      "Application":"app_locale=en_UA|requirer=checkout|app_id=company.tap.checkout|requirer_os=pc|requirer_version=2.0.0|requirer_os_version=11.3"
+    });
+
   var requestbody = req.body.reqBody ? JSON.stringify(req.body.reqBody) : JSON.stringify({});
 
   console.log('req', requestbody);
 
   if(req.body.method.toLowerCase() === 'post'){
     Request.post({
-    "headers": req.body.headers,
+    "headers": header,
     "url": mode + req.body.path,
     "body": requestbody}, (error, response, body) => {
         if(error) {
@@ -82,7 +94,7 @@ app.post('/api', (req, res) => {
   else if(req.body.method.toLowerCase() === 'get'){
 
     Request.get({
-    "headers": req.body.headers,
+    "headers": header,
     "url": mode + req.body.path}, (error, response) => {
         if(error) {
             res.send(error);
@@ -91,19 +103,8 @@ app.post('/api', (req, res) => {
     });
   }
   else if(req.body.method.toLowerCase() === 'put'){
-
-    // Request.put({
-    // "headers": req.body.headers,
-    // "url": mode + req.body.path}, (error, response) => {
-    //     if(error) {
-    //         res.send(error);
-    //     }
-    //     console.log('header', req.body.headers);
-    //     res.send(response);
-    // });
-
     Request.put({
-        "headers": req.body.headers,
+        "headers": header,
         "url": mode + req.body.path,
         "body": requestbody
     }, (error, response, body) => {
@@ -118,7 +119,7 @@ app.post('/api', (req, res) => {
   else if(req.body.method.toLowerCase() === 'delete'){
 
     Request.delete({
-    "headers": req.body.headers,
+    "headers": header,
     "url": mode + req.body.path}, (error, response) => {
         if(error) {
             res.send(error);

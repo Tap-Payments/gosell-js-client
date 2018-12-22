@@ -1,4 +1,6 @@
+import React, { Component }  from 'react';
 import {decorate, observable, computed} from 'mobx';
+import {NotificationBar} from '../lib/modal/';
 
 class UIStore {
 
@@ -12,6 +14,7 @@ class UIStore {
     this.msgLoader = false;
     //main payment page --> currencies --> merchant info in SwipeableViews (mobile view)
     this.activePage = 0;
+    this.pay_btn = false;
 
     //screen width --> switch between mobile / pc views
     this.width = window.innerWidth;
@@ -35,15 +38,21 @@ class UIStore {
 
     //shake the payment cards when the user press edit
     this.shake_cards = false;
-
-    //display error or Otp when click on the payment button
-    this.slide_up = false;
+    this.delete_card = false;
+    //
+    // //display error or Otp when click on the payment button
+    // this.slide_up = false;
 
     this.notifications = 'standard';
 
     // this.setPageIndex(0);
 
     this.load = true;
+    this.edit_customer_cards = 'Edit';
+    this.modal_mode = 'popup';
+
+    this.errorHandler = {};
+    this.msg = {};
 
   }
 
@@ -83,20 +92,22 @@ class UIStore {
   startLoading(loader_type, title, msg){
     console.log('loader_type', loader_type + ' ' + true);
 
-    this.RootStore.apiStore.setMsg({
+    this.RootStore.uIStore.setMsg({
       type: loader_type,
       title: title,
-      desc: msg
+      desc: msg,
+      close: false
     });
      this.isLoading = true;
      this.load = true;
   }
 
   showResult(loader_type, title, msg){
-    this.RootStore.apiStore.setMsg({
+    this.RootStore.uIStore.setMsg({
       type: loader_type,
       title: title,
-      desc: msg
+      desc: msg,
+      handleClose: true
     });
      this.isLoading = true;
      this.load = false;
@@ -118,7 +129,6 @@ class UIStore {
   stopBtnLoader(){
     this.btnLoader = false;
   }
-
 
   computed
   get getMsgLoaderStatus(){
@@ -175,26 +185,112 @@ class UIStore {
   }
 
   setIsActive(value){
-      this.isActive = value;
+    if(value === 'FORM' || value === 'WEB'){
+      this.delete_card = false;
+      this.edit_customer_cards = 'Edit';
+      this.shakeCards(false);
+    }
+    else {
+      this.detete_card = false;
+    }
+
+    this.isActive = value;
+  }
+
+  shakeCards(value){
+    var skake = this.shake_cards;
+    this.payBtn(false);
+
+    if(!value){
+      this.shake_cards = false;
+      this.edit_customer_cards = 'Edit';
+    }
+    else {
+      this.shake_cards = true;
+      this.edit_customer_cards = 'Cancel';
+    }
+
+    this.RootStore.paymentStore.selected_card = null;
+
+  }
+
+  // deleteCard(value, id){
+  //   if(this.RootStore.paymentStore.selected_card === id){
+  //     this.delete_card = value;
+  //
+  //     if(value){
+  //       this.shakeCards(false);
+  //     }
+  //     else {
+  //       this.shakeCards(true);
+  //     }
+  //
+  //     console.log('delete card', this.delete_card);
+  //     console.log('shake card', this.shake_cards);
+  //     console.log('pay_btn card', this.pay_btn);
+  //   }
+  //
+  //
+  // }
+
+  payBtn(value){
+    this.pay_btn = value;
+    console.log('pay btn ........... > ', this.pay_btn);
   }
 
   computed
-  get getShakeStatus(){
-    return this.shake_cards;
-  }
+  get generateCustomNotification(){
 
-  shakeCards(){
-    var skake = this.getShakeStatus;
-    this.shake_cards = !skake;
+   console.log('notifications >>>>>>>>>>>>', this.RootStore.configStore.notifications);
+
+    if(this.RootStore.configStore.notifications !== 'standard' && !this.getErrorHandler.options){
+        console.log('id', this.RootStore.configStore.notifications);
+
+        var el = document.getElementById(this.RootStore.configStore.notifications);
+        console.log('element', el);
+
+        if(this.getErrorHandler.msg && el != null){
+          el.innerHTML = this.getErrorHandler.msg;
+
+        }
+
+        return(
+          <NotificationBar
+            mode={null}
+            dir={this.getDir}
+            show={false}>
+          </NotificationBar>);
+      }
+      else if(this.RootStore.configStore.notifications === 'standard' || this.getErrorHandler.options){
+        return(
+          <NotificationBar
+            mode={this.getErrorHandler.type}
+            dir={this.getDir}
+            //close={this.closeNotification.bind(this)}
+            show={this.getErrorHandler.visable}
+            options={this.getErrorHandler.options}>
+              {this.getErrorHandler.msg}
+          </NotificationBar>
+        );
+      }
   }
 
   computed
-  get getSlideUp(){
-    return this.slide_up;
+  get getErrorHandler(){
+    return this.errorHandler;
   }
 
-  slideUp(value){
-    this.slide_up = value;
+  setErrorHandler(value){
+    this.errorHandler = value;
+  }
+
+  computed
+  get getMsg(){
+    return this.msg;
+  }
+
+  setMsg(value){
+    this.msg = value;
   }
 
   // handleClicks(e){
@@ -249,10 +345,16 @@ decorate(UIStore, {
   width: observable,
   btnLoader: observable,
   shake_cards: observable,
+  delete_card:observable,
   slide_up: observable,
   msgLoader: observable,
   notifications:observable,
-  confirm:observable
+  confirm:observable,
+  pay_btn: observable,
+  edit_customer_cards: observable,
+  errorHandler: observable,
+  msg: observable,
+  modal_mode:observable
 });
 
 export default UIStore;

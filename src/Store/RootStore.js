@@ -4,6 +4,8 @@ import MerchantStore from './MerchantStore.js';
 import UIStore from './UIStore.js';
 import ConfigStore from './ConfigStore.js';
 import ActionStore from './ActionStore.js';
+import FormStore from './FormStore.js';
+
 
 class RootStore {
   constructor() {
@@ -13,6 +15,7 @@ class RootStore {
     this.uIStore = new UIStore(this);
     this.configStore = new ConfigStore(this);
     this.actionStore = new ActionStore(this);
+    this.formStore = new FormStore(this);
   }
 }
 

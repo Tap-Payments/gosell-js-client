@@ -30,8 +30,7 @@ class BusinessInfo extends Component {
   handleSelfClick = (contact) => {
       this.setState({
         isClicked: !this.state.isClicked
-      })
-
+      });
   }
 
   handleClick = (contact) => {
@@ -80,14 +79,6 @@ class BusinessInfo extends Component {
             </a>)
         }
       });
-
-      // more = store.merchantStore.contact.map((contact, index) =>{
-      //   if(contact.type !== 'social'){
-      //     return(<div key={'div-'+index}>
-      //       {contact.value}
-      //     </div>);
-      //   }
-      // });
 
       store.merchantStore.contact.map((contact, index) =>{
         if(contact.type === 'social'){

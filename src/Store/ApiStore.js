@@ -8,24 +8,21 @@ class ApiStore{
 
     this.mode = null;
 
-
-    this.errorHandler = {};
-    this.msg = {};
-
   }
 
- async init(tap_id){
+ async init(){
     var self = this;
+
+    this.RootStore.uIStore.dir = this.RootStore.configStore.language === 'ar' ? 'rtl' : 'ltr';
 
     var body = {
       "mode": "Development",
       "headers": {
-        "content-type": "application/json",
         "authorization": "Bearer " + this.RootStore.configStore.gateway.publicKey,
       }
     }
 
-    var res = null, data = null;
+    var res = null, data = null, payment = null, merchant = null;
     await axios.post('http://localhost:8000/key', body)
     .then(async function (response) {
 
@@ -41,70 +38,39 @@ class ApiStore{
         self.RootStore.merchantStore.sk = data.private_key;
         self.RootStore.merchantStore.session = data.session_token;
 
-        console.log("tap_id", tap_id);
-
-        if(tap_id && tap_id != null){
-          self.getCharge(tap_id);
-        }
-
-        // if(data.sdk_settings) {
-          self.RootStore.paymentStore.status_display_duration = data.sdk_settings.status_display_duration;
-          self.RootStore.paymentStore.otp_resend_interval = data.sdk_settings.otp_resend_interval;
-          self.RootStore.paymentStore.otp_resend_attempts = data.sdk_settings.otp_resend_attempts;
-        // }
-        // else{
-        //   self.RootStore.paymentStore.statusDisplayDuration = 5;
-        //   self.RootStore.paymentStore.otpResendInterval = 60;
-        //   self.RootStore.paymentStore.otpResendAttempts = 3;
-        // }
+        self.RootStore.paymentStore.status_display_duration = data.sdk_settings.status_display_duration;
+        self.RootStore.paymentStore.otp_resend_interval = data.sdk_settings.otp_resend_interval;
+        self.RootStore.paymentStore.otp_resend_attempts = data.sdk_settings.otp_resend_attempts;
 
         self.RootStore.paymentStore.card_wallet = data.permission.card_wallet;
         self.RootStore.paymentStore.setThreeDSecure(data.permission.threeDSecure);
 
-        await self.getMerchantDetails();
+        merchant = await self.getMerchantDetails();
 
-        if(self.RootStore.configStore.order.amount > 0 && self.RootStore.configStore.order.currency != null){
-          await self.setPaymentOptions();
-        }
-        else {
-          self.setErrorHandler({
-            visable: true,
-            code: 0,
-            msg: 'Something went wrong! Please contact the website admin.',
-            type: 'error'
-          });
-        }
+        payment = await self.setPaymentOptions();
+
       }
       else {
-        self.setErrorHandler({
-          visable: true,
-          code: res.errors[0].code,
-          msg: res.errors[0].description,
-          type: 'error'
-        });
+        self.RootStore.uIStore.showResult('warning', res.errors[0].description, res.errors[0].code);
 
       }
     })
     .catch(function (error) {
       console.log(error);
-      self.setErrorHandler({
-        visable: true,
-        code: error.status ? error.status : null,
-        msg: error.message ? error.message : null,
-        type: 'error'
-      });
-
     });
 
-    return await res;
+      if(res.status === 'success' && payment.statusCode == 200 && merchant.statusCode == 200){ return await res; }else { return await null; }
+
   }
 
   async setPaymentOptions(){
     var self = this;
     var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+ this.RootStore.merchantStore.sk
+      'Authorization': 'Bearer '+ this.RootStore.merchantStore.sk,
+      //'session_token':self.RootStore.merchantStore.session
     }
+
+    console.log('session', headers);
 
     var mode = null;
     switch (this.RootStore.configStore.transaction_mode) {
@@ -129,97 +95,30 @@ class ApiStore{
          "items": this.RootStore.configStore.items,
          "shipping": this.RootStore.configStore.shipping,
          "taxes": this.RootStore.configStore.taxes,
-         "customer": this.RootStore.configStore.customer.id,
-         "currency" : this.RootStore.configStore.order.currency,
-         "total_amount": this.RootStore.configStore.order.amount
+         "customer": this.RootStore.configStore.customer ? this.RootStore.configStore.customer.id : null,
+         "currency" : this.RootStore.configStore.order ? this.RootStore.configStore.order.currency : null,
+         "total_amount": this.RootStore.configStore.order ? this.RootStore.configStore.order.amount : 0
       }
     }
 
+    var res = null, data = null;
     await axios.post('http://localhost:8000/api', body)
     .then(function (response) {
 
-      var res = response.data;
-       console.log('res', JSON.parse(res.body));
-
-       if(res.statusCode == 200){
-         console.log('currency from merchant', self.RootStore.configStore.order.currency);
-         self.RootStore.paymentStore.getPaymentMethods(res.body, self.RootStore.configStore.order.currency);
-       }
-       else {
-         self.setMsg({
-           type: 'error',
-           title: res.errors[0].code,
-           desc: res.errors[0].description
-         });
-       }
-
-    })
-    .catch(function (error) {
-      console.log("error", error);
-      self.setErrorHandler({
-        visable: true,
-        code: error.status ? error.status : null,
-        msg: error.message ? error.message : null,
-        type: 'error'
-      });
-    });
-  }
-
-  async updateCards(){
-    var self = this;
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer '+ this.RootStore.merchantStore.sk
-    }
-
-    var body = {
-      "mode": "Production",
-      "method": 'POST',
-      "path": '/v2/payment/types',
-      "headers": headers,
-      "reqBody": {
-         "customer": this.RootStore.configStore.customer.id ? this.RootStore.configStore.customer.id : null,
-         "currency" : this.RootStore.paymentStore.getCurrency,
-         "total_amount": this.RootStore.paymentStore.getAmount
-      }
-    }
-
-    var res = null;
-    console.log('payment options api body', body);
-    await axios.post('http://localhost:8000/api', body)
-    .then(async function (response) {
-
       res = response.data;
+      data =  JSON.parse(response.data.body);
+      console.log('res', res);
 
        if(res.statusCode == 200){
-         var result = JSON.parse(res.body);
-         console.log(result);
-         if(result.cards){
-           console.log("I'm here in updateCards ---------> ",result.cards);
-           await self.RootStore.paymentStore.setCards(result.cards);
-         }
-         else {
-           await self.RootStore.paymentStore.setCards(null);
-         }
-
+         self.RootStore.paymentStore.getPaymentMethods(res.body, self.RootStore.configStore.order ? self.RootStore.configStore.order.currency : null);
        }
        else {
-         self.setMsg({
-           type: 'error',
-           title: res.errors[0].code,
-           desc: res.errors[0].description
-         });
+         self.RootStore.uIStore.showResult('warning', data.errors[0].description, data.errors[0].code);
        }
 
     })
     .catch(function (error) {
       console.log("error", error);
-      self.setErrorHandler({
-        visable: true,
-        code: error.status ? error.status : null,
-        msg: error.message ? error.message : null,
-        type: 'error'
-      });
     });
 
     return await res;
@@ -229,8 +128,7 @@ class ApiStore{
     var self = this;
 
     var headers = {
-      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk,
-      'Content-Type': 'application/json'
+      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk
     }
 
     var body = {
@@ -240,42 +138,63 @@ class ApiStore{
       "headers": headers
     }
 
+    var res = null;
     await axios.post('http://localhost:8000/api', body)
     .then(function (response) {
 
-      var res = response.data;
+      res = response.data;
       console.log(res);
 
       if(res.body){
         self.RootStore.merchantStore.setDetails(res.body);
       }
       else {
-        self.setMsg({
-          type: 'error',
-          title: res.errors[0].code,
-          desc: res.errors[0].description
-        });
+        // self.setMsg({
+        //   type: 'error',
+        //   title: res.errors[0].code,
+        //   desc: res.errors[0].description,
+        //   handleClose: true
+        // });
+
+         self.RootStore.uIStore.showResult('warning', res.errors[0].description, res.errors[0].code);
       }
 
     })
     .catch(function (error) {
       console.log(error);
-      self.setErrorHandler({
-        visable: true,
-        code: error.status ? error.status : null,
-        msg: error.message ? error.message : null,
-        type: 'error'
-      });
+      // self.RootStore.uIStore.setErrorHandler({
+      //   visable: true,
+      //   code: error.status ? error.status : null,
+      //   msg: error.message ? error.message : null,
+      //   type: 'error'
+      // });
     });
+
+    return await res;
+  }
+
+  async handleTransaction(source, type, fees){
+    var transaction = null;
+    switch (this.RootStore.configStore.transaction_mode) {
+      case 'charge':
+        transaction = this.charge(source, type, fees)
+        break;
+      case 'authorize':
+        transaction = this.authorize(source, type, fees)
+        break;
+      // case 'saveCard':
+      //   transaction = this.saveCard();
+      //   break;
+    }
+
+    return await transaction;
   }
 
   async charge(source, type, fees){
     var self = this;
 
     var headers = {
-      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk,
-      'Application': 'app_locale=en_UA|requirer=SDK|app_id=company.tap.goSellSDKExample|requirer_os=iOS|requirer_version=2.0.0|requirer_os_version=11.3',
-      'Content-Type': 'application/json'
+      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk
     }
 
     var body = {
@@ -285,8 +204,8 @@ class ApiStore{
       "headers": headers,
       "reqBody": {
         "id": this.RootStore.configStore.charge.id ? this.RootStore.configStore.charge.id : null,
-        "amount": this.RootStore.paymentStore.current_currency.amount, //this.RootStore.configStore.order.amount,
-        "currency": this.RootStore.paymentStore.current_currency.currency, //this.RootStore.configStore.order.currency,
+        "amount": this.RootStore.configStore.order.amount,
+        "currency": this.RootStore.configStore.order.currency,
         "product":"GOSELL",
         "threeDSecure":this.RootStore.paymentStore.three_d_Secure,
         "save_card":this.RootStore.paymentStore.save_card_option,
@@ -306,8 +225,8 @@ class ApiStore{
         "redirect":{
           "url": this.RootStore.configStore.charge.redirect
         },
-        // "selected_currency":this.RootStore.paymentStore.current_currency.currency,
-        // "selected_amount":this.RootStore.paymentStore.current_currency.amount
+        "selected_currency":this.RootStore.paymentStore.current_currency.currency,
+        "selected_amount":this.RootStore.paymentStore.current_currency.amount
       }
     }
 
@@ -329,12 +248,6 @@ class ApiStore{
           }
           else if(result.status.toUpperCase() === 'CAPTURED' && type !== 'CARD'){
             console.log('CAPTURED form');
-            // self.setMsg({
-            //   type: 'success',
-            //   title: "Successful",
-            //   desc: result.id
-            // });
-
             self.RootStore.uIStore.showResult('success', 'Successful Transaction', result.id);
           }
           else if(result.status.toUpperCase() === 'INITIATED' && type === 'CARD'){
@@ -352,53 +265,183 @@ class ApiStore{
           else {
             self.RootStore.uIStore.showResult('error', result.response.message, result.id);
             console.log('charge id', result.id);
-            // self.setMsg({
-            //   type: 'warning',
-            //   title: result.response.message,
-            //   desc: result.id
-            // });
           }
       }
       else {
         result = JSON.parse(res.body);
-        console.log('error', result);
-
-        // self.setMsg({
-        //   type: 'error',
-        //   title: "Something went wrong!",
-        //   desc: result.errors[0].description
-        // });
-
-        self.RootStore.uIStore.showResult('error', "Something went wrong! " + result.errors[0].description, null);
-
-        self.setErrorHandler({
-          visable: true,
-          code: "Something went wrong!",
-          msg: result.errors[0].description,
-          type: 'error'
-        });
+        self.RootStore.uIStore.showResult('error', result.errors[0].description, null);
 
       }
     })
     .catch(function (error) {
       console.log('error', error);
-      self.setErrorHandler({
-        visable: true,
-        code: error.status ? error.status : null,
-        msg: error.message ? error.message : null,
-        type: 'error'
-      });
     });
 
     return await res;
   }
 
+  async authorize(source, type, fees){
+    var self = this;
+
+    var headers = {
+      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk
+    }
+
+    console.log('save_card_option: ', this.RootStore.paymentStore.save_card_option);
+    var body = {
+      "mode": "Production",
+      "method": "POST",
+      "path": "/v2/authorize",
+      "headers": headers,
+      "reqBody": {
+        "id": this.RootStore.configStore.authorize.id ? this.RootStore.configStore.authorize.id : null,
+        "amount": this.RootStore.configStore.order.amount,
+        "currency": this.RootStore.configStore.order.currency,
+        "product":"GOSELL",
+        "threeDSecure":this.RootStore.paymentStore.three_d_Secure,
+        "save_card":this.RootStore.paymentStore.save_card_option,
+        "fee": fees,
+        "statement_descriptor":this.RootStore.configStore.authorize.statement_descriptor,
+        "description":this.RootStore.configStore.authorize.description,
+        "metadata":this.RootStore.configStore.authorize.metadata,
+        "reference":this.RootStore.configStore.authorize.reference,
+        "receipt":this.RootStore.configStore.authorize.receipt,
+        "customer": this.RootStore.configStore.customer,
+        "source":{
+          "id": source
+        },
+        "auto": {
+          "type": this.RootStore.configStore.authorize.auto.type,
+          "time": this.RootStore.configStore.authorize.auto.time,
+        },
+        "post":{
+          "url": this.RootStore.configStore.authorize.post
+        },
+        "redirect":{
+          "url": this.RootStore.configStore.authorize.redirect
+        },
+        "selected_currency":this.RootStore.paymentStore.current_currency.currency,
+        "selected_amount":this.RootStore.paymentStore.current_currency.amount
+      }
+    }
+
+    console.log('authorize api body', body);
+
+    var result, res = null;
+
+    await axios.post('http://localhost:8000/api', body)
+    .then(async function (response) {
+      res = response.data;
+      console.log('authorize', res);
+
+      if(res.statusCode == 200){
+          result = JSON.parse(res.body);
+
+          if(result.status.toUpperCase() === 'INITIATED' && type !== 'CARD'){
+            console.log('INITIATED', result);
+            window.open(result.transaction.url, '_self');
+          }
+          else if(result.status.toUpperCase() === 'AUTHORIZED' && type !== 'CARD'){
+            console.log('AUTHORIZED form');
+            self.RootStore.uIStore.showResult('success', 'Authorized Transaction', result.id);
+          }
+          else if(result.status.toUpperCase() === 'CAPTURED' && type !== 'CARD'){
+            console.log('CAPTURED form');
+            self.RootStore.uIStore.showResult('success', 'Captured Transaction', result.id);
+          }
+          else if(result.status.toUpperCase() === 'INITIATED' && type === 'CARD'){
+            console.log('CAPTURED card', result);
+            self.RootStore.paymentStore.authorize = result;
+            console.log('charge id', result.id);
+            self.RootStore.paymentStore.authenticate = result.authenticate;
+
+            if(result.authenticate && result.authenticate.status === 'INITIATED'){
+              self.RootStore.uIStore.getIsMobile ? self.RootStore.uIStore.setSubPage(0) : self.RootStore.uIStore.setSubPage(-1);
+              self.RootStore.uIStore.setPageIndex(1);
+              self.RootStore.uIStore.confirm = 1;
+            }
+          }
+          else {
+            self.RootStore.uIStore.showResult('error', result.response.message, null);
+          }
+      }
+      else {
+        result = JSON.parse(res.body);
+        console.log('!= 200', result);
+        self.RootStore.uIStore.showResult('error', result.errors[0].description, null);
+
+      }
+    })
+    .catch(function (error) {
+      console.log('error', error);
+    });
+
+    return await res;
+  }
+
+
+  async getTransactionResult(chg_id){
+     var self = this;
+
+     var body = {
+       "mode": "Production",
+       "headers": {
+         "authorization": "Bearer " + this.RootStore.configStore.gateway.publicKey,
+       }
+     }
+
+     var res = null, data = null, charge = null;
+     await axios.post('http://localhost:8000/key', body)
+     .then(async function (response) {
+
+       res = response.data;
+       console.log('key api', res);
+
+       if(res.status === 'success'){
+
+         data = res.data;
+         self.mode = data.live_mode;
+         self.RootStore.merchantStore.merchant = {id: data.merchant_id, name: data.merchant_name};
+         self.RootStore.merchantStore.pk = self.RootStore.configStore.gateway.publicKey;
+         self.RootStore.merchantStore.sk = data.private_key;
+         self.RootStore.merchantStore.session = data.session_token;
+
+
+         self.RootStore.paymentStore.status_display_duration = data.sdk_settings.status_display_duration;
+         self.RootStore.paymentStore.otp_resend_interval = data.sdk_settings.otp_resend_interval;
+         self.RootStore.paymentStore.otp_resend_attempts = data.sdk_settings.otp_resend_attempts;
+
+
+         self.RootStore.paymentStore.card_wallet = data.permission.card_wallet;
+         self.RootStore.paymentStore.setThreeDSecure(data.permission.threeDSecure);
+
+         charge = await self.getCharge(chg_id);
+
+       }
+       else {
+         self.RootStore.uIStore.showResult('warning', res.errors[0].description, res.errors[0].code);
+
+       }
+     })
+     .catch(function (error) {
+       console.log(error);
+     });
+
+
+     if(res.status === 'success' && charge.statusCode == 200){
+       return await res;
+     }
+     else {
+       return await null;
+     }
+
+   }
+
   async getCharge(chg_id){
     var self = this;
 
     var headers = {
-      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk,
-      'Content-Type': 'application/json'
+      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk
     }
 
     var body = {
@@ -420,29 +463,19 @@ class ApiStore{
             console.log('CAPTURED', result);
             console.log('uIStore', self.RootStore.uIStore.notifications);
 
-            if(self.RootStore.uIStore.notifications && self.RootStore.uIStore.notifications !== 'standard'){
-              document.getElementById(self.RootStore.uIStore.notifications).innerHTML = 'Successful';
+            if(self.RootStore.configStore.gateway.notifications && self.RootStore.configStore.gateway.notifications !== 'standard'){
+              document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = 'Successful';
             }
             else {
-              self.setErrorHandler({
-                visable: true,
-                code: result.id,
-                msg: 'Successful',
-                type: 'success'
-              });
+              self.RootStore.uIStore.showResult('success', "Successful Transaction", result.id);
             }
           }
           else {
-            if(self.RootStore.uIStore.notifications && self.RootStore.uIStore.notifications !== 'standard'){
-              document.getElementById(self.RootStore.uIStore.notifications).innerHTML = result.response.message;
+            if(self.RootStore.configStore.gateway.notifications && self.RootStore.configStore.gateway.notifications !== 'standard'){
+              document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = result.response.message;
             }
             else {
-              self.setErrorHandler({
-                visable: true,
-                code: result.id,
-                msg: result.response.message,
-                type: 'warning'
-              });
+              self.RootStore.uIStore.showResult('warning', result.response.message, result.id);
             }
 
           }
@@ -452,34 +485,21 @@ class ApiStore{
         result = JSON.parse(res.body);
         console.log('error', result);
 
-        return result;
-
       }
     })
     .catch(function (error) {
       console.log('error', error);
       return error;
-      // self.setErrorHandler({
-      //   visable: true,
-      //   code: error.status ? error.status : null,
-      //   msg: error.message ? error.message : null,
-      //   type: 'error'
-      // });
     });
+
     return await res;
-  }
-
-  async authorize(){
-    var self = this;
-
   }
 
   async deleteCard(card_id, index){
     var self = this;
 
     var headers = {
-      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk,
-      'Content-Type': 'application/json'
+      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk
     }
 
     var body = {
@@ -499,49 +519,90 @@ class ApiStore{
       if(res.statusCode == 200){
         result = JSON.parse(res.body);
         console.log('delete', result);
-        // self.RootStore.paymentStore.getCards.splice(index,1);
 
-        // setTimeout(function(){
-        //    //self.RootStore.paymentStore.getCards.splice(index,1);
-        // }, 1000);
+        // await self.updateCards().then(updatedList => {
+        //   self.RootStore.paymentStore.setCards(updatedList);
+        // });
 
-        self.setErrorHandler({
-          visable: true,
-          code: 'success',
-          msg: 'The card has been deleted Successfully!',
-          type: 'success'
-        });
       }
       else {
         result = JSON.parse(res.body);
         console.log('error', result);
-        // self.RootStore.paymentStore.getCards.splice(this.props.index, 1);
 
-        self.setErrorHandler({
+        self.RootStore.uIStore.setErrorHandler({
           visable: true,
           code: result.status,
           msg: result.message,
           type: 'error'
         });
 
-        // self.setMsg({
-        //   type: 'error',
-        //   title: result.status,
-        //   desc: result.message
-        // });
       }
     })
     .catch(function (error) {
       console.log('error', error);
-      self.setErrorHandler({
-        visable: true,
-        code: error.status ? error.status : null,
-        msg: error.message ? error.message : null,
-        type: 'error'
-      });
-    });
-    return await res;
 
+    });
+    return await result;
+
+  }
+
+  async updateCards(){
+    var self = this;
+    var headers = {
+      'Authorization': 'Bearer '+ this.RootStore.merchantStore.sk
+    }
+
+    var body = {
+      "mode": "Production",
+      "method": 'POST',
+      "path": '/v2/payment/types',
+      "headers": headers,
+      "reqBody": {
+         "customer": this.RootStore.configStore.customer.id ? this.RootStore.configStore.customer.id : null,
+         "currency" : this.RootStore.paymentStore.current_currency.currency,
+         "total_amount": this.RootStore.paymentStore.current_currency.amount
+      }
+    }
+
+    var res = null; var result = null;
+    console.log('update card', body);
+    await axios.post('http://localhost:8000/api', body)
+    .then(async function (response) {
+
+      res = response.data;
+
+       if(res.statusCode == 200){
+         result = JSON.parse(res.body);
+         console.log(result);
+
+         setTimeout(function(){
+           self.RootStore.uIStore.setErrorHandler({
+             visable: true,
+             code: 'success',
+             msg: 'The card has been deleted Successfully!',
+             type: 'success'
+           });
+         }, 200);
+
+       }
+       else {
+         console.log("result", res);
+
+         self.RootStore.uIStore.setErrorHandler({
+           visable: true,
+           code: 'error',
+           msg: 'Something went wrong!',
+           type: 'error'
+         });
+
+       }
+
+    })
+    .catch(function (error) {
+      console.log("error", error);
+    });
+
+    return await result;
   }
 
   async updateCardsList(){
@@ -549,7 +610,6 @@ class ApiStore{
 
     var headers = {
       'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk,
-      'Content-Type': 'application/json'
     }
 
     var body = {
@@ -574,22 +634,16 @@ class ApiStore{
       else {
         result = JSON.parse(res.body);
         console.log('error', result);
-
-        self.setMsg({
-          type: 'error',
-          title: result.errors[0].code,
-          desc: result.errors[0].description
-        });
       }
     })
     .catch(function (error) {
       console.log('error', error);
-      self.setErrorHandler({
-        visable: true,
-        code: error.status ? error.status : null,
-        msg: error.message ? error.message : null,
-        type: 'error'
-      });
+      // self.RootStore.uIStore.setErrorHandler({
+      //   visable: true,
+      //   code: error.status ? error.status : null,
+      //   msg: error.message ? error.message : null,
+      //   type: 'error'
+      // });
     });
     return await res;
   }
@@ -598,8 +652,7 @@ class ApiStore{
     var self = this;
 
     var headers = {
-      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk,
-      'Content-Type': 'application/json'
+      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk
     }
 
     console.log('customer', this.RootStore.configStore.customer.id);
@@ -632,7 +685,7 @@ class ApiStore{
         var error = JSON.parse(res.body);
         console.log('error', error);
 
-        self.setErrorHandler({
+        self.RootStore.uIStore.setErrorHandler({
           visable: true,
           code: error.status,
           msg: error.message,
@@ -642,156 +695,161 @@ class ApiStore{
       }
     })
     .catch(function (error) {
-      self.setErrorHandler({
-        visable: true,
-        code: error.status ? error.status : null,
-        msg: error.message ? error.message : null,
-        type: 'error'
-      });
+      console.log('error', error);
+      // self.RootStore.uIStore.setErrorHandler({
+      //   visable: true,
+      //   code: error.status ? error.status : null,
+      //   msg: error.message ? error.message : null,
+      //   type: 'error'
+      // });
     });
 
     return await res;
   }
 
 
-  // async createCustomer(){
-  //   var self = this;
-  //
-  //   var headers = {
-  //     'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk,
-  //     'Content-Type': 'application/json'
-  //   }
-  //
-  //   var body = {
-  //     "mode": "Production",
-  //     "method": "POST",
-  //     "path": "/v2/customers",
-  //     "headers": headers,
-  //     "reqBody": {
-  //       "first_name": this.RootStore.configStore.customer.first_name,
-  //       "middle_name": this.RootStore.configStore.customer.middle_name,
-  //       "last_name": this.RootStore.configStore.customer.last_name,
-  //       "email": this.RootStore.configStore.customer.email,
-  //       "phone": {
-  //         "country_code": this.RootStore.configStore.customer.phone.country_code,
-  //         "number": this.RootStore.configStore.customer.phone.number
-  //       },
-  //       "description": this.RootStore.paymentStore.getTranxDesc,
-  //       "metadata": {
-  //         "udf1": "test"
-  //       },
-  //       "currency": this.RootStore.paymentStore.getCurrentCurrency.currency
-  //     }
-  //   }
-  //
-  //   console.log('create customer body', body);
-  //
-  //   await axios.post('http://localhost:8000/api', body)
-  //   .then(function (response) {
-  //     var res = response.data;
-  //     console.log('charge', res);
-  //     if(res.statusCode == 200){
-  //       var body = JSON.parse(res.body);
-  //       console.log(body);
-  //       self.RootStore.paymentStore.setCustomer(body);
-  //     }
-  //     else {
-  //       var error = JSON.parse(res.body);
-  //       console.log('error', error);
-  //
-  //       self.setErrorHandler({
-  //         visable: true,
-  //         code: error.errors[0].code,
-  //         msg: error.errors[0].description,
-  //         type: 'error'
-  //       });
-  //
-  //     }
-  //   })
-  //   .catch(function (error) {
-  //     self.setErrorHandler({
-  //       visable: true,
-  //       code: error.status ? error.status : null,
-  //       msg: error.message ? error.message : null,
-  //       type: 'error'
-  //     });
-  //   });
-  // }
-  //
-  // createCard(custmoer_id, token){
-  //   var self = this;
-  //
-  //   var headers = {
-  //     'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk,
-  //     'Content-Type': 'application/json'
-  //   }
-  //
-  //   var body = {
-  //     "mode": "Production",
-  //     "method": "POST",
-  //     "path": "/v2/card/" + custmoer_id,
-  //     "headers": headers,
-  //     "reqBody": {
-  //       "source": token
-  //     }
-  //   }
-  //
-  //   axios.post('http://localhost:8000/api', body)
-  //   .then(function (response) {
-  //     var res = response.data;
-  //     console.log('charge', res);
-  //     if(res.statusCode == 200){
-  //       var body = JSON.parse(res.body);
-  //       console.log('card', body);
-  //     }
-  //     else {
-  //       var error = JSON.parse(res.body);
-  //       console.log('error', error);
-  //
-  //       self.setErrorHandler({
-  //         visable: true,
-  //         code: error.errors[0].code,
-  //         msg: error.errors[0].description,
-  //         type: 'error'
-  //       });
-  //
-  //     }
-  //   })
-  //   .catch(function (error) {
-  //     self.setErrorHandler({
-  //       visable: true,
-  //       code: error.status ? error.status : null,
-  //       msg: error.message ? error.message : null,
-  //       type: 'error'
-  //     });
-  //   });
-  // }
-
-  // computed
-  // get getLoadingStatus(){
-  //   return this.isLoading;
-  // }
-  //
-  // setLoadingStatus(value){
-  //   if(this.getBusinessInfo && this.getPaymentOptions ){
-  //     this.isLoading = value;
-  //   }
-  // }
-
-  async chargeAuthentication(type, value){
+  async createCustomer(){
     var self = this;
 
     var headers = {
-      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk,
-      'Content-Type': 'application/json'
+      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk
     }
-
-    console.log('charge', this.RootStore.configStore.charge.id);
 
     var body = {
       "mode": "Production",
       "method": "POST",
-      "path": "/v2/charges/authenticate/"+this.RootStore.paymentStore.charge.id,
+      "path": "/v2/customers",
+      "headers": headers,
+      "reqBody": {
+        "first_name": this.RootStore.configStore.customer.first_name,
+        "middle_name": this.RootStore.configStore.customer.middle_name,
+        "last_name": this.RootStore.configStore.customer.last_name,
+        "email": this.RootStore.configStore.customer.email,
+        "phone": {
+          "country_code": this.RootStore.configStore.customer.phone.country_code,
+          "number": this.RootStore.configStore.customer.phone.number
+        },
+        // "description": this.RootStore.configStore.description,
+        // "metadata": this.RootStore.configStore.metadata,
+        // "currency": this.RootStore.paymentStore.current_currency.currency
+      }
+    }
+
+    console.log('create customer body', body);
+
+    var res = null, result = null;
+    await axios.post('http://localhost:8000/api', body)
+    .then(async function (response) {
+      res = response.data;
+      console.log('get customer response', res);
+      if(res.statusCode == 200){
+        result = JSON.parse(res.body);
+        console.log('customer', result);
+        self.RootStore.configStore.customer = result;
+      }
+      else {
+        result = JSON.parse(res.body);
+        console.log('error', result);
+      }
+    })
+    .catch(function (error) {
+      console.log('error', error);
+      // self.RootStore.uIStore.setErrorHandler({
+      //   visable: true,
+      //   code: error.status ? error.status : null,
+      //   msg: error.message ? error.message : null,
+      //   type: 'error'
+      // });
+    });
+    return await res;
+  }
+
+  async saveCustomerCard(token){
+    var self = this;
+
+    self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
+    //var customer = null;
+    if(this.RootStore.configStore.customer && this.RootStore.configStore.customer.id){
+      var customer = this.RootStore.configStore.customer;
+      this.createCard(customer.id, token);
+    }
+    else {
+      this.createCustomer().then(result => {
+        if(result.statusCode == 200){
+          self.createCard(self.RootStore.configStore.customer.id, token);
+        }
+      });
+    }
+  }
+
+  async createCard(customer_id, token){
+    var self = this;
+
+    var headers = {
+      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk
+    }
+
+    console.log('customer id', customer_id);
+
+    var body = {
+      "mode": "Production",
+      "method": "POST",
+      "path": "/v2/card/" + customer_id,
+      "headers": headers,
+      "reqBody": {
+        "source": token
+      }
+    }
+// card_5BXeO420kTHpxLAJNdUjqbFi
+    var result = null;
+    await axios.post('http://localhost:8000/api', body)
+    .then(async function (response) {
+      var res = response.data;
+      console.log('charge', res);
+      if(res.statusCode == 200){
+        result = JSON.parse(res.body);
+        console.log('card', result);
+        self.RootStore.uIStore.showResult('success', 'The card has been saved!', result.id);
+      }
+      else {
+        var error = JSON.parse(res.body);
+        console.log('error', error);
+
+        self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
+
+        setTimeout(function(){
+          self.RootStore.uIStore.showResult('error', error.errors[0].description, null);
+        }, 1000);
+      }
+    })
+    .catch(function (error) {
+      console.log('error', error);
+    });
+
+    return await result;
+  }
+
+  async authentication(type, value){
+    var self = this;
+
+    var path = null;
+    switch (this.RootStore.configStore.transaction_mode) {
+      case 'charge':
+        path = "/v2/charges/authenticate/"+this.RootStore.paymentStore.charge.id
+        break;
+      case 'authorize':
+        path = "/v2/authorize/authenticate/"+this.RootStore.paymentStore.authorize.id
+        break;
+    }
+
+    var headers = {
+      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk
+    }
+
+    var body = {
+      "mode": "Production",
+      "method": "POST",
+      "path": path,
       "headers": headers,
       "reqBody": {
         "type": type,
@@ -811,50 +869,23 @@ class ApiStore{
         console.log('otp auth', result);
 
         if(result.status === 'CAPTURED'){
-          // self.setErrorHandler({
-          //   visable: true,
-          //   type: 'success',
-          //   code: result.response.code,
-          //   msg: result.response.message,
-          // });
-
-          self.RootStore.uIStore.showResult('success', 'Successful Transaction', result.id);
-
+          self.RootStore.uIStore.showResult('success', 'Captured Transaction', result.id);
+        }
+        else if(result.status === 'AUTHORIZED'){
+          self.RootStore.uIStore.showResult('success', 'Authorized Transaction', result.id);
         }
         else {
-          // self.setErrorHandler({
-          //   visable: true,
-          //   type: 'warning',
-          //   code: result.response.code,
-          //   msg: result.response.message,
-          // });
           self.RootStore.uIStore.showResult('error', result.response.message, result.id);
-
         }
-
       }
       else {
         var error = JSON.parse(res.body);
         console.log('error', error);
-
-        self.setErrorHandler({
-          visable: true,
-          code: error.errors[0].code,
-          msg: error.errors[0].description,
-          type: 'error'
-        });
-
-        self.RootStore.uIStore.showResult('error', error.errors[0].description, error.errors[0].code);
-        //self.RootStore.uIStore.setOpenModal(false);
+        self.RootStore.uIStore.showResult('error', error.errors[0].description, null);
       }
     })
     .catch(function (error) {
-      self.setErrorHandler({
-        visable: true,
-        code: error.status ? error.status : null,
-        msg: error.message ? error.message : null,
-        type: 'error'
-      });
+      console.log('error', error);
     });
 
     return await res;
@@ -863,24 +894,24 @@ class ApiStore{
   async requestAuthentication(type, value){
     var self = this;
 
-    // var id = null;
-    //
-    // if(this.RootStore.paymentStore.charge_id && this.RootStore.paymentStore.charge_id != null){
-    //   id = this.RootStore.paymentStore.charge_id;
-    // }
-    // else {
-    //   id = this.RootStore.paymentStore.authorize_id;
-    // }
+    var path = null;
+    switch (this.RootStore.configStore.transaction_mode) {
+      case 'charge':
+        path = "/v2/charges/authenticate/"+ this.RootStore.paymentStore.charge.id
+        break;
+      case 'authorize':
+        path = "/v2/authorize/authenticate/"+this.RootStore.paymentStore.authorize.id
+        break;
+    }
 
     var headers = {
-      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk,
-      'Content-Type': 'application/json'
+      'Authorization': 'Bearer ' + this.RootStore.merchantStore.sk
     }
 
     var body = {
       "mode": "Production",
       "method": "PUT",
-      "path": "/v2/charges/authenticate/"+ this.RootStore.paymentStore.charge.id,
+      "path": path,
       "headers": headers
     }
 
@@ -898,16 +929,16 @@ class ApiStore{
         console.log('res', result);
 
         if(result.status === 'DECLINED'){
-          self.RootStore.uIStore.showResult('error', result.response.message, result.id);
+          self.RootStore.uIStore.setErrorHandler({});
 
-          self.setErrorHandler({
-            visable: true,
-            code: result.response.code,
-            msg: result.response.message,
-            type: 'error'
-          });
+          self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
+
+          setTimeout(function(){
+            self.RootStore.uIStore.showResult('error', result.response.message, result.id);
+          }, 1000);
+
         }else {
-          self.setErrorHandler({
+          self.RootStore.uIStore.setErrorHandler({
             visable: true,
             code: result.response.code,
             msg: result.response.message,
@@ -918,50 +949,26 @@ class ApiStore{
       else {
         var error = JSON.parse(res.body);
 
-        self.setErrorHandler({
-          visable: true,
-          code: error.errors[0].code,
-          msg: error.errors[0].description,
-          type: 'error'
-        });
+        self.RootStore.uIStore.setErrorHandler({});
+
+        self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
+
+        setTimeout(function(){
+          self.RootStore.uIStore.showResult('error', error.errors[0].description, null);
+        }, 1000);
       }
     })
     .catch(function (error) {
-      self.setErrorHandler({
-        visable: true,
-        code: error.status ? error.status : null,
-        msg: error.message ? error.message : null,
-        type: 'error'
-      });
+      console.log('error', error);
     });
 
     return await res;
   }
 
-  computed
-  get getErrorHandler(){
-    return this.errorHandler;
-  }
-
-  setErrorHandler(value){
-    this.errorHandler = value;
-  }
-
-  computed
-  get getMsg(){
-    return this.msg;
-  }
-
-  setMsg(value){
-    this.msg = value;
-  }
-
 }
 
 decorate(ApiStore, {
-  mode: observable,
-  errorHandler: observable,
-  msg: observable,
+  mode: observable
 });
 
 export default ApiStore;

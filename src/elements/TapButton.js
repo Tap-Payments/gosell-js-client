@@ -25,7 +25,6 @@ class TapButton extends Component {
    if(!this.props.animate){
      this.props.handleClick(e);
    }
-
   }
 
   render() {
@@ -47,6 +46,7 @@ class TapButton extends Component {
       border: none;
       outline: none;
       cursor: pointer;
+      pointer-events: ${this.props.active ? 'painted' : 'none'};
     `
     const BtnTitle = styled.p`
       font-family: 'Roboto-Regular', sans-serif;
@@ -57,11 +57,12 @@ class TapButton extends Component {
       margin: 0;
       text-transform: uppercase;
       pointer-events: none;
+      direction: ${this.props.dir};
+      text-align: ${this.props.dir === 'ltr' ? 'left' : 'right'};
     `;
-//
-    return (
 
-        <Btn id={this.props.id} ref={(node) => this.tapBtn = node} className="tap-btn"  onClick={this.handleClick.bind(this)} dir={this.props.dir}>
+    return (
+        <Btn id={this.props.id} ref={(node) => this.tapBtn = node} className="tap-btn"  onClick={this.handleClick.bind(this)}>
               <div style={{width: '30px', height: '30px', margin: '0px 10px', pointerEvents: 'none'}}>
                 <Loader
                   toggleAnimation={this.props.animate}
@@ -72,7 +73,6 @@ class TapButton extends Component {
               <BtnTitle style={this.props.style ? this.props.style.titleStyle : {}}>{this.props.children}</BtnTitle>
               <div style={{width: '30px', height: '30px', margin: '0px 10px',pointerEvents: 'none'}}><img src={security} width="15"/></div>
         </Btn>
-
     );
   }
 }

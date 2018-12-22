@@ -4,7 +4,7 @@ import '../assets/css/btn.css';
 import styled from "styled-components";
 import '../assets/css/msg.css';
 import errorIcon from '../assets/imgs/error-icon.svg';
-import AlertIcon from './AlertIcon';
+import TapButton from './TapButton';
 import {Loader} from '@tap-payments/loader';
 import * as shortBlackLoader from '../assets/loader/black-loader.json';
 import * as shortWhiteLoader from '../assets/loader/white-loader.json';
@@ -83,13 +83,39 @@ class TapLoader extends Component {
     });
   }
 
-  // closeModal(){
-  //   setTimeout(function(){
-  //       this.props.onStop();
-  //    }, 5000);
-  // }
+  handleClose(){
+    this.props.handleClose();
+  }
 
   render() {
+
+    const Btn = styled.a`
+    font-family: 'Roboto-Regular',sans-serif;
+    font-size: 12px;
+    color: #FFFFFF;
+    background-color: transparent;
+    -webkit-letter-spacing: 0.79px;
+    -moz-letter-spacing: 0.79px;
+    -ms-letter-spacing: 0.79px;
+    letter-spacing: 0.79px;
+    text-align: center;
+    margin: 0;
+    text-transform: uppercase;
+    border: 2px solid #FFF;
+    border-radius: 50px;
+    height: 35px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+      &:hover{
+        background-color:#FFF;
+        color: #737373;
+        font-weight: bold;
+      }
+    `;
+
     return (
       <div className="tap-msg" style={{zIndex: '99999999999999'}}>
           <div className='tap-msg-wrapper'>
@@ -106,6 +132,7 @@ class TapLoader extends Component {
             <p className='tap-msg-title' style={{color: this.props.color === 'white' ? this.props.color : '#4b4847'}}>{this.props.title}</p>
             <p className="tap-msg-desc" style={{color: this.props.color === 'white' ? '#a4a5a7' : '#f7f7f7'}}>{this.props.desc}</p>
             <br/>
+            {this.props.close ? <Btn onClick={this.handleClose.bind(this)}>Close</Btn> : null}
           </div>
       </div>
     );

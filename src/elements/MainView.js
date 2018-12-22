@@ -12,6 +12,7 @@ class MainView extends Component {
       return (
           <React.Fragment>
             <PaymentOptions store={store} />
+
             {store.paymentStore.supported_currencies && store.paymentStore.supported_currencies.length > 0 ?
             <SideMenu id='currencies' dir={store.uIStore.getDir}  animationDuration={'300ms'}  expand={store.uIStore.getSubPage === 0 ? true : false} width='105px'>
                 <SupportedCurrencies dir={store.uIStore.getDir} store={store} width='105px' />

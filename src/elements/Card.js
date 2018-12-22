@@ -2,11 +2,14 @@ import React, { Component }  from 'react';
 import styled from "styled-components";
 import '../assets/css/card.css';
 import checkmark from '../assets/imgs/checkmark.svg';
-import deleteIcon from '../assets/imgs/close.svg';
+import deleteIcon from '../assets/imgs/delete.svg';
 import {observer} from 'mobx-react';
-import CircularProgressBar from './CircularProgressBar';
+// import CircularProgressBar from './CircularProgressBar';
+import {Loader} from '@tap-payments/loader';
+import * as oneRingLoader from '../assets/loader/white-loader-one-ring.json';
 
 class Card extends Component {
+  static cards = [];
 
   constructor(props){
     super(props);
@@ -29,6 +32,11 @@ class Card extends Component {
     }
   }
 
+  componentDidMount(){
+    Card.cards.push(this.cardRef);
+  }
+
+
   componentWillReceiveProps(nextProps){
 
     this.setState({
@@ -37,16 +45,19 @@ class Card extends Component {
   }
 
   handleCustomerCards(){
-    this.props.store.actionStore.handleCustomerCardsClick(this.cardRef);
+    this.props.store.actionStore.handleCustomerCardsClick(this.cardRef, this.props.cardObj);
   }
 
   deleteCard(){
+    this.props.store.uIStore.delete_card = true;
+    this.props.store.uIStore.shakeCards(false);
+
     this.setState({
       delete: true,
       shake: false
     });
 
-    this.props.store.apiStore.setErrorHandler({
+    this.props.store.uIStore.setErrorHandler({
       visable: true,
       type: 'warning',
       code: 'Delete Card',
@@ -58,72 +69,89 @@ class Card extends Component {
     });
   }
 
- startProgressBar(count, limit) {
-    // var elem = document.getElementById("myBar");
-    var self= this;
-    var id = setInterval(frame, 100);
-    console.log('id', id);
-
-    function frame() {
-      if (count >= limit) {
-        clearInterval(id);
-         if(count == 100){
-            self.setState({
-              delete: true,
-              shake: false,
-              fade: true,
-              delete_card: 'delete-card-width',
-            });
-        }
-      } else {
-        if(count < limit){
-          count++;
-          self.setState({
-            percentage: count
-          });
-        }
-      }
-    }
-  }
+ // startProgressBar(count, limit) {
+ //    // var elem = document.getElementById("myBar");
+ //    var self= this;
+ //    var id = setInterval(frame, 100);
+ //    console.log('id', id);
+ //
+ //    function frame() {
+ //      if (count >= limit) {
+ //        clearInterval(id);
+ //         if(count == 100){
+ //            self.setState({
+ //              delete: true,
+ //              shake: false,
+ //              fade: true,
+ //              delete_card: 'delete-card-width',
+ //            });
+ //        }
+ //      } else {
+ //        if(count < limit){
+ //          count++;
+ //          self.setState({
+ //            percentage: count
+ //          });
+ //        }
+ //      }
+ //    }
+ //  }
 
   confirmDeleteCard(card_id){
     var self = this;
 
-    this.props.store.apiStore.getErrorHandler.visable = false;
+    this.props.store.uIStore.getErrorHandler.visable = false;
+
 
     this.setState({
         delete:true,
         loading: true
     });
 
-    self.startProgressBar(0, 100);
+  //  self.startProgressBar(0, 100);
 
     self.props.store.apiStore.deleteCard(this.cardRef.id, this.props.index).then(result => {
-        if(result.statusCode != 200){
-          self.setState({
-              delete: false,
-              shake: true,
-              loading: false
+        console.log('delete card response', result);
+        if(result.deleted){
+
+          self.props.store.apiStore.updateCards().then(updatedList => {
+            console.log('updated cards: ', updatedList.cards);
+            self.props.store.paymentStore.setCards(updatedList.cards);
+            console.log('done?????????? ', self.props.store.paymentStore.customer_cards);
+            self.props.store.uIStore.delete_card = false;
+            self.props.store.uIStore.shakeCards(true);
+
+             self.setState({
+                 delete: false,
+                 shake: true,
+                 loading: false
+             });
           });
         }
-        else {
 
-          self.props.store.apiStore.updateCards();
-
-        }
     });
   }
 
   cancelDeleteCard(){
+
+    this.props.store.uIStore.delete_card = false;
+    this.props.store.uIStore.shakeCards(true);
+
     this.setState({
       delete: false,
       shake: true
     });
 
-    this.props.store.apiStore.getErrorHandler.visable = false;
+    this.props.store.uIStore.getErrorHandler.visable = false;
   }
 
-  componentWillUnmount(){}
+  componentWillUnmount(){
+    this.setState({
+        delete: false,
+        shake: false,
+        loading: false
+    });
+  }
 
   render() {
 
@@ -139,12 +167,27 @@ class Card extends Component {
       classname  = 'tap-card-disabled';
     }
 
+    const RemoveCard = styled.div`
+      position: absolute;
+      right: ${this.props.dir === 'rtl' ? '90px' : 'auto'};
+      left: ${this.props.dir === 'ltr' ? '90px' : 'auto'};
+      top: -7px;
+      cursor: pointer;
+    `
+    // <CircularProgressBar style={{opacity: this.state.fade ? 0 : 1}} sqSize="50" strokeWidth="2" percentage={this.state.percentage}/>
+
     return (
       <div className={'tap-card ' + this.state.delete_card}>
 
         {this.state.loading ?
         <div className="tap-progressbar-container" style={{opacity: this.state.fade ? 0 : 1}}>
-          <CircularProgressBar style={{opacity: this.state.fade ? 0 : 1}} sqSize="50" strokeWidth="2" percentage={this.state.percentage}/>
+          <div style={{width: '40px', height: '40px', margin: '0px 10px'}}>
+            <Loader
+              toggleAnimation={this.state.delete}
+              animationData={oneRingLoader}
+              duration={3}
+            />
+          </div>
         </div> :  null}
 
         <div
@@ -152,13 +195,13 @@ class Card extends Component {
           id={this.props.id}
           dataindex={this.props.index}
           ref={(node) => this.cardRef = node}
-          dir={this.props.dir}
+          dir='ltr'
           style={this.props.style ? Object.assign({}, this.state.styles, this.props.style) : this.state.styles}
           onClick={this.handleCustomerCards.bind(this)}>
             {this.state.shake ?
-              <div className="tap-remove-card" onClick={this.deleteCard.bind(this)}>
+              <RemoveCard onClick={this.deleteCard.bind(this)}>
                   <img src={deleteIcon} width="18" height="18" alt="Delete the saved card"/>
-              </div>
+              </RemoveCard>
            : null}
 
             <React.Fragment>

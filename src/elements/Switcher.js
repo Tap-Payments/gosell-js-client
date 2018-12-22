@@ -5,42 +5,45 @@ class Switcher extends Component {
 
   constructor(props){
     super(props);
-
     this.state = {
-      enabled: false
+      // enabled: this.props.enabled
     }
-    this.check = this.check.bind(this);
-
   }
 
-  componentWillReceiveProps(nextProps){
-    console.log('updated', nextProps.enabled);
-    this.setState({
-      enabled: nextProps.enabled
-    });
-  }
+  // componentWillReceiveProps(nextProps){
+  //   this.setState({
+  //     enabled: nextProps.enabled
+  //   });
+  // }
 
-  check(e){
-    this.refs.check.checked = true;
-
+  check(){
+    // e.preventDefault();
     var self = this;
-    setTimeout(function(){
-      if(self.state.enabled){
-        console.log('run');
-        self.props.onClick(true);
-      }
-      else {
-        console.log('stop');
-        self.refs.check.checked = false;
-      }
-    }, 200);
+
+    if(self.props.store.configStore.transaction_mode != 'save_card'){
+      setTimeout(function(){
+          console.log('it is not save card');
+          self.props.store.paymentStore.saveCardOption(!self.props.store.paymentStore.save_card_option);
+
+          if(!self.props.store.paymentStore.save_card_active){
+            self.props.store.paymentStore.saveCardOption(false);
+            self.refs.check.checked = false;
+          }
+      }, 500);
+    }
+    else if(self.props.store.configStore.transaction_mode === 'save_card'){
+      console.log('it is save card');
+      self.props.store.paymentStore.saveCardOption(true);
+      self.refs.check.checked = true;
+    }
+
   }
 
   render() {
-
+//onClick={this.props.handleClick}
     return (
-      <label className="form-switch" onClick={this.props.handleClick} style={this.props.style}>
-        <input ref="check" type="checkbox" onChange={this.check}/>
+      <label className="form-switch" style={this.props.style}>
+        <input ref="check" type="checkbox" onChange={() => this.check()} />
         <i></i>
       </label>
     );

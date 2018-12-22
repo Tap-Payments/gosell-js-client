@@ -117,6 +117,13 @@ class ReactCodeInput extends Component {
       value = value.replace(/[^\d]/g, '');
     }
 
+
+    if(this.state.type === "otpCode") {
+      value = this.containsArabicNumber(value) ? this.convert(value) :  value;
+      value = value.replace(/[^\d]/g, '');
+    }
+
+
     /** Filter Chars */
     value = value.split('').filter(currChar => !filterChars.includes(currChar)).join('');
 
@@ -238,6 +245,25 @@ class ReactCodeInput extends Component {
     this.handleTouch(value);
   }
 
+  containsArabicNumber(text){
+    var reg = /[٠١٢٣٤٥٦٧٨٩]/;
+    return reg.test(text);
+  }
+
+  convert(input){
+    let unicode = ['٠','٩','٨','٧','٦','٥','٤','٣','٢','١'];
+    let english = ['0','9', '8', '7', '6', '5', '4', '3', '2', '1'];
+    let string;
+
+    for(let i=0; i<unicode.length; i++) {
+      if(input.includes(unicode[i])) {
+        input = input.replace(unicode[i],english[i]);
+        // TODO:console.log(input+"replaceAt");
+      }
+    }
+    return input;
+  }
+
   render() {
 
     var { className, style = {}, inputStyle = {}, inputStyleInvalid = {}, type, autoFocus, pattern, inputMode } = this.props,
@@ -327,7 +353,7 @@ ReactCodeInput.defaultProps = {
 };
 
 ReactCodeInput.propTypes = {
-  type: PropTypes.oneOf(['text', 'number', 'password', 'tel']),
+    type: PropTypes.oneOf(['text', 'number', 'password', 'tel','otpCode']),
   fields: PropTypes.number,
   value: PropTypes.string,
   onChange: PropTypes.func,

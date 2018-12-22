@@ -20,6 +20,8 @@ class Modal extends React.Component {
 
     modal.setState({ isOpen: true });
 
+    //console.log('open', modal.state.isOpen);
+
     setTimeout(function(){ modal.setState({ isOpenWait: "showModal animateUp" }); }, 700);
     var mymd = document.getElementById('mymd');
 
@@ -114,8 +116,8 @@ class Modal extends React.Component {
     this.setState({
       isOpen: nextProps.open
     });
-    console.log('is loading from modal', nextProps.isLoading);
-    console.log('is animate from modal', nextProps.animate);
+    // console.log('is loading from modal', nextProps.isLoading);
+    // console.log('is animate from modal', nextProps.animate);
 
      if(!nextProps.isLoading){ // && nextProps.animate
        var self = this;
@@ -135,7 +137,8 @@ class Modal extends React.Component {
   //  console.log('elements', this.element);
     //this.element.remove();
 
-    this.setState({ isOpen: false });
+    this.setState({ isOpen: false, loading: this.props.isLoading, isOpenWait: null, modalStyle: {}, bodyStyle: {}, bodyContainerStyle: {}, dir: 'ltr', width: 400});
+
   }
 
   handleClose(e) {

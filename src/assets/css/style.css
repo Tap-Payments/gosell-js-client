@@ -27,6 +27,12 @@
     background-repeat: no-repeat;
 }
 
+.page{
+  background-image: url(../imgs/thawte.svg);
+  background-position: 90% 90%;
+  background-repeat: no-repeat;
+}
+
 .body-container{
   height: 100%;
 }

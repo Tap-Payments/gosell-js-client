@@ -14,7 +14,8 @@ class Otp extends Component {
     this.state = {
       count: 60,
       running: false,
-      animate: false,
+      animate_btn: false,
+      animate_fields:false,
       active: false,
       updated: false,
       value: null
@@ -71,23 +72,19 @@ class Otp extends Component {
 
     this.setState({
       active: true,
-      animate: true
+      animate_btn: true,
+      updated: false,
     });
 
     setTimeout(function(){
       self.props.store.uIStore.startLoading('loader', 'Please Wait', null);
     }, 1000);
 
-    store.apiStore.chargeAuthentication(this.props.store.paymentStore.authenticate.type, this.state.value).then(result => {
+    store.apiStore.authentication(this.props.store.paymentStore.authenticate.type, this.state.value).then(result => {
 
-      setTimeout(function(){
-          store.uIStore.setOpenModal(false);
-          store.uIStore.load = false;
-          store.uIStore.isLoading = false;
           store.uIStore.stopBtnLoader();
           store.uIStore.setIsActive(null);
           store.paymentStore.selected_card = null;
-       }, 5000);
 
     });
   }
@@ -108,17 +105,18 @@ class Otp extends Component {
   }
 
   resendOTP(){
+     this.setState({
+       animate_btn:false,
+       animate_fields:true,
+       active:false,
+       updated:true,
+     });
 
      this.props.store.apiStore.requestAuthentication().then(result => {
-
          this.setState({
-           animate:false,
-           active:false,
-           updated:true,
            count: this.props.store.paymentStore.otp_resend_interval,
            running: this.props.store.paymentStore.authenticate ? (this.props.store.paymentStore.authenticate.status === 'INITIATED' ? true : false)  : null
          });
-
      })
 
   }
@@ -163,17 +161,17 @@ class Otp extends Component {
     }
 
     return (
-      <Confirm index={1} store={this.props.store} animate_btn={this.state.animate} active_btn={this.state.active} handleBtnClick={this.handleClick.bind(this)}>
+      <Confirm index={1} store={this.props.store} animate_btn={this.state.animate_btn} active_btn={this.state.active} handleBtnClick={this.handleClick.bind(this)}>
 
-          <div className={this.state.animate ? "wrong-entry" : null}>
+          <div className={this.state.animate_fields ? "wrong-entry" : null}>
             <ReactCodeInput
               updated={this.state.updated}
-              type='number'
+              type='otpCode'
               onChange={this.handleChange.bind(this)}
               fields={6} {...props}/>
           </div>
 
-          <div className="tap-details-wrapper">
+          <div className="tap-details-wrapper" dir={this.props.dir}>
             <p className="tap-otp-msg">Please enter the OTP that has been sent to <span className="tap-otp-span">{this.props.store.paymentStore.authenticate ? this.props.store.paymentStore.authenticate.value : null}</span></p>
 
             <div className='tap-otp-settings' style={this.props.dir === 'ltr' ? {textAlign: 'right'} : {textAlign: 'left'}}>

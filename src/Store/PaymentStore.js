@@ -10,6 +10,8 @@ class PaymentStore{
     this.current_amount = 0;
     this.current_currency = {};
     this.settlement_currency = null;
+    this.gcc = ["BHD", "SAR", "AED", "OMR", "QAR", "KWD"];
+    this.currencies = [];
     this.supported_currencies = {};
 
     this.customer_cards = [];
@@ -61,6 +63,7 @@ class PaymentStore{
     // card token details
     this.active_payment_option = null;
     this.active_payment_option_fees = 0;
+    this.active_payment_option_total_amount = 0;
     this.source_id = null;
 
     this.charge = null;
@@ -86,20 +89,78 @@ class PaymentStore{
   }
 
   setCards(value){
+    console.log('from setCards func', value);
     this.customer_cards = value;
     this.customer_cards_by_currency = this.savedCardsByCurrency;
   }
 
-  getCardFees(value){
+  // getCardFees(value){
+  //   var self = this;
+  //   var active = self.payment_methods.filter(function(payment){
+  //     if(value.indexOf(payment.name) >= 0){
+  //       self.active_payment_option_fees = payment.extra_fees ? payment.extra_fees[0].value : 0;
+  //       return payment;
+  //     }
+  //   });
+  //
+  //   self.active_payment_option = active[0];
+  // }
+
+  getFees(value){
     var self = this;
     var active = self.payment_methods.filter(function(payment){
-      if(value.indexOf(payment.name) >= 0){
-        self.active_payment_option_fees = payment.extra_fees ? payment.extra_fees[0].value : 0;
-        return payment;
-      }
+        console.log(value, payment.name);
+        console.log('payment', payment);
+        console.log('what is the problem?????????? ', value.indexOf(payment.name));
+        if(value.indexOf(payment.name) >= 0){
+          if(payment.extra_fees){
+            var total_extra_fees = self.calcExtraFees(payment.extra_fees);
+            self.active_payment_option_fees = total_extra_fees;
+            self.active_payment_option_total_amount = self.current_currency.amount + self.active_payment_option_fees;
+          }
+          else{
+            self.active_payment_option_fees = 0;
+            self.active_payment_option_total_amount = self.current_currency.amount;
+          }
+        }
+      return payment;
     });
 
     self.active_payment_option = active[0];
+  }
+
+  calcExtraFees(fees){
+    var self = this;
+    var total_fees = 0;
+
+    fees.forEach(function(fee){
+      var extra_fee = 0;
+
+      console.log('fee object', fee);
+      if(fee.type.toUpperCase() === "P"){
+        console.log('it is p');
+        extra_fee +=  self.current_currency.amount * fee.value / 100;
+        console.log('fee', extra_fee);
+      }
+      else {
+        if(self.settlement_currency.currency == self.current_currency.currency){
+          console.log('it is f 1');
+          extra_fee += fee.value;
+        }
+        else {
+          console.log('it is f 2');
+          var rate = self.settlement_currency.amount / self.current_currency.amount;
+          console.log('rate', rate);
+          //convert the amount first
+          extra_fee +=  fee.value * rate;
+          console.log('fee', extra_fee);
+        }
+      }
+
+      total_fees += extra_fee;
+
+    });
+    return total_fees;
   }
 
   getPaymentMethods(data, currency){
@@ -108,37 +169,40 @@ class PaymentStore{
 
       data = JSON.parse(data);
       this.setPaymentMethods(data.payment_methods);
-      this.settlement_currency = data.settlement_currency;
       this.setSupportedCurrencies(data.supported_currencies);
 
       if(this.RootStore.configStore.gateway.customerCards){
+        console.log('set cards', data.cards);
         this.setCards(data.cards);
       }
 
       this.sort();
 
+      if(this.RootStore.configStore.transaction_mode === 'save_card' || this.RootStore.configStore.transaction_mode === 'token'){
+        this.supported_currencies = this.setFormSupportedCurrencies(data.supported_currencies);
+      }
+
       var self = this;
+      console.log('settlement_currency >>>>>>>>> ', data.settlement_currency);
 
       if(Array.isArray(this.supported_currencies) && this.supported_currencies.length > 0){
         self.supported_currencies.forEach(function(cur){
 
           if(cur.currency === currency){
-            self.RootStore.configStore.order = cur;
             //self.current_currency = cur;
             self.setCurrentCurrency(cur);
             self.current_amount = cur.amount;
             self.customer_cards_by_currency = self.savedCardsByCurrency;
+            self.RootStore.configStore.order = cur;
+          }
+
+          if(cur.currency == data.settlement_currency){
+            self.settlement_currency = cur;
           }
         });
       }
-      // else {
-      //
-      //   this.RootStore.apiStore.setMsg({
-      //         type: 'warning',
-      //         title: 'Currency is not supported',
-      //         desc: '...'
-      //   });
-      // }
+
+      console.log('settlement currency as object', this.settlement_currency);
 
       this.isLoading = false;
 
@@ -147,6 +211,8 @@ class PaymentStore{
 
   setPaymentMethods(value){
     var self = this;
+
+    this.payment_methods = {};
     var config_payment_methods = this.RootStore.configStore.gateway.supportedPaymentMethods;
 
     if(typeof config_payment_methods === 'object' || Array.isArray(config_payment_methods)){
@@ -202,7 +268,7 @@ class PaymentStore{
       return null;
     }
   }
-  //
+
   // savedCardsByCurrency(){
   //   var self = this;
   //   console.log('currency', self.current_currency);
@@ -252,7 +318,6 @@ class PaymentStore{
       var self = this;
       var selectedCard = null;
       this.cardPayments.forEach(function(card){
-
           if(cardName === card.name){
             selectedCard = card;
           }
@@ -270,14 +335,17 @@ class PaymentStore{
     console.log("current currency", value.currency);
     this.current_currency = value;
     this.customer_cards_by_currency = this.savedCardsByCurrency;
+    this.active_payment_option_total_amount = value.currency;
   }
 
   setSupportedCurrencies(value){
 
     var self = this;
+    this.supported_currencies = {};
     var config_currencies = this.RootStore.configStore.gateway.supportedCurrencies;
 
     if(typeof config_currencies === 'object' || Array.isArray(config_currencies)){
+      self.currencies = config_currencies;
       self.supported_currencies = value.filter(function(el){
           return config_currencies.indexOf(el.currency) >= 0;
       });
@@ -285,23 +353,57 @@ class PaymentStore{
     else {
       switch (config_currencies) {
         case 'all':
+          self.currencies = 'all';
           self.supported_currencies = value;
           break;
         case 'gcc':
+          self.currencies = self.gcc;
           self.supported_currencies = value.filter(function(el){
-            var gcc = ["BHD", "SAR", "AED", "OMR", "QAR", "KWD"];
-            return gcc.indexOf(el.currency) >= 0;
+            return self.gcc.indexOf(el.currency) >= 0;
           });
           break;
         default:
           self.supported_currencies = value;
           break;
       }
+
+      console.log('supported from set supported currencies', this.supported_currencies);
     }
   }
 
+  setFormSupportedCurrencies(value){
+    console.log('this.cardPayments', this.cardPayments);
+    var self = this;
+
+    if(Array.isArray(this.cardPayments)){
+      var self = this;
+      var arr = [];
+
+      self.supported_currencies = value.filter(function(el){
+        self.cardPayments.forEach(function(card){
+          if(card.supported_currencies.indexOf(el.currency) == 0){
+
+            arr.indexOf(el) === -1 ? arr.push(el) : null
+
+          }
+        });
+      });
+
+      return arr;
+    }
+    else {
+      return null;
+    }
+
+    // self.supported_currencies = value.filter(function(el){
+    //     return self.cardPayments.indexOf(el.currency) >= 0;
+    // });
+  }
 
   sort(){
+
+    this.webPayments = [];
+    this.cardPayments = [];
     if(Array.isArray(this.payment_methods)){
       var self = this;
 
@@ -323,8 +425,12 @@ class PaymentStore{
 
   saveCardOption(value){
 
-    if(this.save_card_active && this.card_wallet){
+    console.log('save_card_active', this.save_card_active);
+    console.log('card_wallet',this.card_wallet);
+
+    if(this.card_wallet){
       this.save_card_option = value;
+      console.log('save_card_option',this.save_card_option);
     }
     else {
       this.save_card_option = false;
@@ -339,13 +445,14 @@ decorate(PaymentStore, {
   current_amount: observable,
   settlement_currency: observable,
   supported_currencies: observable,
-
+  currencies:observable,
   //customer cards list
   customer_cards: observable,
   customer_cards_by_currency: observable,
 
   active_payment_option: observable,
   active_payment_option_fees: observable,
+  active_payment_option_total_amount: observable,
   source_id: observable,
 
   webPayments:observable,
@@ -375,5 +482,6 @@ decorate(PaymentStore, {
   authorize: observable,
   charge:observable,
 });
+
 
 export default PaymentStore;

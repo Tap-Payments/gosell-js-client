@@ -13,7 +13,25 @@ import RootStore from '../Store/RootStore.js';
 class GoSell extends Component {
 
   static open(e){
+    RootStore.uIStore.startLoading('loader', 'Please Wait');
+
+    // console.log('mode', mode);
+    //RootStore.uIStore.modal_mode = mode;
+
     RootStore.uIStore.setOpenModal(true);
+
+    setTimeout(function(){
+      RootStore.configStore.configure();
+
+      if(RootStore.configStore.legalConfig){
+        RootStore.apiStore.init().then(result => {
+          console.log('init response', result);
+          if(result != null && result.status === 'success'){
+              RootStore.uIStore.stopLoading();
+          }
+        });
+      }
+    }, 1000);
   }
 
   constructor(props){
@@ -28,43 +46,35 @@ class GoSell extends Component {
 
   componentWillMount() {
     this.handleWindowSizeChange();
-
-    RootStore.uIStore.startLoading('loader', 'Please Wait');
-    RootStore.configStore.config(this.props);
-
+    RootStore.configStore.setConfig(this.props);
   }
+
+  // configure(props){
+  //   RootStore.configStore.config(props);
+  // }
 
   componentDidMount() {
 
-    //getting tap id after successful charge, it uses to call getCharge API and display notifications for the user
     var urlParams = new URLSearchParams(window.location.search);
     var tap_id = null;
 
-     if(urlParams.has('tap_id')){
+    if(urlParams.has('tap_id')){
+      RootStore.uIStore.startLoading('loader', 'Please Wait');
+      RootStore.uIStore.setOpenModal(true);
+
       tap_id = urlParams.get('tap_id');
-     }
-
-    RootStore.uIStore.notifications = this.props.notifications;
-
-    RootStore.apiStore.init(tap_id).then(result => {
-
-      if(result == null || result.status !== 'success'){
-        RootStore.uIStore.stopLoading();
-        RootStore.uIStore.setOpenModal(false);
-      }
-      else {
-        RootStore.uIStore.stopLoading();
-      }
-
-    });
+      RootStore.apiStore.getTransactionResult(tap_id).then(result => {
+        console.log('init response', result);
+        console.log('url', RootStore.configStore.redirect_url);
+      });
+    }
 
     window.addEventListener('resize', this.handleWindowSizeChange);
-    //window.addEventListener('resize', this.handleUI);
   }
 
-  componentWillReceiveProps(nextProps){
-    RootStore.uIStore.setOpenModal(nextProps.open);
-  }
+  // componentWillReceiveProps(nextProps){
+  //   RootStore.uIStore.setOpenModal(nextProps.open);
+  // }
 
   // make sure to remove the listener
   // when the component is not mounted anymore
@@ -83,12 +93,11 @@ class GoSell extends Component {
       RootStore.uIStore.setIsMobile(false);
       this.handleUI();
     }
-
   };
 
   handleClose(){
-    RootStore.uIStore.setOpenModal(false);
-    RootStore.apiStore.getErrorHandler.visable = false;
+      RootStore.uIStore.setOpenModal(false);
+      RootStore.uIStore.getErrorHandler.visable = false;
   }
 
   handleUI(){
@@ -115,7 +124,7 @@ class GoSell extends Component {
         mode: 'advanced',
         modalStyle: {
           'modal': {width:'400px',height: 'fit-content'},
-          'body': {backgroundColor: '#E9E9E9', height: 'fit-content', minHeight: '450px'}
+          'body': {backgroundColor: '#E9E9E9', height: 'fit-content', minHeight: '227px'}
         },
         headerStyle: {
           'header': {backgroundColor: '#F7F7F7', height: '100px'},
@@ -127,62 +136,46 @@ class GoSell extends Component {
   }
 
   handleClick(){
-    if(RootStore.uIStore.getActivePage === 1 && RootStore.uIStore.getSubPage === 1){
-      RootStore.uIStore.getIsMobile ? RootStore.uIStore.setSubPage(1) : RootStore.uIStore.setSubPage(-1);
-      RootStore.uIStore.setActivePage(0);
-    }
-    else if(RootStore.uIStore.getActivePage === 1 && RootStore.uIStore.getSubPage === 0){
-      RootStore.uIStore.setActivePage(0);
-      RootStore.uIStore.setSubPage(1);
-      RootStore.uIStore.setActivePage(1);
-    }
-    else{
-      RootStore.uIStore.setSubPage(1);
-      RootStore.uIStore.setActivePage(1);
-    }
+    RootStore.actionStore.handleBusinessInfoClick();
   }
 
   closeNotification(){
-    RootStore.apiStore.getErrorHandler.visable = false;
+    RootStore.uIStore.getErrorHandler.visable = false;
   }
 
+  closeModal(){
+    var urlParams = new URLSearchParams(window.location.search);
+
+    if(urlParams.has('tap_id')){
+      window.open(RootStore.configStore.redirect_url, '_self');
+    }
+    else {
+      RootStore.uIStore.setOpenModal(false);
+    }
+  }
 
   render() {
 
-    // var msg = null;
-
-    // if(this.props.notifications != null){
-    //   msg = document.getElementById(this.props.notifications).innerHTML = RootStore.apiStore.getErrorHandler.msg;
-    // //  document.body.appendChild(msg);
-    // }
-//{this.props.notifications === 'standard' ?   RootStore.uIStore.getLoadingStatus
-//: null}
-
     return(
         <React.Fragment>
-
-            <NotificationBar
-              mode={RootStore.apiStore.getErrorHandler.type}
-              close={this.closeNotification.bind(this)}
-              show={RootStore.apiStore.getErrorHandler.visable}
-              options={RootStore.apiStore.getErrorHandler.options}>
-                {RootStore.apiStore.getErrorHandler.msg}
-            </NotificationBar>
+          {RootStore.uIStore.generateCustomNotification}
 
             <Modal id="payment-gateway"
                 open={RootStore.uIStore.getOpenModal}
                 isLoading={RootStore.uIStore.getLoadingStatus}
                 loader={<TapLoader
-                  type={RootStore.apiStore.getMsg.type}
+                  type={RootStore.uIStore.getMsg.type}
                   status={RootStore.uIStore.load}
                   color={'white'}
                   duration={5}
-                  title={RootStore.apiStore.getMsg.title}
-                  desc={RootStore.apiStore.getMsg.desc}
+                  title={RootStore.uIStore.getMsg.title}
+                  desc={RootStore.uIStore.getMsg.desc}
+                  close={RootStore.uIStore.getMsg.handleClose}
+                  handleClose={this.closeModal.bind(this)}
                 />}
                 animate={true}
                 style={this.state.modalStyle}
-                mode={'popup'}
+                mode={RootStore.uIStore.modal_mode}
                 header={<Header
                   dir={RootStore.uIStore.getDir}
                   mode={this.state.mode}
@@ -193,9 +186,10 @@ class GoSell extends Component {
                   onClose={this.handleClose.bind(this)}
                   style={this.state.headerStyle}
                   separator={false}></Header>}>
-                        {RootStore.uIStore.getIsMobile ?
-                          <MobileView store={RootStore} />
-                        : <MainView store={RootStore} /> }
+                  {RootStore.uIStore.getOpenModal ?
+                      (RootStore.uIStore.getIsMobile ?
+                        <MobileView store={RootStore} />
+                      : <MainView store={RootStore} />) : null }
                </Modal>
           </React.Fragment>
       );

@@ -1,7 +1,6 @@
 import React, { Component }  from "react";
-import { GoSell } from "../../src";
+import { GoSellForm } from "../../src";
 import axios from 'axios';
-
 
 const gatewaySettings = {
   publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
@@ -9,10 +8,10 @@ const gatewaySettings = {
   contactInfo:true,
   supportedCurrencies: 'all', // all | gcc | ["KWD", "SAR"]
   supportedPaymentMethods: "all", // all | ["KNET","VISA","MASTERCARD","MADA"]
-  saveCardOption:true,
-  customerCards: true,
+  // saveCardOption:true,
+  // customerCards: true,
   //goPay:false, //goPay in the next version
-  notifications:'standard',
+  notifications:'test',
   labels:{
       cardNumber:"Card Number",
       expirationDate:"MM/YY",
@@ -100,40 +99,31 @@ const chargeSettings = {
     post: "http://localhost:3001"
   }
 
-class App extends Component {
+class App2 extends Component {
 
   constructor(props){
     super(props);
 
-    this.state = {
-      open: false,
-      enable: true,
-      charge_id: null
-    }
+    this.state = {}
   }
 
   handleClick(){
-    GoSell.open();
-
+   GoSellForm.submit();
   }
 
   render() {
     return (
       <div className="App">
-        <p id="test" style={{zIndex: 99999999999999999999}}></p>
-        <button onClick={this.handleClick.bind(this)}>click me</button>
-          <GoSell
+        <GoSellForm
             gateway={gatewaySettings}
-            customer={customerDetails}
-            order={orders}
-            charge={chargeSettings}
-            //authorize={authorizeSettings}
-           //saveCard={true}
-            // token={true}
-            />
+            //customer={customerDetails}
+            //saveCard={true}
+            token={true}/>
+        <button onClick={this.handleClick.bind(this)}>Save</button>
+        <p id="test">Hey</p>
       </div>
     );
   }
 }
 
-export default App;
+export default App2;

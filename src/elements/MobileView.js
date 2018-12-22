@@ -25,7 +25,10 @@ class MobileView extends Component {
         axis={store.uIStore.getDir === 'ltr'? "x" : "x-reverse"}
         animateHeight={false}
         disabled={true}>
-        <div><PaymentOptions store={store}/></div>
+        {store.configStore.transaction_mode === 'charge' || store.configStore.transaction_mode === 'authorize' ?
+        <PaymentOptions store={store} />
+        : <SaveCard store={store}/>}
+
         <div style={{height: '100%', position:'relative'}}>
         {store.uIStore.getActivePage == 1 ?
            <SwipeableViews
@@ -36,8 +39,12 @@ class MobileView extends Component {
              }}
              axis={store.uIStore.getDir === 'ltr'? "x" : "x-reverse"}
              index={store.uIStore.getSubPage}>
-              <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.getDir} store={store}/>
-              <BusinessInfo store={store} width="100%"/>
+              {store.paymentStore.supported_currencies && store.paymentStore.supported_currencies.length > 0 ?
+                <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.getDir} store={store}/>
+              : null}
+              {store.merchantStore.contact && Object.keys(store.merchantStore.contact).length > 0 ?
+                <BusinessInfo store={store} width="100%"/>
+              : null}
 
             </SwipeableViews>
             :null}
