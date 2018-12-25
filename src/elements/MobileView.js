@@ -3,7 +3,6 @@ import {observer} from 'mobx-react';
 import PaymentOptions from './PaymentOptions';
 import SupportedCurrencies from './SupportedCurrencies';
 import BusinessInfo from './BusinessInfo';
-import InlineMenu from './InlineMenu';
 import Otp from './Otp';
 import SwipeableViews from 'react-swipeable-views';
 

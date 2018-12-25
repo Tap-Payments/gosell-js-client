@@ -100,7 +100,7 @@ class NotificationBar extends Component{
     this.setState({
       show: false
     });
-    this.props.close();
+    this.props.close ? this.props.close() : null;
   }
 
   render(){

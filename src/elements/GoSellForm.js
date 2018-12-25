@@ -2,8 +2,8 @@ import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
 import '../assets/fonts/fonts.css';
 import {NotificationBar} from '../lib/modal/';
-import RootStore from '../Store/RootStore.js';
-import CardsForm from '../elements/CardsForm.js';
+import RootStore from '../store/RootStore.js';
+import CardsForm from './CardsForm.js';
 
 class GoSellForm extends Component {
 
@@ -11,9 +11,13 @@ class GoSellForm extends Component {
     super(props);
   }
 
+  static submit(){
+    RootStore.formStore.generateToken();
+  }
+
   componentWillMount() {
     console.log('props', this.props);
-    RootStore.configStore.setConfig(this.props);
+    RootStore.configStore.setConfig(this.props, 'GOSELLFORM');
     RootStore.configStore.configure();
   }
 
@@ -49,7 +53,7 @@ class GoSellForm extends Component {
     return(
         <React.Fragment>
             {RootStore.uIStore.generateCustomNotification}
-            <CardsForm store={RootStore} saveCardOption={false}/>
+            <CardsForm store={RootStore} />
           </React.Fragment>
       );
 

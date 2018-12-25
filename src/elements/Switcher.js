@@ -6,14 +6,15 @@ class Switcher extends Component {
   constructor(props){
     super(props);
     this.state = {
-      // enabled: this.props.enabled
+      // enabled: false
     }
   }
 
   // componentWillReceiveProps(nextProps){
   //   this.setState({
-  //     enabled: nextProps.enabled
+  //     enabled: nextProps.store.paymentStore.save_card_option
   //   });
+  //
   // }
 
   check(){
@@ -28,6 +29,9 @@ class Switcher extends Component {
           if(!self.props.store.paymentStore.save_card_active){
             self.props.store.paymentStore.saveCardOption(false);
             self.refs.check.checked = false;
+            // self.setState({
+            //   enabled: false
+            // });
           }
       }, 500);
     }
@@ -35,15 +39,17 @@ class Switcher extends Component {
       console.log('it is save card');
       self.props.store.paymentStore.saveCardOption(true);
       self.refs.check.checked = true;
-    }
 
+      // self.setState({
+      //   enabled: true
+      // });
+    }
   }
 
   render() {
-//onClick={this.props.handleClick}
     return (
       <label className="form-switch" style={this.props.style}>
-        <input ref="check" type="checkbox" onChange={() => this.check()} />
+        <input ref="check" type="checkbox" onChange={() => this.check()}/>
         <i></i>
       </label>
     );

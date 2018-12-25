@@ -1,6 +1,5 @@
 import React, { Component }  from 'react';
 import security from '../assets/imgs/3d-security.svg';
-import '../assets/css/btn.css';
 import styled from "styled-components";
 import '../assets/css/msg.css';
 import errorIcon from '../assets/imgs/error-icon.svg';

@@ -8,15 +8,12 @@ import '../assets/css/style.css';
 import MainView from './MainView';
 import MobileView from './MobileView';
 import TapLoader from './TapLoader';
-import RootStore from '../Store/RootStore.js';
+import RootStore from '../store/RootStore.js';
 
 class GoSell extends Component {
 
   static open(e){
     RootStore.uIStore.startLoading('loader', 'Please Wait');
-
-    // console.log('mode', mode);
-    //RootStore.uIStore.modal_mode = mode;
 
     RootStore.uIStore.setOpenModal(true);
 
@@ -46,7 +43,7 @@ class GoSell extends Component {
 
   componentWillMount() {
     this.handleWindowSizeChange();
-    RootStore.configStore.setConfig(this.props);
+    RootStore.configStore.setConfig(this.props, 'GOSELL');
   }
 
   // configure(props){
@@ -137,10 +134,6 @@ class GoSell extends Component {
 
   handleClick(){
     RootStore.actionStore.handleBusinessInfoClick();
-  }
-
-  closeNotification(){
-    RootStore.uIStore.getErrorHandler.visable = false;
   }
 
   closeModal(){

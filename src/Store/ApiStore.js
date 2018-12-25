@@ -73,7 +73,7 @@ class ApiStore{
     console.log('session', headers);
 
     var mode = null;
-    switch (this.RootStore.configStore.transaction_mode) {
+    switch (this.RootStore.configStore.transaction_mode){
       case 'charge':
         mode = "PURCHASE";
         break;

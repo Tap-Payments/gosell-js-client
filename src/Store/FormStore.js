@@ -8,9 +8,16 @@ class FormStore{
 
     this.currencyCode = null;
     this.lock = false;
+    this.tap = null;
+    this.card = null;
     this._apiKey = null;
-    this._encryption_key = 'sdfds';
-    this.tds='';
+    this._encryption_key = '';
+    this.tds = '';
+
+    this.hide = null;
+
+    this.checkFocus = this.checkFocus.bind(this);
+    this.generateToken = this.generateToken.bind(this);
   }
 
   objectToQueryString(obj, prefix) {
@@ -78,9 +85,9 @@ class FormStore{
           var e = window.location.protocol,
           t = -1 !== ["https:", "file:"].indexOf(e),
           n = -1 !== ["localhost", "127.0.0.1", "0.0.0.0"].indexOf(window.location.hostname),
-          o = "Live Tapjsli.js integrations must use HTTPS. For more information: ";
+          o = "Live goSell Card Form integrations must use HTTPS. For more information: ";
           if (!t) {
-              window.console && console.warn("You may test your Tapjsli.js integration over HTTP. However, live Tapjsli.js integrations must use HTTPS.")
+              window.console && console.warn("You may test your goSell Card Form integration over HTTP. However, live goSell Card Form integrations must use HTTPS.")
           } else {
               window.console && console.warn(o)
           }
@@ -88,7 +95,9 @@ class FormStore{
       };
       if ("" === key) throw new Error("Please call Tapjsli() with your publishable key. You used an empty string.");
       if (0 === key.indexOf("sk_")) throw new Error("You should not use your secret key.\n Please pass a publishable key instead.");
+
       _ensureHTTPS(key);
+
       try {
 
         self._apiKey = key;
@@ -182,7 +191,7 @@ class FormStore{
           }
           self.elements.card.mount= function(id){
               var s = document.querySelector(id);
-              s.parentNode.style.maxWidth="400px";
+              //s.parentNode.style.maxWidth="400px";
               var d = document.createElement("div");
               d.setAttribute("id",'privateTapElement');
               d.setAttribute("style",'height:inherit;margin: 0px !important; padding: 0px !important; border: medium none !important; display: block !important; background: transparent none repeat scroll 0% 0% !important; position: relative !important; opacity: 1 !important; width:100%;');
@@ -270,11 +279,189 @@ class FormStore{
       return this;
   }
 
+  generateCardForm(){
+    var self = this;
+
+    this.tap = this.generateForm(this.RootStore.configStore.gateway.publicKey);
+
+    var elements = this.tap.elements({});
+
+    var style = this.RootStore.configStore.style;
+
+    var paymentOptions = {};
+
+    console.log('current currency', this.RootStore.paymentStore.current_currency);
+
+    if(this.RootStore.configStore.transaction_mode === 'get_token' || this.RootStore.configStore.transaction_mode === 'save_card'){
+        paymentOptions = {
+         currencyCode: this.RootStore.paymentStore.currencies,
+         labels : this.RootStore.configStore.labels,
+         paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
+         TextDirection: this.RootStore.paymentStore.getDir
+       }
+    }
+    else {
+       paymentOptions = {
+        currencyCode: [this.RootStore.paymentStore.current_currency.currency],
+        labels : this.RootStore.configStore.labels,
+        paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
+        TextDirection: this.RootStore.paymentStore.getDir
+      }
+    }
+
+
+    this.card = elements.create('card', {style: style}, paymentOptions);
+    this.card.mount('#element-container');
+
+    var bin = true;
+    var active_brand = null;
+
+    this.card.addEventListener('change', function(event) {
+      console.log('event', event);
+
+      if(event.code == 200){
+        self.RootStore.paymentStore.save_card_active = true;
+        self.RootStore.uIStore.setIsActive('FORM');
+        self.RootStore.uIStore.payBtn(true);
+
+        if(self.RootStore.configStore.transaction_mode === 'save_card'){
+          self.RootStore.paymentStore.saveCardOption(true);
+        }
+      }
+
+      if(event.BIN && event.BIN.card_brand !== active_brand){
+          console.log(event.BIN.card_brand);
+
+          if(self.RootStore.configStore.view !== 'GOSELLFORM'){
+            self.RootStore.paymentStore.getFees(event.BIN.card_brand);
+          }
+
+          console.log(active_brand, event.BIN);
+          active_brand = event.BIN.card_brand;
+      }
+
+      // if(event.loaded){
+      //   console.log('loaded!!!!! ', event.loaded);
+      //   self.RootStore.uIStore.JSLibisLoading = true;
+      // }
+
+      if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
+
+        self.RootStore.paymentStore.save_card_active = false;
+        self.RootStore.paymentStore.saveCardOption(false);
+        self.RootStore.uIStore.payBtn(false);
+
+        if(event.error_interactive){
+          self.RootStore.uIStore.setErrorHandler({
+            visable: true,
+            code: event.error_interactive.code,
+            msg: event.error_interactive.message,
+            type: 'error'
+          });
+        }
+
+      	if(event.error && event.error.code && (event.error.code === 409 || event.error.code === 403)){
+      		//hide form here
+          self.hide = true;
+
+          if(event.error.code === 403){
+            self.RootStore.uIStore.setErrorHandler({
+              visable: true,
+              code: event.error.code,
+              msg: event.error.message,
+              type: 'error'
+            });
+          }
+      	}
+        else {
+          self.hide = false;
+        }
+      }
+    });
+
+  }
+
+  checkFocus() {
+
+    var self = this;
+    var statusFocus = null;
+
+    var isfocused = document.getElementById("myFrame");
+
+        if(document.activeElement == isfocused) {
+          if(statusFocus != false){
+              statusFocus=false;
+              //console.log('in focus');
+              // if(self.RootStore.configStore.view !== 'GOSELLFORM'){
+                self.RootStore.actionStore.cardFormHandleClick();
+              // }
+              //return {"statusFocus":statusFocus,'message':"iframe has focus"};
+          }
+        } else {
+          if(statusFocus != true){
+              statusFocus=true;
+              //return {"statusFocus":statusFocus,'message':"iframe has not focused"};
+          }
+        }
+
+        return;
+   }
+
+   async generateToken() {
+     var self = this;
+
+     await this.tap.createToken(this.card).then(function(result) {
+
+         if (result.error) {
+            self.RootStore.paymentStore.save_card_active = false;
+            self.RootStore.paymentStore.saveCardOption(false);
+
+            // Inform the user if there was an error
+            self.RootStore.uIStore.setErrorHandler({
+                 visable: true,
+                 code: 0,
+                 msg: result.error.message,
+                 type: 'error'
+            });
+
+         } else {
+               // Send the token to your server
+               self.RootStore.uIStore.setErrorHandler({
+                 visable: true,
+                 code: 200,
+                 msg: result.id,
+                 type: 'success'
+               });
+
+               self.RootStore.uIStore.setIsActive('FORM');
+               console.log('result ----> ', result);
+               self.RootStore.paymentStore.source_id = result.id;
+               self.RootStore.paymentStore.active_payment_option = result.card;
+               console.log('card details', result.card);
+
+         }
+     });
+    }
+
+   clearCardForm(){
+     this.card.clearForm();
+   }
+
+   switchCurrency(value){
+     console.log('switch currencies', value);
+     var currency = value.currency;
+     var v = [currency];
+     console.log('switcher', v);
+     this.card.currency(v);
+   }
+
 }
 
 decorate(FormStore, {
   lock:observable,
-  currencyCode:observable
+  currencyCode:observable,
+  tap:observable,
+  card:observable,
 });
 
 export default FormStore;

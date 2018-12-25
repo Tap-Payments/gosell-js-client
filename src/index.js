@@ -8,17 +8,15 @@ module.exports = {
   GoSell:GoSell,
   GoSellForm:GoSellForm,
   config:function(object) {
-
     ReactDOM.render(
-    <GoSell
-      gateway={object.gateway}
-      customer={object.customer}
-      order={object.order}
-      charge={object.charge}
-      authorize={object.authorize}
-      saveCard={object.saveCard}
-      token={object.token}/>, document.getElementById(object.containerID));
-
+      <GoSell
+        gateway={object.gateway}
+        customer={object.customer}
+        order={object.order}
+        charge={object.charge}
+        authorize={object.authorize}
+        saveCard={object.saveCard}
+        token={object.token}/>, document.getElementById(object.containerID));
   },
   openLightBox:function(){
     module.exports.GoSell.open();
@@ -28,13 +26,13 @@ module.exports = {
     //I should call charge or Authorize API
     window.open('http://', '_self')
   },
-  generateCardElements:function(object){
+  goSellElements:function(object){
     ReactDOM.render(
-    <GoSellForm
-      gateway={object.gateway}
-      customer={object.customer}
-      order={object.order}
-      saveCard={object.saveCard}
-      token={object.token}/>, document.getElementById(object.containerID));
+      <GoSellElements
+        gateway={object.gateway}
+        customer={object.customer}
+        order={object.order}
+        saveCard={object.saveCard}
+        token={object.token}/>, document.getElementById(object.containerID));
   }
 };

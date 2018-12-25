@@ -54,6 +54,8 @@ class UIStore {
     this.errorHandler = {};
     this.msg = {};
 
+    this.closeNotification = this.closeNotification.bind(this);
+
   }
 
   formatNumber(num) {
@@ -238,6 +240,10 @@ class UIStore {
     console.log('pay btn ........... > ', this.pay_btn);
   }
 
+  closeNotification(){
+    this.errorHandler = {};
+  }
+
   computed
   get generateCustomNotification(){
 
@@ -266,7 +272,7 @@ class UIStore {
           <NotificationBar
             mode={this.getErrorHandler.type}
             dir={this.getDir}
-            //close={this.closeNotification.bind(this)}
+            close={this.closeNotification}
             show={this.getErrorHandler.visable}
             options={this.getErrorHandler.options}>
               {this.getErrorHandler.msg}

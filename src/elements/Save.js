@@ -12,7 +12,6 @@ import bill from '../assets/imgs/bill.svg';
 import TapButton from './TapButton';
 import Otp from './Otp';
 import SwipeableViews from 'react-swipeable-views';
-import Slide from './Slide';
 import ExtraFees from './ExtraFees';
 
 const styles = {
@@ -79,20 +78,7 @@ class Save extends Component {
 
     let store = this.props.store;
 
-    var title = '', self = this, cards = {};
-
-    let old = store.configStore.order;
-    let current =  store.paymentStore.current_currency;
-    let old_amount = store.uIStore.formatNumber(old.amount.toFixed(old.decimal_digit));
-    let new_amount = store.uIStore.formatNumber(current.amount.toFixed(current.decimal_digit));
-
-    if(current.currency === old.currency)
-    {
-        title= {'main': old.symbol + ' ' + old_amount }
-    }
-    else {
-        title= {'secondary': old.symbol + ' ' + old_amount, 'main': current.symbol + ' ' + new_amount}
-    }
+    var self = this, cards = {};
 
     return (<div style={{width: '100%', height: '100%', position:'relative'}}>
                   <Separator />

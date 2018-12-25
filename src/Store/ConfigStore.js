@@ -58,10 +58,12 @@ class ConfigStore {
 
     this.notifications = 'standard';
 
+    this.view = '';
   }
 
-  setConfig(value){
+  setConfig(value, view){
     this.config = value;
+    this.view = view;
   }
 
   configure(){
@@ -238,6 +240,7 @@ decorate(ConfigStore, {
   legalConfig: observable,
   config: observable,
   notifications:observable,
+  view:observable,
 });
 
 export default ConfigStore;

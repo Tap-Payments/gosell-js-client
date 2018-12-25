@@ -69,6 +69,8 @@ class ActionStore {
       this.RootStore.uIStore.setIsActive('CARD');
       this.RootStore.paymentStore.selected_card = ref.id;
 
+      this.RootStore.formStore.clearCardForm();
+
       this.RootStore.paymentStore.active_payment_option = obj;
 
       this.RootStore.paymentStore.getFees(this.RootStore.paymentStore.active_payment_option.scheme);
@@ -76,8 +78,8 @@ class ActionStore {
     }
     else {
       this.RootStore.uIStore.setIsActive(null);
-      this.RootStore.paymentStore.selected_card = null;
       this.RootStore.uIStore.confirm = 0;
+      this.RootStore.paymentStore.selected_card = null;
       this.RootStore.paymentStore.active_payment_option = null;
       this.RootStore.paymentStore.active_payment_option_fees = 0;
       this.RootStore.paymentStore.active_payment_option = null;
@@ -87,8 +89,8 @@ class ActionStore {
     }
   }
 
-  cardFormHandleClick(ref){
-
+  cardFormHandleClick(){
+      console.log("hey I'm in cardFormHandleClick");
     // if(ref.id === 'tap-cards-form'){
       this.RootStore.paymentStore.selected_card = null;
 
@@ -103,7 +105,6 @@ class ActionStore {
         this.RootStore.uIStore.payBtn(false);
       }
     // }
-
   }
 
   onPayBtnClick(){
@@ -146,6 +147,8 @@ class ActionStore {
 
   onWebPaymentClick(payment){
     var self = this;
+
+    this.RootStore.formStore.clearCardForm();
 
     if(payment.extra_fees){
       self.RootStore.paymentStore.active_payment_option = payment;

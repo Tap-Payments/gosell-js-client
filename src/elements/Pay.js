@@ -5,7 +5,7 @@ import Label from './Label';
 import Img from './Img';
 import Separator from './Separator';
 import Cards from './Cards';
-import CardsForm from './CardsForm';
+import SaveForm from './SaveForm';
 import closeIcon from '../assets/imgs/close.svg';
 import tapLogo from '../assets/imgs/tapLogo.png';
 import bill from '../assets/imgs/bill.svg';
@@ -67,23 +67,23 @@ class Pay extends Component {
     if(store.uIStore.getIsActive === 'FORM'){
       store.uIStore.startBtnLoader();
       //get card token
-      this.refs.paymentForm.generateToken().then(result => {
-          // console.log('generate token', store.paymentStore.active_payment_option);
-          // store.paymentStore.getFees(store.paymentStore.active_payment_option.brand);
+      store.formStore.generateToken().then(result => {
+         // console.log('generate token', store.paymentStore.active_payment_option);
+         // store.paymentStore.getFees(store.paymentStore.active_payment_option.brand);
 
-          if(store.paymentStore.active_payment_option_fees > 0){
-            store.uIStore.setPageIndex(1);
-            store.uIStore.confirm = 0;
-          }
-          else {
-            store.uIStore.startLoading('loader', 'Please Wait');
+         if(store.paymentStore.active_payment_option_fees > 0){
+           store.uIStore.setPageIndex(1);
+           store.uIStore.confirm = 0;
+         }
+         else {
+           store.uIStore.startLoading('loader', 'Please Wait');
 
-            store.apiStore.handleTransaction(store.paymentStore.source_id, 'FORM', 0.0).then(result =>{
-              console.log(' ......>>>>>>>>> ', result);
-              store.uIStore.stopBtnLoader();
-            });
-          }
-        });
+           store.apiStore.handleTransaction(store.paymentStore.source_id, 'FORM', 0.0).then(result =>{
+             console.log(' ......>>>>>>>>> ', result);
+             store.uIStore.stopBtnLoader();
+           });
+         }
+       });
     }
     else {
       store.actionStore.onPayBtnClick();
@@ -102,18 +102,18 @@ class Pay extends Component {
 
     var title = '', self = this, cards = {};
 
-    let old = store.configStore.order;
-    let current =  store.paymentStore.current_currency;
-    let old_amount = store.uIStore.formatNumber(old.amount.toFixed(old.decimal_digit));
-    let new_amount = store.uIStore.formatNumber(current.amount.toFixed(current.decimal_digit));
-
-    if(current.currency === old.currency)
-    {
-        title= {'main': old.symbol + ' ' + old_amount }
-    }
-    else {
-        title= {'secondary': old.symbol + ' ' + old_amount, 'main': current.symbol + ' ' + new_amount}
-    }
+    // let old = store.configStore.order;
+    // let current =  store.paymentStore.current_currency;
+    // let old_amount = store.uIStore.formatNumber(old.amount.toFixed(old.decimal_digit));
+    // let new_amount = store.uIStore.formatNumber(current.amount.toFixed(current.decimal_digit));
+    //
+    // if(current.currency === old.currency)
+    // {
+    //     title= {'main': old.symbol + ' ' + old_amount }
+    // }
+    // else {
+    //     title= {'secondary': old.symbol + ' ' + old_amount, 'main': current.symbol + ' ' + new_amount}
+    // }
 
     const WebPayments = store.paymentStore.getWebPaymentsByCurrency.map((payment, index) =>
 
@@ -142,7 +142,7 @@ class Pay extends Component {
 
       console.log('customer cards by currency from pay.js', store.paymentStore.customer_cards_by_currency);
 
-     var total = store.paymentStore.active_payment_option_total_amount > 0 ? store.paymentStore.current_currency.symbol + store.uIStore.formatNumber(store.paymentStore.active_payment_option_total_amount.toFixed(current.decimal_digit)) : '';
+     var total = store.paymentStore.active_payment_option_total_amount > 0 ? store.paymentStore.current_currency.symbol + store.uIStore.formatNumber(store.paymentStore.active_payment_option_total_amount.toFixed(store.paymentStore.current_currency.decimal_digit)) : '';
      console.log('pay status !!!!!!!!!!!!!!!!!!!!!!!!1!!!!', store.uIStore.pay_btn);
      return (
         <SwipeableViews
@@ -170,7 +170,7 @@ class Pay extends Component {
                       store.uIStore.getDir === 'ltr' ?
                       {borderRight: '0.5px solid rgba(0, 0, 0, 0.17)'}
                        : {borderLeft: '0.5px solid rgba(0, 0, 0, 0.17)'}}/>}
-                    rowTitle={title}
+                    rowTitle={this.props.store.paymentStore.getCurrentValue}
                     onClick={this.props.store.actionStore.currenciesHandleClick}
                     addArrow={true}/>
                   :
@@ -201,7 +201,7 @@ class Pay extends Component {
                   : null }
 
                   {store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
-                    <CardsForm ref="paymentForm" store={store} saveCardOption={true}/>
+                    <SaveForm store={store}/>
                   : null }
 
                   <div style={{height: '86px', position:'relative'}}>

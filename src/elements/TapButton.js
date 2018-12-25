@@ -1,6 +1,5 @@
 import React, { Component }  from 'react';
 import security from '../assets/imgs/3d-security.svg';
-import '../assets/css/btn.css';
 import {Loader} from '@tap-payments/loader';
 import styled from "styled-components";
 import * as animationData from '../assets/loader/white-loader.json';

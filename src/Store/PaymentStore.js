@@ -108,6 +108,7 @@ class PaymentStore{
 
   getFees(value){
     var self = this;
+    console.log('payment methods in getFee', self.payment_methods);
     var active = self.payment_methods.filter(function(payment){
         console.log(value, payment.name);
         console.log('payment', payment);
@@ -203,9 +204,7 @@ class PaymentStore{
       }
 
       console.log('settlement currency as object', this.settlement_currency);
-
       this.isLoading = false;
-
     }
   }
 
@@ -223,6 +222,8 @@ class PaymentStore{
     else {
       self.payment_methods = value;
     }
+
+
   }
 
   computed
@@ -336,10 +337,17 @@ class PaymentStore{
     this.current_currency = value;
     this.customer_cards_by_currency = this.savedCardsByCurrency;
     this.active_payment_option_total_amount = value.currency;
+
+    console.log('is it there? ', this.RootStore.formStore.card);
+
+    if(this.RootStore.formStore.card != null){
+      this.RootStore.formStore.switchCurrency(value);
+      this.RootStore.formStore.clearCardForm();
+      this.RootStore.uIStore.setErrorHandler({});
+    }
   }
 
   setSupportedCurrencies(value){
-
     var self = this;
     this.supported_currencies = {};
     var config_currencies = this.RootStore.configStore.gateway.supportedCurrencies;
@@ -351,7 +359,7 @@ class PaymentStore{
       });
     }
     else {
-      switch (config_currencies) {
+      switch (config_currencies){
         case 'all':
           self.currencies = 'all';
           self.supported_currencies = value;
@@ -428,13 +436,30 @@ class PaymentStore{
     console.log('save_card_active', this.save_card_active);
     console.log('card_wallet',this.card_wallet);
 
-    if(this.card_wallet){
-      this.save_card_option = value;
+    if(this.save_card_active && this.card_wallet){
+      this.save_card_option = true;
       console.log('save_card_option',this.save_card_option);
     }
     else {
       this.save_card_option = false;
     }
+  }
+
+  computed
+  get getCurrentValue(){
+    let old = this.RootStore.configStore.order;
+    let current =  this.RootStore.paymentStore.current_currency;
+    let old_amount = this.RootStore.uIStore.formatNumber(old.amount.toFixed(old.decimal_digit));
+    let new_amount = this.RootStore.uIStore.formatNumber(current.amount.toFixed(current.decimal_digit));
+
+    var title = {'main': old.symbol + ' ' + old_amount};
+
+    if(current.currency !== old.currency){
+        title = {'main': current.symbol + ' ' + new_amount, 'secondary': old.symbol + ' ' + old_amount}
+    }
+
+    return title;
+
   }
 
 }

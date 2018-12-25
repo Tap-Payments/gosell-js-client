@@ -4,7 +4,6 @@ import '../assets/css/card.css';
 import checkmark from '../assets/imgs/checkmark.svg';
 import deleteIcon from '../assets/imgs/delete.svg';
 import {observer} from 'mobx-react';
-// import CircularProgressBar from './CircularProgressBar';
 import {Loader} from '@tap-payments/loader';
 import * as oneRingLoader from '../assets/loader/white-loader-one-ring.json';
 
@@ -68,34 +67,6 @@ class Card extends Component {
       ]
     });
   }
-
- // startProgressBar(count, limit) {
- //    // var elem = document.getElementById("myBar");
- //    var self= this;
- //    var id = setInterval(frame, 100);
- //    console.log('id', id);
- //
- //    function frame() {
- //      if (count >= limit) {
- //        clearInterval(id);
- //         if(count == 100){
- //            self.setState({
- //              delete: true,
- //              shake: false,
- //              fade: true,
- //              delete_card: 'delete-card-width',
- //            });
- //        }
- //      } else {
- //        if(count < limit){
- //          count++;
- //          self.setState({
- //            percentage: count
- //          });
- //        }
- //      }
- //    }
- //  }
 
   confirmDeleteCard(card_id){
     var self = this;
@@ -174,8 +145,6 @@ class Card extends Component {
       top: -7px;
       cursor: pointer;
     `
-    // <CircularProgressBar style={{opacity: this.state.fade ? 0 : 1}} sqSize="50" strokeWidth="2" percentage={this.state.percentage}/>
-
     return (
       <div className={'tap-card ' + this.state.delete_card}>
 
