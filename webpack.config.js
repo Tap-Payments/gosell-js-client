@@ -1,51 +1,14 @@
-const path = require('path');
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const htmlWebpackPlugin = new HtmlWebpackPlugin({
-    template: path.join(__dirname, "demo/src/index.html"),
-    filename: "./index.html"
-});
-module.exports = {
-    entry: path.join(__dirname, "demo/src/index.js"),
-    output: {
-        path: path.join(__dirname, "demo/dist"),
-        filename: "gosell.js",
-        // library: 'goSell',
-        // globalObject: 'this',
-        // libraryTarget: 'umd'
-    },
-    module: {
-        rules: [
-            {
-                test: /\.(js|jsx)$/,
-                use: "babel-loader",
-                exclude: /node_modules/
-            },
-            {
-                test: /\.css$/,
-                use: ["style-loader", "css-loader"]
-            },
-            {
-                test: /\.(png|jpg|gif|svg|otf)$/,
-                use: [
-                  {
-                    loader: 'file-loader',
-                    options: {}
-                  }
-                ]
-            },
-            {
-              test: /\.(ttf|otf|eot|woff|woff2)$/,
-              use: {
-                loader: "file-loader",
-                options: {
-                  name: "fonts/[name].[ext]",
-                },
-              },
-            }
-        ]
-    },
-    plugins: [htmlWebpackPlugin],
-    resolve: {
-        extensions: [".js", ".jsx"]
-    }
+const common = require("./webpack/webpack.common.js");
+const webpackMerge = require("webpack-merge");
+
+const envs = {
+	development: "dev",
+	production: "prod"
 };
+
+const env = envs[process.env.NODE_ENV || "development"];
+
+/* eslint-disable global-require,import/no-dynamic-require */
+const envConfig = require(`./webpack/webpack.${env}.js`);
+
+module.exports = webpackMerge(common, envConfig);

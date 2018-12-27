@@ -1,0 +1,125 @@
+<html>
+<head>
+    <title>Tap Payment Gateway</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+</head>
+<body>
+    <noscript>
+        You need to enable JavaScript to run this app.
+    </noscript>
+
+    <script type="text/javascript" src="gosell.js"></script>
+
+    <div id="root"></div>
+    <button id="openTap" onclick="goSell.openLightBox()">click me</button>
+
+    <script>
+
+    console.log(self.origin);
+    console.log(window.location.href);
+
+    goSell.config({
+      containerID:"root",
+      gateway:{ //mandatory
+        publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
+        language:"en",
+        contactInfo:true,
+        supportedCurrencies: 'all', // all | gcc | ["KWD", "SAR"]
+        supportedPaymentMethods: "all", // all | ["KNET","VISA","MASTERCARD","MADA"]
+        saveCardOption:true,
+        customerCards: true,
+        //goPay:false, //goPay in the next version
+        notifications:'standard',
+        labels:{
+            cardNumber:"Card Number",
+            expirationDate:"MM/YY",
+            cvv:"CVV",
+            cardHolder:"Name on Card",
+            actionButton:"Pay"
+        },
+        style: {
+            base: {
+              color: '#535353',
+              lineHeight: '18px',
+              fontFamily: 'sans-serif',
+              fontSmoothing: 'antialiased',
+              fontSize: '16px',
+              '::placeholder': {
+                color: 'rgba(0, 0, 0, 0.26)',
+                fontSize:'15px'
+              }
+            },
+            invalid: {
+              color: 'red',
+              iconColor: '#fa755a '
+            }
+        }
+      },
+      customer:{
+        first_name: "Hala",
+        middle_name: "A.",
+        last_name: "Qutmosh",
+        email: "h.qutmosh@tap.company",
+        phone: {
+            country_code: "965",
+            number: "62221019"
+        }
+      },
+      order:{
+        //id:"", next version
+        amount: 100,
+        currency:"KWD",
+        items:null,
+        shipping:null,
+        taxes: null
+      },
+     charge:{
+        saveCard: false,
+        threeDSecure: true,
+        description: "Test Description",
+        statement_descriptor: "Sample",
+        reference:{
+          transaction: "txn_0001",
+          order: "ord_0001"
+        },
+        metadata:{},
+        receipt:{
+          email: false,
+          sms: true
+        },
+        redirect: "http://",
+        post: "http://"
+      },
+     // authorize:{
+     //    auto:{
+     //      type: VOID | CAPTURE,
+     //      time: 100,
+     //    },
+     //    saveCard: false,
+     //    threeDSecure: true,
+     //    description: "Test Description",
+     //    statement_descriptor: "Sample",
+     //    reference:{
+     //      transaction: "txn_0001",
+     //      order: "ord_0001"
+     //    },
+     //    metadata:{},
+     //    receipt:{
+     //      email: false,
+     //      sms: true
+     //    },
+     //    redirect: "http://",
+     //    post: "http://"
+     //  },
+     // saveCard:true,
+     // token: true
+    });
+
+    // goSell.showLightBox();
+    // goSell.showPaymentPage();
+
+    </script>
+</body>
+</html>

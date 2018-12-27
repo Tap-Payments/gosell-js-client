@@ -30,7 +30,7 @@ class MerchantStore {
 
   setDetails(info){
 
-      if(info != null){
+      if(this.RootStore.configStore.contactInfo && info != null){
 
         info = JSON.parse(info).merchant;
 

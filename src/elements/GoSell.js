@@ -151,7 +151,7 @@ class GoSell extends Component {
 
     return(
         <React.Fragment>
-          {RootStore.uIStore.generateCustomNotification}
+           {RootStore.uIStore.generateCustomNotification}
 
             <Modal id="payment-gateway"
                 open={RootStore.uIStore.getOpenModal}
@@ -159,7 +159,7 @@ class GoSell extends Component {
                 loader={<TapLoader
                   type={RootStore.uIStore.getMsg.type}
                   status={RootStore.uIStore.load}
-                  color={'white'}
+                  color={RootStore.uIStore.modal_mode === 'popup' ? 'white' : 'black'}
                   duration={5}
                   title={RootStore.uIStore.getMsg.title}
                   desc={RootStore.uIStore.getMsg.desc}

@@ -2,11 +2,11 @@
 import React, { Component }  from 'react';
 import ReactDOM from 'react-dom';
 import GoSell from './elements/GoSell.js';
-import GoSellForm from './elements/GoSellForm.js';
+import GoSellElements from './elements/GoSellElements.js';
 
 module.exports = {
   GoSell:GoSell,
-  GoSellForm:GoSellForm,
+  GoSellElements:GoSellElements,
   config:function(object) {
     ReactDOM.render(
       <GoSell
@@ -16,7 +16,7 @@ module.exports = {
         charge={object.charge}
         authorize={object.authorize}
         saveCard={object.saveCard}
-        token={object.token}/>, document.getElementById(object.containerID));
+        token={object.token} />, document.getElementById(object.containerID));
   },
   openLightBox:function(){
     module.exports.GoSell.open();
@@ -33,6 +33,6 @@ module.exports = {
         customer={object.customer}
         order={object.order}
         saveCard={object.saveCard}
-        token={object.token}/>, document.getElementById(object.containerID));
+        token={object.token} />, document.getElementById(object.containerID));
   }
 };

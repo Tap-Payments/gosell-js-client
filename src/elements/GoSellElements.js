@@ -5,7 +5,7 @@ import {NotificationBar} from '../lib/modal/';
 import RootStore from '../store/RootStore.js';
 import CardsForm from './CardsForm.js';
 
-class GoSellForm extends Component {
+class GoSellElements extends Component {
 
   constructor(props){
     super(props);
@@ -60,4 +60,4 @@ class GoSellForm extends Component {
   }
 }
 
-export default observer(GoSellForm);
+export default observer(GoSellElements);

@@ -5,13 +5,16 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --mode development",
-    "start": "npm run dev & nodemon client/server.js",
+    "start": "npm run start-dev & npm run start-server",
+    "start-dev": "webpack-dev-server --mode development",
+    "start-prod": "webpack --mode production",
+    "start-server": "nodemon client/server.js",
+    "build": "webpack",
+    "build-prod": "webpack --mode production",
     "transpile": "babel src -d dist --copy-files",
     "prepublishOnly": "npm run transpile",
-    "build": "webpack",
-    "deploy": "gh-pages -d demo/dist",
-    "publish-demo": "npm run build && npm run deploy"
+    "online-demo": "gh-pages -d demo/dist",
+    "publish-all": "npm run build-prod && npm run online-demo"
   },
   "author": "Hala Q. <h.qutmosh@tap.company> (https://tap.company)",
   "license": "ISC",
@@ -48,6 +51,7 @@
     "bluebird": "^3.3.4",
     "body-parser": "^1.18.3",
     "classnames": "^2.2.6",
+    "compression-webpack-plugin": "^2.0.0",
     "express": "^4.16.4",
     "mobx": "^5.5.2",
     "mobx-react": "^5.3.5",
@@ -56,6 +60,8 @@
     "react-router-page-transition": "^3.1.0",
     "react-swipeable-views": "^0.13.0",
     "request": "^2.88.0",
-    "styled-components": "^3.4.10"
+    "styled-components": "^3.4.10",
+    "uglifyjs-webpack-plugin": "^2.1.0",
+    "webpack-merge": "^4.1.5"
   }
 }
