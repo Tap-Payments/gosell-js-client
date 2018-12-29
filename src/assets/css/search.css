@@ -41,36 +41,11 @@
  .tap-searchbar:-moz-placeholder { /* Firefox 18- */
   color: #8E8E93;
 }
-/*
-.tap-input-placeholder{
-  color: #7A797B;
-  line-height: 24px;
-  font-size:14px;
-  font-weight:lighter;
-  position:absolute;
-  pointer-events:none;
-  transition:0.2s ease all;
-  -moz-transition:0.2s ease all;
-  -webkit-transition:0.2s ease all;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin: 0 30px;
 
-}
-*/
 .tap-input-icon{
   position: absolute;
   margin: 0 15px;
 }
-
-/* active state
-input.tap-searchbar:focus ~ .tap-input-placeholder, input.tap-searchbar:valid ~ .tap-input-placeholder {
-  display: none;
-}*/
 
 .tap-input-title{
   margin: 0px 10px;

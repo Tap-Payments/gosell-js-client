@@ -178,7 +178,7 @@ body.modal-open {
     left: 0;
 
     /* semi-transparent black  */
-    background-color: rgba(0,0,0,0.55);
+    background-color: rgba(0,0,0,0.60);
     /* opacity: 0.55; */
 
     /* z-index must be below .modal and above everything else  */
@@ -193,6 +193,11 @@ body.modal-open {
             transform: scale(1.1);
 
   }
+
+.gosell-modal-blur-bg{
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+}
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes bgFadeIn {

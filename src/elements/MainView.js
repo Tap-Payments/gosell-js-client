@@ -19,7 +19,7 @@ class MainView extends Component {
             </SideMenu>
             : null}
 
-            {store.merchantStore.contact && Object.keys(store.merchantStore.contact).length > 0 ?
+            {store.configStore.contactInfo && store.merchantStore.contact && Object.keys(store.merchantStore.contact).length > 0 ?
             <SideMenu id='business-info' dir={store.uIStore.getDir}  animationDuration={'600ms'} expand={store.uIStore.getSubPage === 1 ? true : false} width='200px'>
                 <BusinessInfo store={store} width="60px" style={{width: "60px", backgroundColor: 'rgba(0,0,0,0.25)'}}/>
             </SideMenu>

@@ -67,9 +67,12 @@ class ConfigStore {
   }
 
   configure(){
+    var self = this;
     var value = this.config;
 
-    if(value.charge){
+    console.log('value', value);
+    
+    if(value.charge && value.charge != null){
       this.transaction_mode = 'charge';
       this.charge = value.charge;
 
@@ -96,7 +99,7 @@ class ConfigStore {
         this.legalConfig = false;
       }
     }
-    else if(value.authorize){
+    else if(value.authorize != null){
       this.transaction_mode = 'authorize';
       this.authorize = value.authorize;
       this.redirect_url = value.authorize.redirect;
@@ -163,6 +166,33 @@ class ConfigStore {
         this.gateway = value.gateway;
 
         this.language = value.gateway.language ? value.gateway.language : 'en';
+
+        console.log('supportedCurrencies', value.gateway.supportedCurrencies);
+        console.log('type', typeof value.gateway.supportedCurrencies);
+
+        if(typeof value.gateway.supportedCurrencies == 'object'){
+          var currencies = [];
+          value.gateway.supportedCurrencies.forEach(function(c){
+            currencies.push(c.toUpperCase());
+          });
+
+          this.gateway.supportedCurrencies = currencies;
+        }
+        else {
+          this.gateway.supportedCurrencies = value.gateway.supportedCurrencies.toLowerCase();
+        }
+
+        if(typeof value.gateway.supportedPaymentMethods == 'object'){
+          var methods = [];
+          value.gateway.supportedPaymentMethods.forEach(function(c){
+            methods.push(c.toUpperCase());
+          });
+
+          this.gateway.supportedPaymentMethods = methods;
+        }
+        else {
+          this.gateway.supportedPaymentMethods = value.gateway.supportedPaymentMethods.toLowerCase();
+        }
 
         if(value.gateway.labels && value.gateway.labels.actionButton){
           this.btn = value.gateway.labels.actionButton;

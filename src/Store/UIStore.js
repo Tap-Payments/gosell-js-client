@@ -38,7 +38,7 @@ class UIStore {
 
     //shake the payment cards when the user press edit
     this.shake_cards = false;
-    this.delete_card = false;
+    this.delete_card = null;
     //
     // //display error or Otp when click on the payment button
     // this.slide_up = false;
@@ -116,7 +116,12 @@ class UIStore {
   }
 
   stopLoading(){
-    this.isLoading = false;
+    console.log('payment loader', !this.RootStore.paymentStore.isLoading);
+    console.log('merchant loader', !this.RootStore.merchantStore.isLoading);
+
+    if(!this.RootStore.paymentStore.isLoading && !this.RootStore.merchantStore.isLoading){
+      this.isLoading = false;
+    }
   }
 
   computed
@@ -188,9 +193,12 @@ class UIStore {
 
   setIsActive(value){
     if(value === 'FORM' || value === 'WEB'){
-      this.delete_card = false;
+      this.delete_card = null;
       this.edit_customer_cards = 'Edit';
-      this.shakeCards(false);
+
+      if(this.RootStore.configStore.transaction_mode !== 'get_token' && this.RootStore.configStore.transaction_mode !== 'get_token'){
+        this.shakeCards(false);
+      }
     }
     else {
       this.detete_card = false;
@@ -209,6 +217,7 @@ class UIStore {
     }
     else {
       this.shake_cards = true;
+      this.errorHandler = {};
       this.edit_customer_cards = 'Cancel';
     }
 
@@ -237,10 +246,11 @@ class UIStore {
 
   payBtn(value){
     this.pay_btn = value;
-    console.log('pay btn ........... > ', this.pay_btn);
+    // console.log('pay btn ........... > ', this.pay_btn);
   }
 
   closeNotification(){
+    this.errorHandler.visable = false;
     this.errorHandler = {};
   }
 

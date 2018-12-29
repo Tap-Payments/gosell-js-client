@@ -3,6 +3,8 @@
     <title>Tap Payment Gateway</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="build/tapLogo.png" />
+    <link href="build/css/gosell.css" rel="stylesheet" />
 
 </head>
 <body>
@@ -10,10 +12,11 @@
         You need to enable JavaScript to run this app.
     </noscript>
 
-    <script type="text/javascript" src="gosell.js"></script>
+    <script type="text/javascript" src="build/js/gosell.js"></script>
+
 
     <div id="root"></div>
-    <button id="openTap" onclick="goSell.openLightBox()">click me</button>
+    <button id="openTap" onclick="goSell.openLightBox()">open goSell LightBox</button>
 
     <script>
 
@@ -22,15 +25,15 @@
 
     goSell.config({
       containerID:"root",
-      gateway:{ //mandatory
+      gateway:{
         publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
         language:"en",
         contactInfo:true,
-        supportedCurrencies: 'all', // all | gcc | ["KWD", "SAR"]
-        supportedPaymentMethods: "all", // all | ["KNET","VISA","MASTERCARD","MADA"]
-        saveCardOption:true,
+        supportedCurrencies: ["KWD", "SAR"],
+        supportedPaymentMethods: ["KNET","VISA","MASTERCARD","MADA"],
+        saveCardOption:false,
         customerCards: true,
-        //goPay:false, //goPay in the next version
+        // goPay:false, //goPay in the next version
         notifications:'standard',
         labels:{
             cardNumber:"Card Number",
@@ -58,6 +61,7 @@
         }
       },
       customer:{
+        id:"cus_m1QB0320181401l1LD1812485",
         first_name: "Hala",
         middle_name: "A.",
         last_name: "Qutmosh",
@@ -89,37 +93,38 @@
           email: false,
           sms: true
         },
-        redirect: "http://",
-        post: "http://"
+        redirect: window.location.href,
+        post: window.location.href,
       },
-     // authorize:{
-     //    auto:{
-     //      type: VOID | CAPTURE,
-     //      time: 100,
-     //    },
-     //    saveCard: false,
-     //    threeDSecure: true,
-     //    description: "Test Description",
-     //    statement_descriptor: "Sample",
-     //    reference:{
-     //      transaction: "txn_0001",
-     //      order: "ord_0001"
-     //    },
-     //    metadata:{},
-     //    receipt:{
-     //      email: false,
-     //      sms: true
-     //    },
-     //    redirect: "http://",
-     //    post: "http://"
-     //  },
-     // saveCard:true,
-     // token: true
+     authorize:{
+        auto:{
+          type: "VOID",
+          time: 100,
+        },
+        saveCard: false,
+        threeDSecure: true,
+        description: "Test Description",
+        statement_descriptor: "Sample",
+        reference:{
+          transaction: "txn_0001",
+          order: "ord_0001"
+        },
+        metadata:{},
+        receipt:{
+          email: false,
+          sms: true
+        },
+        redirect: window.location.href,
+        post: window.location.href,
+      },
+     saveCard:false,
+     token: false
     });
 
     // goSell.showLightBox();
     // goSell.showPaymentPage();
 
     </script>
+
 </body>
 </html>

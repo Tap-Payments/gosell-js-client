@@ -195,13 +195,14 @@ class Modal extends React.Component {
             </div>
 
             : this.props.mode === 'popup'?
-            <div className={"modal-background-color "+this.props.close} onClick={this.handleClose}></div> : null
-            }
+              <div className={"modal-background-color "+this.props.close} onClick={this.handleClose}></div> : null}
           </div>
 
         );
       }
     }
+
+
 
     Modal.propTypes = propTypes;
 

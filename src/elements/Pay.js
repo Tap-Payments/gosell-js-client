@@ -102,19 +102,6 @@ class Pay extends Component {
 
     var title = '', self = this, cards = {};
 
-    // let old = store.configStore.order;
-    // let current =  store.paymentStore.current_currency;
-    // let old_amount = store.uIStore.formatNumber(old.amount.toFixed(old.decimal_digit));
-    // let new_amount = store.uIStore.formatNumber(current.amount.toFixed(current.decimal_digit));
-    //
-    // if(current.currency === old.currency)
-    // {
-    //     title= {'main': old.symbol + ' ' + old_amount }
-    // }
-    // else {
-    //     title= {'secondary': old.symbol + ' ' + old_amount, 'main': current.symbol + ' ' + new_amount}
-    // }
-
     const WebPayments = store.paymentStore.getWebPaymentsByCurrency.map((payment, index) =>
 
               <div key={'div-'+index}>
@@ -140,10 +127,8 @@ class Pay extends Component {
           );
       }
 
-      console.log('customer cards by currency from pay.js', store.paymentStore.customer_cards_by_currency);
-
      var total = store.paymentStore.active_payment_option_total_amount > 0 ? store.paymentStore.current_currency.symbol + store.uIStore.formatNumber(store.paymentStore.active_payment_option_total_amount.toFixed(store.paymentStore.current_currency.decimal_digit)) : '';
-     console.log('pay status !!!!!!!!!!!!!!!!!!!!!!!!1!!!!', store.uIStore.pay_btn);
+
      return (
         <SwipeableViews
               containerStyle={{height: '100%', position:'relative'}}
@@ -179,7 +164,7 @@ class Pay extends Component {
                     ref={(node) => this.currencies = node}
                     dir={store.uIStore.getDir}
                     style={styles.row1}
-                    rowTitle={title}
+                    rowTitle={this.props.store.paymentStore.getCurrentValue}
                     onClick={this.props.store.actionStore.currenciesHandleClick}
                     addArrow={false}/>
                   }

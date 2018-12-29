@@ -9,7 +9,6 @@ class NotificationBar extends Component{
         modeStyle: null,
         show: this.props.show ? true : false
       }
-
   }
 
   componentWillMount(){

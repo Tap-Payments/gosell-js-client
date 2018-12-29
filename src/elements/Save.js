@@ -57,9 +57,10 @@ class Save extends Component {
     store.uIStore.startBtnLoader();
 
     if(store.configStore.transaction_mode === 'save_card'){
-      store.paymentStore.save_card_option = true;
+      store.paymentStore.save_card_active = true;
+      store.paymentStore.saveCardOption(true);
 
-      this.refs.paymentForm.generateToken().then(result => {
+      store.formStore.generateToken().then(result => {
         store.apiStore.saveCustomerCard(store.paymentStore.source_id).then(result =>{
           console.log('create card ......>>>>>>>>> ', result);
           store.uIStore.stopBtnLoader();
@@ -67,7 +68,7 @@ class Save extends Component {
       });
     }
     else {
-      this.refs.paymentForm.generateToken().then(result => {
+      store.formStore.generateToken().then(result => {
           console.log('token ......>>>>>>>>> ', result);
           store.uIStore.stopBtnLoader();
       });

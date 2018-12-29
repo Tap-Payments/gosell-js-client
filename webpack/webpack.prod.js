@@ -1,31 +1,28 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const commonPaths = require("./paths");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
 	mode: "production",
 	output: {
-		filename: `${commonPaths.jsFolder}/[name].[hash].js`,
-		path: commonPaths.outputPath,
-		chunkFilename: "[name].[chunkhash].js"
+		filename: `${commonPaths.jsFolder}/[name].js`,
+		path:  commonPaths.outputPath,
+		library: 'goSell',
+		globalObject: 'this',
+		libraryTarget: 'umd'
 	},
 	module: {
 		rules: [
 			{
-				test: /\.(css|scss)$/,
+				test: /\.css$/,
 				use: [
 					MiniCssExtractPlugin.loader,
-					{
-						loader: "css-loader",
-						options: {
-							sourceMap: true,
-							modules: true,
-							localIdentName: "[local]___[hash:base64:5]"
-						}
-					},
+					"css-loader",
 					"sass-loader"
 				]
-			}
+      }
 		]
 	},
 	plugins: [
@@ -34,8 +31,19 @@ module.exports = {
 		}),
 		new MiniCssExtractPlugin({
 			filename: `${commonPaths.cssFolder}/[name].css`,
-			chunkFilename: "[id].css"
-		})
+			chunkFilename: "[name].css"
+		}),
+		new UglifyJSPlugin({
+			cache: true,
+			parallel: true,
+			uglifyOptions: {
+				compress: true,
+				ecma: 6,
+				mangle: true
+			},
+			sourceMap: true
+		}),
+		new CompressionPlugin()
 	],
 	devtool: "source-map"
 };

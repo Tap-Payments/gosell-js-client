@@ -30,7 +30,7 @@ class SupportedCurrencies extends Component {
   }
 
   handleClick = (current) => {
-    
+
       this.props.store.paymentStore.setCurrentCurrency(current);
 
       this.props.store.uIStore.setActivePage(0);
@@ -74,7 +74,7 @@ class SupportedCurrencies extends Component {
             style={{
               'rowContainer': {width: '100%', height: '40px',justifyContent: 'center',
               '&:hover': {
-                backgroundColor: '#454545'
+                backgroundColor: '#343434'
               }},
               'textStyle': {color: 'white', margin: '0'},
               'iconStyle': {padding:'0 6px'}
@@ -88,7 +88,7 @@ class SupportedCurrencies extends Component {
 
 
       return (
-        <div className="supported_currencies" style={this.props.theme === 'inline' ? {height: '100%', background: 'transparent'} : {height: '100%', background: 'rgba(0,0,0,0.25)'}}>
+        <div className="supported_currencies" style={this.props.theme === 'inline' ? {height: '100%', background: 'transparent'} : {height: '100%', background: 'rgba(0,0,0,0.30)'}}>
           {this.props.theme === 'inline'?
               <div>
               <Separator />

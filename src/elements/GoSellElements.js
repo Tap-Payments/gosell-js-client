@@ -11,37 +11,29 @@ class GoSellElements extends Component {
     super(props);
   }
 
-  static submit(){
-    RootStore.formStore.generateToken();
+  static async submit(){
+    await RootStore.formStore.generateToken();
   }
 
   componentWillMount() {
     console.log('props', this.props);
-    RootStore.configStore.setConfig(this.props, 'GOSELLFORM');
+    RootStore.configStore.setConfig(this.props, 'GOSELL_ELEMENTS');
     RootStore.configStore.configure();
   }
 
-  componentDidMount() {
-
-    var urlParams = new URLSearchParams(window.location.search);
-    var tap_id = null;
-
-    if(urlParams.has('tap_id')){
-      RootStore.uIStore.startLoading('loader', 'Please Wait');
-      RootStore.uIStore.setOpenModal(true);
-
-      tap_id = urlParams.get('tap_id');
-      RootStore.apiStore.getTransactionResult(tap_id).then(result => {
-        console.log('init response', result);
-        console.log('url', RootStore.configStore.redirect_url);
-      });
-    }
-
+  componentDidMount(){
+    this.cardForm();
   }
-  // make sure to remove the listener
-  // when the component is not mounted anymore
-  componentWillUnmount() {
-    // window.removeEventListener('resize', this.handleWindowSizeChange);
+
+  cardForm(){
+    RootStore.formStore.generateCardForm();
+     window.setInterval(RootStore.formStore.checkFocus, 10);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('props', nextProps);
+    RootStore.configStore.setConfig(nextProps, 'GOSELL_ELEMENTS');
+    RootStore.configStore.configure();
   }
 
   closeNotification(){
@@ -53,7 +45,11 @@ class GoSellElements extends Component {
     return(
         <React.Fragment>
             {RootStore.uIStore.generateCustomNotification}
-            <CardsForm store={RootStore} />
+
+            <form id="form-container" method="post" ref={(node) => this.cardElementsRef = node}>
+                <div id="element-container"></div>
+            </form>
+
           </React.Fragment>
       );
 

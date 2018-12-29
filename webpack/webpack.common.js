@@ -1,11 +1,13 @@
 const webpack = require("webpack");
 const commonPaths = require("./paths");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
+//	entry: commonPaths.entryPath,
 
 module.exports = {
-	entry: commonPaths.entryPath,
+	entry: {
+    'gosell': commonPaths.entryPath,
+    'gosell-demo': commonPaths.demoPath
+  },
 	module: {
 			rules: [
 					{
@@ -14,24 +16,33 @@ module.exports = {
 							exclude: /node_modules/
 					},
 					{
-							test: /\.css$/,
-							use: ["style-loader", "css-loader"]
-					},
-					{
 							test: /\.(png|jpg|gif|svg|otf|ico)$/,
 							use: [
 								{
-									loader: 'file-loader',
-									options: {}
-								}
-							]
+									loader: "file-loader",
+									options: {
+										name: commonPaths.imgsFolder + '/[name].[hash].[ext]',
+									},
+								},
+						    {
+						      loader: 'image-webpack-loader',
+						      options: {
+										name: commonPaths.imgsFolder + '/[name].[hash].[ext]',
+						        // bypassOnDebug: true, // webpack@1.x
+						        disable: true, // webpack@2.x and newer
+										// svgo: {
+						        //   enabled: true, should be enabled by default
+						        // },
+						      },
+						    },
+						  ],
 					},
 					{
 						test: /\.(ttf|otf|eot|woff|woff2)$/,
 						use: {
 							loader: "file-loader",
 							options: {
-								name: "fonts/[name].[ext]",
+								name: commonPaths.fontsFolder + '/[name].[hash].[ext]',
 							},
 						},
 					}
@@ -51,18 +62,7 @@ module.exports = {
 		new webpack.ProgressPlugin(),
 		new HtmlWebpackPlugin({
 			template: commonPaths.templatePath,
-			favicon: commonPaths.imgPath + '/tapLogo.png'
-		}),
-		new UglifyJSPlugin({
-			cache: true,
-			parallel: true,
-			uglifyOptions: {
-				compress: true,
-				ecma: 6,
-				mangle: true
-			},
-			sourceMap: true
-		}),
-		new CompressionPlugin()
+			favicon: commonPaths.imgsPath + '/tapLogo.png'
+		})
 	]
 };

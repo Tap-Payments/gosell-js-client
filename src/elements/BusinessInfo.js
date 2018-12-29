@@ -21,7 +21,7 @@ class BusinessInfo extends Component {
         alignItems: 'center',
         visibility: 'visible',
         opacity: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.15)',
+        backgroundColor: 'rgba(0, 0, 0, 0.30)',
         padding: '10px'
       }
     }

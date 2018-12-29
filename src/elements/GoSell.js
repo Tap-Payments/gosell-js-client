@@ -13,22 +13,60 @@ import RootStore from '../store/RootStore.js';
 class GoSell extends Component {
 
   static open(e){
+
+    RootStore.uIStore.modal_mode = 'popup';
+    GoSell.handleView();
+
+    setTimeout(function(){
+      if(RootStore.configStore.legalConfig){
+        RootStore.apiStore.init().then(result => {
+          console.log('init response', result);
+          // if(result != null && result.status === 'success'){
+          //     RootStore.uIStore.stopLoading();
+          // }
+        });
+      }
+    }, 1000);
+
+  }
+
+  static openPage(e){
+
+    RootStore.uIStore.modal_mode = 'page';
+
+    GoSell.handleView();
+
+    setTimeout(function(){
+      if(RootStore.configStore.legalConfig){
+        RootStore.apiStore.init().then(result => {
+          console.log('init response', result);
+          // if(result != null && result.status === 'success'){
+          //     RootStore.uIStore.stopLoading();
+          // }
+        });
+      }
+    }, 1000);
+
+  }
+
+  static handleView(){
+    RootStore.uIStore.getErrorHandler.visable = false;
+
     RootStore.uIStore.startLoading('loader', 'Please Wait');
 
     RootStore.uIStore.setOpenModal(true);
 
-    setTimeout(function(){
-      RootStore.configStore.configure();
+    RootStore.configStore.configure();
 
-      if(RootStore.configStore.legalConfig){
-        RootStore.apiStore.init().then(result => {
-          console.log('init response', result);
-          if(result != null && result.status === 'success'){
-              RootStore.uIStore.stopLoading();
-          }
-        });
+    var body =  document.body.children;
+
+    for(var i=0; i<body.length; i++){
+      if(body[i].tagName === 'DIV' && !body[i].classList.contains('modal_container')){
+        console.log('body ', body[i].tagName);
+        body[i].classList.add('gosell-modal-blur-bg');
+        break;
       }
-    }, 1000);
+    }
   }
 
   constructor(props){
@@ -43,12 +81,15 @@ class GoSell extends Component {
 
   componentWillMount() {
     this.handleWindowSizeChange();
+    console.log('props', this.props);
     RootStore.configStore.setConfig(this.props, 'GOSELL');
   }
 
-  // configure(props){
-  //   RootStore.configStore.config(props);
-  // }
+  componentWillReceiveProps(nextProps) {
+    this.handleWindowSizeChange();
+    console.log('nextProps', nextProps);
+    RootStore.configStore.setConfig(nextProps, 'GOSELL');
+  }
 
   componentDidMount() {
 
@@ -56,8 +97,7 @@ class GoSell extends Component {
     var tap_id = null;
 
     if(urlParams.has('tap_id')){
-      RootStore.uIStore.startLoading('loader', 'Please Wait');
-      RootStore.uIStore.setOpenModal(true);
+      GoSell.handleView();
 
       tap_id = urlParams.get('tap_id');
       RootStore.apiStore.getTransactionResult(tap_id).then(result => {
@@ -68,10 +108,6 @@ class GoSell extends Component {
 
     window.addEventListener('resize', this.handleWindowSizeChange);
   }
-
-  // componentWillReceiveProps(nextProps){
-  //   RootStore.uIStore.setOpenModal(nextProps.open);
-  // }
 
   // make sure to remove the listener
   // when the component is not mounted anymore
@@ -95,6 +131,19 @@ class GoSell extends Component {
   handleClose(){
       RootStore.uIStore.setOpenModal(false);
       RootStore.uIStore.getErrorHandler.visable = false;
+      RootStore.uIStore.startLoading('loader', 'Please Wait');
+
+      var body =  document.body.children;
+
+      for(var i=0; i<body.length; i++){
+        if(body[i].tagName === 'DIV' && body[i].classList.contains('gosell-modal-blur-bg')){
+          console.log('body ', body[i]);
+          body[i].classList.remove('gosell-modal-blur-bg');
+          break;
+        }
+      }
+
+
   }
 
   handleUI(){
@@ -143,16 +192,16 @@ class GoSell extends Component {
       window.open(RootStore.configStore.redirect_url, '_self');
     }
     else {
-      RootStore.uIStore.setOpenModal(false);
+      // RootStore.uIStore.setOpenModal(false);
+      this.handleClose();
     }
   }
 
   render() {
+    // {RootStore.uIStore.generateCustomNotification}
 
     return(
         <React.Fragment>
-           {RootStore.uIStore.generateCustomNotification}
-
             <Modal id="payment-gateway"
                 open={RootStore.uIStore.getOpenModal}
                 isLoading={RootStore.uIStore.getLoadingStatus}
@@ -169,6 +218,7 @@ class GoSell extends Component {
                 animate={true}
                 style={this.state.modalStyle}
                 mode={RootStore.uIStore.modal_mode}
+                notification={RootStore.uIStore.generateCustomNotification}
                 header={<Header
                   dir={RootStore.uIStore.getDir}
                   mode={this.state.mode}

@@ -45,11 +45,6 @@ class Cards extends Component {
   editCards(){
     var shake = this.props.store.uIStore.shake_cards;
     this.props.store.uIStore.setIsActive('CARD');
-
-    // this.setState({
-    //   title: shake ? 'Edit' : 'Cancel'
-    // });
-
     this.props.store.uIStore.shakeCards(!shake);
   }
 

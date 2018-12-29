@@ -10,7 +10,6 @@ class ActionStore {
     this.currenciesHandleClick = this.currenciesHandleClick.bind(this);
     this.handleBusinessInfoClick = this.handleBusinessInfoClick.bind(this);
     this.handleCustomerCardsClick = this.handleCustomerCardsClick.bind(this);
-    this.cardFormHandleClick = this.cardFormHandleClick.bind(this);
 
     this.onWebPaymentClick = this.onWebPaymentClick.bind(this);
     this.onPayBtnClick = this.onPayBtnClick.bind(this);
@@ -61,7 +60,7 @@ class ActionStore {
   }
 
   handleCustomerCardsClick(ref, obj){
-    if(this.RootStore.paymentStore.selected_card !== ref.id && !this.RootStore.uIStore.shake_cards && !this.RootStore.uIStore.delete_card){
+    if(this.RootStore.paymentStore.selected_card !== ref.id && !this.RootStore.uIStore.shake_cards && this.RootStore.uIStore.delete_card == null){
 
       this.RootStore.uIStore.setActivePage(0);
       this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
@@ -89,23 +88,24 @@ class ActionStore {
     }
   }
 
-  cardFormHandleClick(){
-      console.log("hey I'm in cardFormHandleClick");
-    // if(ref.id === 'tap-cards-form'){
-      this.RootStore.paymentStore.selected_card = null;
-
-      //clear open menus
-      this.RootStore.uIStore.setActivePage(0);
-      this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
-
-      if(this.RootStore.uIStore.getIsActive !== 'FORM'){
-        this.RootStore.paymentStore.active_payment_option_total_amount = 0;
-        //form is active
-        this.RootStore.uIStore.setIsActive('FORM');
-        this.RootStore.uIStore.payBtn(false);
-      }
-    // }
-  }
+  // cardFormHandleClick(){
+  //   // if(ref.id === 'tap-cards-form'){
+  //     this.RootStore.paymentStore.selected_card = null;
+  //
+  //     //clear open menus
+  //     this.RootStore.uIStore.setActivePage(0);
+  //     this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
+  //
+  //     if(this.RootStore.uIStore.getIsActive !== 'FORM'){
+  //       this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+  //       //form is active
+  //       this.RootStore.uIStore.setIsActive('FORM');
+  //       this.RootStore.uIStore.payBtn(false);
+  //     }
+  //
+  //     this.RootStore.uIStore.setIsActive('FORM');
+  //   // }
+  // }
 
   onPayBtnClick(){
 

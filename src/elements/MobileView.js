@@ -41,7 +41,7 @@ class MobileView extends Component {
               {store.paymentStore.supported_currencies && store.paymentStore.supported_currencies.length > 0 ?
                 <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.getDir} store={store}/>
               : null}
-              {store.merchantStore.contact && Object.keys(store.merchantStore.contact).length > 0 ?
+              {store.configStore.contactInfo && store.merchantStore.contact && Object.keys(store.merchantStore.contact).length > 0 ?
                 <BusinessInfo store={store} width="100%"/>
               : null}
 

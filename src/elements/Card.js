@@ -39,7 +39,8 @@ class Card extends Component {
   componentWillReceiveProps(nextProps){
 
     this.setState({
-      shake: nextProps.shake
+      shake: nextProps.shake,
+      delete:false
     });
   }
 
@@ -48,7 +49,7 @@ class Card extends Component {
   }
 
   deleteCard(){
-    this.props.store.uIStore.delete_card = true;
+    this.props.store.uIStore.delete_card = this.props.id;
     this.props.store.uIStore.shakeCards(false);
 
     this.setState({
@@ -89,7 +90,7 @@ class Card extends Component {
             console.log('updated cards: ', updatedList.cards);
             self.props.store.paymentStore.setCards(updatedList.cards);
             console.log('done?????????? ', self.props.store.paymentStore.customer_cards);
-            self.props.store.uIStore.delete_card = false;
+            self.props.store.uIStore.delete_card = null;
             self.props.store.uIStore.shakeCards(true);
 
              self.setState({
@@ -105,7 +106,7 @@ class Card extends Component {
 
   cancelDeleteCard(){
 
-    this.props.store.uIStore.delete_card = false;
+    this.props.store.uIStore.delete_card = null;
     this.props.store.uIStore.shakeCards(true);
 
     this.setState({
@@ -125,8 +126,8 @@ class Card extends Component {
   }
 
   render() {
-
     var store = this.props.store;
+
     var classname = 'tap-card-container';
     if(store.uIStore.getIsActive === 'CARD' && store.paymentStore.selected_card === this.props.id && !this.props.shake){
       classname  = 'tap-card-container tap-card-active';
@@ -134,7 +135,7 @@ class Card extends Component {
     else if(this.state.shake){
       classname  = 'tap-card-shake';
     }
-    else if(this.state.delete){
+    else if(store.uIStore.delete_card === this.props.id){
       classname  = 'tap-card-disabled';
     }
 

@@ -19,22 +19,27 @@ class PaymentOptions extends Component {
 
     let store = this.props.store;
 
-    switch (store.configStore.transaction_mode) {
-      case 'charge':
-        return (<Pay store={store}/>);
-        break;
-      case 'authorize':
+    if(store.paymentStore.supported_currencies.length > 0){
+      switch (store.configStore.transaction_mode) {
+        case 'charge':
           return (<Pay store={store}/>);
           break;
-      case 'save_card':
-          return (<Save store={store}/>);
-          break;
-      case 'get_token':
-          return (<Save store={store}/>);
-          break;
-      default:
-          return(null);
-          break;
+        case 'authorize':
+            return (<Pay store={store}/>);
+            break;
+        case 'save_card':
+            return (<Save store={store}/>);
+            break;
+        case 'get_token':
+            return (<Save store={store}/>);
+            break;
+        default:
+            return(null);
+            break;
+      }
+    }
+    else{
+      return(null);
     }
 
   }

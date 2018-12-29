@@ -292,23 +292,32 @@ class FormStore{
 
     console.log('current currency', this.RootStore.paymentStore.current_currency);
 
-    if(this.RootStore.configStore.transaction_mode === 'get_token' || this.RootStore.configStore.transaction_mode === 'save_card'){
-        paymentOptions = {
-         currencyCode: this.RootStore.paymentStore.currencies,
-         labels : this.RootStore.configStore.labels,
-         paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
-         TextDirection: this.RootStore.paymentStore.getDir
-       }
+    if(self.RootStore.configStore.view === 'GOSELL_ELEMENTS'){
+      paymentOptions = {
+       currencyCode: this.RootStore.paymentStore.currencies,
+       labels : this.RootStore.configStore.labels,
+       paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
+       TextDirection: this.RootStore.uIStore.getDir
+     }
     }
     else {
-       paymentOptions = {
-        currencyCode: [this.RootStore.paymentStore.current_currency.currency],
-        labels : this.RootStore.configStore.labels,
-        paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
-        TextDirection: this.RootStore.paymentStore.getDir
+      if(this.RootStore.configStore.transaction_mode === 'get_token' || this.RootStore.configStore.transaction_mode === 'save_card'){
+          paymentOptions = {
+           currencyCode: this.RootStore.paymentStore.currencies,
+           labels : this.RootStore.configStore.labels,
+           paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
+           TextDirection: this.RootStore.uIStore.getDir
+         }
+      }
+      else {
+         paymentOptions = {
+          currencyCode: [this.RootStore.paymentStore.current_currency.currency],
+          labels : this.RootStore.configStore.labels,
+          paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
+          TextDirection: this.RootStore.uIStore.getDir
+        }
       }
     }
-
 
     this.card = elements.create('card', {style: style}, paymentOptions);
     this.card.mount('#element-container');
@@ -324,33 +333,19 @@ class FormStore{
         self.RootStore.uIStore.setIsActive('FORM');
         self.RootStore.uIStore.payBtn(true);
 
+        console.log('I am in success');
+
         if(self.RootStore.configStore.transaction_mode === 'save_card'){
           self.RootStore.paymentStore.saveCardOption(true);
         }
       }
-
-      if(event.BIN && event.BIN.card_brand !== active_brand){
-          console.log(event.BIN.card_brand);
-
-          if(self.RootStore.configStore.view !== 'GOSELLFORM'){
-            self.RootStore.paymentStore.getFees(event.BIN.card_brand);
-          }
-
-          console.log(active_brand, event.BIN);
-          active_brand = event.BIN.card_brand;
-      }
-
-      // if(event.loaded){
-      //   console.log('loaded!!!!! ', event.loaded);
-      //   self.RootStore.uIStore.JSLibisLoading = true;
-      // }
-
-      if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
+      else if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
 
         self.RootStore.paymentStore.save_card_active = false;
         self.RootStore.paymentStore.saveCardOption(false);
         self.RootStore.uIStore.payBtn(false);
 
+        console.log('I am in error');
         if(event.error_interactive){
           self.RootStore.uIStore.setErrorHandler({
             visable: true,
@@ -361,6 +356,8 @@ class FormStore{
         }
 
       	if(event.error && event.error.code && (event.error.code === 409 || event.error.code === 403)){
+
+
       		//hide form here
           self.hide = true;
 
@@ -377,6 +374,22 @@ class FormStore{
           self.hide = false;
         }
       }
+
+      if(event.BIN && event.BIN.card_brand !== active_brand){
+          console.log(event.BIN.card_brand);
+
+          if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
+            self.RootStore.paymentStore.getFees(event.BIN.card_brand);
+          }
+
+          console.log(active_brand, event.BIN);
+          active_brand = event.BIN.card_brand;
+      }
+
+      // if(event.loaded){
+      //   console.log('loaded!!!!! ', event.loaded);
+      //   self.RootStore.uIStore.JSLibisLoading = true;
+      // }
     });
 
   }
@@ -392,8 +405,8 @@ class FormStore{
           if(statusFocus != false){
               statusFocus=false;
               //console.log('in focus');
-              // if(self.RootStore.configStore.view !== 'GOSELLFORM'){
-                self.RootStore.actionStore.cardFormHandleClick();
+              // if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
+                self.cardFormHandleClick();
               // }
               //return {"statusFocus":statusFocus,'message':"iframe has focus"};
           }
@@ -405,6 +418,24 @@ class FormStore{
         }
 
         return;
+   }
+
+   cardFormHandleClick(){
+       this.RootStore.paymentStore.selected_card = null;
+
+       //clear open menus
+       this.RootStore.uIStore.setActivePage(0);
+       this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
+
+       if(this.RootStore.uIStore.getIsActive !== 'FORM'){
+         this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+         this.RootStore.uIStore.setErrorHandler({});
+         this.RootStore.uIStore.delete_card = null;
+         this.RootStore.uIStore.payBtn(false);
+       }
+
+       //form is active
+       this.RootStore.uIStore.setIsActive('FORM');
    }
 
    async generateToken() {
@@ -438,13 +469,18 @@ class FormStore{
                self.RootStore.paymentStore.source_id = result.id;
                self.RootStore.paymentStore.active_payment_option = result.card;
                console.log('card details', result.card);
+               self.RootStore.uIStore.stopBtnLoader();
+               self.clearCardForm();
 
          }
      });
     }
 
    clearCardForm(){
-     this.card.clearForm();
+     if(this.card != null){
+       this.card.clearForm();
+     }
+
    }
 
    switchCurrency(value){

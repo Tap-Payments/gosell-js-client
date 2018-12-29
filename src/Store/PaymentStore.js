@@ -10,8 +10,17 @@ class PaymentStore{
     this.current_amount = 0;
     this.current_currency = {};
     this.settlement_currency = null;
+
+    //gcc currrencies list
     this.gcc = ["BHD", "SAR", "AED", "OMR", "QAR", "KWD"];
+
+    // currencies list from config store.
     this.currencies = [];
+
+    //supported currenices for the selected payment methods
+    this.supported_currencies_based_on_methods = [];
+
+    //filtered list of supported currencies
     this.supported_currencies = {};
 
     this.customer_cards = [];
@@ -36,19 +45,6 @@ class PaymentStore{
 
     this.isLoading = true;
 
-/* from here */
-    // this.currency = null;
-    // this.amount = null;
-    // this.customer = null;
-    //
-    // this.charge_id = null;
-    // this.authorize_id = null;
-    //
-    // this.ref = null;
-    // this.tranx_desc = null;
-    // this.receipt = null;
-    // this.statement_descriptor = null;
-
     this.transaction = null;
 
     //otp
@@ -57,8 +53,6 @@ class PaymentStore{
     this.otp_resend_attempts = 0;
 
     this.authenticate = null;
-
-    // this.authorize = false;
 
     // card token details
     this.active_payment_option = null;
@@ -89,9 +83,12 @@ class PaymentStore{
   }
 
   setCards(value){
-    console.log('from setCards func', value);
-    this.customer_cards = value;
-    this.customer_cards_by_currency = this.savedCardsByCurrency;
+    console.log('customer card', this.RootStore.configStore.gateway.customerCards);
+    if(this.RootStore.configStore.gateway.customerCards){
+      this.customer_cards = value;
+      this.customer_cards_by_currency = this.savedCardsByCurrency;
+    }
+
   }
 
   // getCardFees(value){
@@ -172,6 +169,7 @@ class PaymentStore{
       this.setPaymentMethods(data.payment_methods);
       this.setSupportedCurrencies(data.supported_currencies);
 
+      console.log('customerCards: ', this.RootStore.configStore.gateway.customerCards);
       if(this.RootStore.configStore.gateway.customerCards){
         console.log('set cards', data.cards);
         this.setCards(data.cards);
@@ -184,8 +182,9 @@ class PaymentStore{
       }
 
       var self = this;
-      console.log('settlement_currency >>>>>>>>> ', data.settlement_currency);
 
+      console.log('array ???????????? ', Array.isArray(this.supported_currencies) && this.supported_currencies.length > 0);
+      console.log('supported', this.supported_currencies);
       if(Array.isArray(this.supported_currencies) && this.supported_currencies.length > 0){
         self.supported_currencies.forEach(function(cur){
 
@@ -201,10 +200,13 @@ class PaymentStore{
             self.settlement_currency = cur;
           }
         });
-      }
 
-      console.log('settlement currency as object', this.settlement_currency);
-      this.isLoading = false;
+        this.isLoading = false;
+      }
+      else {
+        this.isLoading = true;
+        this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the goSell configuration", null);
+      }
     }
   }
 
@@ -216,14 +218,21 @@ class PaymentStore{
 
     if(typeof config_payment_methods === 'object' || Array.isArray(config_payment_methods)){
       self.payment_methods = value.filter(function(el){
-          return config_payment_methods.indexOf(el.name) >= 0;
+        return config_payment_methods.indexOf(el.name) >= 0;
       });
+
     }
     else {
       self.payment_methods = value;
     }
 
-
+    self.payment_methods.filter(function(el){
+      el.supported_currencies.forEach(function(cur){
+        if(self.supported_currencies_based_on_methods.indexOf(cur) < 0){
+          self.supported_currencies_based_on_methods.push(cur)
+        }
+      });
+    });
   }
 
   computed
@@ -295,8 +304,9 @@ class PaymentStore{
   computed
   get savedCardsByCurrency(){
     var self = this;
-    console.log('savedCardsByCurrency', self.current_currency.currency);
-    if(Array.isArray(this.customer_cards)){
+
+    if((Array.isArray(this.cardPayments) && this.cardPayments.length > 0)
+      && (Array.isArray(this.customer_cards) && this.customer_cards.length > 0)){
       var arr = [];
       this.customer_cards.forEach(function(card){
         var curs = card.supported_currencies;
@@ -306,7 +316,6 @@ class PaymentStore{
           }
         }
       });
-
       return arr;
     }
     else {
@@ -315,7 +324,7 @@ class PaymentStore{
   }
 
   getCardDetails(cardName){
-    if(Array.isArray(this.cardPayments)){
+    if(Array.isArray(this.cardPayments) && this.cardPayments.length > 0){
       var self = this;
       var selectedCard = null;
       this.cardPayments.forEach(function(card){
@@ -323,7 +332,6 @@ class PaymentStore{
             selectedCard = card;
           }
       });
-
       return selectedCard;
     }
     else {
@@ -338,7 +346,7 @@ class PaymentStore{
     this.customer_cards_by_currency = this.savedCardsByCurrency;
     this.active_payment_option_total_amount = value.currency;
 
-    console.log('is it there? ', this.RootStore.formStore.card);
+    // console.log('is it there? ', this.RootStore.formStore.card);
 
     if(this.RootStore.formStore.card != null){
       this.RootStore.formStore.switchCurrency(value);
@@ -374,11 +382,19 @@ class PaymentStore{
           self.supported_currencies = value;
           break;
       }
-
-      console.log('supported from set supported currencies', this.supported_currencies);
     }
+
+    var methods_currencies = this.supported_currencies_based_on_methods;
+    value = self.supported_currencies;
+    console.log('supported_currencies', this.supported_currencies);
+    console.log('methods_currencies', methods_currencies);
+    self.supported_currencies = value.filter(function(el){
+        return methods_currencies.indexOf(el.currency) >= 0;
+    });
+
   }
 
+  //supported currencies based on cards list (saveCard & token modes only)
   setFormSupportedCurrencies(value){
     console.log('this.cardPayments', this.cardPayments);
     var self = this;
@@ -437,7 +453,7 @@ class PaymentStore{
     console.log('card_wallet',this.card_wallet);
 
     if(this.save_card_active && this.card_wallet){
-      this.save_card_option = true;
+      this.save_card_option = value;
       console.log('save_card_option',this.save_card_option);
     }
     else {

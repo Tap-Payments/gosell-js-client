@@ -30,9 +30,6 @@ module.exports = {
     ReactDOM.render(
       <GoSellElements
         gateway={object.gateway}
-        customer={object.customer}
-        order={object.order}
-        saveCard={object.saveCard}
-        token={object.token} />, document.getElementById(object.containerID));
+        token={true} />, document.getElementById(object.containerID));
   }
 };

@@ -59,7 +59,13 @@ class ApiStore{
       console.log(error);
     });
 
-      if(res.status === 'success' && payment.statusCode == 200 && merchant.statusCode == 200){ return await res; }else { return await null; }
+      if(res.status === 'success' && payment.statusCode == 200 && merchant.statusCode == 200){
+         this.RootStore.uIStore.stopLoading();
+         return await res;
+       }
+       else {
+         return await null;
+       }
 
   }
 
@@ -95,7 +101,7 @@ class ApiStore{
          "items": this.RootStore.configStore.items,
          "shipping": this.RootStore.configStore.shipping,
          "taxes": this.RootStore.configStore.taxes,
-         "customer": this.RootStore.configStore.customer ? this.RootStore.configStore.customer.id : null,
+         "customer": this.RootStore.configStore.gateway.customerCards && this.RootStore.configStore.customer ? this.RootStore.configStore.customer.id : null,
          "currency" : this.RootStore.configStore.order ? this.RootStore.configStore.order.currency : null,
          "total_amount": this.RootStore.configStore.order ? this.RootStore.configStore.order.amount : 0
       }
@@ -238,6 +244,7 @@ class ApiStore{
       res = response.data;
       console.log('charge', res);
 
+      console.log('type ==============> ', type);
       if(res.statusCode == 200){
           result = JSON.parse(res.body);
 
@@ -484,7 +491,7 @@ class ApiStore{
       else {
         result = JSON.parse(res.body);
         console.log('error', result);
-
+        self.RootStore.uIStore.showResult('error', result.errors[0].description, null);
       }
     })
     .catch(function (error) {

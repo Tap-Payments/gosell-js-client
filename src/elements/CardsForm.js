@@ -7,14 +7,6 @@ class CardsForm extends Component {
 
   constructor(props){
     super(props);
-    this.state = {
-      tap: null,
-      card: null,
-      currency:null,
-      active: false,
-      animate: false,
-      hide: false,
-    }
   }
 
   componentDidMount(){
@@ -25,46 +17,9 @@ class CardsForm extends Component {
     var store = this.props.store;
 
     store.formStore.generateCardForm();
-
      window.setInterval(store.formStore.checkFocus, 10);
   }
 
-  componentWillReceiveProps(nextProps){
-
-    var store = nextProps.store;
-
-    // if(nextProps.store.paymentStore.current_currency.currency != this.state.currency){
-    //   store.formStore.clearCardForm();
-    // }
-    //
-    // if(nextProps.store.uIStore.getIsActive !=='FORM'){
-    //   store.formStore.clearCardForm();
-    // }
-
-    // if(this.props.store.configStore.transaction_mode !== 'get_token' && this.props.store.configStore.transaction_mode !== 'save_card'){
-    // {
-    //
-    // }
-
-  // }
- }
-
-  handleClick(){
-    this.setState({
-      animate: false
-    });
-  }
-
-  componentWillUnmount(){
-    this.setState({
-      tap: null,
-      card: null,
-      currency:null,
-      active: false,
-      animate: false,
-      hide: false,
-    });
-  }
 
   render() {
 
