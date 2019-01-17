@@ -1,11 +1,13 @@
 FROM node:8
 
-WORKDIR /app
+LABEL maintainer="Vetri Shiva (s.kumar@tap.company)"
 
-COPY .npmrc /app
-COPY package.json /app
-RUN npm install
-RUN rm -f .npmrc
+ADD package.json /tmp/package.json
+COPY .npmrc /tmp
+RUN cd /tmp && npm install
+RUN mkdir -p /app && cp -a /tmp/node_modules /app/
+
+WORKDIR /app
 
 RUN npm install -g pm2@latest
 
@@ -13,4 +15,6 @@ RUN npm install -g pm2@latest
 COPY . /app
 #RUN npm run build
 # RUN ls
-CMD npm start
+CMD [ "npm", "start" ]
+
+EXPOSE 3000 8000

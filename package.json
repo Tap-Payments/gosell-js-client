@@ -13,9 +13,7 @@
     "prepublishOnly": "npm run transpile",
     "online-demo": "gh-pages -d demo/dist",
     "publish-all": "npm run build-prod && npm run online-demo",
-    "start": "npm run start-server-backend & npm run start-server-frontend",
-    "start-server-backend": "pm2 start client/server.js --no-daemon --name tap-gosell-backend-v1",
-    "start-server-frontend": "pm2 serve -s ./build 3000 --no-daemon --name tap-gosell-frontend-v1"
+    "start": "pm2 start process.json --no-daemon"
   },
   "author": "Hala Q. <h.qutmosh@tap.company> (https://tap.company)",
   "license": "ISC",
