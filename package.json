@@ -14,8 +14,8 @@
     "online-demo": "gh-pages -d demo/dist",
     "publish-all": "npm run build-prod && npm run online-demo",
     "deploy": "npm run start-server-backend & npm run start-server-frontend",
-    "start-server-backend": "pm2 start client/server.js --name tap-gosell-backend-v1",
-    "start-server-frontend": "pm2 serve ./build 3000 --name tap-gosell-frontend-v1"
+    "start-server-backend": "pm2 start client/server.js --no-daemon --name tap-gosell-backend-v1",
+    "start-server-frontend": "pm2 serve -s ./build 3000 --no-daemon --name tap-gosell-frontend-v1"
   },
   "author": "Hala Q. <h.qutmosh@tap.company> (https://tap.company)",
   "license": "ISC",
