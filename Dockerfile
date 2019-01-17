@@ -11,6 +11,6 @@ RUN npm install -g pm2@latest
 
 # Add your source files
 COPY . /app
-RUN npm run build
+#RUN npm run build
 # RUN ls
 CMD npm run deploy
