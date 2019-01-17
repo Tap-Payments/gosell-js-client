@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run start-dev & npm run start-server",
+    "start_": "npm run start-dev & npm run start-server",
     "start-dev": "cross-env NODE_ENV=development webpack-dev-server --compress",
     "start-server": "nodemon client/server.js",
     "build": "cross-env NODE_ENV=production webpack",
@@ -13,7 +13,7 @@
     "prepublishOnly": "npm run transpile",
     "online-demo": "gh-pages -d demo/dist",
     "publish-all": "npm run build-prod && npm run online-demo",
-    "deploy": "npm run start-server-backend & npm run start-server-frontend",
+    "start": "npm run start-server-backend & npm run start-server-frontend",
     "start-server-backend": "pm2 start client/server.js --no-daemon --name tap-gosell-backend-v1",
     "start-server-frontend": "pm2 serve -s ./build 3000 --no-daemon --name tap-gosell-frontend-v1"
   },
