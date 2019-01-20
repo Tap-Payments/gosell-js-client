@@ -5,7 +5,7 @@ LABEL maintainer="Vetri Shiva (s.kumar@tap.company)"
 ADD package.json /tmp/package.json
 COPY .npmrc /tmp
 RUN cd /tmp && npm install
-RUN mkdir -p /app && cp -a /tmp/node_modules /app/
+RUN mkdir -p /app && rm -f .npmrc && cp -a /tmp/node_modules /app/
 
 WORKDIR /app
 
