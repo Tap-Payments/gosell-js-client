@@ -23,7 +23,7 @@ class ApiStore{
     }
 
     var res = null, data = null, payment = null, merchant = null;
-    await axios.post('http://35.237.168.102:8000/key', body)
+    await axios.post('http://35.237.168.102/key', body)
     .then(async function (response) {
 
       res = response.data;
@@ -108,7 +108,7 @@ class ApiStore{
     }
 
     var res = null, data = null;
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(function (response) {
 
       res = response.data;
@@ -145,7 +145,7 @@ class ApiStore{
     }
 
     var res = null;
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(function (response) {
 
       res = response.data;
@@ -239,7 +239,7 @@ class ApiStore{
     console.log('change api body', body);
     var result, res = null;
 
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(async function (response) {
       res = response.data;
       console.log('charge', res);
@@ -336,7 +336,7 @@ class ApiStore{
 
     var result, res = null;
 
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(async function (response) {
       res = response.data;
       console.log('authorize', res);
@@ -398,7 +398,7 @@ class ApiStore{
      }
 
      var res = null, data = null, charge = null;
-     await axios.post('http://35.237.168.102:8000/key', body)
+     await axios.post('http://35.237.168.102/key', body)
      .then(async function (response) {
 
        res = response.data;
@@ -459,7 +459,7 @@ class ApiStore{
     }
 
     var result, res = null;
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(async function (response) {
       res = response.data;
 
@@ -519,7 +519,7 @@ class ApiStore{
     console.log('delete card', body);
 
     var result, res = null;
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(async function (response) {
       res = response.data;
 
@@ -573,7 +573,7 @@ class ApiStore{
 
     var res = null; var result = null;
     console.log('update card', body);
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(async function (response) {
 
       res = response.data;
@@ -628,7 +628,7 @@ class ApiStore{
 
     var result, res = null;
 
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(async function (response) {
       res = response.data;
       console.log('get cards response', res);
@@ -678,7 +678,7 @@ class ApiStore{
 
     console.log('token body', body);
     var result, res = null;
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(async function (response) {
       res = response.data;
       console.log('token', res);
@@ -745,7 +745,7 @@ class ApiStore{
     console.log('create customer body', body);
 
     var res = null, result = null;
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(async function (response) {
       res = response.data;
       console.log('get customer response', res);
@@ -809,7 +809,7 @@ class ApiStore{
     }
 // card_5BXeO420kTHpxLAJNdUjqbFi
     var result = null;
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(async function (response) {
       var res = response.data;
       console.log('charge', res);
@@ -866,7 +866,7 @@ class ApiStore{
 
     console.log('charge authentication body', body);
     var result, res = null;
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(async function (response) {
       res = response.data;
 
@@ -925,7 +925,7 @@ class ApiStore{
     console.log('request authentication body', body);
 
     var result, res = null;
-    await axios.post('http://35.237.168.102:8000/api', body)
+    await axios.post('http://35.237.168.102/api', body)
     .then(async function (response) {
 
       res = response.data;
