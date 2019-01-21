@@ -10,7 +10,8 @@
     },
     {
       "name": "tap-gosell-frontend-v1",
-      "script": "serve -s",
+      "script": "serve",
+      "args": "-s",
       "instances": 1,
       "exec_mode": "fork",
       "env": {
