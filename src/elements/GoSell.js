@@ -10,7 +10,6 @@ import MobileView from './MobileView';
 import TapLoader from './TapLoader';
 import RootStore from '../store/RootStore.js';
 
-
 class GoSell extends Component {
 
   static open(e){
