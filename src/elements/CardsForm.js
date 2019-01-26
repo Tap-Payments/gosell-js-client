@@ -2,6 +2,7 @@ import React, { Component }  from 'react';
 import '../assets/css/cardsForm.css';
 import {observer} from 'mobx-react';
 import styled from "styled-components";
+import Separator from './Separator';
 
 class CardsForm extends Component {
 

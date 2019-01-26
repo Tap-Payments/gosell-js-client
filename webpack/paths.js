@@ -1,5 +1,7 @@
 const path = require("path");
 
+console.log('__dirname', __dirname);
+
 module.exports = {
 
 	root: path.resolve(__dirname, "../"),
@@ -13,6 +15,7 @@ module.exports = {
 	templatePath: path.resolve(__dirname, "../", "src/index.html"),
 
 	imgsPath: path.resolve(__dirname, "../", "src/assets/imgs/"),
+
 	imgsFolder: "imgs",
 	fontsFolder: "fonts",
 	cssFolder: "css",

@@ -1,6 +1,7 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const app = express();
+const express        = require('express');
+const bodyParser     = require('body-parser');
+const app            = express();
+const jwtJsDecode    = require('jwt-js-decode');
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -9,147 +10,179 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Add headers
-app.use(function(req, res, next) {
-  // Website you wish to allow to connect
-  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader("Access-Control-Allow-Origin", "*");
+app.use(function (req, res, next) {
 
-  // Request methods you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
+    // Website you wish to allow to connect
+    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', '*');
 
-  // Request headers you wish to allow
-  //res.setHeader('Access-Control-Allow-Headers', '*');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader("Access-Control-Allow-Credentials", true);
+    // Request headers you wish to allow
+    //res.setHeader('Access-Control-Allow-Headers', '*');
 
-  res.setHeader("Content-Type", "application/json;charset=UTF-8");
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
 
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
+    res.setHeader('Content-Type', 'application/json;charset=UTF-8');
 
-  // Pass to next layer of middleware
-  next();
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+
+    // Pass to next layer of middleware
+    next();
+
 });
 
-app.post("/key", (req, res) => {
-  var Request = require("request");
 
-  var mode =
-    req.body.mode === "Development"
-      ? "http://35.194.57.148:8080"
-      : "https://api.tap.company";
-  //var mode = 'https://api.tap.company';
-  var requestbody = req.body.reqBody ? req.body.reqBody : {};
-  console.log("/key >> req", JSON.stringify(requestbody));
-
-  var header = Object.assign({}, req.body.headers, {
-    access_key: "ak_XKokBfNWv6FIYuTMg5sLPjhJ",
-    "Content-Type": "application/json",
-    Application:
-      "app_locale=en_UA|requirer=checkout|app_id=company.tap.checkout|requirer_os=pc|requirer_version=2.0.0|requirer_os_version=11.3"
-  });
-
-  Request.get(
-    {
-      headers: req.body.headers,
-      url: mode + "/v2/init"
-    },
-    (error, response) => {
-      if (error) {
-        return console.dir(error);
-      }
-      res.send(response.body);
+function checkJWTExpiry(session) {
+  try{
+    const jwt = jwtJsDecode.jwtDecode(session);
+    console.log('jwt', jwt);
+    // console.log(jwt.payload);
+    const currentDate = Date.now()/1000;
+    console.log('time', currentDate);
+    const time = jwt.payload.exp;
+    //jwt.payload.exp
+    if (time >= currentDate) {
+      return  true;
+    } else {
+      return  false;
     }
-  );
-});
+  }
+  catch(error) {
+    console.error(error);
+    return  false;
+  }
+}
 
-app.post("/api", (req, res) => {
+
+app.post('/init', (req, res) => {
+
   var Request = require("request");
 
-  var mode =
-    req.body.mode === "Development"
-      ? "http://35.194.57.148:8080"
-      : "https://api.tap.company";
-  // var mode = 'https://api.tap.company';
+  var mode = req.body.mode === 'Development' ? 'http://35.194.57.148:8080' : 'https://api.tap.company';
 
-  var header = Object.assign({}, req.body.headers, {
-    "Content-Type": "application/json",
-    Application:
-      "app_locale=en_UA|requirer=checkout|app_id=company.tap.checkout|requirer_os=pc|requirer_version=2.0.0|requirer_os_version=11.3"
-  });
+  var requestbody = req.body.reqBody ? req.body.reqBody : {};
+  var header = Object.assign({}, req.body.headers,
+    {
+      "access_key": "ak_XKokBfNWv6FIYuTMg5sLPjhJ",
+      'Content-Type': 'application/json',
+      "Application":"app_locale=en_UA|requirer=checkout|app_id=company.tap.checkout|requirer_os=pc|requirer_version=2.0.0|requirer_os_version=11.3"
+    });
 
-  var requestbody = req.body.reqBody
-    ? JSON.stringify(req.body.reqBody)
-    : JSON.stringify({});
+  Request.get({
+    "headers": req.body.headers,
+    "url": mode + "/v2/init",
+    }, (error, response) => {
+        if(error) {
+            return console.dir(error);
+        }
 
-  console.log("req", requestbody);
+        var parseData = JSON.parse(response.body);
+        console.log('response ..... ', response.body);
+        // global.session = JSON.parse(response.body).data.session_token;
+        // global.key = JSON.parse(response.body).data.encryption_key;
 
-  if (req.body.method.toLowerCase() === "post") {
-    Request.post(
-      {
-        headers: header,
-        url: mode + req.body.path,
-        body: requestbody
-      },
-      (error, response, body) => {
-        if (error) {
-          res.send(error);
-        }
-        console.log("body", requestbody);
-        res.send(response);
-      }
-    );
-  } else if (req.body.method.toLowerCase() === "get") {
-    Request.get(
-      {
-        headers: header,
-        url: mode + req.body.path
-      },
-      (error, response) => {
-        if (error) {
-          res.send(error);
-        }
-        res.send(response);
-      }
-    );
-  } else if (req.body.method.toLowerCase() === "put") {
-    Request.put(
-      {
-        headers: header,
-        url: mode + req.body.path,
-        body: requestbody
-      },
-      (error, response, body) => {
-        if (error) {
-          res.send(error);
-        }
-        res.send(response);
-        console.log(response);
-      }
-    );
-  } else if (req.body.method.toLowerCase() === "delete") {
-    Request.delete(
-      {
-        headers: header,
-        url: mode + req.body.path
-      },
-      (error, response) => {
-        if (error) {
-          res.send(error);
-        }
-        console.log("body", req.body.headers);
-        res.send(response);
-      }
-    );
+        res.send({
+          status:parseData.status,
+          data:{
+            merchant:parseData.data.merchant,
+            permission:parseData.data.permission,
+            sdk_settings:parseData.data.sdk_settings,
+            session_token:parseData.data.session_token
+          }
+        });
+    });
+
+});
+
+
+app.post('/api', (req, res) => {
+
+  var Request = require("request");
+
+  var mode = req.body.mode === 'Development' ? 'http://35.194.57.148:8080' : 'https://api.tap.company';
+
+  var header = Object.assign({}, req.body.headers,
+    {
+      'Content-Type': 'application/json',
+      "Application":"app_locale=en_UA|requirer=checkout|app_id=company.tap.checkout|requirer_os=pc|requirer_version=2.0.0|requirer_os_version=11.3"
+    });
+
+
+  var requestbody = req.body.reqBody ? JSON.stringify(req.body.reqBody) : JSON.stringify({});
+
+  var session = checkJWTExpiry(req.body.headers.session_token);
+  console.log('session', session);
+
+  if(session){
+
+    console.log('session has not been expired !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+
+    // console.log('checkJWTExpiry >>>>>>>>>>>>>>>>>>>>>>>>>> ', checkJWTExpiry());
+
+    if(req.body.method.toLowerCase() === 'post'){
+      Request.post({
+      "headers": header,
+      "url": mode + req.body.path,
+      "body": requestbody}, (error, response, body) => {
+          if(error) {
+              res.send(error);
+          }
+          // console.log('response', response.body);
+          res.send(response.body);
+      });
+    }
+    else if(req.body.method.toLowerCase() === 'get'){
+
+      Request.get({
+      "headers": header,
+      "url": mode + req.body.path}, (error, response) => {
+          if(error) {
+              res.send(error);
+          }
+          // console.log('response', response.body);
+          res.send(response.body);
+      });
+    }
+    else if(req.body.method.toLowerCase() === 'put'){
+      Request.put({
+          "headers": header,
+          "url": mode + req.body.path,
+          "body": requestbody
+      }, (error, response, body) => {
+          if(error) {
+            res.send(error);
+          }
+          // console.log('response', response.body);
+          res.send(response.body);
+          // console.log(response);
+      });
+
+    }
+    else if(req.body.method.toLowerCase() === 'delete'){
+
+      Request.delete({
+      "headers": header,
+      "url": mode + req.body.path}, (error, response) => {
+          if(error) {
+              res.send(error);
+          }
+          // console.log('response', response.body);
+          res.send(response.body);
+      });
+    }
+
+  }
+  else {
+    console.log('session has been expired !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    var error = {'code': 100, 'message': 'Session has been expired!'};
+    res.send(error);
   }
 });
+
 /*
 app.get('/api/:mode/:headers', (req, res) => {
 
@@ -167,9 +200,10 @@ app.get('/api/:mode/:headers', (req, res) => {
 
 });*/
 
+
 //require('./routes')(app, {});
 
 const port = 8000;
 app.listen(port, () => {
-  console.log("We are live on " + port);
+  console.log('We are live on ' + port);
 });

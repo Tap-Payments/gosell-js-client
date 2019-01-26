@@ -12,7 +12,7 @@ class PaymentOptions extends Component {
   }
 
   componentDidMount(){
-    this.props.store.uIStore.setPageIndex(0);
+    this.props.store.uIStore.setPageIndex(0, 'y');
   }
 
   render() {

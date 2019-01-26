@@ -65,25 +65,24 @@ class BusinessInfo extends Component {
     store.merchantStore.contact.map((contact, index) => {
         if(contact.type !== 'social'){
           contactIcons.push(
-            <a className="tap-contact-btn-container" onClick={this.handleClick.bind(this, contact)}>
+            <a className="tap-contact-btn-container" key={'div-'+index} onClick={this.handleClick.bind(this, contact)}>
               <SocialIcon
-              key={'div-'+index}
-              mode={'self'}
-              style={{width: '40px', height: '40px', '&:hover': {backgroundColor: contact.color}}}
-              img={contact.img}
-              width="18" height="18"
-              alt={contact.key}
-              //onClick={this.handleClick.bind(this, contact)}
-              ></SocialIcon>
+                key={'contact-'+index}
+                mode={'self'}
+                style={{width: '40px', height: '40px', '&:hover': {backgroundColor: contact.color}}}
+                img={contact.img}
+                width="18" height="18"
+                alt={contact.key}
+                onClick={this.handleClick.bind(this, contact)} />
               <div style={{pointerEvents: 'none', color:'#535353'}}>{contact.value}</div>
-            </a>)
+            </a>);
         }
       });
 
       store.merchantStore.contact.map((contact, index) =>{
         if(contact.type === 'social'){
           socialIcons.push(<SocialIcon
-            key={'div-'+index}
+            key={'social-light-'+index}
             mode={'blank'}
             url={contact.value}
             style={{
@@ -97,8 +96,7 @@ class BusinessInfo extends Component {
             img={contact.img}
             width="18" height="18"
             alt={contact.key}
-            onClick={this.handleClick.bind(this, contact)}>
-          </SocialIcon>)
+            onClick={this.handleClick.bind(this, contact)} />);
         }
 
       });
@@ -109,10 +107,10 @@ class BusinessInfo extends Component {
       var align = store.uIStore.getDir === 'ltr' ? 'right' : 'left';
 
       darkView = store.merchantStore.contact.map((contact, index) =>
-          <div key={'div-'+index}>
+          <div key={'social-dark-'+index}>
             <Social
               id={index}
-              key={index}
+              key={'contact-'+index}
               dir={store.uIStore.getDir}
               style={{
                 'iconStyle':{

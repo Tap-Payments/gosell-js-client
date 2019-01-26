@@ -1,5 +1,4 @@
 import {decorate, observable, computed} from 'mobx';
-import { GoSellElements } from "../../src";
 
 //include all the
 class DemoConfigStore {
@@ -76,8 +75,8 @@ class DemoConfigStore {
            email: false,
            sms: true
          },
-         redirect: "http://localhost:3000/demo",
-         post: "http://localhost:3000/demo"
+         redirect: "http://"+window.location.hostname+":3000/open-light-box-demo",
+         post: "http://"+window.location.hostname+":3000/open-light-box-demo"
       };
 
     this.order = {
@@ -94,7 +93,7 @@ class DemoConfigStore {
 
 
   updateGatewayObj(e) {
-     console.log(e.target.name, e.target.value);
+     // console.log(e.target.name, e.target.value);
 
     let gatewayObj = Object.assign({}, this.gateway);
     let key = e.target.name;
@@ -106,17 +105,20 @@ class DemoConfigStore {
     else if(e.target.name == 'labels'){
       gatewayObj[key].actionButton = e.target.value;
     }
-    else if(e.target.value === 'all' || e.target.value === 'gcc'){
-      console.log('value', e.target.value);
-      gatewayObj[key] = e.target.value;
-    }
-    else if((e.target.name === 'supportedCurrencies' && e.target.name === 'supportedPaymentMethods')
-      && (e.target.value !== 'all' && e.target.value !== 'gcc')){
-      console.log('value', e.target.value);
-      var value =  e.target.value;
-      var val = value.split(",");
-      console.log('val', val);
-      gatewayObj[key] = val;
+    else if((e.target.name === 'supportedCurrencies' || e.target.name === 'supportedPaymentMethods')){
+
+      if(e.target.value === 'all' || e.target.value === 'gcc'){
+        // console.log('value', e.target.value);
+        gatewayObj[key] = e.target.value;
+      }
+      else if(e.target.value !== 'all' && e.target.value !== 'gcc'){
+        // console.log('value', e.target.value);
+        var value =  e.target.value;
+        var val = value.split(",");
+        // console.log('nanananananana', val);
+        gatewayObj[key] = val;
+      }
+
     }
     else {
       gatewayObj[key] = e.target.value;
@@ -172,18 +174,31 @@ class DemoConfigStore {
     let key = e.target.name;
 
     authorize[key] = e.target.value;
+    console.log('authorize[key]', authorize[key]);
 
     this.authorize = authorize;
 
     this.transaction = Object.assign({}, this.transaction);
     this.transaction.auto = this.authorize;
     console.log('authorize', this.transaction);
-
     console.log('---> ', this.authorize);
   }
 
   updateMode(e){
     this.transaction_mode = e.target.value;
+
+    if(this.transaction_mode === 'authorize'){
+      let authorize = Object.assign({}, this.authorize);
+      authorize['time'] = 100;
+      authorize['type'] = 'VOID';
+
+      this.authorize = authorize;
+
+      this.transaction = Object.assign({}, this.transaction);
+      this.transaction.auto = this.authorize;
+
+      console.log('transaction', this.transaction);
+    }
 
     console.log('mode', this.transaction_mode);
   }

@@ -12,24 +12,28 @@ class UIStore {
 
     this.btnLoader = false;
     this.msgLoader = false;
+
     //main payment page --> currencies --> merchant info in SwipeableViews (mobile view)
-    this.activePage = 0;
+    // this.activePage = 0;
+    // this.activePageDir = 'x';
     this.pay_btn = false;
 
     //screen width --> switch between mobile / pc views
     this.width = window.innerWidth;
     this.isMobile = window.innerWidth <= 500 ? true : false;
 
-    if(this.isMobile){
-       this.subPage = 0
-       this.pageIndex = 0;
-       this.confirm = 0;
-    }else {
+    // if(this.isMobile){
+    //    this.subPage = 0
+    //    this.pageIndex = 0;
+    //    this.pageDir = 'x';
+    //    // this.confirm = 0;
+    // }else {
       this.subPage = -1;
+      this.pageDir = 'x';
       //main payment page -> otp ...  in SwipeableViews
-      this.pageIndex = -1;
-      this.confirm = -1;
-    }
+      this.pageIndex = 0;
+      // this.confirm = -1;
+    // }
 
     //the selected and active card in saved cards list
     this.isActive = null;
@@ -39,7 +43,7 @@ class UIStore {
     //shake the payment cards when the user press edit
     this.shake_cards = false;
     this.delete_card = null;
-    //
+
     // //display error or Otp when click on the payment button
     // this.slide_up = false;
 
@@ -100,8 +104,9 @@ class UIStore {
       desc: msg,
       close: false
     });
-     this.isLoading = true;
-     this.load = true;
+
+    this.isLoading = true;
+    this.load = true;
   }
 
   showResult(loader_type, title, msg){
@@ -111,8 +116,22 @@ class UIStore {
       desc: msg,
       handleClose: true
     });
-     this.isLoading = true;
-     this.load = false;
+
+    this.isLoading = true;
+    this.load = false;
+  }
+
+  showMsg(loader_type, title, msg){
+    var self = this;
+    self.startLoading('loader', 'Please Wait', null);
+
+    setTimeout(function(){
+      self.showResult(loader_type, title, msg);
+    }, 1000);
+  }
+
+  redirectTo(url){
+      window.open(url, '_self');
   }
 
   stopLoading(){
@@ -159,14 +178,14 @@ class UIStore {
     this.isMobile = value;
   }
 
-  setActivePage(value){
-    this.activePage = value;
-  }
-
-  computed
-  get getActivePage(){
-    return this.activePage;
-  }
+  // setActivePage(value){
+  //   this.activePage = value;
+  // }
+  //
+  // computed
+  // get getActivePage(){
+  //   return this.activePage;
+  // }
 
   setSubPage(value){
     this.subPage = value;
@@ -182,8 +201,27 @@ class UIStore {
     return this.pageIndex;
   }
 
-  setPageIndex(value){
+  setPageIndex(value, dir){
+
+    if(dir === 'x'){
+      if(this.pageIndex > value){
+        this.pageDir = '-x';
+      }
+      else if(this.pageIndex < value){
+        this.pageDir = 'x';
+      }
+    }
+    else if(dir === 'y'){
+      if(this.pageIndex > value){
+        this.pageDir = '-y';
+      }
+      else if(this.pageIndex < value){
+        this.pageDir = 'y';
+      }
+    }
+
     this.pageIndex = value;
+
   }
 
   computed
@@ -222,7 +260,6 @@ class UIStore {
     }
 
     this.RootStore.paymentStore.selected_card = null;
-
   }
 
   // deleteCard(value, id){
@@ -246,7 +283,6 @@ class UIStore {
 
   payBtn(value){
     this.pay_btn = value;
-    // console.log('pay btn ........... > ', this.pay_btn);
   }
 
   closeNotification(){
@@ -370,7 +406,8 @@ decorate(UIStore, {
   edit_customer_cards: observable,
   errorHandler: observable,
   msg: observable,
-  modal_mode:observable
+  modal_mode:observable,
+  pageDir: observable,
 });
 
 export default UIStore;

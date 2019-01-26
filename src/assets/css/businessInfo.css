@@ -51,6 +51,11 @@
   background-color: #f1f1f1;
 }
 
+.tap-social-btn-container{
+  display: flex;
+  margin: 0px 16px 0px 16px;
+}
+
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes more {
     0%   {height: 0; opacity: 0;}

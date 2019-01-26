@@ -59,6 +59,8 @@ class Cards extends Component {
     if(store.paymentStore.customer_cards_by_currency.length > 0){
 
        cards = store.paymentStore.customer_cards_by_currency.map((card, index) =>{
+         var card_obj = this.props.store.paymentStore.getCardDetails(card.scheme);
+
          return(<Card
            key={index}
            index={index}
@@ -66,7 +68,7 @@ class Cards extends Component {
            id={card.id}
            dir={this.props.dir}
            shake={store.uIStore.shake_cards}
-           scheme={this.props.store.paymentStore.getCardDetails(card.scheme).image}
+           scheme={card_obj != null ? card_obj.image : null}
            bank={card.bank_logo}
            store={this.props.store}
            last4digits={card.last_four}/>)

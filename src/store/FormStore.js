@@ -422,10 +422,11 @@ class FormStore{
 
    cardFormHandleClick(){
        this.RootStore.paymentStore.selected_card = null;
-
+       this.RootStore.uIStore.setSubPage(-1);
+       
        //clear open menus
-       this.RootStore.uIStore.setActivePage(0);
-       this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
+       // this.RootStore.uIStore.setPageIndex(0);
+       // this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
 
        if(this.RootStore.uIStore.getIsActive !== 'FORM'){
          this.RootStore.paymentStore.active_payment_option_total_amount = 0;

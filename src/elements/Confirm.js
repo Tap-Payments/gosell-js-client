@@ -29,7 +29,8 @@ class Confirm extends Component {
     this.props.store.uIStore.setIsActive(null);
     this.props.store.uIStore.stopBtnLoader();
     this.props.store.paymentStore.selected_card = null;
-    this.props.store.uIStore.setPageIndex(0);
+    this.props.store.uIStore.setPageIndex(0, 'y');
+    this.props.store.uIStore.payBtn(false);
 
   }
 
@@ -52,21 +53,22 @@ class Confirm extends Component {
 
   render() {
     return (
-        <div className={this.props.store.uIStore.confirm == this.props.index ? "tap-confirm tap-confirm-fadeIn" : "tap-confirm"}>
+        <div className={this.props.store.uIStore.getPageIndex == this.props.index ? "tap-confirm tap-confirm-fadeIn" : "tap-confirm"}>
           <a className="tap-confirm-back" onClick={this.handleBackClick.bind(this)}>
             <img src={back} width="43"/>
           </a>
 
-          {this.props.children}
+          <div style={{ height: '250px' }}>
+            {this.props.children}
+          </div>
 
-          <TapButton
-            id="tap-confirm-btn"
-            width="90%" height="44px"
-            btnColor='#007AFF'
-            animate={this.state.animate}
-            handleClick={this.handleBtnClick.bind(this)}
-            active={this.state.active}>Confirm</TapButton>
-
+            <TapButton
+              id="tap-confirm-btn"
+              width="90%" height="44px"
+              btnColor='#007AFF'
+              animate={this.state.animate}
+              handleClick={this.handleBtnClick.bind(this)}
+              active={this.state.active}>Confirm</TapButton>
         </div>
       );
 

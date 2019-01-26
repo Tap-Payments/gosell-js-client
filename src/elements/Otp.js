@@ -76,9 +76,9 @@ class Otp extends Component {
       updated: false,
     });
 
-    setTimeout(function(){
+    // setTimeout(function(){
       self.props.store.uIStore.startLoading('loader', 'Please Wait', null);
-    }, 1000);
+    // }, 1000);
 
     store.apiStore.authentication(this.props.store.paymentStore.authenticate.type, this.state.value).then(result => {
 
@@ -161,7 +161,7 @@ class Otp extends Component {
     }
 
     return (
-      <Confirm index={1} store={this.props.store} animate_btn={this.state.animate_btn} active_btn={this.state.active} handleBtnClick={this.handleClick.bind(this)}>
+      <Confirm index={2} store={this.props.store} animate_btn={this.state.animate_btn} active_btn={this.state.active} handleBtnClick={this.handleClick.bind(this)}>
 
           <div className={this.state.animate_fields ? "wrong-entry" : null}>
             <ReactCodeInput

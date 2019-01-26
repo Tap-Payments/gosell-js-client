@@ -33,8 +33,16 @@ class SupportedCurrencies extends Component {
 
       this.props.store.paymentStore.setCurrentCurrency(current);
 
-      this.props.store.uIStore.setActivePage(0);
-      this.props.store.uIStore.getIsMobile ? this.props.store.uIStore.setSubPage(0) : this.props.store.uIStore.setSubPage(-1);
+      // this.props.store.uIStore.setActivePage(0, 'x');
+      // this.props.store.uIStore.getIsMobile ? this.props.store.uIStore.setSubPage(0) : this.props.store.uIStore.setSubPage(-1);
+
+      if(this.props.store.uIStore.getIsMobile){
+         // this.props.store.uIStore.setSubPage(0);
+         this.props.store.uIStore.setPageIndex(0, 'x');
+      }
+      else {
+        this.props.store.uIStore.setSubPage(-1);
+      }
   }
 
   filterList(event){
@@ -49,6 +57,8 @@ class SupportedCurrencies extends Component {
 
   render() {
     var self = this;
+
+    console.log('supported_currencie : .............. : ', this.props.store.paymentStore.supported_currencies);
 
     var lightView = this.state.items.map((currency, index) =>
         <div key={'div-'+index}>

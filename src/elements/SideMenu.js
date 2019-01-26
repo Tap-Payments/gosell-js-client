@@ -43,7 +43,7 @@ class SideMenu extends Component{
     }
 
     return(
-      <div className='tap-side-menu' style={styles}>
+      <div  className='tap-side-menu' style={styles}>
           <div id={alian + '-menu-background'}  style={this.props.expand ? expandMenu : {transition: 'all '+duration+' linear'}}>
               {this.props.children}
           </div>

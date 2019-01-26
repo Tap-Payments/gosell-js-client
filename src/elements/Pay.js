@@ -11,8 +11,12 @@ import tapLogo from '../assets/imgs/tapLogo.png';
 import bill from '../assets/imgs/bill.svg';
 import TapButton from './TapButton';
 import Otp from './Otp';
-import SwipeableViews from 'react-swipeable-views';
+// import SwipeableViews from 'react-swipeable-views';
 import ExtraFees from './ExtraFees';
+// import TapSlider from '@tap-payments/tap-react-slider'
+import TapSlider from '../TapSlider2/TapSlider';
+import SupportedCurrencies from './SupportedCurrencies';
+import BusinessInfo from './BusinessInfo';
 
 const styles = {
     'row1':{
@@ -50,7 +54,7 @@ class Pay extends Component {
   }
 
   componentDidMount(){
-    this.props.store.uIStore.setPageIndex(0);
+    this.props.store.uIStore.setPageIndex(0, 'y');
   }
 
   handleWebClick(payment){
@@ -72,8 +76,8 @@ class Pay extends Component {
          // store.paymentStore.getFees(store.paymentStore.active_payment_option.brand);
 
          if(store.paymentStore.active_payment_option_fees > 0){
-           store.uIStore.setPageIndex(1);
-           store.uIStore.confirm = 0;
+           store.uIStore.setPageIndex(1, 'y');
+           // store.uIStore.confirm = 0;
          }
          else {
            store.uIStore.startLoading('loader', 'Please Wait');
@@ -102,6 +106,8 @@ class Pay extends Component {
 
     var title = '', self = this, cards = {};
 
+    console.log('from pay.js ---------------------> ', this.props.store.uIStore.pay_btn);
+
     const WebPayments = store.paymentStore.getWebPaymentsByCurrency.map((payment, index) =>
 
               <div key={'div-'+index}>
@@ -129,21 +135,17 @@ class Pay extends Component {
 
      var total = store.paymentStore.active_payment_option_total_amount > 0 ? store.paymentStore.current_currency.symbol + store.uIStore.formatNumber(store.paymentStore.active_payment_option_total_amount.toFixed(store.paymentStore.current_currency.decimal_digit)) : '';
 
+     console.log('index ================================= >>> ', store.uIStore.getPageIndex);
+
      return (
-        <SwipeableViews
-              containerStyle={{height: '100%', position:'relative'}}
-              style={{height: '100%',width: '100%'}}
-              slideStyle={{height: '100%', overflow: 'hidden'}}
-              index={store.uIStore.getPageIndex}
-              springConfig={{
-                duration: '0.5s',
-                easeFunction: 'cubic-bezier(0.15, 0.3, 0.25, 1)',
-                delay: '0.2s'
-              }}
-              axis="y"
-              animateHeight={false}
-              disabled={true}>
-                <div style={{height: '100%', position:'relative'}}>
+       <TapSlider
+           componentKey={store.uIStore.getPageIndex}
+           axis={store.uIStore.pageDir}
+           animationDuration={1000}
+           style={{ height:'100%', width:'100%'}}
+           direction={store.uIStore.getDir}>
+
+                <div key={0} style={{height: '100%', position:'relative'}}>
                   <Separator />
                   {store.paymentStore.supported_currencies && store.paymentStore.supported_currencies.length > 1 ?
                   <Row
@@ -186,7 +188,11 @@ class Pay extends Component {
                   : null }
 
                   {store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
-                    <SaveForm store={store}/>
+                    <React.Fragment>
+                      <Separator />
+                        <SaveForm store={store}/>
+                      <Separator />
+                    </React.Fragment>
                   : null }
 
                   <div style={{height: '86px', position:'relative'}}>
@@ -200,39 +206,24 @@ class Pay extends Component {
                         animate={this.props.store.uIStore.getBtnLoaderStatus}
                         handleClick={this.handlePayBtnClick.bind(this)}>{store.configStore.btn +' '+ total}</TapButton>
                   </div>
-
                 </div>
 
-                  {store.uIStore.getPageIndex === 1 ?
-                    <div style={{height: '100%', position:'relative'}}>
-                    <SwipeableViews
-                      containerStyle={{height: '100%', position:'relative'}}
-                      style={{height: '100%',width: '100%'}}
-                      slideStyle={{height: '100%', overflow: 'hidden'}}
-                      index={store.uIStore.confirm}
-                      springConfig={{
-                        duration: '0.5s',
-                        easeFunction: 'cubic-bezier(0.15, 0.3, 0.25, 1)',
-                        delay: '0.2s'
-                      }}
-                      axis="y"
-                      animateHeight={false}
-                      disabled={true}>
-                      <div style={{height: '100%', position:'relative'}}>
-                         {store.uIStore.confirm === 0 ?
-                            <ExtraFees dir={store.uIStore.getDir} store={store}/>
-                          : null}
-                        </div>
+                <div key={1} style={{height: '100%', position:'relative'}}>
+                    <ExtraFees dir={store.uIStore.getDir} store={store}/>
+                </div>
 
-                      <div style={{height: '100%', position:'relative'}}>
-                        {store.uIStore.confirm === 1 ?
-                            <Otp dir={store.uIStore.getDir} store={store} />
-                        : null}
-                      </div>
-                     </SwipeableViews>
-                     </div>
-                  : null }
-        </SwipeableViews>);
+                <div key={2} style={{height: '100%', position:'relative'}}>
+                    <Otp dir={store.uIStore.getDir} store={store} />
+                </div>
+
+                <div key={3} style={{height: '100%', position:'relative'}}>
+                    <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.getDir} store={store}/>
+                </div>
+
+                <div key={4} style={{height: '100%', position:'relative'}}>
+                    <BusinessInfo store={store} width="100%"/>
+                </div>
+        </TapSlider>);
   }
 }
 

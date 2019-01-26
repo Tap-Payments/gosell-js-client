@@ -10,6 +10,8 @@ class ConfigStore {
     this.config = null;
     this.gateway = null;
 
+    this.contactInfo = true;
+
     this.language = 'en';
     this.labels = {
       cardNumber:"Card Number",
@@ -59,107 +61,27 @@ class ConfigStore {
     this.notifications = 'standard';
 
     this.view = '';
+
+    this.location = '';
   }
 
   setConfig(value, view){
     this.config = value;
     this.view = view;
+
+    // this.RootStore.configStore.setServerLocation('http://192.168.8.164:8000');
+    this.RootStore.configStore.setServerLocation('http://localhost:8000');
+
+    console.log('location from setConfig ==========> ', this.location);
+  }
+
+  setServerLocation(url){
+    this.location = url;
   }
 
   configure(){
     var self = this;
     var value = this.config;
-
-    console.log('value', value);
-    
-    if(value.charge && value.charge != null){
-      this.transaction_mode = 'charge';
-      this.charge = value.charge;
-
-      this.redirect_url = value.charge.redirect;
-      this.RootStore.paymentStore.charge = this.charge;
-
-      if(value.order || value.order != null){
-        this.items = value.order.items;
-        this.shipping = value.order.shipping;
-        this.taxes = value.order.taxes;
-        this.order = {currency: value.order.currency, amount: value.order.amount};
-      }
-      else {
-        this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the order details", null);
-        this.legalConfig = false;
-      }
-
-      if(value.customer || value.customer != null){
-        this.customer = value.customer;
-      }
-      else {
-        console.log("Something went wrong! Please check the customer details");
-        this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the customer details", null);
-        this.legalConfig = false;
-      }
-    }
-    else if(value.authorize != null){
-      this.transaction_mode = 'authorize';
-      this.authorize = value.authorize;
-      this.redirect_url = value.authorize.redirect;
-
-      if(value.order || value.order != null){
-        this.items = value.order.items;
-        this.shipping = value.order.shipping;
-        this.taxes = value.order.taxes;
-        this.order = {currency: value.order.currency, amount: value.order.amount};
-      }
-      else {
-        this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the order details", null);
-        this.legalConfig = false;
-      }
-
-      if(value.customer || value.customer != null){
-        this.customer = value.customer;
-      }
-      else {
-        console.log("Something went wrong! Please check the customer details");
-        this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the customer details", null);
-        this.legalConfig = false;
-      }
-    }
-    else if(value.saveCard){
-      this.transaction_mode = 'save_card';
-      this.saveCard = value.saveCard;
-
-      if(value.order || value.order != null){
-        this.order = {currency: value.order.currency, amount: value.order.amount};
-      }
-      else {
-        this.order = {currency: 'KWD', amount: 0};
-      }
-
-      if(value.customer || value.customer != null){
-        this.customer = value.customer;
-      }
-      else {
-        console.log("Something went wrong! Please check the customer details");
-        this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the customer details", null);
-        this.legalConfig = false;
-      }
-    }
-    else if(value.token){
-      this.transaction_mode = 'get_token';
-      this.token = value.token;
-      if(value.order || value.order != null){
-        this.order = {currency: value.order.currency, amount: value.order.amount};
-      }
-      else {
-        this.order = {currency: 'KWD', amount: 0};
-      }
-    }
-    else {
-      console.log("Something went wrong! Please check the goSell configration");
-      this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the goSell configration", null);
-      this.legalConfig = false;
-    }
-
 
     if(value.gateway){
       if(value.gateway != null){
@@ -167,31 +89,55 @@ class ConfigStore {
 
         this.language = value.gateway.language ? value.gateway.language : 'en';
 
-        console.log('supportedCurrencies', value.gateway.supportedCurrencies);
-        console.log('type', typeof value.gateway.supportedCurrencies);
+        // console.log('supportedCurrencies', value.gateway.supportedCurrencies);
+        // console.log('type', typeof value.gateway.supportedCurrencies);
 
-        if(typeof value.gateway.supportedCurrencies == 'object'){
-          var currencies = [];
-          value.gateway.supportedCurrencies.forEach(function(c){
-            currencies.push(c.toUpperCase());
-          });
+        if(value.gateway.supportedCurrencies){
+          if(typeof value.gateway.supportedCurrencies == 'object'){
+            var currencies = [];
+            value.gateway.supportedCurrencies.forEach(function(c){
+              currencies.push(c.toUpperCase());
+            });
 
-          this.gateway.supportedCurrencies = currencies;
+            this.gateway.supportedCurrencies = currencies;
+          }
+          else {
+            this.gateway.supportedCurrencies = value.gateway.supportedCurrencies.toLowerCase();
+          }
         }
         else {
-          this.gateway.supportedCurrencies = value.gateway.supportedCurrencies.toLowerCase();
+          this.gateway.supportedCurrencies = 'all';
         }
 
-        if(typeof value.gateway.supportedPaymentMethods == 'object'){
-          var methods = [];
-          value.gateway.supportedPaymentMethods.forEach(function(c){
-            methods.push(c.toUpperCase());
-          });
+        if(value.gateway.supportedPaymentMethods){
+          if(typeof value.gateway.supportedPaymentMethods == 'object'){
+            var methods = [];
+            value.gateway.supportedPaymentMethods.forEach(function(c){
+              methods.push(c.toUpperCase());
+            });
 
-          this.gateway.supportedPaymentMethods = methods;
+            this.gateway.supportedPaymentMethods = methods;
+          }
+          else {
+            this.gateway.supportedPaymentMethods = value.gateway.supportedPaymentMethods.toLowerCase();
+          }
         }
         else {
-          this.gateway.supportedPaymentMethods = value.gateway.supportedPaymentMethods.toLowerCase();
+          this.gateway.supportedPaymentMethods = 'all';
+        }
+
+        if(value.gateway.saveCardOption != undefined){
+          this.gateway.saveCardOption = value.gateway.saveCardOption;
+        }
+        else {
+          this.gateway.saveCardOption = true;
+        }
+
+        if(value.gateway.customerCards != undefined){
+          this.gateway.customerCards = value.gateway.customerCards;
+        }
+        else {
+          this.gateway.customerCards = true;
         }
 
         if(value.gateway.labels && value.gateway.labels.actionButton){
@@ -203,12 +149,14 @@ class ConfigStore {
           }
         }
 
-        this.labels = {
-          cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : "Card Number",
-          expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : "MM/YY",
-          cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : "CVV",
-          cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : "Name on Card"
-        };
+        if(value.gateway.labels){
+          this.labels = {
+            cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : "Card Number",
+            expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : "MM/YY",
+            cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : "CVV",
+            cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : "Name on Card"
+          };
+        }
 
         if(value.gateway.style && isEmpty(value.gateway.style)){
           this.style = {
@@ -242,9 +190,169 @@ class ConfigStore {
       }
     }
 
+    this.tranxConfig(value);
+
     console.log('transaction_mode', this.transaction_mode);
   }
+
+  tranxConfig(value){
+
+    var self = this;
+
+    var urlParams = new URLSearchParams(window.location.search);
+
+    if(!urlParams.has('tap_id')){
+      if(value.charge && value.charge != null){
+        this.transaction_mode = 'charge';
+
+        if(value.charge.id){
+          console.log(value.charge.id);
+
+          this.RootStore.apiStore.getTransaction(value.charge.id).then(result => {
+            console.log('get charge transaction response', result);
+            self.redirect_url = result.data.redirect.url;
+
+            self.order = {currency: result.data.currency, amount: result.data.amount};
+            self.customer = result.data.customer;
+
+            self.charge = {
+              saveCard: result.data.save_card,
+              threeDSecure: result.data.threeDSecure,
+              description: result.data.description,
+              statement_descriptor: result.data.statement_descriptor,
+              reference: result.data.reference,
+              metadata: result.data.metadata,
+              receipt: result.data.receipt,
+              redirect: result.data.redirect.url,
+              post: result.data.post.url
+            };
+
+            self.RootStore.paymentStore.charge = self.charge;
+          });
+
+        }else {
+
+          this.charge = value.charge;
+
+          this.redirect_url = value.charge.redirect;
+          this.RootStore.paymentStore.charge = this.charge;
+
+          if(value.order || value.order != null){
+            this.items = value.order.items;
+            this.shipping = value.order.shipping;
+            this.taxes = value.order.taxes;
+            this.order = {currency: value.order.currency, amount: value.order.amount};
+          }
+          else {
+            this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the order details", null);
+            this.legalConfig = false;
+          }
+
+          if(value.customer || value.customer != null){
+            this.customer = value.customer;
+          }
+          else {
+            console.log("Something went wrong! Please check the customer details");
+            this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the customer details", null);
+            this.legalConfig = false;
+          }
+        }
+      }
+      else if(value.authorize && value.authorize != null){
+        this.transaction_mode = 'authorize';
+
+        if(value.authorize.id){
+          console.log(value.authorize.id);
+
+          this.RootStore.apiStore.getTransaction(value.authorize.id).then(result => {
+            console.log('get authorize transaction response', result);
+            self.redirect_url = result.data.redirect.url;
+
+            self.order = {currency: result.data.currency, amount: result.data.amount};
+            console.log('order ++++++ ', self.order);
+            self.customer = result.data.customer;
+
+            self.authorize = {
+              auto:result.data.auto,
+              saveCard: result.data.save_card,
+              threeDSecure: result.data.threeDSecure,
+              description: result.data.description,
+              statement_descriptor: result.data.statement_descriptor,
+              reference: result.data.reference,
+              metadata: result.data.metadata,
+              receipt: result.data.receipt,
+              redirect: result.data.redirect.url,
+              post: result.data.post.url
+            };
+
+            self.RootStore.paymentStore.authorize = self.authorize;
+          });
+
+        }else {
+          this.authorize = value.authorize;
+          console.log('authorize', this.authorize);
+          this.redirect_url = value.authorize.redirect;
+
+          if(value.order || value.order != null){
+            this.items = value.order.items;
+            this.shipping = value.order.shipping;
+            this.taxes = value.order.taxes;
+            this.order = {currency: value.order.currency, amount: value.order.amount};
+          }
+          else {
+            this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the order details", null);
+            this.legalConfig = false;
+          }
+
+          if(value.customer || value.customer != null){
+            this.customer = value.customer;
+          }
+          else {
+            console.log("Something went wrong! Please check the customer details");
+            this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the customer details", null);
+            this.legalConfig = false;
+          }
+        }
+      }
+      else if(value.saveCard){
+        this.transaction_mode = 'save_card';
+        this.saveCard = value.saveCard;
+
+        if(value.order || value.order != null){
+          this.order = {currency: value.order.currency, amount: value.order.amount};
+        }
+        else {
+          this.order = {currency: 'KWD', amount: 0};
+        }
+
+        if(value.customer || value.customer != null){
+          this.customer = value.customer;
+        }
+        else {
+          console.log("Something went wrong! Please check the customer details");
+          this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the customer details", null);
+          this.legalConfig = false;
+        }
+      }
+      else if(value.token){
+        this.transaction_mode = 'get_token';
+        this.token = value.token;
+        if(value.order || value.order != null){
+          this.order = {currency: value.order.currency, amount: value.order.amount};
+        }
+        else {
+          this.order = {currency: 'KWD', amount: 0};
+        }
+      }
+      else {
+        // console.log("Something went wrong! Please check the goSell configration");
+        // this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the goSell configration", null);
+        // this.legalConfig = false;
+      }
+    }
+  }
 }
+
 
 function isEmpty(obj){
     return (Object.getOwnPropertyNames(obj).length === 0);
@@ -271,6 +379,8 @@ decorate(ConfigStore, {
   config: observable,
   notifications:observable,
   view:observable,
+  location: observable,
+  contactInfo: observable
 });
 
 export default ConfigStore;

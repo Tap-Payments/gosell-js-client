@@ -35,7 +35,6 @@ class Card extends Component {
     Card.cards.push(this.cardRef);
   }
 
-
   componentWillReceiveProps(nextProps){
 
     this.setState({

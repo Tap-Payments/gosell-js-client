@@ -129,7 +129,7 @@ class TapLoader extends Component {
               />
             </div>
             <p className='tap-msg-title' style={{color: this.props.color === 'white' ? this.props.color : '#4b4847'}}>{this.props.title}</p>
-            <p className="tap-msg-desc" style={{color: this.props.color === 'white' ? '#a4a5a7' : '#f7f7f7'}}>{this.props.desc}</p>
+            <p className="tap-msg-desc" style={{color: this.props.color === 'white' ? '#a4a5a7' : '#797777'}}>{this.props.desc}</p>
             <br/>
             {this.props.close ? <Btn onClick={this.handleClose.bind(this)}>Close</Btn> : null}
           </div>

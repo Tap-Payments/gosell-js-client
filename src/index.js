@@ -19,17 +19,20 @@ module.exports = {
         token={object.token} />, document.getElementById(object.containerID));
   },
   openLightBox:function(){
-    module.exports.GoSell.open();
+    module.exports.GoSell.openLightBox();
   },
   openPaymentPage:function(){
     //this option only for charge & authorize cases
-    //I should call charge or Authorize API
-    window.open('http://', '_self')
+    //The function calls create charge or Authorize API
+    module.exports.GoSell.openPaymentPage();
   },
   goSellElements:function(object){
     ReactDOM.render(
       <GoSellElements
         gateway={object.gateway}
         token={true} />, document.getElementById(object.containerID));
+  },
+  submit:function(){
+    module.exports.GoSellElements.submit();
   }
 };

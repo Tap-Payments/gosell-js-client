@@ -16,9 +16,7 @@ class GoSellElements extends Component {
   }
 
   componentWillMount() {
-    console.log('props', this.props);
-    RootStore.configStore.setConfig(this.props, 'GOSELL_ELEMENTS');
-    RootStore.configStore.configure();
+    this.config(this.props);
   }
 
   componentDidMount(){
@@ -31,8 +29,11 @@ class GoSellElements extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('props', nextProps);
-    RootStore.configStore.setConfig(nextProps, 'GOSELL_ELEMENTS');
+    this.config(nextProps);
+  }
+
+  config(props){
+    RootStore.configStore.setConfig(props, 'GOSELL_ELEMENTS');
     RootStore.configStore.configure();
   }
 

@@ -1,27 +1,22 @@
 <html>
 <head>
-    <title>Tap Payment Gateway</title>
+    <title>goSell Elements Demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="build/tapLogo.png" />
-    <link href="build/css/gosell.css" rel="stylesheet" />
+    <link href="css/gosell.css" rel="stylesheet" />
 
 </head>
 <body>
-    <noscript>
-        You need to enable JavaScript to run this app.
-    </noscript>
 
-    <script type="text/javascript" src="build/js/gosell.js"></script>
+    <script type="text/javascript" src="js/gosell.js"></script>
 
 
     <div id="root"></div>
-    <button id="openTap" onclick="goSell.openLightBox()">open goSell LightBox</button>
+    <button id="openLightBox" onclick="goSell.openLightBox()">open goSell LightBox</button>
+    <button id="openPage" onclick="goSell.openPaymentPage()">open goSell Page</button>
 
     <script>
-
-    console.log(self.origin);
-    console.log(window.location.href);
 
     goSell.config({
       containerID:"root",
@@ -29,11 +24,10 @@
         publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
         language:"en",
         contactInfo:true,
-        supportedCurrencies: ["KWD", "SAR"],
-        supportedPaymentMethods: ["KNET","VISA","MASTERCARD","MADA"],
+        supportedCurrencies:"all",
+        supportedPaymentMethods: "all",
         saveCardOption:false,
         customerCards: true,
-        // goPay:false, //goPay in the next version
         notifications:'standard',
         labels:{
             cardNumber:"Card Number",
@@ -62,17 +56,16 @@
       },
       customer:{
         id:"cus_m1QB0320181401l1LD1812485",
-        first_name: "Hala",
-        middle_name: "A.",
-        last_name: "Qutmosh",
-        email: "h.qutmosh@tap.company",
+        first_name: "First Name",
+        middle_name: "Middle Name",
+        last_name: "Last Name",
+        email: "demo@email.com",
         phone: {
             country_code: "965",
-            number: "62221019"
+            number: "99999999"
         }
       },
       order:{
-        //id:"", next version
         amount: 100,
         currency:"KWD",
         items:null,
@@ -95,34 +88,8 @@
         },
         redirect: window.location.href,
         post: window.location.href,
-      },
-     authorize:{
-        auto:{
-          type: "VOID",
-          time: 100,
-        },
-        saveCard: false,
-        threeDSecure: true,
-        description: "Test Description",
-        statement_descriptor: "Sample",
-        reference:{
-          transaction: "txn_0001",
-          order: "ord_0001"
-        },
-        metadata:{},
-        receipt:{
-          email: false,
-          sms: true
-        },
-        redirect: window.location.href,
-        post: window.location.href,
-      },
-     saveCard:false,
-     token: false
+      }
     });
-
-    // goSell.showLightBox();
-    // goSell.showPaymentPage();
 
     </script>
 

@@ -8,11 +8,21 @@ class Main extends Component {
             <h1>goSell Demos</h1>
             <ul>
               <li>
-                <Link to="/demo">LightBox & Elements</Link>
+                <Link to="/open-light-box-demo">LightBox & Elements</Link>
+              </li>
+              <li>
+                <Link to="/open-page-demo">Open Payment Page from JS library without charge / authorize ID (for now, it just called the old gateway)</Link>
               </li>
               <li>
                 <Link to="/gateway">Payment Gateway as a Page</Link>
               </li>
+              <li>
+                <Link to="/demo">GoSellDemo</Link>
+              </li>
+              <li>
+                <Link to="/elements-demo">GoSellElementsDemo</Link>
+              </li>
+
             </ul>
         </div>);
     }

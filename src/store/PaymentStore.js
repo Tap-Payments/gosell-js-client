@@ -67,18 +67,18 @@ class PaymentStore{
   setThreeDSecure(value){
     var self = this;
 
-    if(value){
-      switch (self.RootStore.configStore.transaction_mode) {
-        case "charge":
-          self.three_d_Secure = self.RootStore.configStore.charge.threeDSecure;
-          break;
-        case "authorize":
-          self.three_d_Secure = self.RootStore.configStore.authorize.threeDSecure;
-          break;
-        default:
+    // if(value){
+    //   switch (self.RootStore.configStore.transaction_mode) {
+    //     case "charge":
+    //       self.three_d_Secure = self.RootStore.configStore.charge.threeDSecure;
+    //       break;
+    //     case "authorize":
+    //       self.three_d_Secure = self.RootStore.configStore.authorize.threeDSecure;
+    //       break;
+    //     default:
           self.three_d_Secure = value;
-      }
-    }
+      // }
+    // }
 
   }
 
@@ -165,7 +165,7 @@ class PaymentStore{
 
     if(data != null){
 
-      data = JSON.parse(data);
+      // data = JSON.parse(data);
       this.setPaymentMethods(data.payment_methods);
       this.setSupportedCurrencies(data.supported_currencies);
 
@@ -360,11 +360,15 @@ class PaymentStore{
     this.supported_currencies = {};
     var config_currencies = this.RootStore.configStore.gateway.supportedCurrencies;
 
-    if(typeof config_currencies === 'object' || Array.isArray(config_currencies)){
+    console.log('config ******* ', config_currencies);
+    if(typeof config_currencies == 'object'){
       self.currencies = config_currencies;
       self.supported_currencies = value.filter(function(el){
+
           return config_currencies.indexOf(el.currency) >= 0;
       });
+
+      console.log('inside the object', self.supported_currencies);
     }
     else {
       switch (config_currencies){
@@ -384,6 +388,8 @@ class PaymentStore{
       }
     }
 
+    console.log('config ******* ', self.supported_currencies);
+
     var methods_currencies = this.supported_currencies_based_on_methods;
     value = self.supported_currencies;
     console.log('supported_currencies', this.supported_currencies);
@@ -391,6 +397,8 @@ class PaymentStore{
     self.supported_currencies = value.filter(function(el){
         return methods_currencies.indexOf(el.currency) >= 0;
     });
+
+    console.log('config ******* ', self.supported_currencies_based_on_methods);
 
   }
 

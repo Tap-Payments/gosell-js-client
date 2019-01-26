@@ -5,23 +5,39 @@ class GoSellPaymentGateway extends Component {
 
   constructor(props){
     super(props);
+    //chg_s4K33520191109Ms012501028
+    //auth_Ka304020191929n2L12501048
+    this.state = {
+      id: 'auth_Ka304020191929n2L12501048',
+      key: 'pk_test_Vlk842B1EA7tDN5QbrfGjYzh',
+      language: 'en',
+      open: false
+    }
   }
 
   componentDidMount(){
-    console.log('props', this.props);
-    console.log('tap_chg', this.props.match.params.tap_chg);
-    // console.log('token', this.props.match.params.token);
-    GoSell.openPage();
+    var self = this;
+    // console.log('tap_chg', this.props.match.params.id);
+    // console.log('key', this.props.match.params.key);
+
+    // this.setState({
+    //   id:this.props.match.params.id,
+    //   key: this.props.match.params.key
+    // });
+
+    GoSell.generateTapGateway();
+
   }
 
   render() {
 
     return (
       <div className="gosell-payment-gateway">
+
         <GoSell
            gateway={{
-               publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
-               language:"en",
+               publicKey:this.state.key,
+               language:this.state.language,
                contactInfo:true,
                supportedCurrencies: 'all', // all | gcc | ["KWD", "SAR"]
                supportedPaymentMethods: "all", // all | ["KNET","VISA","MASTERCARD","MADA"]
@@ -53,40 +69,12 @@ class GoSellPaymentGateway extends Component {
                    }
                }
              }}
-           customer={{
-               id:"cus_m1QB0320181401l1LD1812485",
-               first_name: "Hala",
-               middle_name: "A.",
-               last_name: "Qutmosh",
-               email: "h.qutmosh@tap.company",
-               phone: {
-                   country_code: "965",
-                   number: "62221019"
-               }
-             }}
-           order={{
-             amount: 100,
-             currency:"KWD"
-           }}
-           charge={{
-            // id: this.props.match.params.tap_chg,
-             saveCard: false,
-             threeDSecure: true,
-             description: "Test Description",
-             statement_descriptor: "Sample",
-             reference:{
-               transaction: "txn_0001",
-               order: "ord_0001"
-             },
-             metadata:{},
-             receipt:{
-               email: false,
-               sms: true
-             },
-             redirect: "http://localhost:3000",
-             post: "http://localhost:3000"
-         }}
-           />
+            authorize={{
+              id:this.state.id
+            }}
+
+       />
+
       </div>
     );
   }

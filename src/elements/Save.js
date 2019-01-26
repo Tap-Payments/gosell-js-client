@@ -11,8 +11,8 @@ import tapLogo from '../assets/imgs/tapLogo.png';
 import bill from '../assets/imgs/bill.svg';
 import TapButton from './TapButton';
 import Otp from './Otp';
-import SwipeableViews from 'react-swipeable-views';
 import ExtraFees from './ExtraFees';
+
 
 const styles = {
     'row1':{
@@ -48,7 +48,7 @@ class Save extends Component {
   }
 
   componentDidMount(){
-    this.props.store.uIStore.setPageIndex(0);
+    this.props.store.uIStore.setPageIndex(0, 'y');
   }
 
   handleBtnClick(){

@@ -2,6 +2,7 @@ import React, { Component }  from 'react';
 import security from '../assets/imgs/3d-security.svg';
 import {Loader} from '@tap-payments/loader';
 import styled from "styled-components";
+import {observer} from 'mobx-react';
 import * as animationData from '../assets/loader/white-loader.json';
 
 class TapButton extends Component {
@@ -9,7 +10,6 @@ class TapButton extends Component {
 
   constructor(props){
     super(props);
-
     this.state = {
       btnColor: '#C9C9C9',
       animating: false
@@ -27,7 +27,6 @@ class TapButton extends Component {
   }
 
   render() {
-
     const Btn = styled.button`
       width: ${this.props.width};
       height: ${this.props.height};
@@ -76,4 +75,4 @@ class TapButton extends Component {
   }
 }
 
-export default TapButton;
+export default observer(TapButton);

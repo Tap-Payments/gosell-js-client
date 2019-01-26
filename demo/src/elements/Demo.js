@@ -22,7 +22,7 @@ class Demo extends Component {
     });
 
     setTimeout(function(){
-      GoSell.open();
+      GoSell.openLightBox();
     }, 500);
 
   }

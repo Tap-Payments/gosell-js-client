@@ -58,6 +58,14 @@ class Modal extends React.Component {
       isOpen: this.props.open
     });
 
+    if(this.props.open){
+      document.body.classList.add('modal-open');
+    }
+    else {
+      document.body.classList.remove('modal-open');
+    }
+
+
     if(this.props.animate && !this.props.isLoading){
       var self = this;
       setTimeout(function(){ self.setState({ isOpenWait: "showModal animateUp", loading: this.props.isLoading }); }, 700);
@@ -119,15 +127,23 @@ class Modal extends React.Component {
     // console.log('is loading from modal', nextProps.isLoading);
     // console.log('is animate from modal', nextProps.animate);
 
+    if(nextProps.open){
+      document.body.classList.add('modal-open');
+    }
+    else {
+      document.body.classList.remove('modal-open');
+    }
+
      if(!nextProps.isLoading){ // && nextProps.animate
        var self = this;
        setTimeout(function(){ self.setState({ isOpenWait: "showModal animateUp", loading: nextProps.isLoading }); }, 1000);
-       //document.body.classList.add('modal-open');
+       // document.body.classList.add('modal-open');
      }
      else if(nextProps.animate && nextProps.isLoading){
        var self = this;
        self.setState({ isOpenWait: "hideModal animateDown"});
        setTimeout(function(){ self.setState({loading: nextProps.isLoading }); }, 1000);
+       // document.body.classList.remove('modal-open');
      }
   }
 

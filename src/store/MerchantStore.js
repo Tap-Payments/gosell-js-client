@@ -7,7 +7,6 @@ class MerchantStore {
     this.RootStore = RootStore;
 
     this.merchant = null;
-    this.sk = null;
     this.pk = null;
     this.session = null;
 
@@ -32,7 +31,7 @@ class MerchantStore {
 
       if(info != null){
 
-        info = JSON.parse(info).merchant;
+        info = info.merchant;
 
         console.log('info', info);
         this.logo = info.logo ? info.logo : null;
@@ -41,7 +40,7 @@ class MerchantStore {
         this.contact = info.contact ? info.contact : null;
 
         this.isLoading = false;
-      
+
       }
 
   }
