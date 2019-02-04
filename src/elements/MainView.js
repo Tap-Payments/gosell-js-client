@@ -14,17 +14,16 @@ class MainView extends Component {
 
       return (
           <React.Fragment>
-
             <PaymentOptions store={store} />
             {!store.getIsMobile ?
               <React.Fragment>
-                <SideMenu key={0} id='currencies' dir={store.uIStore.getDir}  animationDuration={'300ms'}  expand={store.uIStore.getSubPage === 0 ? true : false} width='105px'>
+                <SideMenu key={0} id='currencies' dir={store.uIStore.getDir}  animationDuration={'300ms'}  expand={store.uIStore.getSubPage === 0 ? true : false} width={110}>
                     <SupportedCurrencies dir={store.uIStore.getDir} store={store} width='105px' />
                 </SideMenu>
 
-                <SideMenu key={1} id='business-info' dir={store.uIStore.getDir}  animationDuration={'600ms'} expand={store.uIStore.getSubPage === 1 ? true : false} width='200px'>
+                <SideMenu key={1} id='business-info' dir={store.uIStore.getDir}  animationDuration={'600ms'} expand={store.uIStore.getSubPage === 1 ? true : false} width={200}>
                     {store.configStore.contactInfo && store.merchantStore.contact && Object.keys(store.merchantStore.contact).length > 0 ?
-                      <BusinessInfo store={store} width="60px" style={{width: "60px", backgroundColor: 'rgba(0,0,0,0.25)'}}/>
+                      <BusinessInfo store={store} width="65px"/>
                     : null}
                 </SideMenu>
               </React.Fragment>

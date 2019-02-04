@@ -1,8 +1,6 @@
 import React, { Component }  from 'react';
-import security from '../assets/imgs/3d-security.svg';
 import styled from "styled-components";
 import '../assets/css/msg.css';
-import errorIcon from '../assets/imgs/error-icon.svg';
 import TapButton from './TapButton';
 import {Loader} from '@tap-payments/loader';
 import * as shortBlackLoader from '../assets/loader/black-loader.json';

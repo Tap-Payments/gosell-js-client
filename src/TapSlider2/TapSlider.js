@@ -28,9 +28,6 @@ class TapSlider extends Component {
     store.setInitialWidth(document.getElementById('tapAwesomeSlider').clientWidth);
     // store.setInitialHeight( document.getElementById('tapAwesomeSlider').clientHeight);
 
-    console.log("width: ", store.sliderInitialWidth);
-    console.log("height: ", store.sliderInitialHeight);
-
     store.addItem(this.props.componentKey);
   }
 

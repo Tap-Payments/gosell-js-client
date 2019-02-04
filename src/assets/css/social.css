@@ -2,8 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     left: 0;
     position: absolute;
 }
@@ -12,8 +12,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     right: 0;
     position: absolute;
 }
@@ -22,8 +22,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     left: 0;
     position: absolute;
 }
@@ -34,8 +34,8 @@
 }
 
 .tap-social-empty{
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
 }
 
 .tap-social-info{

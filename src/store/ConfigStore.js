@@ -41,6 +41,7 @@ class ConfigStore {
     };
 
     this.transaction_mode = null;
+    this.tranx_description = null;
     this.customer = null;
 
     this.charge = null;
@@ -61,22 +62,11 @@ class ConfigStore {
     this.notifications = 'standard';
 
     this.view = '';
-
-    this.location = '';
   }
 
   setConfig(value, view){
     this.config = value;
     this.view = view;
-
-    // this.RootStore.configStore.setServerLocation('http://192.168.8.164:8000');
-    this.RootStore.configStore.setServerLocation('http://localhost:8000');
-
-    console.log('location from setConfig ==========> ', this.location);
-  }
-
-  setServerLocation(url){
-    this.location = url;
   }
 
   configure(){
@@ -185,7 +175,7 @@ class ConfigStore {
       }
       else {
         console.log("Something went wrong! Please check the goSell configration");
-        this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the goSell configration", null);
+        this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the goSell configration", null);
         this.legalConfig = false;
       }
     }
@@ -227,12 +217,16 @@ class ConfigStore {
               post: result.data.post.url
             };
 
+            self.tranx_description = self.charge.description;
+
             self.RootStore.paymentStore.charge = self.charge;
           });
 
         }else {
 
           this.charge = value.charge;
+
+          self.tranx_description = self.charge.description;
 
           this.redirect_url = value.charge.redirect;
           this.RootStore.paymentStore.charge = this.charge;
@@ -244,7 +238,8 @@ class ConfigStore {
             this.order = {currency: value.order.currency, amount: value.order.amount};
           }
           else {
-            this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the order details", null);
+            this.order = {currency: 'KWD', amount: 0};
+            this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the order details", null);
             this.legalConfig = false;
           }
 
@@ -253,7 +248,7 @@ class ConfigStore {
           }
           else {
             console.log("Something went wrong! Please check the customer details");
-            this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the customer details", null);
+            this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the customer details", null);
             this.legalConfig = false;
           }
         }
@@ -285,11 +280,15 @@ class ConfigStore {
               post: result.data.post.url
             };
 
+            self.tranx_description = self.authorize.description;
+
             self.RootStore.paymentStore.authorize = self.authorize;
           });
 
         }else {
           this.authorize = value.authorize;
+
+          self.tranx_description = self.authorize.description;
           console.log('authorize', this.authorize);
           this.redirect_url = value.authorize.redirect;
 
@@ -300,7 +299,8 @@ class ConfigStore {
             this.order = {currency: value.order.currency, amount: value.order.amount};
           }
           else {
-            this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the order details", null);
+            this.order = {currency: 'KWD', amount: 0};
+            this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the order details", null);
             this.legalConfig = false;
           }
 
@@ -309,7 +309,7 @@ class ConfigStore {
           }
           else {
             console.log("Something went wrong! Please check the customer details");
-            this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the customer details", null);
+            this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the customer details", null);
             this.legalConfig = false;
           }
         }
@@ -330,7 +330,7 @@ class ConfigStore {
         }
         else {
           console.log("Something went wrong! Please check the customer details");
-          this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the customer details", null);
+          this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the customer details", null);
           this.legalConfig = false;
         }
       }
@@ -379,8 +379,8 @@ decorate(ConfigStore, {
   config: observable,
   notifications:observable,
   view:observable,
-  location: observable,
-  contactInfo: observable
+  contactInfo: observable,
+  tranx_description: observable
 });
 
 export default ConfigStore;

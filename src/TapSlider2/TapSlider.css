@@ -17,3 +17,9 @@
   /* height: 100%; */
   height: fit-content;
 }
+
+@media (max-width: 440px){
+  .tapAwesomeSlider{
+    /* overflow: scroll !important; */
+  }
+}

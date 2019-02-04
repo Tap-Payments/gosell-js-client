@@ -6,9 +6,9 @@ import Img from './Img';
 import Separator from './Separator';
 import Cards from './Cards';
 import SaveForm from './SaveForm';
-import closeIcon from '../assets/imgs/close.svg';
-import tapLogo from '../assets/imgs/tapLogo.png';
-import bill from '../assets/imgs/bill.svg';
+import Options from './Options';
+import Paths from '../../webpack/paths';
+// import bill from '../assets/imgs/bill.svg';
 import TapButton from './TapButton';
 import Otp from './Otp';
 // import SwipeableViews from 'react-swipeable-views';
@@ -17,6 +17,9 @@ import ExtraFees from './ExtraFees';
 import TapSlider from '../TapSlider2/TapSlider';
 import SupportedCurrencies from './SupportedCurrencies';
 import BusinessInfo from './BusinessInfo';
+import styled from "styled-components";
+import Order from './Order';
+import Items from './Items/Items';
 
 const styles = {
     'row1':{
@@ -41,6 +44,20 @@ const styles = {
       'subtitle':{
         fontSize: '15px'
       }
+    },
+    'order_row':{
+      'rowContainer': { backgroundColor: 'white',
+      textAlign: 'center',
+      height: '30px',
+      '&:hover': {
+      //    boxShadow: 'inset 0px 11px 0px -10px #2ACE00, inset 0px -11px 0px -10px #2ACE00'
+      }
+    },
+      // 'iconStyle': {width: '100px', height: '30px'},
+      'textStyle': {width: '100%'},
+      'subtitle':{
+        fontSize: '12px'
+      }
     }
 }
 
@@ -55,15 +72,10 @@ class Pay extends Component {
 
   componentDidMount(){
     this.props.store.uIStore.setPageIndex(0, 'y');
+    // this.props.store.uIStore.mainHeight = this.options.clientHeight;
   }
 
-  handleWebClick(payment){
-    this.setState({
-      payment: payment
-    });
 
-    this.props.store.actionStore.onWebPaymentClick(payment);
-  }
 
   handlePayBtnClick(){
     var store = this.props.store;
@@ -106,36 +118,15 @@ class Pay extends Component {
 
     var title = '', self = this, cards = {};
 
+
+    // console.log("OOOOOOOOOOOOOOOOOOO ", this.options.clientHeight);
+    // var mainHeight = this.options.clientHeight
+
     console.log('from pay.js ---------------------> ', this.props.store.uIStore.pay_btn);
-
-    const WebPayments = store.paymentStore.getWebPaymentsByCurrency.map((payment, index) =>
-
-              <div key={'div-'+index}>
-                <Row
-                  key={payment.id}
-                  dir={store.uIStore.getDir}
-                  style={styles.row2}
-                  rowIcon={<Img imgSrc={payment.image} imgWidth="30"/>}
-                  rowTitle={{'secondary': payment.name}}
-                  onClick={this.handleWebClick.bind(this, payment)}
-                  addArrow={true}/>
-
-                  <Separator key={'separator-'+index}/>
-              </div>
-      );
-
-
-      if(store.paymentStore.customer_cards_by_currency){
-          const CardsList = store.paymentStore.customer_cards_by_currency.map((payment, index) =>
-            <div key={'div-'+index}>
-                <Img imgSrc={payment.image} imgWidth="30"/>
-            </div>
-          );
-      }
 
      var total = store.paymentStore.active_payment_option_total_amount > 0 ? store.paymentStore.current_currency.symbol + store.uIStore.formatNumber(store.paymentStore.active_payment_option_total_amount.toFixed(store.paymentStore.current_currency.decimal_digit)) : '';
 
-     console.log('index ================================= >>> ', store.uIStore.getPageIndex);
+     console.log('items ================================= >>> ', store.configStore.items);
 
      return (
        <TapSlider
@@ -146,54 +137,19 @@ class Pay extends Component {
            direction={store.uIStore.getDir}>
 
                 <div key={0} style={{height: '100%', position:'relative'}}>
-                  <Separator />
-                  {store.paymentStore.supported_currencies && store.paymentStore.supported_currencies.length > 1 ?
-                  <Row
-                    id="currencies"
-                    ref={(node) => this.currencies = node}
-                    dir={store.uIStore.getDir}
-                    style={styles.row1}
-                    rowIcon={<Img imgSrc={bill} imgWidth="18" style={
-                      store.uIStore.getDir === 'ltr' ?
-                      {borderRight: '0.5px solid rgba(0, 0, 0, 0.17)'}
-                       : {borderLeft: '0.5px solid rgba(0, 0, 0, 0.17)'}}/>}
-                    rowTitle={this.props.store.paymentStore.getCurrentValue}
-                    onClick={this.props.store.actionStore.currenciesHandleClick}
-                    addArrow={true}/>
-                  :
-                  <Row
-                    id="currencies"
-                    ref={(node) => this.currencies = node}
-                    dir={store.uIStore.getDir}
-                    style={styles.row1}
-                    rowTitle={this.props.store.paymentStore.getCurrentValue}
-                    onClick={this.props.store.actionStore.currenciesHandleClick}
-                    addArrow={false}/>
-                  }
-                  <Separator />
 
-                  {store.paymentStore.customer_cards_by_currency && store.paymentStore.customer_cards_by_currency.length > 0 ?
-                      <Cards ref="cards" store={store} cards={store.paymentStore.customer_cards_by_currency} dir={store.uIStore.getDir}/>
-                  : null}
+                  <div className="gosell-order-details" style={store.uIStore.show_order_details ? {height: store.uIStore.mainHeight} : {}}>
 
-                  {WebPayments.length > 0 || store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
-                    <Label title="Others" dir={store.uIStore.getDir}/>
-                  : <div style={{marginBottom: '20px'}}></div>}
+                      <div style={{height: 'fit-content'}}>
+                        <Items
+                          desc={store.configStore.tranx_description}
+                          items={store.configStore.items}
+                          total={store.configStore.order.symbol + store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit))}/>
+                      </div>
 
-                  {WebPayments.length > 0 ?
-                    <div style={{marginBottom: '20px'}}>
-                      <Separator />
-                      {WebPayments}
-                    </div>
-                  : null }
+                  </div>
 
-                  {store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
-                    <React.Fragment>
-                      <Separator />
-                        <SaveForm store={store}/>
-                      <Separator />
-                    </React.Fragment>
-                  : null }
+                  <Options store={store}/>
 
                   <div style={{height: '86px', position:'relative'}}>
                       <TapButton
@@ -206,6 +162,7 @@ class Pay extends Component {
                         animate={this.props.store.uIStore.getBtnLoaderStatus}
                         handleClick={this.handlePayBtnClick.bind(this)}>{store.configStore.btn +' '+ total}</TapButton>
                   </div>
+
                 </div>
 
                 <div key={1} style={{height: '100%', position:'relative'}}>
@@ -220,9 +177,21 @@ class Pay extends Component {
                     <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.getDir} store={store}/>
                 </div>
 
-                <div key={4} style={{height: '100%', position:'relative'}}>
+                <div key={4} style={{height: 'fit-content', position:'relative'}}>
                     <BusinessInfo store={store} width="100%"/>
                 </div>
+
+                <div key={5} style={{height: 'fit-content', position:'relative'}}>
+                    {
+                      // <Order onClick={store.actionStore.handleOrderDetailsClick}>Order Details</Order>
+                      // <OrderDetails className={store.uIStore.show_order_details ? "order-details order-show-details" : "order-details"} onClick={store.actionStore.handleOrderDetailsClick}>
+                      //   TEST TEST TEST TEST TEST TEST
+                      // </OrderDetails>
+                    }
+                    <Order dir={store.uIStore.getDir} store={store}/>
+
+                </div>
+
         </TapSlider>);
   }
 }

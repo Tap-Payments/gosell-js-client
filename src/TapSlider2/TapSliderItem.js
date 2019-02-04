@@ -8,16 +8,18 @@ class TapSliderItem extends Component {
     this.state = {};
   }
 
-  componentDidUpdate(){
-    if(store.currentItemKey === 0){
+  componentDidUpdate(prevProps){
+    console.log('height from did update : ', this.tapAwesomeItem.clientHeight);
+
+    if(store.currentItemKey == 0){
       store.sliderInitialHeight = this.tapAwesomeItem.clientHeight;
+      console.log('height updated ===================== ', store.sliderInitialHeight);
     }
-    console.log('height updated ===================== ', store.sliderInitialHeight);
-    console.log('key:::::::::::::::::::::::::::', store.currentItemKey);
+
   }
 
   componentDidMount() {
-    if(store.currentItemKey === 0){
+    if(store.currentItemKey == 0){
       store.sliderInitialHeight = this.tapAwesomeItem.clientHeight;
       console.log('height first time ===================== ', store.sliderInitialHeight);
     }

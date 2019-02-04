@@ -207,7 +207,7 @@ class Modal extends React.Component {
 
           {this.props.mode === 'page' ?
             <div className="page" style={{backgroundColor: this.props.pageBgColor}}>
-              {this.props.pageBgImg ? <img src={this.props.pageBgImg} style={this.props.pageBgStyle} alt="background-img"/> : null}
+              {this.props.pageBgImg ? <img className="tap-payments-page-bg-img" src={this.props.pageBgImg} style={this.props.pageBgStyle} alt="background-img"/> : null}
             </div>
 
             : this.props.mode === 'popup'?

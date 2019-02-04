@@ -10,11 +10,13 @@ class Search extends Component {
       EventType: this.props.EventType ? this.props.EventType : 'keypress'
     }
 
-    this.filterHandler = this.filterHandler.bind(this);
+    // this.filterHandler = this.filterHandler.bind(this);
   }
 
-  filterHandler(e){
-    this.props.filterList(e);
+  filterHandler(event){
+    event.preventDefault();
+
+    this.props.filterList(event);
   }
 
   render() {
@@ -27,7 +29,7 @@ class Search extends Component {
                 className="tap-searchbar"
                 placeholder={this.props.searchPlaceholderText}
                 style={this.props.style ? this.props.style.searchbar : null}
-                onKeyUp={this.filterHandler}
+                onKeyUp={this.filterHandler.bind(this)}
               />
               <span className={"tap-input-icon"}>{this.props.searchIcon} </span>
       </div>

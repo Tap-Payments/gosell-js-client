@@ -1,5 +1,6 @@
 import {decorate, observable, computed} from 'mobx';
 import axios from 'axios';
+import Paths from '../../webpack/paths';
 
 class ApiStore{
 
@@ -19,7 +20,7 @@ class ApiStore{
      }
 
      var res = null, data = null;
-     await axios.post(self.RootStore.configStore.location + '/init', body)
+     await axios.post(Paths.serverPath + '/init', body)
      .then(async function (response) {
 
        res = response.data;
@@ -97,7 +98,7 @@ class ApiStore{
  //    }
  //
  //    var res = null, data = null, payment = null, merchant = null;
- //    await axios.post(self.RootStore.configStore.location + '/init', body)
+ //    await axios.post(Paths.serverPath + '/init', body)
  //    .then(async function (response) {
  //
  //      res = response.data;
@@ -173,13 +174,13 @@ class ApiStore{
          "shipping": this.RootStore.configStore.shipping,
          "taxes": this.RootStore.configStore.taxes,
          "customer": this.RootStore.configStore.gateway.customerCards && this.RootStore.configStore.customer ? this.RootStore.configStore.customer.id : null,
-         "currency" : this.RootStore.configStore.order.currency,
-         "total_amount": this.RootStore.configStore.order.amount
+         "currency" : this.RootStore.configStore.order && this.RootStore.configStore.order.currency ? this.RootStore.configStore.order.currency : "KWD",
+         "total_amount": this.RootStore.configStore.order && this.RootStore.configStore.order.amount ? this.RootStore.configStore.order.amount : 0
       }
     }
 
     var res = null, data = null;
-    await axios.post(this.RootStore.configStore.location +'/api', body)
+    await axios.post(Paths.serverPath +'/api', body)
     .then(function (response) {
 
        res = response;
@@ -221,7 +222,7 @@ class ApiStore{
 
     var res = null;
 
-    await axios.post(this.RootStore.configStore.location +'/api', body)
+    await axios.post(Paths.serverPath +'/api', body)
     .then(function (response) {
 
       res = response;
@@ -375,7 +376,7 @@ class ApiStore{
 
     var res = null;
 
-    await axios.post(this.RootStore.configStore.location +'/api', body)
+    await axios.post(Paths.serverPath +'/api', body)
     .then(async function (response) {
       res = response;
       console.log('charge', response);
@@ -441,7 +442,7 @@ class ApiStore{
 
     var result, res = null;
 
-    await axios.post(this.RootStore.configStore.location +'/api', body)
+    await axios.post(Paths.serverPath +'/api', body)
     .then(async function (response) {
       res = response.data;
       console.log('authorize', res);
@@ -629,7 +630,7 @@ class ApiStore{
   //    }
   //
   //    var res = null, data = null, transaction = null;
-  //    await axios.post(this.RootStore.configStore.location +'/init', body)
+  //    await axios.post(Paths.serverPath +'/init', body)
   //    .then(async function (response) {
   //
   //      res = response.data;
@@ -697,7 +698,7 @@ class ApiStore{
     }
 
     var res = null;
-    await axios.post(this.RootStore.configStore.location +'/api', body)
+    await axios.post(Paths.serverPath +'/api', body)
     .then(async function (response) {
       res = response;
 
@@ -729,7 +730,7 @@ class ApiStore{
     }
 
     var res = null;
-    await axios.post(this.RootStore.configStore.location +'/api', body)
+    await axios.post(Paths.serverPath +'/api', body)
     .then(async function (response) {
       res = response;
 
@@ -760,7 +761,7 @@ class ApiStore{
     }
 
     var res = null;
-    await axios.post(this.RootStore.configStore.location + '/api', body)
+    await axios.post(Paths.serverPath + '/api', body)
     .then(async function (response) {
       res = response.data;
 
@@ -809,7 +810,7 @@ class ApiStore{
 
     var res = null; var result = null;
 
-    await axios.post(this.RootStore.configStore.location +'/api', body)
+    await axios.post(Paths.serverPath +'/api', body)
     .then(async function (response) {
 
        res = response.data;
@@ -868,7 +869,7 @@ class ApiStore{
 
     var res = null;
 
-    await axios.post(this.RootStore.configStore.location + '/api', body)
+    await axios.post(Paths.serverPath + '/api', body)
     .then(async function (response) {
       res = response.data;
 
@@ -923,7 +924,7 @@ class ApiStore{
     }
 
     var result, res = null;
-    await axios.post(this.RootStore.configStore.location + '/api', body)
+    await axios.post(Paths.serverPath + '/api', body)
     .then(async function (response) {
       res = response;
       console.log('token', res);
@@ -983,7 +984,7 @@ class ApiStore{
     }
 
     var res = null;
-    await axios.post(this.RootStore.configStore.location + '/api', body)
+    await axios.post(Paths.serverPath + '/api', body)
     .then(async function (response) {
       res = response;
 
@@ -1046,7 +1047,7 @@ class ApiStore{
 
     var res = null;
 
-    await axios.post(this.RootStore.configStore.location +'/api', body)
+    await axios.post(Paths.serverPath +'/api', body)
     .then(async function (response) {
 
       res = response.data;
@@ -1109,7 +1110,7 @@ class ApiStore{
     }
 
     var res = null;
-    await axios.post(this.RootStore.configStore.location + '/api', body)
+    await axios.post(Paths.serverPath + '/api', body)
     .then(async function (response) {
       res = response.data;
 
@@ -1170,7 +1171,7 @@ class ApiStore{
     }
 
     var res = null;
-    await axios.post(this.RootStore.configStore.location +'/api', body)
+    await axios.post(Paths.serverPath +'/api', body)
     .then(async function (response) {
 
       res = response.data;

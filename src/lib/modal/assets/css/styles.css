@@ -90,7 +90,9 @@ body{
 .modal_container{
   width: 100%;
   /*padding: 2px;*/
-  overflow: auto;
+  overflow-y: scroll; /* has to be scroll, not auto */
+  scroll-behavior: smooth;
+  /* -webkit-overflow-scrolling: touch; */
   position: fixed;
   left: 0;
   top: 0;
@@ -118,6 +120,9 @@ body{
 }
 
 .body-container{
+  overflow-y: scroll; /* has to be scroll, not auto */
+  scroll-behavior: smooth;
+  /* -webkit-overflow-scrolling: touch; */
   z-index: 0;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -165,6 +170,8 @@ body{
     border: 1px solid #eaeaea;
     border-top: none;
     /*box-shadow: 0px 5px 7px #eee;*/
+    box-shadow: rgba(0, 0, 0, 0.27) 0px 17px 36px 2px;
+    border-radius: 0px 0px 8px 8px;
 }
 
 .modal-background-color {
@@ -222,6 +229,12 @@ body{
 
 }
 
+.tap-payments-page-bg-img{
+  width: 100%;
+  height: 100%;
+  opacity: 0.35;
+}
+
 .modal-header{
   width: 100%;
   height: 50px;
@@ -234,6 +247,8 @@ body{
   margin: 0 auto;
   border: 1px solid #eaeaea;
   border-bottom: none;
+  box-shadow: rgba(0, 0, 0, 0.27) 0px 0px 36px 2px;
+  border-radius: 8px 8px 0px 0px;
 }
 
 .header-icon{
@@ -539,10 +554,10 @@ a.close:hover {
 
 @media(max-width: 440px){
 
-  .modal-body{
-    overflow-y: scroll; /* has to be scroll, not auto */
+  /* .modal-body{
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
-  }
+  } */
 
   .modal_container {
     width: 100%;
@@ -554,7 +569,8 @@ a.close:hover {
 
 
   .showModal, .modal{
-    width: 100% !important;
+    width: 90% !important;
+    height: 90%;
   }
 
   .hideModal, .modal{
@@ -589,5 +605,10 @@ a.close:hover {
   .tap-options{
     padding: 10px 20px;
   }
+
+  .tap-payments-page-bg-img{
+    width: auto;
+  }
+
 
 }

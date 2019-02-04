@@ -164,7 +164,6 @@ Transaction mode of the example: 'charge'
     <title>goSell Demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="https://payments.tap.company/tapLogo.png" />
     <link href="https://payments.tap.company/css/gosell.css" rel="stylesheet" />
 </head>
 <body>
@@ -400,11 +399,8 @@ It's a required field for the JS library. It includes the general settings of th
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | publicKey | string  | **required**  |  | Your goSell public key. |
 | language | string  | **optional**  | 'en' | Define the language of payment gateway. The supported languages are 'en' & 'ar'. |
-| contactInfo | boolean  | **optional**  |  true | Show the contact info (phone numbers, social media links .. etc) of the merchant in goSell gateway. |
 | supportedCurrencies | string or array of currencies using ISO code  | **optional**  | 'all' | there's 3 different values for this property:<br><br>  1.'all': which will display  all goSell supported currencies.<br><br> 2.'gcc': the currencies of Gulf Cooperation Council. <br><br> 3. Array of strings: specify a custom list of the following supported currencies by goSell: <br> ["KWD", "BHD", "SAR", "AED", "OMR", "QAR", "EGP", "GBP", "USD", "EUR"] |
 | supportedPaymentMethods | string or array of required payment methods  | **optional**  | 'all' | there's 2 different values for this property:<br><br>  1.'all': shows all activated payment methods in your account.<br><br> 2. Array of strings: specify a custom list of your activated payment methods in your account. |
-| saveCardOption | boolean  | **optional**  | true | Enable or disable the saving card option on the credit/debit cards section in goSell payment gateway, if saving cards feature is enabled in your goSell account. |
-| customerCards | boolean  | **optional**  | true | Allow/Disallow your customers to pay by their saved cards on goSell Gateway. If you enabled this property, your customers will able to see their saved cards and use them security. |
 | notifications | string  | **optional**  | 'standard' | Define your preferences, if you like to use your own component or HTML element to show notifications or use goSell standard notifications bar. |
 | labels | object  | **optional**  | {<br>cardNumber:"Card Number",<br>expirationDate:"MM/YY",<br>cvv:"CVV",<br>cardHolder:"Name on Card",<br>actionButton:"Pay"<br>} | Define custom titles for input boxes inside credit/debit cards section. |
 | style | object  | **optional**  | {<br>base: {<br>color: '#535353',<br>lineHeight: '18px',<br>fontFamily: 'sans-serif',<br>fontSmoothing: 'antialiased',<br>fontSize: '16px',<br>'::placeholder': {<br>color: 'rgba(0, 0, 0, 0.26)',<br>fontSize:'15px'<br>}<br>},<br>invalid: {<br>color: 'red',<br>iconColor: '#fa755a '<br>}<br>} | Define custom style for input boxes inside credit/debit cards section. |
@@ -423,7 +419,6 @@ Used to generate card token.
       <title>goSell Elements Demo</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <link rel="shortcut icon" href="https://payments.tap.company/tapLogo.png" />
       <link href="https://payments.tap.company/css/gosell.css" rel="stylesheet" />
    </head>
    <body>
@@ -494,11 +489,8 @@ class GoSellElementsDemo extends Component {
            gateway={{
              publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
              language:"en",
-             contactInfo:true,
-             supportedCurrencies:"all",
-             supportedPaymentMethods:"all",
-             saveCardOption:true,
-             customerCards: true,
+             supportedCurrencies: "all",
+             supportedPaymentMethods: "all",
              notifications:'msg',
              labels:{
                  cardNumber:"Card Number",

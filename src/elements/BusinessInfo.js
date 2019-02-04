@@ -14,6 +14,7 @@ class BusinessInfo extends Component {
     super(props);
     this.state = {
       isClicked: false,
+      height: '100%',
       hoverStyle: {
         display: 'flex',
         height: '50px',
@@ -49,16 +50,29 @@ class BusinessInfo extends Component {
   }
 
   render() {
-
-    const Business = styled.div`
-      ${this.props.style};`
-
     var self = this;
 
     let store = this.props.store;
 
+    const Business = styled.div`
+      width: ${this.props.width};
+      height: 'fit-content';
+      /* height: 100%; */
+      background: rgba(255, 255, 255, 0.6);`
+
+    //${store.uIStore.modal_mode === 'page' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0,0,0,0.30)' }
+
+    const Effect = styled.div`
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        z-index: -9;
+        bottom: 0;
+        filter: blur(8px);
+        -webkit-filter: blur(8px);`
+
     var contactIcons = [], more = null, socialIcons = [];
-    var darkView = null;
+    var darkView = null, lightView = null;
 
     if(store.merchantStore.contact){
 
@@ -114,11 +128,11 @@ class BusinessInfo extends Component {
               dir={store.uIStore.getDir}
               style={{
                 'iconStyle':{
-                  width: this.props.width,
-                  height: '60px',
+                  width: '65px',
+                  height: '65px',
                   '&:hover': {
                     backgroundColor: contact.color,
-                    width: contact.type === 'phone' ? '190px' : '60px',
+                    width: contact.type === 'phone' ? '190px' : '65px',
                     cursor: contact.type === 'phone' ? 'default' : 'pointer',
                   },
                   '&:first-child': {
@@ -137,8 +151,46 @@ class BusinessInfo extends Component {
               onClick={this.handleClick.bind(this, contact)}
               addArrow={false}
               />
+              {(index + 1) != store.merchantStore.contact.length ?
+                <Separator key={'separator-'+index} style={{borderColor: '#737373'}}/> : null}
+          </div>
+      );
 
-            <Separator key={'separator-'+index} style={{borderColor: '#737373'}}/>
+      console.log('store.merchantStore.contact', store.merchantStore.contact);
+      lightView = store.merchantStore.contact.map((contact, index) =>
+          <div key={'social-light-'+index}>
+            <Social
+              id={index}
+              key={'contact-'+index}
+              dir={store.uIStore.getDir}
+              style={{
+                'iconStyle':{
+                  width: '65px',
+                  height: '65px',
+                  '&:hover': {
+                    backgroundColor: contact.color,
+                    width: contact.type === 'phone' ? '190px' : '65px',
+                    cursor: contact.type === 'phone' ? 'default' : 'pointer',
+                  },
+                  '&:first-child': {
+                    borderTopRightRadius: align === 'right' &&  index === 0 ? '8px' : '0',
+                    borderTopLeftRadius: align === 'left' && index === 0 ? '8px' : '0'
+                  },
+                  '&:last-child': {
+                    borderBottomRightRadius: align === 'right' && index === 9 ? '8px' : '0',
+                    borderBottomLeftRadius: align === 'left' && index === 9 ? '8px' : '0'
+                  }
+                }
+              }}
+              icon={<img src={contact.img} width="18" height="18" alt={contact.key}/>}
+              info={contact.value}
+              expand={contact.type === 'phone' ? true : false}
+              onClick={this.handleClick.bind(this, contact)}
+              addArrow={false}
+              />
+              {(index + 1) != store.merchantStore.contact.length ?
+                <Separator key={'separator-'+index} style={{borderColor: '#fff', top: (65 * index) + 'px'}}/> : null}
+
           </div>
       );
 
@@ -148,7 +200,6 @@ class BusinessInfo extends Component {
       <Business className={align+"-business-info"}>
         {store.uIStore.getIsMobile ?
             <React.Fragment>
-              <Separator />
               {store.merchantStore.desc ?
                 <React.Fragment>
                   <Row
@@ -177,7 +228,10 @@ class BusinessInfo extends Component {
                 </React.Fragment> : null}
             </React.Fragment>
           :
-          darkView
+          <React.Fragment>
+             {lightView}
+             <Effect />
+          </React.Fragment>
         }
       </Business>
     );

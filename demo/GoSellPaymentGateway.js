@@ -8,7 +8,7 @@ class GoSellPaymentGateway extends Component {
     //chg_s4K33520191109Ms012501028
     //auth_Ka304020191929n2L12501048
     this.state = {
-      id: 'auth_Ka304020191929n2L12501048',
+      id: 'chg_s4K33520191109Ms012501028',
       key: 'pk_test_Vlk842B1EA7tDN5QbrfGjYzh',
       language: 'en',
       open: false
@@ -69,11 +69,10 @@ class GoSellPaymentGateway extends Component {
                    }
                }
              }}
-            authorize={{
+            charge={{
               id:this.state.id
             }}
-
-       />
+        />
 
       </div>
     );

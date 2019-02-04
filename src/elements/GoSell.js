@@ -1,11 +1,13 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
 import {Modal, Header, NotificationBar} from '../lib/modal/';
-import closeIcon from '../assets/imgs/close.svg';
-import tapLogo from '../assets/imgs/tapLogo.png';
-import '../assets/fonts/fonts.css';
+import Paths from '../../webpack/paths';
+// import closeIcon from '../assets/imgs/close.svg';
+// import tapLogo from '../assets/imgs/tapLogo.png';
+import '../assets/css/fonts.css';
 import '../assets/css/style.css';
 import MainView from './MainView';
+import Details from './Details';
 import TapLoader from './TapLoader';
 import RootStore from '../store/RootStore.js';
 
@@ -13,7 +15,6 @@ class GoSell extends Component {
 
   //open Tap gateway as a light box by JS library
   static openLightBox(e){
-
     RootStore.uIStore.modal_mode = 'popup';
     GoSell.handleView();
 
@@ -26,8 +27,8 @@ class GoSell extends Component {
         }
       }, 1000);
     }
-
   }
+
   //function will be used on tap server to generate the UI of the payment gateway
   static generateTapGateway(){
 
@@ -75,13 +76,13 @@ class GoSell extends Component {
 
     var body =  document.body.children;
 
-    for(var i=0; i<body.length; i++){
-      if(body[i].tagName === 'DIV' && !body[i].classList.contains('modal_container')){
-        console.log('body ', body[i].tagName);
-        body[i].classList.add('gosell-modal-blur-bg');
-        break;
-      }
-    }
+    // for(var i=0; i<body.length; i++){
+    //   if(body[i].tagName === 'DIV' && !body[i].classList.contains('modal_container')){
+    //     console.log('body ', body[i].tagName);
+    //     body[i].classList.add('gosell-modal-blur-bg');
+    //     break;
+    //   }
+    // }
   }
 
   static showTranxResult(){
@@ -137,6 +138,10 @@ class GoSell extends Component {
     window.addEventListener('resize', this.handleWindowSizeChange);
   }
 
+  handleClick(){
+    RootStore.actionStore.handleBusinessInfoClick();
+  }
+
   // make sure to remove the listener
   // when the component is not mounted anymore
   componentWillUnmount() {
@@ -163,13 +168,13 @@ class GoSell extends Component {
 
       var body =  document.body.children;
 
-      for(var i=0; i<body.length; i++){
-        if(body[i].tagName === 'DIV' && body[i].classList.contains('gosell-modal-blur-bg')){
-          console.log('body ', body[i]);
-          body[i].classList.remove('gosell-modal-blur-bg');
-          break;
-        }
-      }
+      // for(var i=0; i<body.length; i++){
+      //   if(body[i].tagName === 'DIV' && body[i].classList.contains('gosell-modal-blur-bg')){
+      //     console.log('body ', body[i]);
+      //     body[i].classList.remove('gosell-modal-blur-bg');
+      //     break;
+      //   }
+      // }
   }
 
   handleUI(){
@@ -179,8 +184,8 @@ class GoSell extends Component {
         animate: true,
         mode: 'simple',
         modalStyle: {
-          'modal': {width:'400px', height: '90%'},
-          'body': {backgroundColor: '#E9E9E9', height: 'fit-content', maxHeight: '90%'} //overflow: 'scroll',
+          'modal': {marginTop: '10px'},
+          'body': {backgroundColor: '#E9E9E9', height: '90%', maxHeight: '90%'} //overflow: 'scroll',
         },
         headerStyle: {
           'header': {backgroundColor: '#F7F7F7', height: '65px'},
@@ -199,16 +204,12 @@ class GoSell extends Component {
           'body': {backgroundColor: '#E9E9E9', height: 'fit-content', minHeight: '227px'}
         },
         headerStyle: {
-          'header': {backgroundColor: '#F7F7F7', height: '100px'},
+          'header': {backgroundColor: '#F7F7F7', height: 'auto', marginTop: '50px'},
           'titleStyle': {cursor: 'pointer'},
           'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
         }
       });
     }
-  }
-
-  handleClick(){
-    RootStore.actionStore.handleBusinessInfoClick();
   }
 
   closeModal(){
@@ -243,17 +244,19 @@ class GoSell extends Component {
                 animate={true}
                 style={this.state.modalStyle}
                 mode={RootStore.uIStore.modal_mode}
+                pageBgImg={RootStore.uIStore.modal_mode === 'page'? RootStore.uIStore.modal_bg_img : null}
+                pageBgColor={RootStore.uIStore.modal_mode === 'page'? '#F0F1F2' : null}
                 notification={RootStore.uIStore.generateCustomNotification}
                 header={<Header
                   dir={RootStore.uIStore.getDir}
                   mode={this.state.mode}
                   modalIcon={RootStore.merchantStore.logo}
-                  modalTitle={<a onClick={this.handleClick.bind(this)}>{RootStore.merchantStore.name}</a>}
+                  modalTitle={<Details store={RootStore}/>}
                   close={RootStore.uIStore.modal_mode === 'popup' ? "closeIn": "none"}
-                  closeIcon={closeIcon}
+                  closeIcon={Paths.imgsPath + 'close.svg'}
                   onClose={GoSell.handleClose}
                   style={this.state.headerStyle}
-                  separator={false}></Header>}>
+                  separator={RootStore.uIStore.getIsMobile}></Header>}>
                   {RootStore.uIStore.getOpenModal ?
                       <MainView store={RootStore} /> : null }
                </Modal>

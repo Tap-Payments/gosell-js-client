@@ -13,27 +13,15 @@ class UIStore {
     this.btnLoader = false;
     this.msgLoader = false;
 
-    //main payment page --> currencies --> merchant info in SwipeableViews (mobile view)
-    // this.activePage = 0;
-    // this.activePageDir = 'x';
     this.pay_btn = false;
 
     //screen width --> switch between mobile / pc views
     this.width = window.innerWidth;
     this.isMobile = window.innerWidth <= 500 ? true : false;
 
-    // if(this.isMobile){
-    //    this.subPage = 0
-    //    this.pageIndex = 0;
-    //    this.pageDir = 'x';
-    //    // this.confirm = 0;
-    // }else {
-      this.subPage = -1;
-      this.pageDir = 'x';
-      //main payment page -> otp ...  in SwipeableViews
-      this.pageIndex = 0;
-      // this.confirm = -1;
-    // }
+    this.subPage = -1;
+    this.pageDir = 'x';
+    this.pageIndex = 0;
 
     //the selected and active card in saved cards list
     this.isActive = null;
@@ -44,19 +32,22 @@ class UIStore {
     this.shake_cards = false;
     this.delete_card = null;
 
-    // //display error or Otp when click on the payment button
-    // this.slide_up = false;
-
     this.notifications = 'standard';
-
-    // this.setPageIndex(0);
 
     this.load = true;
     this.edit_customer_cards = 'Edit';
     this.modal_mode = 'popup';
 
+    this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';
+    // this.modal_bg_img = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fbt_We8MuRrBLMU-rhczNxpAkivP0RKlxrIS8-k2FkeNsALL';
+
+    this.show_order_details = false;
+
     this.errorHandler = {};
     this.msg = {};
+
+    this.mainHeight = '100%';
+    this.mainHeightUpdated = false;
 
     this.closeNotification = this.closeNotification.bind(this);
 
@@ -407,7 +398,11 @@ decorate(UIStore, {
   errorHandler: observable,
   msg: observable,
   modal_mode:observable,
+  modal_bg_img:observable,
   pageDir: observable,
+  show_order_details: observable,
+  mainHeight:observable,
+  mainHeightUpdated: observable
 });
 
 export default UIStore;

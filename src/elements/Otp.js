@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
 import ReactCodeInput from '../lib/codeInput/src/ReactCodeInput';
 import '../assets/css/otp.css';
-import back from '../assets/imgs/back-arrow.svg';
 import Timer from './Timer';
 import TapButton from './TapButton';
 import Confirm from './Confirm';

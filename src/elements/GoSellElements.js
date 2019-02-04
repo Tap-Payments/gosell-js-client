@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
-import '../assets/fonts/fonts.css';
+import '../assets/css/fonts.css';
 import {NotificationBar} from '../lib/modal/';
 import RootStore from '../store/RootStore.js';
 import CardsForm from './CardsForm.js';

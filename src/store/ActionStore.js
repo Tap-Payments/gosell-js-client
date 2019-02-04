@@ -7,6 +7,7 @@ class ActionStore {
   constructor(RootStore) {
     this.RootStore = RootStore;
 
+    this.handleOrderDetailsClick = this.handleOrderDetailsClick.bind(this);
     this.currenciesHandleClick = this.currenciesHandleClick.bind(this);
     this.handleBusinessInfoClick = this.handleBusinessInfoClick.bind(this);
     this.handleCustomerCardsClick = this.handleCustomerCardsClick.bind(this);
@@ -15,6 +16,19 @@ class ActionStore {
     this.onPayBtnClick = this.onPayBtnClick.bind(this);
 
     this.handleExtraFeesClick = this.handleExtraFeesClick.bind(this);
+  }
+
+  handleOrderDetailsClick(){
+
+      if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
+        this.RootStore.uIStore.setSubPage(-1);
+      }
+      this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+      this.RootStore.uIStore.setIsActive(null);
+      this.RootStore.paymentStore.selected_card = null;
+      this.RootStore.uIStore.payBtn(false);
+
+    this.RootStore.uIStore.show_order_details = !this.RootStore.uIStore.show_order_details;
   }
 
   handleBusinessInfoClick(){
@@ -26,6 +40,7 @@ class ActionStore {
       this.RootStore.uIStore.setIsActive(null);
       this.RootStore.paymentStore.selected_card = null;
       this.RootStore.uIStore.payBtn(false);
+      this.RootStore.uIStore.show_order_details = false;
 
       // if(this.RootStore.uIStore.getIsMobile){
       //   console.log("it's mobile");
@@ -88,6 +103,7 @@ class ActionStore {
   currenciesHandleClick(e){
 
     this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+    this.RootStore.uIStore.show_order_details = false;
 
     if(this.RootStore.uIStore.getIsMobile){
       console.log("it's mobile");
@@ -155,6 +171,8 @@ class ActionStore {
   }
 
   handleCustomerCardsClick(ref, obj){
+    this.RootStore.uIStore.show_order_details = false;
+
     if(this.RootStore.paymentStore.selected_card !== ref.id && !this.RootStore.uIStore.shake_cards && this.RootStore.uIStore.delete_card == null){
 
       this.RootStore.uIStore.setSubPage(-1);

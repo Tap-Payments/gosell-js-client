@@ -1,7 +1,8 @@
 import React, { Component }  from 'react';
 import styles from '../assets/css/row.css';
-import rightArrow from '../assets/imgs/rightArrow.svg';
-import leftArrow from '../assets/imgs/leftArrow.svg';
+import Paths from '../../webpack/paths';
+// import rightArrow from '../assets/imgs/rightArrow.svg';
+// import leftArrow from '../assets/imgs/leftArrow.svg';
 import styled from "styled-components";
 
 class Row extends Component {
@@ -76,10 +77,10 @@ class Row extends Component {
 
         <div className="tap-row">
         {this.props.rowIcon ?
-          <Icon className="tap-icon">
+           <Icon className="tap-icon">
               {this.props.rowIcon}
            </Icon>
-         : null
+         : <Icon className="tap-icon"></Icon>
         }
 
          {title}
@@ -94,7 +95,7 @@ class Row extends Component {
 
          {(this.props.addArrow ||  this.props.addArrow === true) ?
            <div className="tap-arrow" style={this.props.dir === 'ltr'? {textAlign: 'right'} : {textAlign:'left'}}>
-                <img src={this.props.style.arrowImg? this.props.style.arrowImg : this.props.dir === 'ltr' ? rightArrow : leftArrow } alt="Arrow"/>
+                <img src={this.props.style.arrowImg? this.props.style.arrowImg : this.props.dir === 'ltr' ? Paths.imgsPath + 'rightArrow.svg' : Paths.imgsPath + 'leftArrow.svg' } alt="Arrow"/>
           </div>
         : null}
 

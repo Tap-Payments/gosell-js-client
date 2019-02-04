@@ -6,13 +6,9 @@ import Img from './Img';
 import Separator from './Separator';
 import Cards from './Cards';
 import CardsForm from './CardsForm';
-import closeIcon from '../assets/imgs/close.svg';
-import tapLogo from '../assets/imgs/tapLogo.png';
-import bill from '../assets/imgs/bill.svg';
 import TapButton from './TapButton';
 import Otp from './Otp';
 import ExtraFees from './ExtraFees';
-
 
 const styles = {
     'row1':{

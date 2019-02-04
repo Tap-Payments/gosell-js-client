@@ -10,7 +10,7 @@ class OpenPaymentPage extends Component {
   componentDidMount(){
     var self = this;
 
-    GoSell.openPaymentGateway();
+    GoSell.openPaymentPage();
 
   }
 
@@ -67,7 +67,42 @@ class OpenPaymentPage extends Component {
            order={{
              amount: 100,
              currency:"KWD",
-             items:null,
+             items:[{
+               id:1,
+               name:'item1',
+               description: 'item1 desc',
+               quantity:'x1',
+               amount_per_unit:'KD00.000',
+               discount: {
+                 type: 'P',
+                 value: '10%'
+               },
+               total_amount: 'KD000.000'
+             },
+             {
+               id:2,
+               name:'item2',
+               description: 'item2 desc',
+               quantity:'x2',
+               amount_per_unit:'KD00.000',
+               discount: {
+                 type: 'P',
+                 value: '10%'
+               },
+               total_amount: 'KD000.000'
+             },
+             {
+               id:3,
+               name:'item3',
+               description: 'item3 desc',
+               quantity:'x1',
+               amount_per_unit:'KD00.000',
+               discount: {
+                 type: 'P',
+                 value: '10%'
+               },
+               total_amount: 'KD000.000'
+             }],
              shipping:null,
              taxes: null
            }}

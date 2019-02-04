@@ -22,6 +22,7 @@ class ExtraFees extends Component {
     fees = store.uIStore.formatNumber(fees.toFixed(current.decimal_digit));
 
     let total = store.paymentStore.active_payment_option_total_amount;
+    console.log("total ******** ", total);
     total = store.uIStore.formatNumber(total.toFixed(current.decimal_digit));
 
     return (

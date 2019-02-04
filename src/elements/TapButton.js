@@ -1,5 +1,6 @@
 import React, { Component }  from 'react';
-import security from '../assets/imgs/3d-security.svg';
+import Paths from '../../webpack/paths';
+// import security from '../assets/imgs/3d-security.svg';
 import {Loader} from '@tap-payments/loader';
 import styled from "styled-components";
 import {observer} from 'mobx-react';
@@ -69,7 +70,7 @@ class TapButton extends Component {
                 />
               </div>
               <BtnTitle style={this.props.style ? this.props.style.titleStyle : {}}>{this.props.children}</BtnTitle>
-              <div style={{width: '30px', height: '30px', margin: '0px 10px',pointerEvents: 'none'}}><img src={security} width="15"/></div>
+              <div style={{width: '30px', height: '30px', margin: '0px 10px',pointerEvents: 'none'}}><img src={Paths.imgsPath + '3d-security.svg'} width="15"/></div>
         </Btn>
     );
   }

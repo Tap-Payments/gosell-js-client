@@ -423,7 +423,7 @@ class FormStore{
    cardFormHandleClick(){
        this.RootStore.paymentStore.selected_card = null;
        this.RootStore.uIStore.setSubPage(-1);
-       
+
        //clear open menus
        // this.RootStore.uIStore.setPageIndex(0);
        // this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
@@ -458,13 +458,15 @@ class FormStore{
 
          } else {
                // Send the token to your server
-               self.RootStore.uIStore.setErrorHandler({
-                 visable: true,
-                 code: 200,
-                 msg: result.id,
-                 type: 'success'
-               });
-
+               if(self.RootStore.configStore.transaction_mode === 'get_token'){
+                 self.RootStore.uIStore.setErrorHandler({
+                   visable: true,
+                   code: 200,
+                   msg: result.id,
+                   type: 'success'
+                 });
+               }
+               
                self.RootStore.uIStore.setIsActive('FORM');
                console.log('result ----> ', result);
                self.RootStore.paymentStore.source_id = result.id;

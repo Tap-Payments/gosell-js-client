@@ -1,8 +1,9 @@
 import React, { Component }  from 'react';
 import styled from "styled-components";
 import '../assets/css/card.css';
-import checkmark from '../assets/imgs/checkmark.svg';
-import deleteIcon from '../assets/imgs/delete.svg';
+// import checkmark from '../assets/imgs/checkmark.svg';
+// import deleteIcon from '../assets/imgs/delete.svg';
+import Paths from '../../webpack/paths';
 import {observer} from 'mobx-react';
 import {Loader} from '@tap-payments/loader';
 import * as oneRingLoader from '../assets/loader/white-loader-one-ring.json';
@@ -169,7 +170,7 @@ class Card extends Component {
           onClick={this.handleCustomerCards.bind(this)}>
             {this.state.shake ?
               <RemoveCard onClick={this.deleteCard.bind(this)}>
-                  <img src={deleteIcon} width="18" height="18" alt="Delete the saved card"/>
+                  <img src={Paths.imgsPath + 'delete.svg'} width="18" height="18" alt="Delete the saved card"/>
               </RemoveCard>
            : null}
 

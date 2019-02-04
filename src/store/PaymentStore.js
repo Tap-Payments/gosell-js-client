@@ -22,6 +22,7 @@ class PaymentStore{
 
     //filtered list of supported currencies
     this.supported_currencies = {};
+    this.filtered_currencies = {};
 
     this.customer_cards = [];
     this.customer_cards_by_currency = [];
@@ -341,7 +342,10 @@ class PaymentStore{
 
 
   setCurrentCurrency(value){
-    console.log("current currency", value.currency);
+    console.log("+ current currency", value.currency);
+    console.log('+ current currency', this.current_currency.currency);
+    console.log('+ value.currency', value.currency);
+
     this.current_currency = value;
     this.customer_cards_by_currency = this.savedCardsByCurrency;
     this.active_payment_option_total_amount = value.currency;

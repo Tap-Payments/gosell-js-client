@@ -1,7 +1,8 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
 import '../assets/css/confirm.css';
-import back from '../assets/imgs/back-arrow.svg';
+// import back from '../assets/imgs/back-arrow.svg';
+import Paths from '../../webpack/paths';
 import TapButton from './TapButton';
 
 class Confirm extends Component {
@@ -55,7 +56,7 @@ class Confirm extends Component {
     return (
         <div className={this.props.store.uIStore.getPageIndex == this.props.index ? "tap-confirm tap-confirm-fadeIn" : "tap-confirm"}>
           <a className="tap-confirm-back" onClick={this.handleBackClick.bind(this)}>
-            <img src={back} width="43"/>
+            <img src={Paths.imgsPath + 'back-arrow.svg'} width="43"/>
           </a>
 
           <div style={{ height: '250px' }}>

@@ -16,11 +16,8 @@ class GoSellElementsDemo extends Component {
            gateway={{
              publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
              language:"en",
-             contactInfo:true,
              supportedCurrencies:"all",
              supportedPaymentMethods:"all",
-             saveCardOption:true,
-             customerCards: true,
              notifications:'msg',
              labels:{
                  cardNumber:"Card Number",

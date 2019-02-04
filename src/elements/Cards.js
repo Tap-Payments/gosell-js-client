@@ -48,6 +48,11 @@ class Cards extends Component {
     this.props.store.uIStore.shakeCards(!shake);
   }
 
+  componentWillUnmount(){
+    this.props.store.uIStore.setIsActive(null);
+    this.props.store.uIStore.shakeCards(false);
+  }
+
 
   render() {
 
