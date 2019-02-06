@@ -50,8 +50,9 @@ class UIStore {
 
     this.closeNotification = this.closeNotification.bind(this);
 
-  }
+    this.targetElement = React.createRef();
 
+  }
   formatNumber(num){
     if(num){
       if(typeof num == 'string'){
@@ -395,7 +396,8 @@ decorate(UIStore, {
   modal_bg_img:observable,
   pageDir: observable,
   show_order_details: observable,
-  mainHeight:observable
+  mainHeight:observable,
+  animationStatus: observable
 });
 
 export default UIStore;
