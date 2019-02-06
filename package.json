@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run start-dev & npm run start-server",
-    "start-dev": "cross-env NODE_ENV=development webpack-dev-server --compress --host 192.168.8.164",
-    "start-server": "nodemon client/server.js --host 192.168.8.164",
+    "start-dev": "cross-env NODE_ENV=development webpack-dev-server --compress --host 172.20.10.9",
+    "start-server": "nodemon client/server.js --host 172.20.10.9",
     "build": "cross-env NODE_ENV=production webpack",
     "transpile": "babel src -d dist --copy-files",
     "prepublishOnly": "npm run transpile",
@@ -68,6 +68,7 @@
     "request": "^2.88.0",
     "styled-components": "^3.4.10",
     "uglifyjs-webpack-plugin": "^2.1.0",
+    "url-search-params": "^1.1.0",
     "webpack-merge": "^4.1.5"
   }
 }

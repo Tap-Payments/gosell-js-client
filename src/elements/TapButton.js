@@ -15,16 +15,36 @@ class TapButton extends Component {
       btnColor: '#C9C9C9',
       animating: false
     }
+
+    this.handleOnKeyUp = this.handleOnKeyUp.bind(this);
   }
 
   componentDidMount(){
     TapButton.btns.push(this.tapBtn);
+
+    var self = this;
+    document.addEventListener("keyup", function(event){
+      self.handleOnKeyUp(event);
+    });
+
+  }
+
+  componentWillUnmount(){
+    document.removeEventListener("keyup", function(event){
+      self.handleOnKeyUp(event);
+    });
   }
 
   handleClick(e){
    if(!this.props.animate){
      this.props.handleClick(e);
    }
+  }
+
+  handleOnKeyUp(event){
+    if (event.keyCode === 13 && this.props.active) {
+      this.handleClick(event);
+    }
   }
 
   render() {
@@ -61,7 +81,7 @@ class TapButton extends Component {
     `;
 
     return (
-        <Btn id={this.props.id} ref={(node) => this.tapBtn = node} className="tap-btn"  onClick={this.handleClick.bind(this)}>
+        <Btn id={this.props.id} ref={(node) => this.tapBtn = node} className="tap-btn"  onClick={this.handleClick.bind(this)} onKeyUp={this.handleOnKeyUp.bind(this)}>
               <div style={{width: '30px', height: '30px', margin: '0px 10px', pointerEvents: 'none'}}>
                 <Loader
                   toggleAnimation={this.props.animate}

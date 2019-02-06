@@ -33,6 +33,8 @@ class ApiStore{
 
          self.mode = data.live_mode;
          self.RootStore.merchantStore.merchant = {id: data.merchant_id, name: data.merchant_name};
+         self.RootStore.uIStore.modal_bg_img = data.merchant.background.url;
+
          self.RootStore.merchantStore.pk = self.RootStore.configStore.gateway.publicKey;
          self.RootStore.merchantStore.session = await data.session_token;
 
@@ -42,7 +44,6 @@ class ApiStore{
 
          self.RootStore.paymentStore.card_wallet = data.permission.card_wallet;
          self.RootStore.paymentStore.setThreeDSecure(data.permission.threeDSecure);
-
 
        }
 
