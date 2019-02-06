@@ -71,21 +71,15 @@ class Pay extends Component {
     }
   }
 
-  handleError(){
-    console.log('handle error function **** ');
-    var store = this.props.store;
+  animationStatusHandler(){
 
-    store.uIStore.stopBtnLoader();
-    store.uIStore.payBtn(false);
+    console.log("animationStatusHandler");
+    console.log(this.props.store.uIStore.targetElement.current);
 
-    store.uIStore.setErrorHandler({
-      visable: true,
-      code: 'error',
-      msg: "error",
-      type: 'warning'
-    });
+    if(this.props.store.uIStore.targetElement.current !== null) {
+      this.props.store.uIStore.targetElement.current.textInput[0].focus();
+    }
   }
-
 
   render() {
 
@@ -101,7 +95,8 @@ class Pay extends Component {
            axis={store.uIStore.pageDir}
            animationDuration={1000}
            style={{ height:'100%', width:'100%'}}
-           direction={store.uIStore.getDir}>
+           direction={store.uIStore.getDir}
+           animationStatus = {this.animationStatusHandler.bind(this)}>
 
                 <div key={0} style={{height: 'fit-content', position:'relative'}}>
                   <Options store={store}/>

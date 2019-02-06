@@ -39,12 +39,11 @@ class TapSliderStore {
   }
 
   setInitialWidth(width){
-    console.log('width -----------------------> ', width);
     this.sliderInitialWidth = width;
+    !this.activateTransition?this.changeDynamicWidth(width):null
   }
 
   setInitialHeight(height){
-    console.log("setInitialHeight ", height);
     this.sliderInitialHeight = height;
   }
 
@@ -79,7 +78,7 @@ class TapSliderStore {
     var z = document.createElement('div');
     this.newItemId = id;
     z.id = id;
-    z.style='width:'+this.sliderInitialWidth+';height:'+this.sliderInitialHeight+';'
+    // z.style='width:'+this.sliderInitialWidth+'height:'+this.sliderInitialHeight+';'
     z.className = 'tapAwesomeItem';
     if(this.axis===''){this.axis='x'}
     if(this.axis==='-x'||this.axis==='-y'){
@@ -91,7 +90,7 @@ class TapSliderStore {
     }
     this.targetElement = document.getElementById(id);
     ReactDOM.render(
-      React.createElement(TapSliderItem, {child: this.children[key], className:''}),
+      React.createElement(TapSliderItem, {child: this.children[key], style:{width:this.sliderInitialWidth, height:this.sliderInitialHeight}}),
       document.getElementById(id)
     );
   }
@@ -103,7 +102,7 @@ class TapSliderStore {
     this.currentItemKey =  key;
     console.log("updateItem");
     ReactDOM.render(
-      React.createElement(TapSliderItem, {child: this.children[key], className:''}),
+      React.createElement(TapSliderItem, {child: this.children[key], className:'', style:{width:this.sliderInitialWidth, height:this.sliderInitialHeight}}),
       document.getElementById(this.newItemId)
     );
   }
@@ -169,7 +168,7 @@ class TapSliderStore {
             this.transform = '';
             this.pointerEvents = '';
 
-            if (this.animationStatusFunction) {
+            if(this.animationStatusFunction){
               this.animationStatusFunction()
             }
 
