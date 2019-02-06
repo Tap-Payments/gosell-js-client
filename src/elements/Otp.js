@@ -176,7 +176,7 @@ class Otp extends Component {
             <div className='tap-otp-settings' style={this.props.dir === 'ltr' ? {textAlign: 'right'} : {textAlign: 'left'}}>
             {this.state.running ?
              <Timer running={this.state.running} time={count}/> :
-             <a className={!this.state.running ? "tap-otp-resend" : "tap-otp-resend tap-otp-fadeOut"} onClick={this.resendOTP.bind(this)}>RESEND</a>
+             <div className={!this.state.running ? "tap-otp-resend" : "tap-otp-resend tap-otp-fadeOut"} onClick={this.resendOTP.bind(this)}>RESEND</div>
             }
             </div>
 

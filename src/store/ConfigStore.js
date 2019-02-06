@@ -318,6 +318,8 @@ class ConfigStore {
         this.transaction_mode = 'save_card';
         this.saveCard = value.saveCard;
 
+        this.tranx_description = null;
+
         if(value.order || value.order != null){
           this.order = {currency: value.order.currency, amount: value.order.amount};
         }
@@ -336,6 +338,8 @@ class ConfigStore {
       }
       else if(value.token){
         this.transaction_mode = 'get_token';
+        this.tranx_description = null;
+        
         this.token = value.token;
         if(value.order || value.order != null){
           this.order = {currency: value.order.currency, amount: value.order.amount};

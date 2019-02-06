@@ -7,17 +7,8 @@ import Separator from './Separator';
 import Cards from './Cards';
 import SaveForm from './SaveForm';
 import Paths from '../../webpack/paths';
-// import bill from '../assets/imgs/bill.svg';
 import TapButton from './TapButton';
-import Otp from './Otp';
-// import SwipeableViews from 'react-swipeable-views';
-import ExtraFees from './ExtraFees';
-// import TapSlider from '@tap-payments/tap-react-slider'
-import TapSlider from '../TapSlider2/TapSlider';
-import SupportedCurrencies from './SupportedCurrencies';
-import BusinessInfo from './BusinessInfo';
-import styled from "styled-components";
-import Order from './Order';
+import Items from './Items/Items';
 
 const styles = {
     'row1':{
@@ -77,34 +68,30 @@ class Options extends Component {
     this.props.store.actionStore.onWebPaymentClick(payment);
   }
 
+
   componentDidMount(){
-    var self = this;
 
-    // window.addEventListener('click', function(){
-    //   self.mainView.style.height = 'fit-content';
-    //   console.log('kdkdkd', self.mainView.style.height);
-    //   self.mainView.style.height = self.mainView.clientHeight;
-    //   console.log('kdkdkd', self.mainView.style.height);
-    // });
-
-    this.props.store.uIStore.mainHeight = this.mainView.clientHeight;
+    // if(this.props.store.uIStore.getIsMobile){
+    //   this.paymentOptions.style.height = '100%';
+    //   this.paymentOptions.style.height = this.paymentOptions.clientHeight;
+    // }
+    // else {
+      this.paymentOptions.style.height = 'fit-content';
+      this.paymentOptions.style.height = this.paymentOptions.clientHeight;
+      this.props.store.uIStore.mainHeight = this.paymentOptions.clientHeight;
+    // }
   }
 
-
-  // componentWillUpdate(){
-  //   if(this.props.store.uIStore.mainHeightUpdated){
-  //     console.log('+ I am inside will', this.props.store.uIStore.mainHeight);
-  //     this.mainView.style.height = '100%';
-  //     this.props.store.uIStore.mainHeightUpdated = false;
-  //   }
-  // }
-
   componentDidUpdate(){
-    if(this.props.store.uIStore.mainHeightUpdated){
-      this.props.store.uIStore.mainHeight = this.mainView.clientHeight;
-      this.props.store.uIStore.mainHeightUpdated = false;
-    }
-
+    // if(this.props.store.uIStore.getIsMobile){
+    //   this.paymentOptions.style.height = '100%';
+    //   this.paymentOptions.style.height = this.paymentOptions.clientHeight;
+    // }
+    // else {
+      this.paymentOptions.style.height = 'fit-content';
+      this.paymentOptions.style.height = this.paymentOptions.clientHeight;
+      this.props.store.uIStore.mainHeight = this.paymentOptions.clientHeight;
+    // }
   }
 
   render() {
@@ -136,59 +123,73 @@ class Options extends Component {
         );
     }
 
+
     return (
-      <div ref={el => (this.mainView = el)} id="main-view" className="gosell-order-details" style={!store.uIStore.show_order_details ? { height: store.uIStore.mainHeight} : {}}>
-      <Separator />
 
-      {store.paymentStore.supported_currencies && store.paymentStore.supported_currencies.length > 1 ?
-      <Row
-        id="currencies"
-        ref={(node) => this.currencies = node}
-        dir={store.uIStore.getDir}
-        style={styles.row1}
-        rowIcon={<Img imgSrc={Paths.imgsPath + 'bill.svg'} imgWidth="18" style={
-          store.uIStore.getDir === 'ltr' ?
-          {borderRight: '0.5px solid rgba(0, 0, 0, 0.17)'}
-           : {borderLeft: '0.5px solid rgba(0, 0, 0, 0.17)'}}/>}
-        rowTitle={this.props.store.paymentStore.getCurrentValue}
-        onClick={this.props.store.actionStore.currenciesHandleClick}
-        addArrow={true}/>
-      :
-      <Row
-        id="currencies"
-        ref={(node) => this.currencies = node}
-        dir={store.uIStore.getDir}
-        style={styles.row1}
-        rowTitle={this.props.store.paymentStore.getCurrentValue}
-        onClick={this.props.store.actionStore.currenciesHandleClick}
-        addArrow={false}/>
-      }
-      <Separator />
-
-      {store.paymentStore.customer_cards_by_currency && store.paymentStore.customer_cards_by_currency.length > 0 ?
-          <Cards ref="cards" store={store} cards={store.paymentStore.customer_cards_by_currency} dir={store.uIStore.getDir}/>
-      : null}
-
-      {WebPayments.length > 0 || store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
-        <Label title="Others" dir={store.uIStore.getDir}/>
-      : <div style={{marginBottom: '20px'}}></div>}
-
-      {WebPayments.length > 0 ?
-        <div style={{marginBottom: '20px'}}>
-          <Separator />
-          {WebPayments}
-        </div>
-      : null }
-
-      {store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
         <React.Fragment>
-          <Separator />
-            <SaveForm store={store}/>
-          <Separator />
-        </React.Fragment>
-      : null }
+            <div id="gosell-gateway-order-details" ref={el => (this.orderDetails = el)} className="gosell-gateway-order-details">
+                <div style={{height: 'fit-content'}}>
+                  <Items
+                    desc={store.configStore.tranx_description}
+                    items={store.configStore.items}
+                    total={store.configStore.order.symbol + store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit))}/>
+                </div>
+            </div>
+            <div id="gosell-gateway-payment-options" ref={el => (this.paymentOptions = el)} className="gosell-gateway-payment-options">
+              <Separator />
 
-      </div>
+              {store.paymentStore.supported_currencies && store.paymentStore.supported_currencies.length > 1 ?
+              <Row
+                id="currencies"
+                ref={(node) => this.currencies = node}
+                dir={store.uIStore.getDir}
+                style={styles.row1}
+                rowIcon={<Img imgSrc={Paths.imgsPath + 'bill.svg'} imgWidth="18" style={
+                  store.uIStore.getDir === 'ltr' ?
+                  {borderRight: '0.5px solid rgba(0, 0, 0, 0.17)'}
+                   : {borderLeft: '0.5px solid rgba(0, 0, 0, 0.17)'}}/>}
+                rowTitle={this.props.store.paymentStore.getCurrentValue}
+                onClick={this.props.store.actionStore.currenciesHandleClick}
+                addArrow={true}/>
+              :
+              <Row
+                id="currencies"
+                ref={(node) => this.currencies = node}
+                dir={store.uIStore.getDir}
+                style={styles.row1}
+                rowTitle={this.props.store.paymentStore.getCurrentValue}
+                onClick={this.props.store.actionStore.currenciesHandleClick}
+                addArrow={false}/>
+              }
+              <Separator />
+
+              {store.paymentStore.customer_cards_by_currency && store.paymentStore.customer_cards_by_currency.length > 0 ?
+                  <Cards ref="cards" store={store} cards={store.paymentStore.customer_cards_by_currency} dir={store.uIStore.getDir}/>
+              : null}
+
+              {WebPayments.length > 0 || store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
+                <Label title="Others" dir={store.uIStore.getDir}/>
+              : <div style={{marginBottom: '20px'}}></div>}
+
+              {WebPayments.length > 0 ?
+                <div style={{marginBottom: '20px'}}>
+                  <Separator />
+                  {WebPayments}
+                </div>
+              : null }
+
+              {store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
+                <React.Fragment>
+                  <Separator />
+                    <SaveForm store={store}/>
+                  <Separator />
+                </React.Fragment>
+              : null }
+
+            </div>
+
+          </React.Fragment>
+
     );
   }
 }

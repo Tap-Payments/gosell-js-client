@@ -56,7 +56,7 @@ class BusinessInfo extends Component {
 
     const Business = styled.div`
       width: ${this.props.width};
-      height: 'fit-content';
+      height: ${this.state.height};
       /* height: 100%; */
       background: rgba(255, 255, 255, 0.6);`
 
@@ -79,7 +79,7 @@ class BusinessInfo extends Component {
     store.merchantStore.contact.map((contact, index) => {
         if(contact.type !== 'social'){
           contactIcons.push(
-            <a className="tap-contact-btn-container" key={'div-'+index} onClick={this.handleClick.bind(this, contact)}>
+            <div className="tap-contact-btn-container" key={'div-'+index} onClick={this.handleClick.bind(this, contact)}>
               <SocialIcon
                 key={'contact-'+index}
                 mode={'self'}
@@ -89,7 +89,7 @@ class BusinessInfo extends Component {
                 alt={contact.key}
                 onClick={this.handleClick.bind(this, contact)} />
               <div style={{pointerEvents: 'none', color:'#535353'}}>{contact.value}</div>
-            </a>);
+            </div>);
         }
       });
 
@@ -197,7 +197,7 @@ class BusinessInfo extends Component {
     }
 
     return (
-      <Business className={align+"-business-info"}>
+      <Business id='gosell-business-info' className={align+"-business-info"}>
         {store.uIStore.getIsMobile ?
             <React.Fragment>
               {store.merchantStore.desc ?

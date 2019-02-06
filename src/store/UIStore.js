@@ -38,6 +38,8 @@ class UIStore {
     this.edit_customer_cards = 'Edit';
     this.modal_mode = 'popup';
 
+    this.mainHeight = '100%';
+
     this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';
     // this.modal_bg_img = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fbt_We8MuRrBLMU-rhczNxpAkivP0RKlxrIS8-k2FkeNsALL';
 
@@ -46,14 +48,11 @@ class UIStore {
     this.errorHandler = {};
     this.msg = {};
 
-    this.mainHeight = '100%';
-    this.mainHeightUpdated = false;
-
     this.closeNotification = this.closeNotification.bind(this);
 
   }
 
-  formatNumber(num) {
+  formatNumber(num){
     if(num){
       if(typeof num == 'string'){
         return num.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
@@ -65,6 +64,33 @@ class UIStore {
     else {
       return num;
     }
+  }
+
+  deviceOS() {
+    var useragent = navigator.userAgent;
+    if(useragent.match(/Android/i)) {
+      return true;
+    } else if(useragent.match(/webOS/i)) {
+      return true;
+    } else if(useragent.match(/iPhone/i)) {
+      return true;
+    } else if(useragent.match(/iPod/i)) {
+      return true;
+    } else if(useragent.match(/iPad/i)) {
+      return true;
+    } else if(useragent.match(/Windows Phone/i)) {
+      return true;
+    } else if(useragent.match(/SymbianOS/i)) {
+      return true;
+    } else if(useragent.match(/RIM/i) || useragent.match(/BB/i)) { //blackberry
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  browser(){
+
   }
 
   computed
@@ -126,9 +152,6 @@ class UIStore {
   }
 
   stopLoading(){
-    console.log('payment loader', !this.RootStore.paymentStore.isLoading);
-    console.log('merchant loader', !this.RootStore.merchantStore.isLoading);
-
     if(!this.RootStore.paymentStore.isLoading && !this.RootStore.merchantStore.isLoading){
       this.isLoading = false;
     }
@@ -212,7 +235,6 @@ class UIStore {
     }
 
     this.pageIndex = value;
-
   }
 
   computed
@@ -268,8 +290,6 @@ class UIStore {
   //     console.log('shake card', this.shake_cards);
   //     console.log('pay_btn card', this.pay_btn);
   //   }
-  //
-  //
   // }
 
   payBtn(value){
@@ -277,8 +297,13 @@ class UIStore {
   }
 
   closeNotification(){
+    var self = this;
+
     this.errorHandler.visable = false;
-    this.errorHandler = {};
+    setTimeout(function(){
+      self.errorHandler = {};
+    }, 500);
+
   }
 
   computed
@@ -324,7 +349,12 @@ class UIStore {
   }
 
   setErrorHandler(value){
+    var self = this;
     this.errorHandler = value;
+
+    setTimeout(function(){
+      self.closeNotification();
+    }, 5000);
   }
 
   computed
@@ -335,42 +365,6 @@ class UIStore {
   setMsg(value){
     this.msg = value;
   }
-
-  // handleClicks(e){
-  //   console.log('target', e.target.id);
-  //
-  //   switch (ref.id) {
-  //     case "currencies":
-  //       if(this.getActivePage === 1 && this.getSubPage === 0){
-  //         this.setActivePage(0);
-  //         this.getIsMobile ? this.setSubPage(0) : this.setSubPage(-1);
-  //        }
-  //        else { // open currencies list
-  //         this.setActivePage(1);
-  //         this.setSubPage(0);
-  //       }
-  //       break;
-  //     case "cards":
-  //         this.setActivePage(0);
-  //         this.getIsMobile ? this.setSubPage(0) : this.setSubPage(-1);
-  //         this.setIsActive('CARD');
-  //         this.RootStore.paymentStore.selectCard(this.cardRef);
-  //       break;
-  //     case "myFrame":
-  //         this.setActivePage(0);
-  //         this.getIsMobile ? this.setSubPage(0) : this.setSubPage(-1);
-  //         this.setIsActive('FORM');
-  //         break;
-  //     default:
-  //       this.setIsActive(null);
-  //       this.RootStore.paymentStore.selectCard(null);
-  //       this.setActivePage(0);
-  //       this.getIsMobile ? this.setSubPage(0) : this.setSubPage(-1);
-  //       break;
-  //   }
-  //
-  // }
-
 }
 
 decorate(UIStore, {
@@ -401,8 +395,7 @@ decorate(UIStore, {
   modal_bg_img:observable,
   pageDir: observable,
   show_order_details: observable,
-  mainHeight:observable,
-  mainHeightUpdated: observable
+  mainHeight:observable
 });
 
 export default UIStore;

@@ -466,7 +466,7 @@ class FormStore{
                    type: 'success'
                  });
                }
-               
+
                self.RootStore.uIStore.setIsActive('FORM');
                console.log('result ----> ', result);
                self.RootStore.paymentStore.source_id = result.id;
@@ -482,6 +482,7 @@ class FormStore{
    clearCardForm(){
      if(this.card != null){
        this.card.clearForm();
+       this.RootStore.uIStore.payBtn(false);
      }
 
    }

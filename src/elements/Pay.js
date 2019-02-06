@@ -18,48 +18,7 @@ import TapSlider from '../TapSlider2/TapSlider';
 import SupportedCurrencies from './SupportedCurrencies';
 import BusinessInfo from './BusinessInfo';
 import styled from "styled-components";
-import Order from './Order';
-import Items from './Items/Items';
 
-const styles = {
-    'row1':{
-      'rowContainer': {
-         height: '65px',
-         backgroundColor: 'white',
-        '&:hover': {
-        //    boxShadow: 'inset 0px 11px 0px -10px #2ACE00, inset 0px -11px 0px -10px #2ACE00'
-        }
-    },
-      'textStyle': {width: '100%', textAlign: 'center'},
-      'iconStyle': {width: '65px', height: '65px'}
-    },
-    'row2':{
-      'rowContainer': { backgroundColor: 'white',
-      '&:hover': {
-      //    boxShadow: 'inset 0px 11px 0px -10px #2ACE00, inset 0px -11px 0px -10px #2ACE00'
-      }
-    },
-      'iconStyle': {width: '65px', height: '48px'},
-      'textStyle': {width: '100%'},
-      'subtitle':{
-        fontSize: '15px'
-      }
-    },
-    'order_row':{
-      'rowContainer': { backgroundColor: 'white',
-      textAlign: 'center',
-      height: '30px',
-      '&:hover': {
-      //    boxShadow: 'inset 0px 11px 0px -10px #2ACE00, inset 0px -11px 0px -10px #2ACE00'
-      }
-    },
-      // 'iconStyle': {width: '100px', height: '30px'},
-      'textStyle': {width: '100%'},
-      'subtitle':{
-        fontSize: '12px'
-      }
-    }
-}
 
 class Pay extends Component {
 
@@ -72,10 +31,14 @@ class Pay extends Component {
 
   componentDidMount(){
     this.props.store.uIStore.setPageIndex(0, 'y');
-    // this.props.store.uIStore.mainHeight = this.options.clientHeight;
   }
 
 
+  componentWillUnmount(){
+    this.setState({
+      payment: null
+    });
+  }
 
   handlePayBtnClick(){
     var store = this.props.store;
@@ -106,11 +69,7 @@ class Pay extends Component {
     }
   }
 
-  componentWillUnmount(){
-    this.setState({
-      payment: null
-    });
-  }
+
 
   render() {
 
@@ -118,15 +77,7 @@ class Pay extends Component {
 
     var title = '', self = this, cards = {};
 
-
-    // console.log("OOOOOOOOOOOOOOOOOOO ", this.options.clientHeight);
-    // var mainHeight = this.options.clientHeight
-
-    console.log('from pay.js ---------------------> ', this.props.store.uIStore.pay_btn);
-
-     var total = store.paymentStore.active_payment_option_total_amount > 0 ? store.paymentStore.current_currency.symbol + store.uIStore.formatNumber(store.paymentStore.active_payment_option_total_amount.toFixed(store.paymentStore.current_currency.decimal_digit)) : '';
-
-     console.log('items ================================= >>> ', store.configStore.items);
+    var total = store.paymentStore.active_payment_option_total_amount > 0 ? store.paymentStore.current_currency.symbol + store.uIStore.formatNumber(store.paymentStore.active_payment_option_total_amount.toFixed(store.paymentStore.current_currency.decimal_digit)) : '';
 
      return (
        <TapSlider
@@ -137,33 +88,21 @@ class Pay extends Component {
            direction={store.uIStore.getDir}>
 
                 <div key={0} style={{height: '100%', position:'relative'}}>
-
-                  <div className="gosell-order-details" style={store.uIStore.show_order_details ? {height: store.uIStore.mainHeight} : {}}>
-
-                      <div style={{height: 'fit-content'}}>
-                        <Items
-                          desc={store.configStore.tranx_description}
-                          items={store.configStore.items}
-                          total={store.configStore.order.symbol + store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit))}/>
-                      </div>
-
-                  </div>
-
                   <Options store={store}/>
 
                   <div style={{height: '86px', position:'relative'}}>
-                      <TapButton
-                        id="tap-pay-btn"
-                        dir={store.uIStore.getDir}
-                        width="90%"
-                        height="44px"
-                        btnColor={'#2ACE00'}
-                        active={store.uIStore.pay_btn}
-                        animate={this.props.store.uIStore.getBtnLoaderStatus}
-                        handleClick={this.handlePayBtnClick.bind(this)}>{store.configStore.btn +' '+ total}</TapButton>
+                        <TapButton
+                          id="tap-pay-btn"
+                          dir={store.uIStore.getDir}
+                          width="90%"
+                          height="44px"
+                          btnColor={'#2ACE00'}
+                          active={store.uIStore.pay_btn}
+                          animate={this.props.store.uIStore.getBtnLoaderStatus}
+                          handleClick={this.handlePayBtnClick.bind(this)}>{store.configStore.btn +' '+ total}</TapButton>
                   </div>
 
-                </div>
+               </div>
 
                 <div key={1} style={{height: '100%', position:'relative'}}>
                     <ExtraFees dir={store.uIStore.getDir} store={store}/>
@@ -181,16 +120,6 @@ class Pay extends Component {
                     <BusinessInfo store={store} width="100%"/>
                 </div>
 
-                <div key={5} style={{height: 'fit-content', position:'relative'}}>
-                    {
-                      // <Order onClick={store.actionStore.handleOrderDetailsClick}>Order Details</Order>
-                      // <OrderDetails className={store.uIStore.show_order_details ? "order-details order-show-details" : "order-details"} onClick={store.actionStore.handleOrderDetailsClick}>
-                      //   TEST TEST TEST TEST TEST TEST
-                      // </OrderDetails>
-                    }
-                    <Order dir={store.uIStore.getDir} store={store}/>
-
-                </div>
 
         </TapSlider>);
   }

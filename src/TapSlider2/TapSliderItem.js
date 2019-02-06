@@ -10,20 +10,15 @@ class TapSliderItem extends Component {
 
   componentDidUpdate(prevProps){
     console.log('height from did update : ', this.tapAwesomeItem.clientHeight);
-
     if(store.currentItemKey == 0){
-      store.sliderInitialHeight = this.tapAwesomeItem.clientHeight;
-      console.log('height updated ===================== ', store.sliderInitialHeight);
+      store.setInitialHeight(this.tapAwesomeItem.clientHeight);
     }
-
   }
 
   componentDidMount() {
     if(store.currentItemKey == 0){
-      store.sliderInitialHeight = this.tapAwesomeItem.clientHeight;
-      console.log('height first time ===================== ', store.sliderInitialHeight);
+      store.setInitialHeight(this.tapAwesomeItem.clientHeight);
     }
-
   }
 
   render() {

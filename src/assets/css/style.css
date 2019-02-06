@@ -2,26 +2,12 @@
   height: fit-content;
 }
 
-/* .tap-vertical-swipeable{
-  height: 100%;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.5s ease-in;
-}
-
-.tap-vertical-swipeable-fadeIn{
-  opacity: 1;
-  visibility: visible;
-} */
-
-#main-view{
-    padding-bottom: 2px;
-}
 
 .list-container{
   top: 10px;
   position: relative;
-  overflow: scroll;
+  width:100%;
+  overflow: auto;
   scroll-behavior: smooth;
   height: 100%;
 }
@@ -42,6 +28,7 @@
 
 .body-container{
   height: 100%;
+  width:100%;
 }
 
 .tap-wait{
@@ -75,12 +62,24 @@
   visibility: visible;
 }
 
-.gosell-order-details {
-  overflow: scroll;
-  scroll-behavior: smooth;
+.gosell-gateway-order-details {
+   overflow: hidden;
+   position: relative;
+  /* overflow: scroll;
+  scroll-behavior: smooth; */
   transition: all .5s linear;
   height: 0;
- }
+}
+
+.gosell-gateway-payment-options {
+   overflow: hidden;
+   position: relative;
+   /* overflow: scroll;
+   scroll-behavior: smooth; */
+   transition: all .5s linear;
+   height: 0;
+}
+
 
 /* .order-show-details {
   height: auto;

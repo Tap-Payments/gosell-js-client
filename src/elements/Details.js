@@ -35,7 +35,7 @@ class Details extends Component {
 
     return (
       <Container className="details-container">
-          <a onClick={this.handleClick.bind(this)}>{store.merchantStore.name}</a>
+          <div onClick={this.handleClick.bind(this)}>{store.merchantStore.name}</div>
 
           {store.configStore.tranx_description != null ?
               <Order onClick={store.actionStore.handleOrderDetailsClick}>

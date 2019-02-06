@@ -105,13 +105,13 @@ class NotificationBar extends Component{
   render(){
 
       var options = this.props.options ? this.props.options.map(function(option, index){
-        return(<a className="tap-option" key={index} onClick={option.action}>
+        return(<div className="tap-option" key={index} onClick={option.action}>
               {option.title}
-            </a>);
+            </div>);
       }) : null;
 
       return(
-        <div dir={this.props.dir} className={'notification_bar notification_'+this.state.show} style={Object.assign({}, this.state.modeStyle, this.props.style)}>
+        <div dir={this.props.dir} className={this.state.show ? 'notification_bar notification_true' : 'notification_bar notification_false'} style={Object.assign({}, this.state.modeStyle, this.props.style)}>
 
             {this.props.options ? <div className="tap-options" style={this.props.dir == 'rtl' ? {textAlign: 'left', left: '0'} : {textAlign: 'right', right: '0'}}>
               {options}

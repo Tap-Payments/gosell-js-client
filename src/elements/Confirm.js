@@ -55,9 +55,9 @@ class Confirm extends Component {
   render() {
     return (
         <div className={this.props.store.uIStore.getPageIndex == this.props.index ? "tap-confirm tap-confirm-fadeIn" : "tap-confirm"}>
-          <a className="tap-confirm-back" onClick={this.handleBackClick.bind(this)}>
+          <div className="tap-confirm-back" onClick={this.handleBackClick.bind(this)}>
             <img src={Paths.imgsPath + 'back-arrow.svg'} width="43"/>
-          </a>
+          </div>
 
           <div style={{ height: '250px' }}>
             {this.props.children}

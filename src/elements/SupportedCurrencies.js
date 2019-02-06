@@ -35,18 +35,8 @@ class SupportedCurrencies extends Component {
 
 
   handleClick = (current) => {
-    console.log('clicked', current.currency != this.props.store.paymentStore.current_currency.currency);
-
-      if(current.currency != this.props.store.paymentStore.current_currency.currency){
-        this.props.store.uIStore.mainHeight = 'fit-content';
-        this.props.store.uIStore.mainHeightUpdated = true;
-        console.log("kdkd", this.props.store.uIStore.mainHeight);
-      }
 
       this.props.store.paymentStore.setCurrentCurrency(current);
-
-      // this.props.store.uIStore.setActivePage(0, 'x');
-      // this.props.store.uIStore.getIsMobile ? this.props.store.uIStore.setSubPage(0) : this.props.store.uIStore.setSubPage(-1);
 
       if(this.props.store.uIStore.getIsMobile){
          // this.props.store.uIStore.setSubPage(0);

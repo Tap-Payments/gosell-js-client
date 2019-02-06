@@ -44,6 +44,7 @@ class TapSliderStore {
   }
 
   setInitialHeight(height){
+    console.log("setInitialHeight ", height);
     this.sliderInitialHeight = height;
   }
 
@@ -161,7 +162,6 @@ class TapSliderStore {
             if(this.axis==='x'||this.axis==='-x'){this.changeDynamicWidth( this.sliderInitialWidth )}
             if(this.axis==='y'||this.axis==='-y'){this.changeDynamicHeight( this.sliderInitialHeight )}
 
-            console.log('dynamic width ** ^^^^^^^^^^^^^^^^^^^^^^^^', this.sliderDynamicHeight);
 
             this.activateTransition=false;
             this.sliderLeft = '0';

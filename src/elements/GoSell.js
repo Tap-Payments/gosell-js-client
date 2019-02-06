@@ -2,8 +2,6 @@ import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
 import {Modal, Header, NotificationBar} from '../lib/modal/';
 import Paths from '../../webpack/paths';
-// import closeIcon from '../assets/imgs/close.svg';
-// import tapLogo from '../assets/imgs/tapLogo.png';
 import '../assets/css/fonts.css';
 import '../assets/css/style.css';
 import MainView from './MainView';
@@ -76,13 +74,13 @@ class GoSell extends Component {
 
     var body =  document.body.children;
 
-    // for(var i=0; i<body.length; i++){
-    //   if(body[i].tagName === 'DIV' && !body[i].classList.contains('modal_container')){
-    //     console.log('body ', body[i].tagName);
-    //     body[i].classList.add('gosell-modal-blur-bg');
-    //     break;
-    //   }
-    // }
+    for(var i=0; i<body.length; i++){
+      if(body[i].tagName === 'DIV' && !body[i].classList.contains('modal_container')){
+        console.log('body ', body[i].tagName);
+        body[i].classList.add('gosell-modal-blur-bg');
+        break;
+      }
+    }
   }
 
   static showTranxResult(){
@@ -168,13 +166,13 @@ class GoSell extends Component {
 
       var body =  document.body.children;
 
-      // for(var i=0; i<body.length; i++){
-      //   if(body[i].tagName === 'DIV' && body[i].classList.contains('gosell-modal-blur-bg')){
-      //     console.log('body ', body[i]);
-      //     body[i].classList.remove('gosell-modal-blur-bg');
-      //     break;
-      //   }
-      // }
+      for(var i=0; i<body.length; i++){
+        if(body[i].tagName === 'DIV' && body[i].classList.contains('gosell-modal-blur-bg')){
+          console.log('body ', body[i]);
+          body[i].classList.remove('gosell-modal-blur-bg');
+          break;
+        }
+      }
   }
 
   handleUI(){

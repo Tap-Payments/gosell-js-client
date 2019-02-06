@@ -120,7 +120,7 @@ body{
 }
 
 .body-container{
-  overflow-y: scroll; /* has to be scroll, not auto */
+  overflow-y: auto; /* has to be scroll, not auto */
   scroll-behavior: smooth;
   /* -webkit-overflow-scrolling: touch; */
   z-index: 0;
@@ -508,11 +508,34 @@ a.close:hover {
 }
 
 .notification_false {
+  position: fixed;
+  width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: 40px;
   top: -50px;
-  -webkit-animation-name: slideUp; /* Safari 4.0 - 8.0 */
-  -webkit-animation-duration: 0.7s; /* Safari 4.0 - 8.0 */
+  text-align: center;
+  left: 0;
+  right: 0;
+  z-index: 888888;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-animation-name: slideUp;
+  -webkit-animation-duration: 0.7s;
   animation-name: slideUp;
   animation-duration: 0.7s;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
 }
 
 /* Safari 4.0 - 8.0 */
