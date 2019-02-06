@@ -23,7 +23,7 @@ class TapSliderItem extends Component {
 
   render() {
     return (
-      <div ref={el => (this.tapAwesomeItem = el)}>
+      <div ref={el => (this.tapAwesomeItem = el)} style={this.props.style}>
         {this.props.child}
       </div>
     );
