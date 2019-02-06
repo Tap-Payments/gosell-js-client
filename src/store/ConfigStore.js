@@ -189,6 +189,8 @@ class ConfigStore {
 
     var self = this;
 
+    var URLSearchParams = require('url-search-params');
+
     var urlParams = new URLSearchParams(window.location.search);
 
     if(!urlParams.has('tap_id')){
@@ -339,7 +341,7 @@ class ConfigStore {
       else if(value.token){
         this.transaction_mode = 'get_token';
         this.tranx_description = null;
-        
+
         this.token = value.token;
         if(value.order || value.order != null){
           this.order = {currency: value.order.currency, amount: value.order.amount};

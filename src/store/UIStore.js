@@ -17,7 +17,8 @@ class UIStore {
 
     //screen width --> switch between mobile / pc views
     this.width = window.innerWidth;
-    this.isMobile = window.innerWidth <= 500 ? true : false;
+    // this.isMobile = window.innerWidth <= 500 ? true : false;
+    this.isMobile = window.innerWidth <= 823 ? true : false;
 
     this.subPage = -1;
     this.pageDir = 'x';
@@ -40,7 +41,8 @@ class UIStore {
 
     this.mainHeight = '100%';
 
-    this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';
+    this.modal_bg_img = null;
+    // this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';
     // this.modal_bg_img = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fbt_We8MuRrBLMU-rhczNxpAkivP0RKlxrIS8-k2FkeNsALL';
 
     this.show_order_details = false;
@@ -67,26 +69,27 @@ class UIStore {
     }
   }
 
-  deviceOS() {
+  computed
+  get deviceOS() {
     var useragent = navigator.userAgent;
     if(useragent.match(/Android/i)) {
-      return true;
+      return 'phone';
     } else if(useragent.match(/webOS/i)) {
-      return true;
+      return 'phone';
     } else if(useragent.match(/iPhone/i)) {
-      return true;
+      return 'phone';
     } else if(useragent.match(/iPod/i)) {
-      return true;
+      return 'ipad';
     } else if(useragent.match(/iPad/i)) {
-      return true;
+      return 'ipad';
     } else if(useragent.match(/Windows Phone/i)) {
-      return true;
+      return 'phone';
     } else if(useragent.match(/SymbianOS/i)) {
-      return true;
+      return 'phone';
     } else if(useragent.match(/RIM/i) || useragent.match(/BB/i)) { //blackberry
-      return true;
+      return 'phone';
     } else {
-      return false;
+      return 'pc';
     }
   }
 

@@ -84,6 +84,8 @@ class GoSell extends Component {
   }
 
   static showTranxResult(){
+    var URLSearchParams = require('url-search-params');
+
     var urlParams = new URLSearchParams(window.location.search);
     var tap_id = null;
 
@@ -132,7 +134,6 @@ class GoSell extends Component {
   componentDidMount() {
 
     GoSell.showTranxResult();
-
     window.addEventListener('resize', this.handleWindowSizeChange);
   }
 
@@ -149,13 +150,23 @@ class GoSell extends Component {
   handleWindowSizeChange = () => {
   //  window.innerWidth <= 500 ? RootStore.uIStore.setIsMobile(true) : RootStore.uIStore.setIsMobile(false);
 
-    if(window.innerWidth <= 500){
+    if(window.innerWidth <= 823){
       RootStore.uIStore.setIsMobile(true);
       this.handleUI();
     }
     else {
       RootStore.uIStore.setIsMobile(false);
       this.handleUI();
+    }
+
+    var device = RootStore.uIStore.deviceOS;
+    if(window.innerWidth > 500 && device === 'phone'){
+      RootStore.uIStore.setErrorHandler({
+        visable: true,
+        code: 'error',
+        msg: 'For better experiance, turn on your phone! ',
+        type: 'warning'
+      });
     }
   };
 
@@ -211,6 +222,8 @@ class GoSell extends Component {
   }
 
   closeModal(){
+    var URLSearchParams = require('url-search-params');
+
     var urlParams = new URLSearchParams(window.location.search);
 
     if(urlParams.has('tap_id')){
