@@ -27,6 +27,7 @@ class TapSliderStore {
     this.newItemId = '';
     this.animationStatus = false;
     this.animationStatusFunction  = false;
+    this.activeItemElement  = null;
 
   }
 
@@ -70,6 +71,11 @@ class TapSliderStore {
     // }
   }
 
+  setActiveItemElement(element){
+    this.activeItemElement  = element;
+    console.log('this.activeItemElement',this.activeItemElement);
+  }
+
 
   addItem(key){
     this.currentItemKey =  key;
@@ -90,7 +96,7 @@ class TapSliderStore {
     }
     this.targetElement = document.getElementById(id);
     ReactDOM.render(
-      React.createElement(TapSliderItem, {child: this.children[key], style:{width:this.sliderInitialWidth, height:this.sliderInitialHeight}}),
+      React.createElement(TapSliderItem, {store:this, child: this.children[key], style:{width:this.sliderInitialWidth, height:this.sliderInitialHeight}}),
       document.getElementById(id)
     );
   }
@@ -102,7 +108,7 @@ class TapSliderStore {
     this.currentItemKey =  key;
     console.log("updateItem");
     ReactDOM.render(
-      React.createElement(TapSliderItem, {child: this.children[key], className:'', style:{width:this.sliderInitialWidth, height:this.sliderInitialHeight}}),
+      React.createElement(TapSliderItem, {store:this, child: this.children[key], className:'', style:{width:this.sliderInitialWidth, height:this.sliderInitialHeight}}),
       document.getElementById(this.newItemId)
     );
   }

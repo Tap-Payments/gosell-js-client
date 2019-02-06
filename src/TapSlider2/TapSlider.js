@@ -40,6 +40,14 @@ class TapSlider extends Component {
 
   componentDidUpdate(prevProps){
     if(prevProps.componentKey!==this.props.componentKey){
+
+      //  to update the height before going next
+      if(store.currentItemKey == 0){
+        console.log('height from did update : ', store.activeItemElement.clientHeight);
+        store.setInitialHeight(store.activeItemElement.clientHeight);
+      }
+
+
       store.slide(this.props.axis, this.props.componentKey);
     }
     else {
