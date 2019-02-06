@@ -69,7 +69,15 @@ class Pay extends Component {
     }
   }
 
+  animationStatusHandler(){
 
+    console.log("animationStatusHandler");
+    console.log(this.props.store.uIStore.targetElement.current);
+
+    if(this.props.store.uIStore.targetElement.current !== null) {
+      this.props.store.uIStore.targetElement.current.textInput[0].focus();
+    }
+  }
 
   render() {
 
@@ -85,7 +93,8 @@ class Pay extends Component {
            axis={store.uIStore.pageDir}
            animationDuration={1000}
            style={{ height:'100%', width:'100%'}}
-           direction={store.uIStore.getDir}>
+           direction={store.uIStore.getDir}
+           animationStatus = {this.animationStatusHandler.bind(this)}>
 
                 <div key={0} style={{height: '100%', position:'relative'}}>
                   <Options store={store}/>

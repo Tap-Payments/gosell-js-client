@@ -164,6 +164,8 @@ class Otp extends Component {
 
           <div className={this.state.animate_fields ? "wrong-entry" : null}>
             <ReactCodeInput
+              ref={this.props.store.uIStore.targetElement}
+              autoFocus={false}
               updated={this.state.updated}
               type='otpCode'
               onChange={this.handleChange.bind(this)}
