@@ -70,8 +70,11 @@ class Pay extends Component {
   }
 
   animationStatusHandler(){
+
     console.log("animationStatusHandler");
-    if(this.props.store.uIStore.targetElement) {
+    console.log(this.props.store.uIStore.targetElement.current);
+
+    if(this.props.store.uIStore.targetElement.current !== null) {
       this.props.store.uIStore.targetElement.current.textInput[0].focus();
     }
   }
