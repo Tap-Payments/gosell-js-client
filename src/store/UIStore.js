@@ -294,6 +294,11 @@ class UIStore {
 
   payBtn(value){
     this.pay_btn = value;
+
+    if(!this.pay_btn){
+      this.btnLoader = false;
+      this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+    }
   }
 
   closeNotification(){
@@ -355,6 +360,15 @@ class UIStore {
     setTimeout(function(){
       self.closeNotification();
     }, 5000);
+  }
+
+  warningHandler(){
+    this.setErrorHandler({
+      visable: true,
+      code: 'error',
+      msg: "Please Wait, You can't do more than one action in the same time!",
+      type: 'warning'
+    });
   }
 
   computed

@@ -12,7 +12,6 @@ class Cards extends Component {
     super(props);
     this.state = {
       cards: this.props.cards,
-      // title: 'Edit'
     }
   }
 
@@ -43,9 +42,15 @@ class Cards extends Component {
   // }
 
   editCards(){
-    var shake = this.props.store.uIStore.shake_cards;
-    this.props.store.uIStore.setIsActive('CARD');
-    this.props.store.uIStore.shakeCards(!shake);
+
+    if(this.props.store.uIStore.pay_btn && this.props.store.uIStore.getBtnLoaderStatus){
+      this.props.store.uIStore.warningHandler();
+    }
+    else {
+      var shake = this.props.store.uIStore.shake_cards;
+      this.props.store.uIStore.setIsActive('CARD');
+      this.props.store.uIStore.shakeCards(!shake);
+    }
   }
 
   componentWillUnmount(){

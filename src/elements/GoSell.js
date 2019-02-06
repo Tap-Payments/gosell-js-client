@@ -264,8 +264,4 @@ class GoSell extends Component {
   }
 }
 
-// (RootStore.uIStore.getIsMobile ?
-//   <MobileView store={RootStore} />
-// : <MainView store={RootStore} />)
-
 export default observer(GoSell);

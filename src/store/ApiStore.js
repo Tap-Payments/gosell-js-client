@@ -292,40 +292,86 @@ class ApiStore{
     switch (this.RootStore.configStore.transaction_mode) {
       case 'charge':
         transaction = this.charge(source, type, fees).then(async chg => {
-          if(chg.status == 200){
-              if(chg.data.status && chg.data.status.toUpperCase() === 'INITIATED' && type !== 'CARD'){
-                console.log('INITIATED', chg.data);
-                window.open(chg.data.transaction.url, '_self');
-              }
-              else if(chg.data.status && chg.data.status.toUpperCase() === 'CAPTURED' && type !== 'CARD'){
-                console.log('CAPTURED form');
-                self.RootStore.uIStore.showMsg('success', 'Successful Transaction', chg.data.id);
-              }
-              else if(chg.data.status &&  chg.data.status.toUpperCase() === 'INITIATED' && type === 'CARD'){
-                console.log('CAPTURED card', chg.data);
-                self.RootStore.paymentStore.charge = chg.data;
-                console.log('charge id', chg.data.id);
-                self.RootStore.paymentStore.authenticate = chg.data.authenticate;
 
-                if(chg.data.authenticate && chg.data.authenticate.status === 'INITIATED'){
-
-                  // self.RootStore.uIStore.getIsMobile ? self.RootStore.uIStore.setSubPage(0) : self.RootStore.uIStore.setSubPage(-1);
-                  self.RootStore.uIStore.setPageIndex(2, 'y');
-                  // self.RootStore.uIStore.confirm = 1;
+          if(chg.data.code != 100){
+            if(chg.status == 200){
+                if(chg.data.status && chg.data.status.toUpperCase() === 'INITIATED' && type !== 'CARD'){
+                  console.log('INITIATED', chg.data);
+                  window.open(chg.data.transaction.url, '_self');
                 }
-              }
-              else {
-                self.RootStore.uIStore.showMsg('error', chg.data.response.message, chg.data.id);
-                console.log('charge id', chg.data.id);
-              }
+                else if(chg.data.status && chg.data.status.toUpperCase() === 'CAPTURED' && type !== 'CARD'){
+                  console.log('CAPTURED form');
+                  self.RootStore.uIStore.showMsg('success', 'Successful Transaction', chg.data.id);
+                }
+                else if(chg.data.status &&  chg.data.status.toUpperCase() === 'INITIATED' && type === 'CARD'){
+                  console.log('CAPTURED card', chg.data);
+                  self.RootStore.paymentStore.charge = chg.data;
+                  console.log('charge id', chg.data.id);
+                  self.RootStore.paymentStore.authenticate = chg.data.authenticate;
+
+                  if(chg.data.authenticate && chg.data.authenticate.status === 'INITIATED'){
+
+                    // self.RootStore.uIStore.getIsMobile ? self.RootStore.uIStore.setSubPage(0) : self.RootStore.uIStore.setSubPage(-1);
+                    self.RootStore.uIStore.setPageIndex(2, 'y');
+                    // self.RootStore.uIStore.confirm = 1;
+                  }
+                }
+                else {
+                  self.RootStore.uIStore.showMsg('error', chg.data.response.message, chg.data.id);
+                  console.log('charge id', chg.data.id);
+                }
+            }
+            else {
+              self.RootStore.uIStore.showMsg('error', chg.data.errors[0].description, null);
+            }
           }
           else {
-            self.RootStore.uIStore.showMsg('error', chg.data.errors[0].description, null);
+            self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
           }
         });
         break;
       case 'authorize':
         transaction = this.authorize(source, type, fees).then(async auth => {
+
+          if(chg.data.code != 100){
+            if(auth.status == 200){
+
+                if(auth.data.status.toUpperCase() === 'INITIATED' && type !== 'CARD'){
+                  console.log('INITIATED', auth.data);
+                  window.open(auth.data.transaction.url, '_self');
+                }
+                else if(auth.data.status.toUpperCase() === 'AUTHORIZED' && type !== 'CARD'){
+                  console.log('AUTHORIZED form');
+                  self.RootStore.uIStore.showMsg('success', 'Authorized Transaction', auth.data.id);
+                }
+                else if(auth.data.status.toUpperCase() === 'CAPTURED' && type !== 'CARD'){
+                  console.log('CAPTURED form');
+                  self.RootStore.uIStore.showMsg('success', 'Captured Transaction', auth.data.id);
+                }
+                else if(auth.data.status.toUpperCase() === 'INITIATED' && type === 'CARD'){
+                  console.log('CAPTURED card', auth.data);
+                  self.RootStore.paymentStore.authorize = auth.data;
+                  console.log('charge id', auth.data.id);
+                  self.RootStore.paymentStore.authenticate = auth.data.authenticate;
+
+                  if(auth.data.authenticate && auth.data.authenticate.status === 'INITIATED'){
+                    self.RootStore.uIStore.getIsMobile ? self.RootStore.uIStore.setSubPage(0) : self.RootStore.uIStore.setSubPage(-1);
+                    self.RootStore.uIStore.setPageIndex(2, 'y');
+                  }
+                }
+                else {
+                  self.RootStore.uIStore.showMsg('error', auth.data.response.message, null);
+                }
+            }
+            else {
+              console.log('!= 200', auth.data);
+              self.RootStore.uIStore.showMsg('error', auth.data.errors[0].description, null);
+
+            }
+          }
+          else {
+            self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
+          }
 
         });
         break;
@@ -393,6 +439,7 @@ class ApiStore{
     });
 
     return await res;
+
   }
 
   async authorize(source, type, fees){
@@ -444,50 +491,14 @@ class ApiStore{
 
     await axios.post(Paths.serverPath +'/api', body)
     .then(async function (response) {
-      res = response.data;
+      res = response;
       console.log('authorize', res);
 
-      if(response.data.code != 100){
-        if(response.status == 200){
-
-            if(res.status.toUpperCase() === 'INITIATED' && type !== 'CARD'){
-              console.log('INITIATED', res);
-              window.open(res.transaction.url, '_self');
-            }
-            else if(res.status.toUpperCase() === 'AUTHORIZED' && type !== 'CARD'){
-              console.log('AUTHORIZED form');
-              self.RootStore.uIStore.showMsg('success', 'Authorized Transaction', res.id);
-            }
-            else if(res.status.toUpperCase() === 'CAPTURED' && type !== 'CARD'){
-              console.log('CAPTURED form');
-              self.RootStore.uIStore.showMsg('success', 'Captured Transaction', res.id);
-            }
-            else if(res.status.toUpperCase() === 'INITIATED' && type === 'CARD'){
-              console.log('CAPTURED card', res);
-              self.RootStore.paymentStore.authorize = res;
-              console.log('charge id', res.id);
-              self.RootStore.paymentStore.authenticate = res.authenticate;
-
-              if(res.authenticate && res.authenticate.status === 'INITIATED'){
-                self.RootStore.uIStore.getIsMobile ? self.RootStore.uIStore.setSubPage(0) : self.RootStore.uIStore.setSubPage(-1);
-                self.RootStore.uIStore.setPageIndex(2, 'y');
-                // self.RootStore.uIStore.confirm = 1;
-              }
-            }
-            else {
-              self.RootStore.uIStore.showMsg('error', res.response.message, null);
-            }
-        }
-        else {
-          console.log('!= 200', res);
-          self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
-
-        }
-
-      }
-      else {
+      if(response.data.code == 100){
         self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
       }
+
+
     })
     .catch(function (error) {
       console.log('error', error);

@@ -41,6 +41,8 @@ class Pay extends Component {
   }
 
   handlePayBtnClick(){
+
+    console.log('from handle pay btn function **** ');
     var store = this.props.store;
 
     if(store.uIStore.getIsActive === 'FORM'){
@@ -69,6 +71,20 @@ class Pay extends Component {
     }
   }
 
+  handleError(){
+    console.log('handle error function **** ');
+    var store = this.props.store;
+
+    store.uIStore.stopBtnLoader();
+    store.uIStore.payBtn(false);
+
+    store.uIStore.setErrorHandler({
+      visable: true,
+      code: 'error',
+      msg: "error",
+      type: 'warning'
+    });
+  }
 
 
   render() {
@@ -87,7 +103,7 @@ class Pay extends Component {
            style={{ height:'100%', width:'100%'}}
            direction={store.uIStore.getDir}>
 
-                <div key={0} style={{height: '100%', position:'relative'}}>
+                <div key={0} style={{height: 'fit-content', position:'relative'}}>
                   <Options store={store}/>
 
                   <div style={{height: '86px', position:'relative'}}>
@@ -98,7 +114,7 @@ class Pay extends Component {
                           height="44px"
                           btnColor={'#2ACE00'}
                           active={store.uIStore.pay_btn}
-                          animate={this.props.store.uIStore.getBtnLoaderStatus}
+                          animate={store.uIStore.getBtnLoaderStatus}
                           handleClick={this.handlePayBtnClick.bind(this)}>{store.configStore.btn +' '+ total}</TapButton>
                   </div>
 

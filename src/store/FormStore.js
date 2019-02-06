@@ -341,38 +341,42 @@ class FormStore{
       }
       else if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
 
-        self.RootStore.paymentStore.save_card_active = false;
-        self.RootStore.paymentStore.saveCardOption(false);
-        self.RootStore.uIStore.payBtn(false);
-
-        console.log('I am in error');
-        if(event.error_interactive){
-          self.RootStore.uIStore.setErrorHandler({
-            visable: true,
-            code: event.error_interactive.code,
-            msg: event.error_interactive.message,
-            type: 'error'
-          });
+        if(self.RootStore.uIStore.pay_btn && self.RootStore.uIStore.getBtnLoaderStatus){
+          self.RootStore.uIStore.warningHandler();
         }
+        else {
+          self.RootStore.paymentStore.save_card_active = false;
+          self.RootStore.paymentStore.saveCardOption(false);
+          self.RootStore.uIStore.payBtn(false);
 
-      	if(event.error && event.error.code && (event.error.code === 409 || event.error.code === 403)){
-
-
-      		//hide form here
-          self.hide = true;
-
-          if(event.error.code === 403){
+          console.log('I am in error');
+          if(event.error_interactive){
             self.RootStore.uIStore.setErrorHandler({
               visable: true,
-              code: event.error.code,
-              msg: event.error.message,
+              code: event.error_interactive.code,
+              msg: event.error_interactive.message,
               type: 'error'
             });
           }
-      	}
-        else {
-          self.hide = false;
+
+        	if(event.error && event.error.code && (event.error.code === 409 || event.error.code === 403)){
+        		//hide form here
+            self.hide = true;
+
+            if(event.error.code === 403){
+              self.RootStore.uIStore.setErrorHandler({
+                visable: true,
+                code: event.error.code,
+                msg: event.error.message,
+                type: 'error'
+              });
+            }
+        	}
+          else {
+            self.hide = false;
+          }
         }
+
       }
 
       if(event.BIN && event.BIN.card_brand !== active_brand){
@@ -421,6 +425,11 @@ class FormStore{
    }
 
    cardFormHandleClick(){
+
+     if(this.RootStore.uIStore.pay_btn && this.RootStore.uIStore.getBtnLoaderStatus){
+       this.RootStore.uIStore.warningHandler();
+     }
+     else {
        this.RootStore.paymentStore.selected_card = null;
        this.RootStore.uIStore.setSubPage(-1);
 
@@ -437,6 +446,8 @@ class FormStore{
 
        //form is active
        this.RootStore.uIStore.setIsActive('FORM');
+    }
+
    }
 
    async generateToken() {
