@@ -172,6 +172,8 @@ class ConfigStore {
           this.notifications = value.gateway.notifications;
         }
 
+        this.tranxConfig(value);
+
       }
       else {
         console.log("Something went wrong! Please check the goSell configration");
@@ -179,8 +181,6 @@ class ConfigStore {
         this.legalConfig = false;
       }
     }
-
-    this.tranxConfig(value);
 
     console.log('transaction_mode', this.transaction_mode);
   }
@@ -219,6 +219,8 @@ class ConfigStore {
               post: await result.data.post.url
             };
 
+            console.log("order is: ", this.order);
+
             self.tranx_description = self.charge.description;
 
             self.RootStore.paymentStore.charge = self.charge;
@@ -240,10 +242,12 @@ class ConfigStore {
             this.order = {currency: value.order.currency, amount: value.order.amount};
           }
           else {
-            this.order = {currency: 'KWD', amount: 0};
+            // this.order = {currency: 'KWD', amount: 0};
             this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the order details", null);
             this.legalConfig = false;
           }
+
+          console.log("order is: ", this.order);
 
           if(value.customer || value.customer != null){
             this.customer = value.customer;
@@ -301,7 +305,7 @@ class ConfigStore {
             this.order = {currency: value.order.currency, amount: value.order.amount};
           }
           else {
-            this.order = {currency: 'KWD', amount: 0};
+            // this.order = {currency: 'KWD', amount: 0};
             this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the order details", null);
             this.legalConfig = false;
           }
@@ -325,9 +329,9 @@ class ConfigStore {
         if(value.order || value.order != null){
           this.order = {currency: value.order.currency, amount: value.order.amount};
         }
-        else {
-          this.order = {currency: 'KWD', amount: 0};
-        }
+        // else {
+        //   this.order = {currency: 'KWD', amount: 0};
+        // }
 
         if(value.customer || value.customer != null){
           this.customer = value.customer;
@@ -346,14 +350,14 @@ class ConfigStore {
         if(value.order || value.order != null){
           this.order = {currency: value.order.currency, amount: value.order.amount};
         }
-        else {
-          this.order = {currency: 'KWD', amount: 0};
-        }
+        // else {
+        //   this.order = {currency: 'KWD', amount: 0};
+        // }
       }
       else {
         // console.log("Something went wrong! Please check the goSell configration");
-        // this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the goSell configration", null);
-        // this.legalConfig = false;
+        this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the goSell configration", null);
+        this.legalConfig = false;
       }
     }
   }

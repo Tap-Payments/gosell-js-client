@@ -164,6 +164,8 @@ class ApiStore{
         break;
     }
 
+    var customer = this.RootStore.configStore.gateway.customerCards && this.RootStore.configStore.customer ? this.RootStore.configStore.customer.id : null;
+
     var body = {
       "mode": "Production",
       "method": 'POST',
@@ -174,9 +176,9 @@ class ApiStore{
          "items": this.RootStore.configStore.items,
          "shipping": this.RootStore.configStore.shipping,
          "taxes": this.RootStore.configStore.taxes,
-         "customer": this.RootStore.configStore.gateway.customerCards && this.RootStore.configStore.customer ? this.RootStore.configStore.customer.id : null,
-         "currency" : this.RootStore.configStore.order && this.RootStore.configStore.order.currency ? this.RootStore.configStore.order.currency : "KWD",
-         "total_amount": this.RootStore.configStore.order && this.RootStore.configStore.order.amount ? this.RootStore.configStore.order.amount : 0
+         "customer": customer,
+         "currency" :  this.RootStore.configStore.order.currency,
+         "total_amount": this.RootStore.configStore.order.amount
       }
     }
 
@@ -198,7 +200,6 @@ class ApiStore{
        else {
          self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
        }
-
     })
     .catch(function (error) {
       console.log("error", error);

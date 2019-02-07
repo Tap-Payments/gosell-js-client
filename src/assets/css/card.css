@@ -6,11 +6,12 @@
 }
 
 .tap-cards {
-    -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
 }
+
 .tap-cards::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .tap-cards-container {
@@ -33,7 +34,7 @@
 
 .tap-progressbar-container {
   border-radius: 8px;
-  background-color: rgba(0,0,0,0.75);
+  background-color: rgba(0, 0, 0, 0.75);
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -47,7 +48,7 @@
 
 .tap-card-container {
   border-radius: 8px;
-  background-color: rgba(255,255,255,0.75);
+  background-color: rgba(255, 255, 255, 0.75);
   display: flex;
   flex-direction: column;
   /* justify-content: space-evenly; */
@@ -57,7 +58,7 @@
   cursor: pointer;
   height: 100%;
   width: 100%;
-  box-shadow: 0px 0px 4px rgba(0,0,0,0.08);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
 }
 
 .tap-card-container:hover, .tap-card-container:active {
@@ -79,6 +80,7 @@
   color: #474747;
   margin-left: 10px;
 }
+
 .checkbox {
   position: relative;
 }
@@ -89,7 +91,7 @@
   width: 0px;
   height: 2px;
   background: #2ACE00;
-  transform:translate(3px, 11px) rotate(-45deg);
+  transform: translate(3px, 11px) rotate(-45deg);
   transform-origin: left;
   transition: all 150ms;
   transition-delay: 0ms;
@@ -120,7 +122,7 @@
 /*shake animation */
 .tap-card-shake {
   border-radius: 8px;
-  background-color: rgba(255,255,255,0.75);
+  background-color: rgba(255, 255, 255, 0.75);
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -128,19 +130,26 @@
   align-items: center;
   height: 100%;
   width: 100%;
-  box-shadow: 0px 0px 4px rgba(0,0,0,0.08);
-
-	-webkit-animation-name: wiggle;
-	-webkit-animation-duration: 0.3s;
-	-webkit-transform-origin:50% 50%;
-	-webkit-animation-iteration-count: infinite;
-	-webkit-animation-timing-function: linear;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
+  -webkit-animation-name: wiggle;
+  -webkit-animation-duration: 0.3s;
+  -webkit-transform-origin: 50% 50%;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
 }
 
 @keyframes wiggle {
-    0% { transform: rotate(-3deg); }
-   50% { transform: rotate(3deg); }
-  100% { transform: rotate(-3deg); }
+  0% {
+    transform: rotate(-3deg);
+  }
+
+  50% {
+    transform: rotate(3deg);
+  }
+
+  100% {
+    transform: rotate(-3deg);
+  }
 }
 
 .tap-remove-card {
@@ -152,7 +161,7 @@
 
 .tap-card-disabled {
   border-radius: 8px;
-  background-color: rgb(255,255,255);
+  background-color: rgb(255, 255, 255);
   opacity: 0.50;
   /* margin: 0px 5px; */
   display: flex;
@@ -173,8 +182,8 @@
   opacity: 0;
   margin: 0px;
   -webkit-animation-name: card-width;
-	-webkit-animation-duration: 0.3s;
-	-webkit-animation-timing-function: linear;
+  -webkit-animation-duration: 0.3s;
+  -webkit-animation-timing-function: linear;
 }
 
 .tap-card.delete-card-height {
@@ -187,13 +196,35 @@
 }
 
 @keyframes card-width {
-  0% { width: 100px; }
-  90% { width: 0px; opacity: 0; }
-  100% { width: 0px; opacity: 0; margin: 0px; }
+  0% {
+    width: 100px;
+  }
+
+  90% {
+    width: 0px;
+    opacity: 0;
+  }
+
+  100% {
+    width: 0px;
+    opacity: 0;
+    margin: 0px;
+  }
 }
 
 @keyframes card-height {
-  0% { height: 100px; }
-  90% { height: 0px; opacity: 0; }
-  100% { height: 0px; opacity: 0; margin: 0px; }
+  0% {
+    height: 100px;
+  }
+
+  90% {
+    height: 0px;
+    opacity: 0;
+  }
+
+  100% {
+    height: 0px;
+    opacity: 0;
+    margin: 0px;
+  }
 }

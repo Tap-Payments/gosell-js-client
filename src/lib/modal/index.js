@@ -1,4 +1,4 @@
-import "@babel/polyfill";
+// import "@babel/polyfill";
 import {Modal} from './elements/Modal.js';
 import Header from './elements/Header.js';
 import Button from './elements/Button.js';

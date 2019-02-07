@@ -476,15 +476,21 @@ class PaymentStore{
   computed
   get getCurrentValue(){
     let old = this.RootStore.configStore.order;
+
+    console.log('old', old);
     let current =  this.RootStore.paymentStore.current_currency;
     let old_amount = this.RootStore.uIStore.formatNumber(old.amount.toFixed(old.decimal_digit));
     let new_amount = this.RootStore.uIStore.formatNumber(current.amount.toFixed(current.decimal_digit));
+
+    console.log(old_amount, new_amount);
 
     var title = {'main': old.symbol + ' ' + old_amount};
 
     if(current.currency !== old.currency){
         title = {'main': current.symbol + ' ' + new_amount, 'secondary': old.symbol + ' ' + old_amount}
     }
+
+    console.log('title', title);
 
     return title;
 

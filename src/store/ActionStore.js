@@ -24,20 +24,24 @@ class ActionStore {
         this.RootStore.uIStore.warningHandler();
       }
       else {
-        if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
-          this.RootStore.uIStore.setSubPage(-1);
-        }
 
         this.RootStore.paymentStore.active_payment_option_total_amount = 0;
         this.RootStore.uIStore.setIsActive(null);
         this.RootStore.paymentStore.selected_card = null;
         this.RootStore.uIStore.payBtn(false);
 
+        if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
+          this.RootStore.uIStore.setSubPage(-1);
+        }
+
         var paymentOptions = document.getElementById('gosell-gateway-payment-options');
         var order = document.getElementById('gosell-gateway-order-details');
 
         console.log('payment options now', paymentOptions);
         if(this.RootStore.uIStore.show_order_details){
+          console.log('setSubPage', this.RootStore.uIStore.getSubPage);
+
+
           paymentOptions.style.height = order.style.height;
           order.style.height = 0;
           console.log('payment options now is ', paymentOptions.style.height);
@@ -57,72 +61,43 @@ class ActionStore {
 
   handleBusinessInfoClick(){
 
-    console.log('contact info', this.RootStore.configStore.gateway.contactInfo);
-
     var sideMenu = document.getElementById('gosell-side-menu').clientHeight;
     var businessInfo = document.getElementById('gosell-business-info').scrollHeight;
-    console.log('++++ side-menu', sideMenu);
-    console.log('++++ business-info', businessInfo);
 
     sideMenu < businessInfo ? document.getElementById('gosell-business-info').style.height = 'fit-content' : document.getElementById('gosell-business-info').style.height = '100%';
-    // this.setState({
-    //   height: sideMenu < businessInfo ? 'fit-content' : '100%'
-    // });
 
     if(this.RootStore.configStore.contactInfo && this.RootStore.merchantStore.contact && Object.keys(this.RootStore.merchantStore.contact).length > 0){
-      this.RootStore.paymentStore.active_payment_option_total_amount = 0;
-      this.RootStore.uIStore.setIsActive(null);
-      this.RootStore.paymentStore.selected_card = null;
-      this.RootStore.uIStore.payBtn(false);
-      this.RootStore.uIStore.show_order_details = false;
 
-      if(this.RootStore.uIStore.getIsMobile){
-        console.log("it's mobile");
-        if(this.RootStore.uIStore.getPageIndex === 4){
-          this.RootStore.uIStore.setPageIndex(0, 'x');
-        }
-        else { // open currencies list
-          this.RootStore.uIStore.setIsActive(null);
-          this.RootStore.paymentStore.selected_card = null;
-          this.RootStore.uIStore.payBtn(false);
-
-          // if(this.RootStore.configStore.contactInfo && this.RootStore.merchantStore.contact && Object.keys(this.RootStore.merchantStore.contact).length > 0){
-            this.RootStore.uIStore.setPageIndex(4, 'x');
-          // }
-        }
-
+      if(this.RootStore.uIStore.pay_btn && this.RootStore.uIStore.getBtnLoaderStatus){
+        this.RootStore.uIStore.warningHandler();
       }
       else {
-        console.log("it's not mobile");
-        if(this.RootStore.uIStore.getSubPage === 1){
+        this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+        this.RootStore.uIStore.setIsActive(null);
+        this.RootStore.paymentStore.selected_card = null;
+        this.RootStore.uIStore.payBtn(false);
+
+        if(this.RootStore.uIStore.show_order_details){
+          this.handleOrderDetailsClick();
+        }
+
+
+        if(this.RootStore.uIStore.getPageIndex === 4 || this.RootStore.uIStore.getSubPage === 1){
+          this.RootStore.uIStore.setPageIndex(0, 'x');
           this.RootStore.uIStore.setSubPage(-1);
         }
         else { // open currencies list
-          this.RootStore.uIStore.setIsActive(null);
-          this.RootStore.paymentStore.selected_card = null;
-          this.RootStore.uIStore.payBtn(false);
-
-          // if(this.RootStore.configStore.contactInfo && this.RootStore.merchantStore.contact && Object.keys(this.RootStore.merchantStore.contact).length > 0){
+          if(this.RootStore.uIStore.getIsMobile){
+            this.RootStore.uIStore.setPageIndex(4, 'x');
+          }
+          else {
             this.RootStore.uIStore.setSubPage(1);
-          // }
+          }
         }
       }
+
     }
 
-    // if(this.RootStore.uIStore.getActivePage === 1 && this.RootStore.uIStore.getSubPage === 1){
-    //   this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(1) : this.RootStore.uIStore.setSubPage(-1);
-    //   this.RootStore.uIStore.setActivePage(0);
-    // }
-    // else if(this.RootStore.uIStore.getActivePage === 1 && this.RootStore.uIStore.getSubPage === 0){
-    //   this.RootStore.uIStore.setActivePage(0);
-    //   this.RootStore.uIStore.setSubPage(1);
-    //   this.RootStore.uIStore.setActivePage(1);
-    // }
-    // else{
-    //   this.RootStore.uIStore.setSubPage(1);
-    //   this.RootStore.uIStore.setActivePage(1);
-    //
-    // }
   }
 
   currenciesHandleClick(e){
@@ -134,71 +109,28 @@ class ActionStore {
       this.RootStore.paymentStore.active_payment_option_total_amount = 0;
       this.RootStore.uIStore.show_order_details = false;
 
-      if(this.RootStore.uIStore.getIsMobile){
-        console.log("it's mobile");
-        if(this.RootStore.uIStore.getPageIndex === 3){
-          this.RootStore.uIStore.setPageIndex(0, 'x');
-        }
-        else { // open currencies list
-          this.RootStore.uIStore.setIsActive(null);
-          this.RootStore.paymentStore.selected_card = null;
-          this.RootStore.uIStore.payBtn(false);
+      if(this.RootStore.uIStore.getPageIndex === 3 || this.RootStore.uIStore.getSubPage === 0){
+        this.RootStore.uIStore.setPageIndex(0, 'x');
+        this.RootStore.uIStore.setSubPage(-1);
+      }
+      else {
+        this.RootStore.uIStore.setIsActive(null);
+        this.RootStore.paymentStore.selected_card = null;
+        this.RootStore.uIStore.payBtn(false);
 
-          if(this.RootStore.paymentStore.supported_currencies.length > 1 ){
-            this.RootStore.uIStore.setPageIndex(3, 'x');
+        if(this.RootStore.paymentStore.supported_currencies.length > 1 ){
+
+          if(this.RootStore.uIStore.getIsMobile){
+              this.RootStore.uIStore.setPageIndex(3, 'x');
+          }else{
+            this.RootStore.uIStore.setSubPage(0);
           }
+
         }
 
       }
-      else {
-        console.log("it's not mobile");
-        if(this.RootStore.uIStore.getSubPage === 0){
-          this.RootStore.uIStore.setSubPage(-1);
-        }
-        else { // open currencies list
-          this.RootStore.uIStore.setIsActive(null);
-          this.RootStore.paymentStore.selected_card = null;
-          this.RootStore.uIStore.payBtn(false);
 
-          if(this.RootStore.paymentStore.supported_currencies.length > 1 ){
-            this.RootStore.uIStore.setSubPage(0);
-          }
-        }
     }
-
-  }
-
-    // if(this.RootStore.uIStore.getPageIndex === 3 && this.RootStore.uIStore.getSubPage === 0){
-    //   this.RootStore.uIStore.setPageIndex(0, 'x');
-    //   this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
-    // }
-    // else { // open currencies list
-    //   this.RootStore.uIStore.setIsActive(null);
-    //   this.RootStore.paymentStore.selected_card = null;
-    //   this.RootStore.uIStore.payBtn(false);
-    //
-    //   if(this.RootStore.paymentStore.supported_currencies.length > 1 ){
-    //     this.RootStore.uIStore.setPageIndex(3, 'x');
-    //     this.RootStore.uIStore.setSubPage(0);
-    //   }
-    // }
-
-
-    // if(this.RootStore.uIStore.getActivePage === 1 && this.RootStore.uIStore.getSubPage === 0){
-    //   this.RootStore.uIStore.setActivePage(0);
-    //   this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
-    // }
-    // else { // open currencies list
-    //   this.RootStore.uIStore.setIsActive(null);
-    //   this.RootStore.paymentStore.selected_card = null;
-    //   this.RootStore.uIStore.payBtn(false);
-    //
-    //   if(this.RootStore.paymentStore.supported_currencies.length > 1 ){
-    //     this.RootStore.uIStore.setActivePage(1);
-    //     this.RootStore.uIStore.setSubPage(0);
-    //   }
-    // }
-
   }
 
   handleCustomerCardsClick(ref, obj){
@@ -240,25 +172,6 @@ class ActionStore {
     }
 
   }
-
-  // cardFormHandleClick(){
-  //   // if(ref.id === 'tap-cards-form'){
-  //     this.RootStore.paymentStore.selected_card = null;
-  //
-  //     //clear open menus
-  //     this.RootStore.uIStore.setActivePage(0);
-  //     this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
-  //
-  //     if(this.RootStore.uIStore.getIsActive !== 'FORM'){
-  //       this.RootStore.paymentStore.active_payment_option_total_amount = 0;
-  //       //form is active
-  //       this.RootStore.uIStore.setIsActive('FORM');
-  //       this.RootStore.uIStore.payBtn(false);
-  //     }
-  //
-  //     this.RootStore.uIStore.setIsActive('FORM');
-  //   // }
-  // }
 
   onPayBtnClick(){
 

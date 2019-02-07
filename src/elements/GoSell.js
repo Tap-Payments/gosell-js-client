@@ -14,6 +14,7 @@ class GoSell extends Component {
   //open Tap gateway as a light box by JS library
   static openLightBox(e){
     RootStore.uIStore.modal_mode = 'popup';
+    RootStore.configStore.configure();
     GoSell.handleView();
 
     if(!GoSell.showTranxResult()){
@@ -33,7 +34,7 @@ class GoSell extends Component {
     RootStore.uIStore.modal_mode = 'page';
 
     RootStore.uIStore.startLoading('loader', 'Please Wait', null);
-
+    RootStore.configStore.configure();
     GoSell.handleView();
 
     if(!GoSell.showTranxResult()){
@@ -50,8 +51,8 @@ class GoSell extends Component {
 
   //redirect to Tap gateway from JS library without calling charge / authrorize API from merchant side
   static openPaymentPage(){
+    RootStore.configStore.configure();
     GoSell.handleView();
-    // RootStore.configStore.configure();
 
     RootStore.apiStore.createTransaction().then(result => {
       console.log('transaction response', result);
@@ -70,7 +71,7 @@ class GoSell extends Component {
 
     RootStore.uIStore.setOpenModal(true);
 
-    RootStore.configStore.configure();
+    // RootStore.configStore.configure();
 
     var body =  document.body.children;
 
@@ -148,14 +149,15 @@ class GoSell extends Component {
   }
 
   handleWindowSizeChange = () => {
-  //  window.innerWidth <= 500 ? RootStore.uIStore.setIsMobile(true) : RootStore.uIStore.setIsMobile(false);
 
     if(window.innerWidth <= 823){
       RootStore.uIStore.setIsMobile(true);
+      RootStore.uIStore.setSubPage(-1);
       this.handleUI();
     }
     else {
       RootStore.uIStore.setIsMobile(false);
+      RootStore.uIStore.setPageIndex(0, 'x');
       this.handleUI();
     }
 
