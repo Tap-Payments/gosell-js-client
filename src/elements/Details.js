@@ -39,7 +39,7 @@ class Details extends Component {
 
           {store.configStore.tranx_description != null ?
               <Order onClick={store.actionStore.handleOrderDetailsClick}>
-                Order Details
+                {store.uIStore.show_order_details ? "Close Order Details" : "View Order Details"}
               </Order>
           : null}
       </Container>

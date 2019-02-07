@@ -200,23 +200,23 @@ class ConfigStore {
         if(value.charge.id){
           console.log(value.charge.id);
 
-          this.RootStore.apiStore.getTransaction(value.charge.id).then(result => {
+          this.RootStore.apiStore.getTransaction(value.charge.id).then(async result => {
             console.log('get charge transaction response', result);
-            self.redirect_url = result.data.redirect.url;
+            self.redirect_url = await result.data.redirect.url;
 
-            self.order = {currency: result.data.currency, amount: result.data.amount};
-            self.customer = result.data.customer;
+            self.order = {currency: await result.data.currency, amount: await result.data.amount};
+            self.customer = await result.data.customer;
 
             self.charge = {
-              saveCard: result.data.save_card,
-              threeDSecure: result.data.threeDSecure,
-              description: result.data.description,
-              statement_descriptor: result.data.statement_descriptor,
-              reference: result.data.reference,
-              metadata: result.data.metadata,
-              receipt: result.data.receipt,
-              redirect: result.data.redirect.url,
-              post: result.data.post.url
+              saveCard: await result.data.save_card,
+              threeDSecure: await result.data.threeDSecure,
+              description: await result.data.description,
+              statement_descriptor: await result.data.statement_descriptor,
+              reference: await result.data.reference,
+              metadata: await result.data.metadata,
+              receipt: await result.data.receipt,
+              redirect: await result.data.redirect.url,
+              post: await result.data.post.url
             };
 
             self.tranx_description = self.charge.description;
@@ -261,25 +261,25 @@ class ConfigStore {
         if(value.authorize.id){
           console.log(value.authorize.id);
 
-          this.RootStore.apiStore.getTransaction(value.authorize.id).then(result => {
+          this.RootStore.apiStore.getTransaction(value.authorize.id).then(async result => {
             console.log('get authorize transaction response', result);
-            self.redirect_url = result.data.redirect.url;
+            self.redirect_url = await result.data.redirect.url;
 
-            self.order = {currency: result.data.currency, amount: result.data.amount};
+            self.order = {currency: await result.data.currency, amount: await result.data.amount};
             console.log('order ++++++ ', self.order);
-            self.customer = result.data.customer;
+            self.customer = await result.data.customer;
 
             self.authorize = {
-              auto:result.data.auto,
-              saveCard: result.data.save_card,
-              threeDSecure: result.data.threeDSecure,
-              description: result.data.description,
-              statement_descriptor: result.data.statement_descriptor,
-              reference: result.data.reference,
-              metadata: result.data.metadata,
-              receipt: result.data.receipt,
-              redirect: result.data.redirect.url,
-              post: result.data.post.url
+              auto:await result.data.auto,
+              saveCard: await result.data.save_card,
+              threeDSecure: await result.data.threeDSecure,
+              description: await result.data.description,
+              statement_descriptor: await result.data.statement_descriptor,
+              reference: await result.data.reference,
+              metadata: await result.data.metadata,
+              receipt: await result.data.receipt,
+              redirect: await result.data.redirect.url,
+              post: await result.data.post.url
             };
 
             self.tranx_description = self.authorize.description;
