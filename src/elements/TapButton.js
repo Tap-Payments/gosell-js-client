@@ -54,8 +54,12 @@ class TapButton extends Component {
       background-color: ${this.props.active ? this.props.btnColor : '#C9C9C9'};
       position: absolute;
       padding: 0;
+      left: 0;
+      right: 0;
+      top:0;
       bottom: 0;
-      margin: 20px;
+      margin: auto;
+      /* margin: 20px; */
       border-radius: 50px;
       display: flex;
       flex-direction: row;

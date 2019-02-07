@@ -53,16 +53,21 @@ class Confirm extends Component {
   }
 
   render() {
+
+    var height = this.props.store.uIStore.mainHeight;
+
     return (
         <div className={this.props.store.uIStore.getPageIndex == this.props.index ? "tap-confirm tap-confirm-fadeIn" : "tap-confirm"}>
-          <div className="tap-confirm-back" onClick={this.handleBackClick.bind(this)}>
-            <img src={Paths.imgsPath + 'back-arrow.svg'} width="43"/>
-          </div>
+          <div style={{height: height + 'px'}}>
+            <div className="tap-confirm-back" onClick={this.handleBackClick.bind(this)}>
+              <img src={Paths.imgsPath + 'back-arrow.svg'} width="43"/>
+            </div>
 
-          <div style={{ height: '250px' }}>
-            {this.props.children}
+            <div>
+              {this.props.children}
+            </div>
           </div>
-
+          <div style={{height: '86px', position:'relative'}}>
             <TapButton
               id="tap-confirm-btn"
               width="90%" height="44px"
@@ -70,6 +75,7 @@ class Confirm extends Component {
               animate={this.state.animate}
               handleClick={this.handleBtnClick.bind(this)}
               active={this.state.active}>Confirm</TapButton>
+          </div>
         </div>
       );
 

@@ -10,6 +10,7 @@ class PaymentStore{
     this.current_amount = 0;
     this.current_currency = {};
     this.settlement_currency = null;
+    this.old_currency = null;
 
     //gcc currrencies list
     this.gcc = ["BHD", "SAR", "AED", "OMR", "QAR", "KWD"];
@@ -346,6 +347,13 @@ class PaymentStore{
     console.log('+ current currency', this.current_currency.currency);
     console.log('+ value.currency', value.currency);
 
+    if(this.current_currency.currency != undefined){
+      this.old_currency = this.current_currency.currency;
+    }
+    else {
+      this.old_currency = value.currency;
+    }
+
     this.current_currency = value;
     this.customer_cards_by_currency = this.savedCardsByCurrency;
     this.active_payment_option_total_amount = value.currency;
@@ -540,6 +548,7 @@ decorate(PaymentStore, {
   authenticate: observable,
   authorize: observable,
   charge:observable,
+  old_currency: observable
 });
 
 

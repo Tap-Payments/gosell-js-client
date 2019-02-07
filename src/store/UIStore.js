@@ -39,7 +39,8 @@ class UIStore {
     this.edit_customer_cards = 'Edit';
     this.modal_mode = 'popup';
 
-    this.mainHeight = '100%';
+    this.mainHeight = 0;
+    this.optionsHeight = 0;
 
     this.modal_bg_img = null;
     // this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';

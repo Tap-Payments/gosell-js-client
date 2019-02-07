@@ -9,6 +9,8 @@ import SaveForm from './SaveForm';
 import Paths from '../../webpack/paths';
 import TapButton from './TapButton';
 import Items from './Items/Items';
+import ReactDOM from "react-dom";
+
 
 const styles = {
     'row1':{
@@ -56,7 +58,8 @@ class Options extends Component {
     super(props);
 
     this.state = {
-      payment: null
+      payment: null,
+      height: 0
     }
   }
 
@@ -68,30 +71,47 @@ class Options extends Component {
     this.props.store.actionStore.onWebPaymentClick(payment);
   }
 
+  calcHeight(){
+
+    if(this.props.store.uIStore.getIsMobile){
+      console.log('doc height', document.getElementsByClassName("modal-body"));
+      console.log('doc height', document.getElementsByClassName("modal-body")[0].clientHeight);
+
+      this.props.store.uIStore.mainHeight = document.getElementsByClassName("modal-body")[0].clientHeight - 86;
+    }
+    else {
+      this.props.store.uIStore.mainHeight = 0;
+
+      const node = ReactDOM.findDOMNode(this.paymentOptions);
+      const allDivs = node.querySelectorAll("#gosell-gateway-payment-options > div");
+
+      var self = this;
+      allDivs.forEach(function(element) {
+        self.props.store.uIStore.mainHeight += element.clientHeight;
+        console.log('height', element.clientHeight);
+      });
+    }
+
+    // this.forceUpdate();
+
+  }
 
   componentDidMount(){
 
-    // if(this.props.store.uIStore.getIsMobile){
-    //   this.paymentOptions.style.height = '100%';
-    //   this.paymentOptions.style.height = this.paymentOptions.clientHeight;
-    // }
-    // else {
-      this.paymentOptions.style.height = 'fit-content';
-      this.paymentOptions.style.height = this.paymentOptions.clientHeight;
-      this.props.store.uIStore.mainHeight = this.paymentOptions.clientHeight;
-    // }
+      console.log('Height didMount', this.props.store.uIStore.mainHeight);
+
+      this.calcHeight();
+      // this.paymentOptions.style.height = this.props.store.uIStore.mainHeight;
   }
 
-  componentDidUpdate(){
-    // if(this.props.store.uIStore.getIsMobile){
-    //   this.paymentOptions.style.height = '100%';
-    //   this.paymentOptions.style.height = this.paymentOptions.clientHeight;
-    // }
-    // else {
-      this.paymentOptions.style.height = 'fit-content';
-      this.paymentOptions.style.height = this.paymentOptions.clientHeight;
-      this.props.store.uIStore.mainHeight = this.paymentOptions.clientHeight;
-    // }
+  componentDidUpdate(nextProps){
+
+    if(this.props.store.uIStore.mainHeight == 0){
+      this.calcHeight();
+      console.log('Height didupdate', this.props.store.uIStore.mainHeight);
+    }
+
+    // this.paymentOptions.style.height = this.props.store.uIStore.mainHeight;
   }
 
   render() {
@@ -135,7 +155,11 @@ class Options extends Component {
                     total={store.configStore.order.symbol + store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit))}/>
                 </div>
             </div>
-            <div id="gosell-gateway-payment-options" ref={el => (this.paymentOptions = el)} className="gosell-gateway-payment-options">
+            <div
+              id="gosell-gateway-payment-options"
+              style={{height: this.props.store.uIStore.mainHeight}}
+              ref={el => (this.paymentOptions = el)}
+              className="gosell-gateway-payment-options">
               <Separator />
 
               {store.paymentStore.supported_currencies && store.paymentStore.supported_currencies.length > 1 ?
@@ -169,10 +193,10 @@ class Options extends Component {
 
               {WebPayments.length > 0 || store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
                 <Label title="Others" dir={store.uIStore.getDir}/>
-              : <div style={{marginBottom: '20px'}}></div>}
+              : <div style={{paddingBottom: '20px'}}></div>}
 
               {WebPayments.length > 0 ?
-                <div style={{marginBottom: '20px'}}>
+                <div style={{paddingBottom: '20px'}}>
                   <Separator />
                   {WebPayments}
                 </div>

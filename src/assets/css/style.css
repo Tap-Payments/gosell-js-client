@@ -61,7 +61,7 @@
 }
 
 .gosell-gateway-order-details {
-  overflow: hidden;
+  overflow: auto;
   position: relative;
   /* overflow: scroll;
   scroll-behavior: smooth; */
@@ -70,7 +70,7 @@
 }
 
 .gosell-gateway-payment-options {
-  overflow: hidden;
+  overflow: auto;
   position: relative;
   /* overflow: scroll;
    scroll-behavior: smooth; */

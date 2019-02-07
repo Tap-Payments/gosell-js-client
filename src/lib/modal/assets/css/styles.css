@@ -119,10 +119,8 @@ body{
           align-items: stretch;
 }
 
-.body-container{
-  overflow-y: auto; /* has to be scroll, not auto */
+/* .body-container{
   scroll-behavior: smooth;
-  /* -webkit-overflow-scrolling: touch; */
   z-index: 0;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -131,7 +129,7 @@ body{
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-}
+} */
 
 
 .modal-wrapper{

@@ -81,15 +81,20 @@ class Pay extends Component {
     }
   }
 
+
   render() {
 
     let store = this.props.store;
 
     var title = '', self = this, cards = {};
 
+    console.log('options height', store.uIStore.mainHeight);
+//<div key={0} id="gosell-gateway-main-container" style={{height: (height + 86) + 'px', position:'relative'}}>
     var total = store.paymentStore.active_payment_option_total_amount > 0 ? store.paymentStore.current_currency.symbol + store.uIStore.formatNumber(store.paymentStore.active_payment_option_total_amount.toFixed(store.paymentStore.current_currency.decimal_digit)) : '';
+    var height = store.uIStore.mainHeight;
 
      return (
+       <React.Fragment>
        <TapSlider
            componentKey={store.uIStore.getPageIndex}
            axis={store.uIStore.pageDir}
@@ -98,41 +103,42 @@ class Pay extends Component {
            direction={store.uIStore.getDir}
            animationStatus = {this.animationStatusHandler.bind(this)}>
 
-                <div key={0} style={{height: 'fit-content', position:'relative'}}>
+                <div key={0} id="gosell-gateway-main-container" style={{width: '100%', height: height + 'px', position:'relative'}}>
                   <Options store={store}/>
-
-                  <div style={{height: '86px', position:'relative'}}>
-                        <TapButton
-                          id="tap-pay-btn"
-                          dir={store.uIStore.getDir}
-                          width="90%"
-                          height="44px"
-                          btnColor={'#2ACE00'}
-                          active={store.uIStore.pay_btn}
-                          animate={store.uIStore.getBtnLoaderStatus}
-                          handleClick={this.handlePayBtnClick.bind(this)}>{store.configStore.btn +' '+ total}</TapButton>
-                  </div>
-
                </div>
 
-                <div key={1} style={{height: '100%', position:'relative'}}>
+                <div key={1} style={{width: '100%', height: '100%', position:'relative'}}>
                     <ExtraFees dir={store.uIStore.getDir} store={store}/>
                 </div>
 
-                <div key={2} style={{height: '100%', position:'relative'}}>
+                <div key={2} style={{width: '100%', height: '100%', position:'relative'}}>
                     <Otp dir={store.uIStore.getDir} store={store} />
                 </div>
 
-                <div key={3} style={{height: '100%', position:'relative'}}>
+                <div key={3} style={{width: '100%', height: '100%', position:'relative'}}>
                     <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.getDir} store={store}/>
                 </div>
 
-                <div key={4} style={{height: 'fit-content', position:'relative'}}>
+                <div key={4} style={{width: '100%', height: 'fit-content', position:'relative'}}>
                     <BusinessInfo store={store} width="100%"/>
                 </div>
 
+        </TapSlider>
 
-        </TapSlider>);
+        <div style={{height: '86px', position:'relative'}}>
+              <TapButton
+                id="tap-pay-btn"
+                dir={store.uIStore.getDir}
+                width="90%"
+                height="44px"
+                btnColor={'#2ACE00'}
+                active={store.uIStore.pay_btn}
+                animate={store.uIStore.getBtnLoaderStatus}
+                handleClick={this.handlePayBtnClick.bind(this)}>{store.configStore.btn +' '+ total}</TapButton>
+        </div>
+
+        </React.Fragment>
+      );
   }
 }
 

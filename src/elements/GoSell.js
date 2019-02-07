@@ -149,8 +149,9 @@ class GoSell extends Component {
   }
 
   handleWindowSizeChange = () => {
+    var device = RootStore.uIStore.deviceOS;
 
-    if(window.innerWidth <= 823){
+    if(window.innerWidth <= 823 && device === 'phone'){
       RootStore.uIStore.setIsMobile(true);
       RootStore.uIStore.setSubPage(-1);
       this.handleUI();
@@ -161,7 +162,7 @@ class GoSell extends Component {
       this.handleUI();
     }
 
-    var device = RootStore.uIStore.deviceOS;
+
     if(window.innerWidth > 500 && device === 'phone'){
       RootStore.uIStore.setErrorHandler({
         visable: true,
@@ -241,7 +242,7 @@ class GoSell extends Component {
 
     return(
         <React.Fragment>
-            <Modal id="payment-gateway"
+            <Modal id="gosell-payment-gateway"
                 open={RootStore.uIStore.getOpenModal}
                 isLoading={RootStore.uIStore.getLoadingStatus}
                 loader={<TapLoader

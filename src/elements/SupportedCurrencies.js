@@ -37,6 +37,7 @@ class SupportedCurrencies extends Component {
   handleClick = (current) => {
 
       this.props.store.paymentStore.setCurrentCurrency(current);
+      this.props.store.uIStore.mainHeight = 0;
 
       if(this.props.store.uIStore.getIsMobile){
          // this.props.store.uIStore.setSubPage(0);
