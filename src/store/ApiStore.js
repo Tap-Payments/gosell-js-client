@@ -1130,6 +1130,7 @@ class ApiStore{
       if(res.code != 100){
         if(response.status == 200){
 
+          console.log('otp response', response);
           console.log('otp auth', res);
           if(res.status === 'INITIATED'){
             window.open(res.transaction.url, '_self');
@@ -1141,7 +1142,12 @@ class ApiStore{
             self.RootStore.uIStore.showMsg('success', 'Authorized Transaction', res.id);
           }
           else {
-            self.RootStore.uIStore.showMsg('error', res.response.message, res.id);
+            if(res.errors){
+              self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
+            }
+            else {
+              self.RootStore.uIStore.showMsg('error', res.response.message, res.id);
+            }
           }
         }
         else {

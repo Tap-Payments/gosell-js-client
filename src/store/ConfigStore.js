@@ -57,7 +57,7 @@ class ConfigStore {
 
     this.redirect_url = null;
 
-    this.legalConfig = true;
+    this.legalConfig = false;
 
     this.notifications = 'standard';
 
@@ -69,7 +69,7 @@ class ConfigStore {
     this.view = view;
   }
 
-  configure(){
+  async configure(){
     var self = this;
     var value = this.config;
 
@@ -172,7 +172,7 @@ class ConfigStore {
           this.notifications = value.gateway.notifications;
         }
 
-        this.tranxConfig(value);
+        return await this.tranxConfig(value);
 
       }
       else {
@@ -183,9 +183,11 @@ class ConfigStore {
     }
 
     console.log('transaction_mode', this.transaction_mode);
+
+    console.log('legal finally!!!', this.legalConfig);
   }
 
-  tranxConfig(value){
+  async tranxConfig(value){
 
     var self = this;
 
@@ -197,128 +199,13 @@ class ConfigStore {
       if(value.charge && value.charge != null){
         this.transaction_mode = 'charge';
 
-        if(value.charge.id){
-          console.log(value.charge.id);
+        return await this.chargeDetails(value);
 
-          this.RootStore.apiStore.getTransaction(value.charge.id).then(async result => {
-            console.log('get charge transaction response', result);
-            self.redirect_url = await result.data.redirect.url;
-
-            self.order = {currency: await result.data.currency, amount: await result.data.amount};
-            self.customer = await result.data.customer;
-
-            self.charge = {
-              saveCard: await result.data.save_card,
-              threeDSecure: await result.data.threeDSecure,
-              description: await result.data.description,
-              statement_descriptor: await result.data.statement_descriptor,
-              reference: await result.data.reference,
-              metadata: await result.data.metadata,
-              receipt: await result.data.receipt,
-              redirect: await result.data.redirect.url,
-              post: await result.data.post.url
-            };
-
-            console.log("order is: ", this.order);
-
-            self.tranx_description = self.charge.description;
-
-            self.RootStore.paymentStore.charge = self.charge;
-          });
-
-        }else {
-
-          this.charge = value.charge;
-
-          self.tranx_description = self.charge.description;
-
-          this.redirect_url = value.charge.redirect;
-          this.RootStore.paymentStore.charge = this.charge;
-
-          if(value.order || value.order != null){
-            this.items = value.order.items;
-            this.shipping = value.order.shipping;
-            this.taxes = value.order.taxes;
-            this.order = {currency: value.order.currency, amount: value.order.amount};
-          }
-          else {
-            // this.order = {currency: 'KWD', amount: 0};
-            this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the order details", null);
-            this.legalConfig = false;
-          }
-
-          console.log("order is: ", this.order);
-
-          if(value.customer || value.customer != null){
-            this.customer = value.customer;
-          }
-          else {
-            console.log("Something went wrong! Please check the customer details");
-            this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the customer details", null);
-            this.legalConfig = false;
-          }
-        }
       }
       else if(value.authorize && value.authorize != null){
         this.transaction_mode = 'authorize';
 
-        if(value.authorize.id){
-          console.log(value.authorize.id);
-
-          this.RootStore.apiStore.getTransaction(value.authorize.id).then(async result => {
-            console.log('get authorize transaction response', result);
-            self.redirect_url = await result.data.redirect.url;
-
-            self.order = {currency: await result.data.currency, amount: await result.data.amount};
-            console.log('order ++++++ ', self.order);
-            self.customer = await result.data.customer;
-
-            self.authorize = {
-              auto:await result.data.auto,
-              saveCard: await result.data.save_card,
-              threeDSecure: await result.data.threeDSecure,
-              description: await result.data.description,
-              statement_descriptor: await result.data.statement_descriptor,
-              reference: await result.data.reference,
-              metadata: await result.data.metadata,
-              receipt: await result.data.receipt,
-              redirect: await result.data.redirect.url,
-              post: await result.data.post.url
-            };
-
-            self.tranx_description = self.authorize.description;
-
-            self.RootStore.paymentStore.authorize = self.authorize;
-          });
-
-        }else {
-          this.authorize = value.authorize;
-
-          self.tranx_description = self.authorize.description;
-          console.log('authorize', this.authorize);
-          this.redirect_url = value.authorize.redirect;
-
-          if(value.order || value.order != null){
-            this.items = value.order.items;
-            this.shipping = value.order.shipping;
-            this.taxes = value.order.taxes;
-            this.order = {currency: value.order.currency, amount: value.order.amount};
-          }
-          else {
-            // this.order = {currency: 'KWD', amount: 0};
-            this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the order details", null);
-            this.legalConfig = false;
-          }
-
-          if(value.customer || value.customer != null){
-            this.customer = value.customer;
-          }
-          else {
-            console.log("Something went wrong! Please check the customer details");
-            this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the customer details", null);
-            this.legalConfig = false;
-          }
-        }
+        return await this.authorizeDetails(value);
       }
       else if(value.saveCard){
         this.transaction_mode = 'save_card';
@@ -329,17 +216,20 @@ class ConfigStore {
         if(value.order || value.order != null){
           this.order = {currency: value.order.currency, amount: value.order.amount};
         }
-        // else {
-        //   this.order = {currency: 'KWD', amount: 0};
-        // }
 
         if(value.customer || value.customer != null){
           this.customer = value.customer;
+
+          self.legalConfig = true;
+
+          return await self.legalConfig;
         }
         else {
+          this.legalConfig = false;
           console.log("Something went wrong! Please check the customer details");
           this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the customer details", null);
-          this.legalConfig = false;
+
+          return await self.legalConfig;
         }
       }
       else if(value.token){
@@ -350,14 +240,156 @@ class ConfigStore {
         if(value.order || value.order != null){
           this.order = {currency: value.order.currency, amount: value.order.amount};
         }
-        // else {
-        //   this.order = {currency: 'KWD', amount: 0};
-        // }
+
+        self.legalConfig = true;
+        return await self.legalConfig;
+
       }
       else {
-        // console.log("Something went wrong! Please check the goSell configration");
-        this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the goSell configration", null);
         this.legalConfig = false;
+        console.log("Something went wrong! Please check the goSell configration");
+        this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the goSell configration", null);
+
+        return await self.legalConfig;
+      }
+    }
+  }
+
+  async chargeDetails(value){
+
+    var self = this;
+
+    if(value.charge.id){
+      console.log(value.charge.id);
+
+      await this.RootStore.apiStore.getTransaction(value.charge.id).then(async result => {
+        console.log('get charge transaction response', result);
+        self.redirect_url = result.data.redirect.url;
+
+        self.order = {currency: result.data.currency, amount: result.data.amount};
+        self.customer = result.data.customer;
+
+        self.charge = {
+          saveCard:  result.data.save_card,
+          threeDSecure:  result.data.threeDSecure,
+          description:  result.data.description,
+          statement_descriptor:  result.data.statement_descriptor,
+          reference:  result.data.reference,
+          metadata:  result.data.metadata,
+          receipt:  result.data.receipt,
+          redirect:  result.data.redirect.url,
+          post:  result.data.post.url
+        };
+
+        console.log("order is: ", this.order);
+
+        self.tranx_description = self.charge.description;
+
+        self.RootStore.paymentStore.charge = self.charge;
+
+        self.legalConfig = true;
+
+        return await self.legalConfig;
+
+      });
+
+    }else {
+
+      this.charge = value.charge;
+
+      self.tranx_description = self.charge.description;
+
+      this.redirect_url = value.charge.redirect;
+      this.RootStore.paymentStore.charge = this.charge;
+
+      if(value.customer || value.customer != null){
+        this.customer = value.customer;
+      }
+
+      if(value.order || value.order != null){
+        this.items = value.order.items;
+        this.shipping = value.order.shipping;
+        this.taxes = value.order.taxes;
+        this.order = {currency: value.order.currency, amount: value.order.amount};
+
+        this.legalConfig = true;
+        return await this.legalConfig;
+
+      }
+      else {
+        this.legalConfig = false;
+        this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the order details", null);
+
+        return await this.legalConfig;
+      }
+
+    }
+
+  }
+
+  async authorizeDetails(value){
+
+    var self = this;
+
+    if(value.authorize.id){
+      console.log(value.authorize.id);
+
+      await this.RootStore.apiStore.getTransaction(value.authorize.id).then(async result => {
+        console.log('get authorize transaction response', result);
+        self.redirect_url = result.data.redirect.url;
+
+        self.order = {currency: result.data.currency, amount: result.data.amount};
+        console.log('order ++++++ ', self.order);
+        self.customer = result.data.customer;
+
+        self.authorize = {
+          auto: result.data.auto,
+          saveCard:  result.data.save_card,
+          threeDSecure:  result.data.threeDSecure,
+          description:  result.data.description,
+          statement_descriptor: result.data.statement_descriptor,
+          reference: result.data.reference,
+          metadata: result.data.metadata,
+          receipt: result.data.receipt,
+          redirect: result.data.redirect.url,
+          post: result.data.post.url
+        };
+
+        self.tranx_description = self.authorize.description;
+
+        self.RootStore.paymentStore.authorize = self.authorize;
+
+        self.legalConfig = true;
+
+        return await self.legalConfig;
+      });
+
+    }else {
+      this.authorize = value.authorize;
+
+      self.tranx_description = self.authorize.description;
+      console.log('authorize', this.authorize);
+      this.redirect_url = value.authorize.redirect;
+
+      if(value.customer || value.customer != null){
+        this.customer = value.customer;
+      }
+
+      if(value.order || value.order != null){
+        this.items = value.order.items;
+        this.shipping = value.order.shipping;
+        this.taxes = value.order.taxes;
+        this.order = {currency: value.order.currency, amount: value.order.amount};
+
+        self.legalConfig = true;
+
+        return await self.legalConfig;
+      }
+      else {
+        this.legalConfig = false;
+        this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the order details", null);
+
+        return await self.legalConfig;
       }
     }
   }

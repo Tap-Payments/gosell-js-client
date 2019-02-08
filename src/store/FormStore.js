@@ -331,7 +331,17 @@ class FormStore{
       if(event.code == 200){
         self.RootStore.paymentStore.save_card_active = true;
         self.RootStore.uIStore.setIsActive('FORM');
-        self.RootStore.uIStore.payBtn(true);
+        // self.RootStore.uIStore.payBtn(true);
+
+        var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.current_currency.symbol + self.RootStore.uIStore.formatNumber(self.RootStore.paymentStore.active_payment_option_total_amount.toFixed(self.RootStore.paymentStore.current_currency.decimal_digit)) : '';
+
+        console.log('form total', total);
+        self.RootStore.uIStore.goSellBtn({
+          title: self.RootStore.configStore.btn + ' ' + total,
+          color: '#2ACE00',
+          active: true,
+          loader: false
+        });
 
         console.log('I am in success');
 
@@ -341,13 +351,19 @@ class FormStore{
       }
       else if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
 
-        if(self.RootStore.uIStore.pay_btn && self.RootStore.uIStore.getBtnLoaderStatus){
+        if(self.RootStore.uIStore.btn.active && self.RootStore.uIStore.btn.loader){
           self.RootStore.uIStore.warningHandler();
         }
         else {
           self.RootStore.paymentStore.save_card_active = false;
           self.RootStore.paymentStore.saveCardOption(false);
-          self.RootStore.uIStore.payBtn(false);
+          // self.RootStore.uIStore.payBtn(false);
+
+          self.RootStore.uIStore.goSellBtn({
+            title: self.RootStore.configStore.btn,
+            active: false,
+            loader: false
+          });
 
           console.log('I am in error');
           if(event.error_interactive){
@@ -426,7 +442,7 @@ class FormStore{
 
    cardFormHandleClick(){
 
-     if(this.RootStore.uIStore.pay_btn && this.RootStore.uIStore.getBtnLoaderStatus){
+     if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
        this.RootStore.uIStore.warningHandler();
      }
      else {
@@ -441,7 +457,13 @@ class FormStore{
          this.RootStore.paymentStore.active_payment_option_total_amount = 0;
          this.RootStore.uIStore.setErrorHandler({});
          this.RootStore.uIStore.delete_card = null;
-         this.RootStore.uIStore.payBtn(false);
+         // this.RootStore.uIStore.payBtn(false);
+         this.RootStore.uIStore.goSellBtn({
+           title: this.RootStore.configStore.btn,
+           active: false,
+           loader: false
+         });
+
        }
 
        //form is active
@@ -493,7 +515,13 @@ class FormStore{
    clearCardForm(){
      if(this.card != null){
        this.card.clearForm();
-       this.RootStore.uIStore.payBtn(false);
+       // this.RootStore.uIStore.payBtn(false);
+
+       this.RootStore.uIStore.goSellBtn({
+         title: this.RootStore.configStore.btn,
+         active: false,
+         loader: false
+       });
      }
 
    }

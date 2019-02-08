@@ -16,45 +16,80 @@ class ActionStore {
     this.onPayBtnClick = this.onPayBtnClick.bind(this);
 
     this.handleExtraFeesClick = this.handleExtraFeesClick.bind(this);
+    this.handleOTPClick = this.handleOTPClick.bind(this);
+  }
+
+  resetSettings(){
+
+    this.RootStore.uIStore.setIsActive(null);
+    this.RootStore.paymentStore.selected_card = null;
+    this.RootStore.paymentStore.active_payment_option = null;
+    this.RootStore.paymentStore.active_payment_option_fees = 0;
+    this.RootStore.paymentStore.active_payment_option = null;
+    this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+    this.RootStore.paymentStore.active_payment_option_fees = 0;
+
+
+    this.RootStore.uIStore.goSellBtn({
+      title: this.RootStore.configStore.btn,
+      active: false,
+      loader: false
+    });
+
+    // if(this.RootStore.uIStore.show_order_details){
+    //   this.handleOrderDetailsClick();
+    // }
+
   }
 
   handleOrderDetailsClick(){
 
-      if(this.RootStore.uIStore.pay_btn && this.RootStore.uIStore.getBtnLoaderStatus){
+      if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
         this.RootStore.uIStore.warningHandler();
       }
       else {
-
-        this.RootStore.paymentStore.active_payment_option_total_amount = 0;
-        this.RootStore.uIStore.setIsActive(null);
-        this.RootStore.paymentStore.selected_card = null;
-        this.RootStore.uIStore.payBtn(false);
 
         if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
           this.RootStore.uIStore.setSubPage(-1);
         }
 
-        var paymentOptions = document.getElementById('gosell-gateway-payment-options');
-        var order = document.getElementById('gosell-gateway-order-details');
+        if(this.RootStore.uIStore.getPageIndex == 0){
 
-        console.log('payment options now', paymentOptions);
-        if(this.RootStore.uIStore.show_order_details){
-          console.log('setSubPage', this.RootStore.uIStore.getSubPage);
+          // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+          // this.RootStore.uIStore.setIsActive(null);
+          // this.RootStore.paymentStore.selected_card = null;
+          //
+          // this.RootStore.uIStore.goSellBtn({
+          //   title: this.RootStore.configStore.btn,
+          //   active: false,
+          //   loader: false
+          // });
+
+          this.resetSettings();
+
+          var paymentOptions = document.getElementById('gosell-gateway-payment-options');
+          var order = document.getElementById('gosell-gateway-order-details');
+
+          console.log('payment options now', paymentOptions);
+          if(this.RootStore.uIStore.show_order_details){
+            console.log('setSubPage', this.RootStore.uIStore.getSubPage);
 
 
-          paymentOptions.style.height = order.style.height;
-          order.style.height = 0;
-          console.log('payment options now is ', paymentOptions.style.height);
-          console.log('order now is ', order.style.height);
-          this.RootStore.uIStore.show_order_details = false;
+            paymentOptions.style.height = order.style.height;
+            order.style.height = 0;
+            console.log('payment options now is ', paymentOptions.style.height);
+            console.log('order now is ', order.style.height);
+            this.RootStore.uIStore.show_order_details = false;
+          }
+          else{
+            order.style.height = paymentOptions.clientHeight;
+            paymentOptions.style.height = 0;
+            console.log('order now is ', order.style.height);
+            console.log('paymentOptions now is ', paymentOptions.style.height);
+            this.RootStore.uIStore.show_order_details = true;
+          }
         }
-        else{
-          order.style.height = paymentOptions.clientHeight;
-          paymentOptions.style.height = 0;
-          console.log('order now is ', order.style.height);
-          console.log('paymentOptions now is ', paymentOptions.style.height);
-          this.RootStore.uIStore.show_order_details = true;
-        }
+
       }
 
   }
@@ -68,14 +103,21 @@ class ActionStore {
 
     if(this.RootStore.configStore.contactInfo && this.RootStore.merchantStore.contact && Object.keys(this.RootStore.merchantStore.contact).length > 0){
 
-      if(this.RootStore.uIStore.pay_btn && this.RootStore.uIStore.getBtnLoaderStatus){
+      if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
         this.RootStore.uIStore.warningHandler();
       }
       else {
-        this.RootStore.paymentStore.active_payment_option_total_amount = 0;
-        this.RootStore.uIStore.setIsActive(null);
-        this.RootStore.paymentStore.selected_card = null;
-        this.RootStore.uIStore.payBtn(false);
+        // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+        // this.RootStore.uIStore.setIsActive(null);
+        // this.RootStore.paymentStore.selected_card = null;
+        // // this.RootStore.uIStore.payBtn(false);
+        // this.RootStore.uIStore.goSellBtn({
+        //   title: this.RootStore.configStore.btn,
+        //   active: false,
+        //   loader: false
+        // });
+
+        this.resetSettings();
 
         if(this.RootStore.uIStore.show_order_details){
           this.handleOrderDetailsClick();
@@ -102,11 +144,21 @@ class ActionStore {
 
   currenciesHandleClick(e){
 
-    if(this.RootStore.uIStore.pay_btn && this.RootStore.uIStore.getBtnLoaderStatus){
+    if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
       this.RootStore.uIStore.warningHandler();
     }
     else {
-      this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+
+      // this.RootStore.uIStore.goSellBtn({
+      //   title: this.RootStore.configStore.btn,
+      //   active: false,
+      //   loader: false
+      // });
+      //
+      // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+
+      this.resetSettings();
+      
       this.RootStore.uIStore.show_order_details = false;
 
       if(this.RootStore.uIStore.getPageIndex === 3 || this.RootStore.uIStore.getSubPage === 0){
@@ -115,8 +167,8 @@ class ActionStore {
       }
       else {
         this.RootStore.uIStore.setIsActive(null);
-        this.RootStore.paymentStore.selected_card = null;
-        this.RootStore.uIStore.payBtn(false);
+        // this.RootStore.paymentStore.selected_card = null;
+        // this.RootStore.uIStore.payBtn(false);
 
         if(this.RootStore.paymentStore.supported_currencies.length > 1 ){
 
@@ -136,7 +188,7 @@ class ActionStore {
   handleCustomerCardsClick(ref, obj){
     this.RootStore.uIStore.show_order_details = false;
 
-    if(this.RootStore.uIStore.pay_btn && this.RootStore.uIStore.getBtnLoaderStatus){
+    if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
       this.RootStore.uIStore.warningHandler();
     }
     else {
@@ -155,19 +207,36 @@ class ActionStore {
 
         this.RootStore.paymentStore.getFees(this.RootStore.paymentStore.active_payment_option.scheme);
         console.log("Hey I'm here");
-        this.RootStore.uIStore.payBtn(true);
-        console.log("pay button ****************************** ", this.RootStore.uIStore.pay_btn);
+        // this.RootStore.uIStore.payBtn(true);
+
+        var total = this.RootStore.paymentStore.active_payment_option_total_amount > 0 ? this.RootStore.paymentStore.current_currency.symbol + this.RootStore.uIStore.formatNumber(this.RootStore.paymentStore.active_payment_option_total_amount.toFixed(this.RootStore.paymentStore.current_currency.decimal_digit)) : '';
+
+        this.RootStore.uIStore.goSellBtn({
+          title: this.RootStore.configStore.btn + ' ' + total,
+          color: '#2ACE00',
+          active: true,
+          loader: false
+        });
+
+        console.log("pay button ****************************** ", this.RootStore.uIStore.btn.active);
       }
       else {
-        this.RootStore.uIStore.setIsActive(null);
-        // this.RootStore.uIStore.confirm = 0;
-        this.RootStore.paymentStore.selected_card = null;
-        this.RootStore.paymentStore.active_payment_option = null;
-        this.RootStore.paymentStore.active_payment_option_fees = 0;
-        this.RootStore.paymentStore.active_payment_option = null;
-        this.RootStore.paymentStore.active_payment_option_total_amount = 0;
-        this.RootStore.paymentStore.active_payment_option_fees = 0;
-        this.RootStore.uIStore.payBtn(false);
+        // this.RootStore.uIStore.setIsActive(null);
+        // // this.RootStore.uIStore.confirm = 0;
+        // this.RootStore.paymentStore.selected_card = null;
+        // this.RootStore.paymentStore.active_payment_option = null;
+        // this.RootStore.paymentStore.active_payment_option_fees = 0;
+        // this.RootStore.paymentStore.active_payment_option = null;
+        // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+        // this.RootStore.paymentStore.active_payment_option_fees = 0;
+        // this.RootStore.uIStore.payBtn(false);
+
+        // this.RootStore.uIStore.goSellBtn({
+        //   title: this.RootStore.configStore.btn,
+        //   active: false,
+        //   loader: false
+        // });
+        this.resetSettings();
       }
     }
 
@@ -196,7 +265,6 @@ class ActionStore {
 
              if(self.RootStore.paymentStore.active_payment_option_fees > 0){
                self.RootStore.uIStore.setPageIndex(1, 'y');
-               // self.RootStore.uIStore.confirm = 0;
                self.RootStore.uIStore.stopBtnLoader();
              }
              else {
@@ -214,7 +282,7 @@ class ActionStore {
   onWebPaymentClick(payment){
     var self = this;
 
-    if(this.RootStore.uIStore.pay_btn && this.RootStore.uIStore.getBtnLoaderStatus){
+    if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
       this.RootStore.uIStore.warningHandler();
     }
     else {
@@ -227,8 +295,8 @@ class ActionStore {
         this.RootStore.paymentStore.getFees(this.RootStore.paymentStore.active_payment_option.name);
 
         self.RootStore.paymentStore.source_id = payment.source_id;
+
         this.RootStore.uIStore.setPageIndex(1, 'y');
-        // this.RootStore.uIStore.confirm = 0;
       }
       else {
         self.RootStore.paymentStore.active_payment_option = payment;
@@ -263,6 +331,33 @@ class ActionStore {
           }
       });
   }
+
+  handleOTPClick(){
+    var self = this;
+    var store = this.RootStore;
+
+    store.uIStore.goSellBtn({
+      active: true,
+      loader: true
+    });
+
+    store.uIStore.goSellOtp({
+      updated: false
+    });
+
+    store.uIStore.startLoading('loader', 'Please Wait', null);
+
+    console.log('otp _____ ', store.uIStore.otp);
+    console.log('otp value _____ ', store.uIStore.otp.value);
+
+    store.apiStore.authentication(store.paymentStore.authenticate.type, store.uIStore.otp.value).then(result => {
+          store.uIStore.stopBtnLoader();
+          store.uIStore.setIsActive(null);
+          store.paymentStore.selected_card = null;
+    });
+
+  }
+
 }
 
 

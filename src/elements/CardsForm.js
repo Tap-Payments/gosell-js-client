@@ -29,7 +29,7 @@ class CardsForm extends Component {
     return(
       <div style={{margin: '0px'}}>
             <form id="form-container" method="post" ref={(node) => this.cardFormRef = node}>
-                {store.uIStore.pay_btn && store.uIStore.getBtnLoaderStatus ? <div className="gosell-disable-items"></div> : null}
+                {store.uIStore.btn.active && store.uIStore.btn.loader ? <div className="gosell-disable-items"></div> : null}
                 <div id="element-container"></div>
             </form>
       </div>

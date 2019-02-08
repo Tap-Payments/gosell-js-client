@@ -43,7 +43,7 @@ class Cards extends Component {
 
   editCards(){
 
-    if(this.props.store.uIStore.pay_btn && this.props.store.uIStore.getBtnLoaderStatus){
+    if(this.props.store.uIStore.btn.active && this.props.store.uIStore.btn.loader){
       this.props.store.uIStore.warningHandler();
     }
     else {

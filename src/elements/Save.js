@@ -89,8 +89,8 @@ class Save extends Component {
                         width="90%"
                         height="44px"
                         btnColor={'#2ACE00'}
-                        active={store.uIStore.pay_btn}
-                        animate={this.props.store.uIStore.getBtnLoaderStatus}
+                        active={store.uIStore.btn.active}
+                        animate={this.props.store.uIStore.btn.loader}
                         handleClick={this.handleBtnClick.bind(this)}>{store.configStore.btn}</TapButton>
                   </div>
 

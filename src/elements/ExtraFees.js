@@ -26,7 +26,7 @@ class ExtraFees extends Component {
     total = store.uIStore.formatNumber(total.toFixed(current.decimal_digit));
 
     return (
-        <Confirm index={1} store={store} animate_btn={false} active_btn={this.state.active} handleBtnClick={store.actionStore.handleExtraFeesClick}>
+        <Confirm index={1} store={store}>
             <div dir={this.props.dir} className="tap-extra-fees-container">
               <p className="tap-extra-fees-title">Confirm Extra Charges</p>
               <p className="tap-extra-fees-msg">You will be charged an additional fee of {current.symbol + fees} for the type of payment, totalling an amount of {current.symbol+ total}.</p>

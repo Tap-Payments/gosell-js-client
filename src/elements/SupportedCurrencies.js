@@ -40,7 +40,6 @@ class SupportedCurrencies extends Component {
       this.props.store.uIStore.mainHeight = 0;
 
       if(this.props.store.uIStore.getIsMobile){
-         // this.props.store.uIStore.setSubPage(0);
          this.props.store.uIStore.setPageIndex(0, 'x');
       }
       else {

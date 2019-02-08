@@ -29,10 +29,18 @@ class Pay extends Component {
     }
   }
 
+  componentWillMount(){
+    this.props.store.uIStore.goSellBtn({
+      title: this.props.store.configStore.btn,
+      color: '#2ACE00',
+      active: false,
+      loader: false
+    });
+  }
+
   componentDidMount(){
     this.props.store.uIStore.setPageIndex(0, 'y');
   }
-
 
   componentWillUnmount(){
     this.setState({
@@ -42,33 +50,41 @@ class Pay extends Component {
 
   handlePayBtnClick(){
 
-    console.log('from handle pay btn function **** ');
     var store = this.props.store;
+    store.uIStore.startBtnLoader();
 
-    if(store.uIStore.getIsActive === 'FORM'){
-      store.uIStore.startBtnLoader();
-      //get card token
-      store.formStore.generateToken().then(result => {
-         // console.log('generate token', store.paymentStore.active_payment_option);
-         // store.paymentStore.getFees(store.paymentStore.active_payment_option.brand);
+    switch (store.uIStore.getPageIndex) {
+      case 0:
+        if(store.uIStore.getIsActive === 'FORM'){
+          //get card token
+          store.formStore.generateToken().then(result => {
 
-         if(store.paymentStore.active_payment_option_fees > 0){
-           store.uIStore.setPageIndex(1, 'y');
-           // store.uIStore.confirm = 0;
-         }
-         else {
-           store.uIStore.startLoading('loader', 'Please Wait');
+             if(store.paymentStore.active_payment_option_fees > 0){
+               store.uIStore.setPageIndex(1, 'y');
+             }
+             else {
+               store.uIStore.startLoading('loader', 'Please Wait');
 
-           store.apiStore.handleTransaction(store.paymentStore.source_id, 'FORM', 0.0).then(result =>{
-             console.log(' ......>>>>>>>>> ', result);
-             store.uIStore.stopBtnLoader();
+               store.apiStore.handleTransaction(store.paymentStore.source_id, 'FORM', 0.0).then(result =>{
+                 console.log(' ......>>>>>>>>> ', result);
+                 // store.uIStore.stopBtnLoader();
+               });
+             }
            });
-         }
-       });
+        }
+        else {
+          store.actionStore.onPayBtnClick();
+        }
+        break;
+       case 1:
+        store.actionStore.handleExtraFeesClick();
+        break;
+       case 2:
+         store.actionStore.handleOTPClick();
+         break;
     }
-    else {
-      store.actionStore.onPayBtnClick();
-    }
+
+
   }
 
   animationStatusHandler(){
@@ -82,16 +98,36 @@ class Pay extends Component {
   }
 
 
+
+
   render() {
 
     let store = this.props.store;
 
+    if(store.uIStore.getIsMobile){
+      var styles = {
+        height: '86px',
+        position: 'absolute',
+        width: '90%',
+        bottom: 0,
+        top:'86.5%'
+      }
+    }
+    else {
+      var styles = {
+        height: '86px',
+        position: 'absolute',
+        width: '100%',
+        bottom: 0
+      }
+    }
+
+
     var title = '', self = this, cards = {};
 
     console.log('options height', store.uIStore.mainHeight);
-//<div key={0} id="gosell-gateway-main-container" style={{height: (height + 86) + 'px', position:'relative'}}>
-    var total = store.paymentStore.active_payment_option_total_amount > 0 ? store.paymentStore.current_currency.symbol + store.uIStore.formatNumber(store.paymentStore.active_payment_option_total_amount.toFixed(store.paymentStore.current_currency.decimal_digit)) : '';
-    var height = store.uIStore.mainHeight;
+
+    console.log('btn btn ', store.uIStore.btn);
 
      return (
        <React.Fragment>
@@ -103,7 +139,7 @@ class Pay extends Component {
            direction={store.uIStore.getDir}
            animationStatus = {this.animationStatusHandler.bind(this)}>
 
-                <div key={0} id="gosell-gateway-main-container" style={{width: '100%', height: height + 'px', position:'relative'}}>
+                <div key={0} id="gosell-gateway-main-container" style={{width: '100%', height: (store.uIStore.mainHeight + 86) + 'px', position:'relative'}}>
                   <Options store={store}/>
                </div>
 
@@ -115,27 +151,29 @@ class Pay extends Component {
                     <Otp dir={store.uIStore.getDir} store={store} />
                 </div>
 
-                <div key={3} style={{width: '100%', height: '100%', position:'relative'}}>
+                <div key={3} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>
                     <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.getDir} store={store}/>
                 </div>
 
-                <div key={4} style={{width: '100%', height: 'fit-content', position:'relative'}}>
+                <div key={4} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>
                     <BusinessInfo store={store} width="100%"/>
                 </div>
 
         </TapSlider>
 
-        <div style={{height: '86px', position:'relative'}}>
-              <TapButton
-                id="tap-pay-btn"
-                dir={store.uIStore.getDir}
-                width="90%"
-                height="44px"
-                btnColor={'#2ACE00'}
-                active={store.uIStore.pay_btn}
-                animate={store.uIStore.getBtnLoaderStatus}
-                handleClick={this.handlePayBtnClick.bind(this)}>{store.configStore.btn +' '+ total}</TapButton>
-        </div>
+        {store.uIStore.getPageIndex != 3 && store.uIStore.getPageIndex != 4 ?
+          <div style={styles}>
+                <TapButton
+                  id="gosell-gateway-btn"
+                  dir={store.uIStore.getDir}
+                  width="90%"
+                  height="44px"
+                  btnColor={store.uIStore.btn.color}
+                  active={store.uIStore.btn.active}
+                  animate={store.uIStore.btn.loader}
+                  handleClick={this.handlePayBtnClick.bind(this)}>{store.uIStore.btn.title}</TapButton>
+          </div>
+        : null}
 
         </React.Fragment>
       );

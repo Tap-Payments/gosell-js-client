@@ -14,18 +14,19 @@ class GoSell extends Component {
   //open Tap gateway as a light box by JS library
   static openLightBox(e){
     RootStore.uIStore.modal_mode = 'popup';
-    RootStore.configStore.configure();
+
     GoSell.handleView();
 
-    if(!GoSell.showTranxResult()){
-      setTimeout(function(){
-        if(RootStore.configStore.legalConfig){
-          RootStore.apiStore.init().then(result => {
-            console.log('init response', result);
-          });
-        }
-      }, 1000);
-    }
+    RootStore.configStore.configure().then(result => {
+      if(!GoSell.showTranxResult()){
+        setTimeout(function(){
+          if(RootStore.configStore.legalConfig){
+            RootStore.apiStore.init();
+          }
+        }, 1000);
+      }
+    });
+
   }
 
   //function will be used on tap server to generate the UI of the payment gateway
@@ -34,24 +35,25 @@ class GoSell extends Component {
     RootStore.uIStore.modal_mode = 'page';
 
     RootStore.uIStore.startLoading('loader', 'Please Wait', null);
-    RootStore.configStore.configure();
+
     GoSell.handleView();
 
-    if(!GoSell.showTranxResult()){
-      setTimeout(function(){
-        if(RootStore.configStore.legalConfig){
-          console.log('session ++++++++++ ', RootStore.merchantStore.session);
-          RootStore.apiStore.init().then(result => {
-            console.log('init response', result);
-          });
-        }
-      }, 1000);
-    }
+    RootStore.configStore.configure().then(result => {
+      console.log('legalllllll', RootStore.configStore.legalConfig);
+      if(!GoSell.showTranxResult()){
+        setTimeout(function(){
+          if(RootStore.configStore.legalConfig){
+            RootStore.apiStore.init();
+          }
+        }, 1000);
+      }
+    });
+
   }
 
   //redirect to Tap gateway from JS library without calling charge / authrorize API from merchant side
   static openPaymentPage(){
-    RootStore.configStore.configure();
+
     GoSell.handleView();
 
     RootStore.apiStore.createTransaction().then(result => {
@@ -133,8 +135,11 @@ class GoSell extends Component {
   }
 
   componentDidMount() {
+    
+    RootStore.configStore.configure().then(result => {
+        GoSell.showTranxResult();
+    });
 
-    GoSell.showTranxResult();
     window.addEventListener('resize', this.handleWindowSizeChange);
   }
 

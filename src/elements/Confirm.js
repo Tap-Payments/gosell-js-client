@@ -23,15 +23,29 @@ class Confirm extends Component {
   }
 
   handleBackClick(){
-    this.setState({
-       animate: this.props.animate_btn,
-       active: this.props.active_btn
-    });
-    this.props.store.uIStore.setIsActive(null);
-    this.props.store.uIStore.stopBtnLoader();
-    this.props.store.paymentStore.selected_card = null;
-    this.props.store.uIStore.setPageIndex(0, 'y');
-    this.props.store.uIStore.payBtn(false);
+
+    if(this.props.store.uIStore.btn.active && this.props.store.uIStore.btn.loader){
+      this.props.store.uIStore.warningHandler();
+    }
+    else {
+      this.setState({
+         animate: this.props.animate_btn,
+         active: this.props.active_btn
+      });
+
+      this.props.store.uIStore.setIsActive(null);
+      this.props.store.uIStore.stopBtnLoader();
+      this.props.store.paymentStore.selected_card = null;
+      this.props.store.uIStore.setPageIndex(0, 'y');
+    }
+
+    // this.props.store.uIStore.payBtn(false);
+
+    // this.props.store.uIStore.goSellBtn({
+    //   title: 'Confirm',
+    //   active: this.props.active_btn,
+    //   loader: this.props.animate_btn
+    // });
 
   }
 
@@ -67,19 +81,21 @@ class Confirm extends Component {
               {this.props.children}
             </div>
           </div>
-          <div style={{height: '86px', position:'relative'}}>
-            <TapButton
-              id="tap-confirm-btn"
-              width="90%" height="44px"
-              btnColor='#007AFF'
-              animate={this.state.animate}
-              handleClick={this.handleBtnClick.bind(this)}
-              active={this.state.active}>Confirm</TapButton>
-          </div>
+
         </div>
       );
 
   }
 }
+
+// <div style={{height: '86px', position:'relative'}}>
+//   <TapButton
+//     id="tap-confirm-btn"
+//     width="90%" height="44px"
+//     btnColor='#007AFF'
+//     animate={this.state.animate}
+//     handleClick={this.handleBtnClick.bind(this)}
+//     active={this.state.active}>Confirm</TapButton>
+// </div>
 
 export default observer(Confirm);

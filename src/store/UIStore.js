@@ -10,10 +10,10 @@ class UIStore {
     this.openModal = false;
     this.isLoading = true;
 
-    this.btnLoader = false;
+    // this.btnLoader = false;
     this.msgLoader = false;
 
-    this.pay_btn = false;
+    // this.pay_btn = false;
 
     //screen width --> switch between mobile / pc views
     this.width = window.innerWidth;
@@ -40,7 +40,6 @@ class UIStore {
     this.modal_mode = 'popup';
 
     this.mainHeight = 0;
-    this.optionsHeight = 0;
 
     this.modal_bg_img = null;
     // this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';
@@ -50,6 +49,12 @@ class UIStore {
 
     this.errorHandler = {};
     this.msg = {};
+
+    this.btn = {};
+    this.otp = {
+      updated: false,
+      value: null
+    }
 
     this.closeNotification = this.closeNotification.bind(this);
 
@@ -162,17 +167,12 @@ class UIStore {
     }
   }
 
-  computed
-  get getBtnLoaderStatus(){
-    return this.btnLoader;
-  }
-
   startBtnLoader(){
-    this.btnLoader = true;
+    this.btn.loader = true;
   }
 
   stopBtnLoader(){
-    this.btnLoader = false;
+    this.btn.loader = false;
   }
 
   computed
@@ -221,6 +221,7 @@ class UIStore {
   }
 
   setPageIndex(value, dir){
+    var self = this;
 
     if(dir === 'x'){
       if(this.pageIndex > value){
@@ -238,6 +239,37 @@ class UIStore {
         this.pageDir = 'y';
       }
     }
+
+    switch (value) {
+      case 0:
+        self.goSellBtn({
+          title: this.RootStore.configStore.btn,
+          color: '#2ACE00',
+          active: false,
+          loader: false
+        });
+        break;
+      case 1:
+        self.goSellBtn({
+          title: "Confirm",
+          color: '#007AFF',
+          active: true,
+          loader: false
+        });
+        break;
+      case 2:
+        self.goSellBtn({
+          title: "Confirm",
+          color: '#007AFF',
+          active: false,
+          loader: false
+        });
+        break;
+      default:
+        self.mainHeight = '100%';
+        self.goSellBtn({});
+    }
+
 
     this.pageIndex = value;
   }
@@ -265,7 +297,12 @@ class UIStore {
 
   shakeCards(value){
     var skake = this.shake_cards;
-    this.payBtn(false);
+    this.goSellBtn({
+      title: this.RootStore.configStore.btn,
+      color: '#2ACE00',
+      active: false,
+      loader: false
+    });
 
     if(!value){
       this.shake_cards = false;
@@ -297,13 +334,40 @@ class UIStore {
   //   }
   // }
 
-  payBtn(value){
-    this.pay_btn = value;
+  // payBtn(value){
+  //   this.btn.active = value;
+  //
+  //   if(!this.btn.active){
+  //     this.btn.loader = false;
+  //     this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+  //   }
+  // }
 
-    if(!this.pay_btn){
-      this.btnLoader = false;
-      this.RootStore.paymentStore.active_payment_option_total_amount = 0;
+  goSellBtn(value){
+
+    if(!value.active){
+      this.btn.active = false;
+      this.btn.loader = false;
+      // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
     }
+
+    this.btn = {
+      title: value.title ? value.title : this.btn.title,
+      color: value.color ? value.color : this.btn.color,
+      active: value.active ? value.active : this.btn.active,
+      loader: value.loader ? value.loader : this.btn.loader,
+    }
+
+    console.log('btn is active? ', this.btn.active);
+  }
+
+  goSellOtp(value){
+
+    this.otp = {
+      updated: value.updated ? value.updated : this.otp.updated,
+      value:value.value ? value.value : this.otp.value
+    }
+
   }
 
   closeNotification(){
@@ -406,7 +470,7 @@ decorate(UIStore, {
   msgLoader: observable,
   notifications:observable,
   confirm:observable,
-  pay_btn: observable,
+  // pay_btn: observable,
   edit_customer_cards: observable,
   errorHandler: observable,
   msg: observable,
@@ -415,7 +479,9 @@ decorate(UIStore, {
   pageDir: observable,
   show_order_details: observable,
   mainHeight:observable,
-  animationStatus: observable
+  animationStatus: observable,
+  btn: observable,
+  otp: observable
 });
 
 export default UIStore;
