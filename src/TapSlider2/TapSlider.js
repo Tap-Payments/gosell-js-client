@@ -42,12 +42,6 @@ class TapSlider extends Component {
       console.log('slider height from did update : ', nextProps.style.height);
       store.setInitialHeight(nextProps.style.height);
     }
-
-    // if(store.currentItemKey == 0){
-    //   console.log('height from did update : ', store.activeItemElement.clientHeight);
-    //   store.setInitialHeight(store.activeItemElement.clientHeight);
-    // }
-
   }
 
   componentDidUpdate(prevProps){
