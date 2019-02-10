@@ -83,7 +83,7 @@ class Options extends Component {
       this.props.store.uIStore.mainHeight = 0;
 
       const node = ReactDOM.findDOMNode(this.paymentOptions);
-      const allDivs = node.querySelectorAll("#gosell-gateway-payment-options > div");
+      const allDivs = Array.from(node.querySelectorAll("#gosell-gateway-payment-options > div"));
 
       var self = this;
       allDivs.forEach(function(element) {
