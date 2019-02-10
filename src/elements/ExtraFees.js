@@ -23,7 +23,7 @@ class ExtraFees extends Component {
 
     let total = store.paymentStore.active_payment_option_total_amount;
     console.log("total ******** ", total);
-    total = store.uIStore.formatNumber(total.toFixed(current.decimal_digit));
+    total = total > 0 ? store.uIStore.formatNumber(total.toFixed(current.decimal_digit)) : total;
 
     return (
         <Confirm index={1} store={store}>
