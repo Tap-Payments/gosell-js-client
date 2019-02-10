@@ -8,9 +8,8 @@ let delta = 200;
 
 class TapSlider extends Component {
   constructor(props) {
-  super(props);
-  this.state = {
-  };
+    super(props);
+    this.state = {};
   }
 
   componentWillMount(){

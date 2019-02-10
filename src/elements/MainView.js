@@ -22,7 +22,7 @@ class MainView extends Component {
                 </SideMenu>
 
                 <SideMenu key={1} id='business-info' dir={store.uIStore.getDir}  animationDuration={'600ms'} expand={store.uIStore.getSubPage === 1 ? true : false} width={200}>
-                    {store.configStore.contactInfo && store.merchantStore.contact && Object.keys(store.merchantStore.contact).length > 0 ?
+                    {store.configStore.contactInfo && store.merchantStore.contact && store.merchantStore.contact.length > 0 ?
                       <BusinessInfo store={store} width="65px"/>
                     : null}
                 </SideMenu>

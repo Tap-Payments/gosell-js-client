@@ -27,7 +27,6 @@ class TapSliderItem extends Component {
 
   componentWillMount(){
     // this._style = this.props.style
-
   }
 
   componentDidMount() {
@@ -35,8 +34,8 @@ class TapSliderItem extends Component {
     //   store.setInitialHeight(this.tapAwesomeItem.clientHeight);
     // }
     if(this.props.store.currentItemKey == 0){
-    this.indexZero  = true
-  }
+      this.indexZero  = true
+    }
 
     this.props.store.setActiveItemElement(this.tapAwesomeItem)
   }

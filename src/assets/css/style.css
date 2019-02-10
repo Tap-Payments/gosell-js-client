@@ -127,10 +127,12 @@
   }
 
   .gosell-gateway-order-details {
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .gosell-gateway-payment-options {
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }

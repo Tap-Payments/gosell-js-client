@@ -277,7 +277,7 @@ class ReactCodeInput extends Component {
       display: 'inline-block',
     });
 
-    if (!className && Object.keys(inputStyle).length === 0) {
+    if (!className && inputStyle.length === 0) {
       Object.assign(inputStyle, {
         defaultInputStyle,
         color: 'black',
@@ -286,7 +286,7 @@ class ReactCodeInput extends Component {
       });
     }
 
-    if (!className && Object.keys(inputStyleInvalid).length === 0) {
+    if (!className && inputStyleInvalid.length === 0) {
       Object.assign(inputStyleInvalid, {
         defaultInputStyle,
         color: '#b94a48',

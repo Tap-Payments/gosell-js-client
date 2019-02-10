@@ -57,9 +57,8 @@ class BusinessInfo extends Component {
     const Business = styled.div`
       width: ${this.props.width};
       height: ${this.state.height};
-      overflow: scroll;
-      /* height: 100%; */
-      background: rgba(255, 255, 255, 0.6);`
+      background: rgba(255, 255, 255, 0.6);
+      `
 
     //${store.uIStore.modal_mode === 'page' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0,0,0,0.30)' }
 

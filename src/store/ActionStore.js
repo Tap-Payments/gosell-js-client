@@ -96,12 +96,16 @@ class ActionStore {
 
   handleBusinessInfoClick(){
 
-    var sideMenu = document.getElementById('gosell-side-menu').clientHeight;
-    var businessInfo = document.getElementById('gosell-business-info').scrollHeight;
+    console.log('business info', document.getElementById('gosell-business-info'));
 
-    sideMenu < businessInfo ? document.getElementById('gosell-business-info').style.height = 'fit-content' : document.getElementById('gosell-business-info').style.height = '100%';
+    if(document.getElementById('gosell-business-info') != null){
+      var sideMenu = document.getElementById('gosell-side-menu').clientHeight;
+      var businessInfo = document.getElementById('gosell-business-info').scrollHeight;
 
-    if(this.RootStore.configStore.contactInfo && this.RootStore.merchantStore.contact && Object.keys(this.RootStore.merchantStore.contact).length > 0){
+      sideMenu < businessInfo ? document.getElementById('gosell-business-info').style.height = 'fit-content' : document.getElementById('gosell-business-info').style.height = '100%';
+    }
+
+    if(this.RootStore.configStore.contactInfo && this.RootStore.merchantStore.contact && this.RootStore.merchantStore.contact.length > 0){
 
       if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
         this.RootStore.uIStore.warningHandler();
@@ -158,7 +162,7 @@ class ActionStore {
       // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
 
       this.resetSettings();
-      
+
       this.RootStore.uIStore.show_order_details = false;
 
       if(this.RootStore.uIStore.getPageIndex === 3 || this.RootStore.uIStore.getSubPage === 0){
