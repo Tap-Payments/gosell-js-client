@@ -14,7 +14,7 @@ class BusinessInfo extends Component {
     super(props);
     this.state = {
       isClicked: false,
-      height: '100%',
+      height: 'auto',
       hoverStyle: {
         display: 'flex',
         height: '50px',
