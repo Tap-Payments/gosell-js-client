@@ -86,7 +86,7 @@ class Modal extends React.Component {
 
     if(this.props.style){
       this.setState({
-        modalStyle: Object.assign({width: this.state.width + 'px'}, this.props.style.modal),
+        modalStyle: this.props.style.modal,
         bodyStyle: this.props.style.body,
         bodyContainerStyle: this.props.style.bodyContainer
       });
@@ -133,6 +133,15 @@ class Modal extends React.Component {
     else {
       document.body.classList.remove('modal-open');
     }
+
+    if(nextProps.style){
+      this.setState({
+        modalStyle: nextProps.style.modal,
+        bodyStyle: nextProps.style.body,
+        bodyContainerStyle: nextProps.style.bodyContainer
+      });
+    }
+
 
      if(!nextProps.isLoading){ // && nextProps.animate
        var self = this;

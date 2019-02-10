@@ -40,6 +40,8 @@ class UIStore {
     this.modal_mode = 'popup';
 
     this.mainHeight = 0;
+    this.modalHeight = 0;
+    this.bodyHeight = 0;
 
     this.modal_bg_img = null;
     // this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';
@@ -56,11 +58,84 @@ class UIStore {
       value: null
     }
 
+    this.modal = {
+      mode: 'advanced',
+      modalStyle: {
+        'modal': {width:'400px',height: 'fit-content'},
+        'body': {backgroundColor: '#E9E9E9', height: 'fit-content', minHeight: '227px'}
+      },
+      headerStyle:{
+        'header': {backgroundColor: '#F7F7F7', height: 'auto', marginTop: '50px'},
+        'titleStyle': {cursor: 'pointer'},
+        'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
+      }
+    }
+
     this.closeNotification = this.closeNotification.bind(this);
 
     this.targetElement = React.createRef();
 
   }
+
+  setMainHeight(value){
+
+    this.mainHeight = value;
+    console.log('&& mainHeight', this.mainHeight);
+
+    if(this.mainHeight > 0){
+
+      this.bodyHeight = this.mainHeight + 86;
+      console.log('&& bodyHeight', this.bodyHeight);
+      this.modalHeight = this.bodyHeight + 156;
+      console.log('&& modalHeight', this.modalHeight);
+
+      this.calcModalHeight();
+    }
+    else {
+
+      this.modalHeight = 'fit-content';
+      this.bodyHeight = 'fit-content';
+
+      this.calcModalHeight();
+
+    }
+
+    console.log('set main height', this.mainHeight);
+  }
+
+  calcModalHeight(){
+
+    if(this.getIsMobile){
+      this.modal = {
+        mode: 'simple',
+        modalStyle: {
+          'modal': {marginTop: '10px'},
+          'body': {backgroundColor: '#E9E9E9', height: '90%', maxHeight: '90%'}
+        },
+        headerStyle: {
+          'header': {backgroundColor: '#F7F7F7', height: '65px'},
+          'titleStyle': {cursor: 'pointer'},
+          'iconStyle': {width: '40px', height: '40px', borderRadius:'100%'}
+        }
+      }
+    }
+    else {
+      this.modal = {
+        mode: 'advanced',
+        modalStyle: {
+          'modal': {width:'400px',height: this.modalHeight},
+          'body': {backgroundColor: '#E9E9E9', height: this.bodyHeight}
+        },
+        headerStyle:{
+          'header': {backgroundColor: '#F7F7F7', height: '106px', marginTop: '50px'},
+          'titleStyle': {cursor: 'pointer'},
+          'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
+        }
+      }
+    }
+
+  }
+
   formatNumber(num){
     if(num){
       if(typeof num == 'string'){
@@ -97,10 +172,6 @@ class UIStore {
     } else {
       return 'pc';
     }
-  }
-
-  browser(){
-
   }
 
   computed
@@ -481,7 +552,10 @@ decorate(UIStore, {
   mainHeight:observable,
   animationStatus: observable,
   btn: observable,
-  otp: observable
+  otp: observable,
+  modal: observable,
+  modalHeight: observable,
+  bodyHeight: observable,
 });
 
 export default UIStore;

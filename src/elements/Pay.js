@@ -112,9 +112,8 @@ class Pay extends Component {
     else {
       var styles = {
         height: '86px',
-        position: 'absolute',
-        width: '100%',
-        bottom: 0
+        position: 'relative',
+        width: '100%'
       }
     }
 
@@ -124,7 +123,7 @@ class Pay extends Component {
     console.log('options height', store.uIStore.mainHeight);
 
     // console.log('btn btn ', store.uIStore.btn);
-    var height = (store.uIStore.mainHeight + 86)+'px';
+    var height = store.uIStore.mainHeight+'px';
     console.log('slider height', height);
 
      return (
