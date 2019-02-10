@@ -30,15 +30,11 @@ class ActionStore {
     this.RootStore.paymentStore.active_payment_option_fees = 0;
 
 
-    this.RootStore.uIStore.goSellBtn({
-      title: this.RootStore.configStore.btn,
-      active: false,
-      loader: false
-    });
-
-    // if(this.RootStore.uIStore.show_order_details){
-    //   this.handleOrderDetailsClick();
-    // }
+    // this.RootStore.uIStore.goSellBtn({
+    //   title: this.RootStore.configStore.btn,
+    //   active: false,
+    //   loader: false
+    // });
 
   }
 
@@ -55,39 +51,41 @@ class ActionStore {
 
         if(this.RootStore.uIStore.getPageIndex == 0){
 
-          // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
-          // this.RootStore.uIStore.setIsActive(null);
-          // this.RootStore.paymentStore.selected_card = null;
-          //
-          // this.RootStore.uIStore.goSellBtn({
-          //   title: this.RootStore.configStore.btn,
-          //   active: false,
-          //   loader: false
-          // });
+          this.RootStore.uIStore.goSellBtn({
+            title: this.RootStore.configStore.btn,
+            active: false,
+            loader: false
+          });
 
           this.resetSettings();
 
-          var paymentOptions = document.getElementById('gosell-gateway-payment-options');
-          var order = document.getElementById('gosell-gateway-order-details');
+          console.log('index', this.RootStore.uIStore.getPageIndex);
 
-          console.log('payment options now', paymentOptions);
-          if(this.RootStore.uIStore.show_order_details){
-            console.log('setSubPage', this.RootStore.uIStore.getSubPage);
+            var paymentOptions = document.getElementById('gosell-gateway-payment-options');
+            var order = document.getElementById('gosell-gateway-order-details');
+
+            console.log('payment options now', paymentOptions);
+            if(this.RootStore.uIStore.show_order_details){
+              console.log('setSubPage', this.RootStore.uIStore.getSubPage);
 
 
-            paymentOptions.style.height = order.style.height;
-            order.style.height = 0;
-            console.log('payment options now is ', paymentOptions.style.height);
-            console.log('order now is ', order.style.height);
-            this.RootStore.uIStore.show_order_details = false;
-          }
-          else{
-            order.style.height = paymentOptions.clientHeight;
-            paymentOptions.style.height = 0;
-            console.log('order now is ', order.style.height);
-            console.log('paymentOptions now is ', paymentOptions.style.height);
-            this.RootStore.uIStore.show_order_details = true;
-          }
+              paymentOptions.style.height = order.style.height;
+              order.style.height = 0;
+              console.log('payment options now is ', paymentOptions.style.height);
+              console.log('order now is ', order.style.height);
+              this.RootStore.uIStore.show_order_details = false;
+            }
+            else{
+              order.style.height = paymentOptions.clientHeight;
+              paymentOptions.style.height = 0;
+              console.log('order now is ', order.style.height);
+              console.log('paymentOptions now is ', paymentOptions.style.height);
+              this.RootStore.uIStore.show_order_details = true;
+            }
+
+        }
+        else {
+            this.RootStore.uIStore.warningHandler();
         }
 
       }
@@ -111,15 +109,6 @@ class ActionStore {
         this.RootStore.uIStore.warningHandler();
       }
       else {
-        // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
-        // this.RootStore.uIStore.setIsActive(null);
-        // this.RootStore.paymentStore.selected_card = null;
-        // // this.RootStore.uIStore.payBtn(false);
-        // this.RootStore.uIStore.goSellBtn({
-        //   title: this.RootStore.configStore.btn,
-        //   active: false,
-        //   loader: false
-        // });
 
         this.resetSettings();
 
@@ -127,19 +116,26 @@ class ActionStore {
           this.handleOrderDetailsClick();
         }
 
+        if(this.RootStore.uIStore.getPageIndex != 4 && this.RootStore.uIStore.getPageIndex != 0){
+          this.RootStore.uIStore.warningHandler();
+        }
+        else {
+          if(this.RootStore.uIStore.getPageIndex === 4 || this.RootStore.uIStore.getSubPage === 1){
+            this.RootStore.uIStore.setPageIndex(0, 'x');
+            this.RootStore.uIStore.setSubPage(-1);
+          }
+          else { // open currencies list
+            if(this.RootStore.uIStore.getIsMobile){
+              this.RootStore.uIStore.setPageIndex(4, 'x');
+            }
+            else {
+              this.RootStore.uIStore.setSubPage(1);
+            }
+          }
+        }
 
-        if(this.RootStore.uIStore.getPageIndex === 4 || this.RootStore.uIStore.getSubPage === 1){
-          this.RootStore.uIStore.setPageIndex(0, 'x');
-          this.RootStore.uIStore.setSubPage(-1);
-        }
-        else { // open currencies list
-          if(this.RootStore.uIStore.getIsMobile){
-            this.RootStore.uIStore.setPageIndex(4, 'x');
-          }
-          else {
-            this.RootStore.uIStore.setSubPage(1);
-          }
-        }
+        console.log('pageIndex', this.RootStore.uIStore.getPageIndex );
+
       }
 
     }

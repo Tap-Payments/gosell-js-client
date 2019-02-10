@@ -435,7 +435,7 @@ class UIStore {
     this.setErrorHandler({
       visable: true,
       code: 'error',
-      msg: "Please Wait, You can't do more than one action in the same time!",
+      msg: "Please wait until the payment process is completed!",
       type: 'warning'
     });
   }
