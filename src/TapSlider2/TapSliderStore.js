@@ -88,7 +88,7 @@ class TapSliderStore {
     z.className = 'tapAwesomeItem';
     if(this.axis===''){this.axis='x'}
     if(this.axis==='-x'||this.axis==='-y'){
-      document.getElementById('tapAwesomeDynamicSlides').prepend(z);
+      document.getElementById('tapAwesomeDynamicSlides').insertBefore(z, document.getElementById('tapAwesomeDynamicSlides').childNodes[0])
     }
     if(this.axis==='x'||this.axis==='y'){
       // this.axis === 'y'? document.getElementById('tapAwesomeDynamicSlides').style='display: flex; flex-direction: column;' : null;
