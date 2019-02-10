@@ -185,9 +185,9 @@ class PaymentStore{
 
       var self = this;
 
-      console.log('array ???????????? ', Array.isArray(this.supported_currencies) && this.supported_currencies.length > 0);
+      console.log('array ???????????? ',Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0);
       console.log('supported', this.supported_currencies);
-      if(Array.isArray(this.supported_currencies) && this.supported_currencies.length > 0){
+      if(Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0){
         self.supported_currencies.forEach(function(cur){
 
           if(cur.currency === currency){
@@ -218,7 +218,7 @@ class PaymentStore{
     this.payment_methods = {};
     var config_payment_methods = this.RootStore.configStore.gateway.supportedPaymentMethods;
 
-    if(typeof config_payment_methods === 'object' || Array.isArray(config_payment_methods)){
+    if(typeof config_payment_methods === 'object' || Array.isArray(config_payment_methods.slice())){
       self.payment_methods = value.filter(function(el){
         return config_payment_methods.indexOf(el.name) >= 0;
       });
@@ -241,7 +241,7 @@ class PaymentStore{
   get getWebPaymentsByCurrency(){
     var self = this;
 
-    if(Array.isArray(this.webPayments)){
+    if(Array.isArray(this.webPayments.slice())){
       var arr = [];
       this.webPayments.forEach(function(payment){
         var curs = payment.supported_currencies;
@@ -263,7 +263,7 @@ class PaymentStore{
   get getCardPaymentsByCurrency(){
     var self = this;
 
-    if(Array.isArray(this.cardPayments)){
+    if(Array.isArray(this.cardPayments.slice())){
       var arr = [];
       this.cardPayments.forEach(function(payment){
         var curs = payment.supported_currencies;
@@ -307,8 +307,8 @@ class PaymentStore{
   get savedCardsByCurrency(){
     var self = this;
 
-    if((Array.isArray(this.cardPayments) && this.cardPayments.length > 0)
-      && (Array.isArray(this.customer_cards) && this.customer_cards.length > 0)){
+    if((Array.isArray(this.cardPayments.slice()) && this.cardPayments.length > 0)
+      && (Array.isArray(this.customer_cards.slice()) && this.customer_cards.length > 0)){
       var arr = [];
       this.customer_cards.forEach(function(card){
         var curs = card.supported_currencies;
@@ -326,7 +326,7 @@ class PaymentStore{
   }
 
   getCardDetails(cardName){
-    if(Array.isArray(this.cardPayments) && this.cardPayments.length > 0){
+    if(Array.isArray(this.cardPayments.slice()) && this.cardPayments.length > 0){
       var self = this;
       var selectedCard = null;
       this.cardPayments.forEach(function(card){
@@ -419,7 +419,7 @@ class PaymentStore{
     console.log('this.cardPayments', this.cardPayments);
     var self = this;
 
-    if(Array.isArray(this.cardPayments)){
+    if(Array.isArray(this.cardPayments.slice())){
       var self = this;
       var arr = [];
 
@@ -448,7 +448,7 @@ class PaymentStore{
 
     this.webPayments = [];
     this.cardPayments = [];
-    if(Array.isArray(this.payment_methods)){
+    if(Array.isArray(this.payment_methods.slice())){
       var self = this;
 
       this.payment_methods.forEach(function(method) {
