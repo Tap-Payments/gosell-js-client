@@ -154,10 +154,7 @@ class Pay extends Component {
                 </div>
 
                 <div key={4} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>
-                    <div>Hey I'm here</div>
-                    {
-                      // <BusinessInfo store={store} width="100%"/>
-                    }  
+                     <BusinessInfo store={store} width="100%"/>
                 </div>
 
         </TapSlider>
