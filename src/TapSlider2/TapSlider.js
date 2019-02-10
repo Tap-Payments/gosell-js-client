@@ -37,6 +37,18 @@ class TapSlider extends Component {
     // store.setInitialHeight( document.getElementById('tapAwesomeSlider').clientHeight);
     store.addItem(this.props.componentKey);
   }
+  componentWillReceiveProps(nextProps){
+    if (nextProps.style.height!=this.props.style.height){
+      console.log('slider height from did update : ', nextProps.style.height);
+      store.setInitialHeight(nextProps.style.height);
+    }
+
+    // if(store.currentItemKey == 0){
+    //   console.log('height from did update : ', store.activeItemElement.clientHeight);
+    //   store.setInitialHeight(store.activeItemElement.clientHeight);
+    // }
+
+  }
 
   componentDidUpdate(prevProps){
     if(prevProps.componentKey!==this.props.componentKey){

@@ -23,7 +23,6 @@ class TapSliderItem extends Component {
         this.props.store.setInitialHeight(this.tapAwesomeItem.clientHeight);
       }
 
-
   }
 
   componentWillMount(){
@@ -44,7 +43,7 @@ class TapSliderItem extends Component {
 
   render() {
     return (
-      <div ref={el => (this.tapAwesomeItem = el)} style= {this.indexZero?{width: this.props.style.width, height: 'fit-content'}:this.props.style}>
+      <div ref={el => (this.tapAwesomeItem = el)} style= {this.indexZero?{width: this.props.style.width, height: this.props.style.height}:this.props.style}>
         {this.props.child}
       </div>
     );

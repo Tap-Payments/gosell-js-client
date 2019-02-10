@@ -127,7 +127,9 @@ class Pay extends Component {
 
     console.log('options height', store.uIStore.mainHeight);
 
-    console.log('btn btn ', store.uIStore.btn);
+    // console.log('btn btn ', store.uIStore.btn);
+    var height = (store.uIStore.mainHeight + 86)+'px';
+    console.log('slider height', height);
 
      return (
        <React.Fragment>
@@ -135,7 +137,7 @@ class Pay extends Component {
            componentKey={store.uIStore.getPageIndex}
            axis={store.uIStore.pageDir}
            animationDuration={1000}
-           style={{ height:'100%', width:'100%'}}
+           style={{ height: height, width:'100%'}}
            direction={store.uIStore.getDir}
            animationStatus = {this.animationStatusHandler.bind(this)}>
 
