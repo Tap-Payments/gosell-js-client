@@ -5383,10 +5383,10 @@ mobx-react@^5.3.5:
     hoist-non-react-statics "^3.0.0"
     react-lifecycles-compat "^3.0.2"
 
-mobx@^5.5.2:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.9.0.tgz#a08edd7132787f771409c9c33788a5df66ff7ce7"
-  integrity sha512-D3mY1uM3H9BP5duk5tTanrOq92yqetYKsprPJWvkKDrbs+fro59xrpWX+vtr10YoLgJIFz+a4A8lI+4YtqmCUQ==
+mobx@^4.9.2:
+  version "4.9.2"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-4.9.2.tgz#b6ab4f3cbd47cd19ead3bca8cea7814919d70b9f"
+  integrity sha512-dMGeM4emHDTaXEA/Va4NhWSiEk8XkdcFQl4uiictXoou0Vbk0Sup4H/HDWGYcXVeRAWGPDYXDDkz1gXK4B1eZw==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -8372,6 +8372,11 @@ url-parse@^1.4.3:
   dependencies:
     querystringify "^2.0.0"
     requires-port "^1.0.0"
+
+url-search-params@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/url-search-params/-/url-search-params-1.1.0.tgz#865669a6e4e9e5543f86fc972b27c91485375326"
+  integrity sha512-XiO5GLAxmlZgdLob/RmKZRc2INHrssMbpwD6O46JkB1aEJO4fkV3x3mR6+CDX01ijfEUwvfwCiUQZrKqfm1ILw==
 
 url-to-options@^1.0.1:
   version "1.0.1"

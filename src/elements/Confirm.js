@@ -36,7 +36,14 @@ class Confirm extends Component {
       this.props.store.uIStore.setIsActive(null);
       this.props.store.uIStore.stopBtnLoader();
       this.props.store.paymentStore.selected_card = null;
-      this.props.store.uIStore.setPageIndex(0, 'y');
+      document.activeElement.blur();
+      setTimeout(
+          function() {
+              this.props.store.uIStore.setPageIndex(0, 'y');
+          }
+          .bind(this),
+          200
+      );
     }
 
     // this.props.store.uIStore.payBtn(false);

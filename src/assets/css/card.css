@@ -15,9 +15,9 @@
 }
 
 .tap-cards-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  /* display: flex; */
+  /* flex-direction: row; */
+  /* align-items: center; */
   padding: 0 15px;
   width: auto;
 }
@@ -27,7 +27,8 @@
   width: 100px;
   margin: 0px 5px;
   position: relative;
-  display: flex;
+  /* display: flex; */
+  display: inline-block;
   justify-content: center;
   align-items: center;
 }
