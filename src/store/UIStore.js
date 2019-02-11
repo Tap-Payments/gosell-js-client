@@ -42,6 +42,7 @@ class UIStore {
     this.mainHeight = 0;
     this.modalHeight = 0;
     this.bodyHeight = 0;
+    this.sliderHeight = 0;
 
     this.modal_bg_img = null;
     // this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';
@@ -77,15 +78,41 @@ class UIStore {
 
   }
 
-  getMobileHeight(){
-    console.log('doc height', document.getElementsByClassName("tap-payments-modal-body"));
-    console.log('doc height', document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight);
+  setSliderHeight(){
+    if(this.getIsMobile){
+      this.btn.style = {
+        height: '86px',
+        position: 'absolute',
+        width: '90%',
+        bottom: 0,
+        top:'86.5%'
+      }
 
-    this.setMainHeight(document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86);
+      this.sliderHeight = this.mainHeight+ 86;
+      console.log("it's slider height", this.sliderHeight);
+    }
+    else {
+      this.btn.style = {
+        height: '86px',
+        position: 'relative',
+        width: '100%'
+      }
+
+      this.sliderHeight = this.mainHeight;
+      console.log("it's slider height", this.sliderHeight);
+    }
   }
 
   calcElementsHeight(id){
 
+    if(this.getIsMobile){
+      console.log('doc height', document.getElementsByClassName("tap-payments-modal-body"));
+      console.log('doc height', document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight);
+
+      this.setMainHeight(document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86);
+      this.setSliderHeight();
+    }
+    else {
       this.setMainHeight(0);
 
       const node = document.getElementById(id);
@@ -101,6 +128,9 @@ class UIStore {
       });
 
       this.setMainHeight(total);
+      this.setSliderHeight();
+    }
+
   }
 
   setMainHeight(value){
@@ -367,7 +397,6 @@ class UIStore {
         self.goSellBtn({});
     }
 
-
     this.pageIndex = value;
   }
 
@@ -454,6 +483,8 @@ class UIStore {
       active: value.active ? value.active : this.btn.active,
       loader: value.loader ? value.loader : this.btn.loader,
     }
+
+    this.setSliderHeight();
 
     console.log('btn is active? ', this.btn.active);
   }
@@ -582,6 +613,7 @@ decorate(UIStore, {
   modal: observable,
   modalHeight: observable,
   bodyHeight: observable,
+  sliderHeight: observable
 });
 
 export default UIStore;

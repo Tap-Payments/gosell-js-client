@@ -100,35 +100,11 @@ class Pay extends Component {
 
     let store = this.props.store;
 
-    if(store.uIStore.getIsMobile){
-      var styles = {
-        height: '86px',
-        position: 'absolute',
-        width: '90%',
-        bottom: 0,
-        top:'86.5%'
-      }
-
-      var height = (store.uIStore.mainHeight+ 86) +'px';
-    }
-    else {
-      var styles = {
-        height: '86px',
-        position: 'relative',
-        width: '100%'
-      }
-
-      var height = store.uIStore.mainHeight +'px';
-    }
-
-
     var title = '', self = this, cards = {};
 
     console.log('options height', store.uIStore.mainHeight);
 
     // console.log('btn btn ', store.uIStore.btn);
-
-    console.log('slider height', height);
 
      return (
        <React.Fragment>
@@ -136,7 +112,7 @@ class Pay extends Component {
            componentKey={store.uIStore.getPageIndex}
            axis={store.uIStore.pageDir}
            animationDuration={1000}
-           style={{ height: height, width:'100%'}}
+           style={{ height: store.uIStore.sliderHeight + "px", width:'100%'}}
            direction={store.uIStore.getDir}
            animationStatus = {this.animationStatusHandler.bind(this)}>
 
@@ -163,7 +139,7 @@ class Pay extends Component {
         </TapSlider>
 
         {store.uIStore.getPageIndex != 3 && store.uIStore.getPageIndex != 4 ?
-          <div style={styles}>
+          <div style={store.uIStore.btn.style}>
                 <TapButton
                   id="gosell-gateway-btn"
                   dir={store.uIStore.getDir}
