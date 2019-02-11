@@ -27,6 +27,12 @@ class BusinessInfo extends Component {
       }
     }
   }
+  //
+  // componentDidMount(){
+  //   this.setState({
+  //     height: this.props.store.uIStore.getIsMobile ? '100%' : 'auto',
+  //   });
+  // }
 
   handleSelfClick = (contact) => {
       this.setState({
@@ -56,7 +62,7 @@ class BusinessInfo extends Component {
 
     const Business = styled.div`
       width: ${this.props.width};
-      height: ${this.state.height};
+      height: ${this.props.height};
       background: rgba(255, 255, 255, 0.6);
       `
 

@@ -11,7 +11,6 @@ import TapButton from './TapButton';
 import Items from './Items/Items';
 import ReactDOM from "react-dom";
 
-
 const styles = {
     'row1':{
       'rowContainer': {
@@ -74,8 +73,8 @@ class Options extends Component {
   calcHeight(){
 
     if(this.props.store.uIStore.getIsMobile){
-      console.log('doc height', document.getElementsByClassName("modal-body"));
-      console.log('doc height', document.getElementsByClassName("modal-body")[0].clientHeight);
+      console.log('modal-body height', document.getElementsByClassName("modal-body"));
+      console.log('modal-body height', document.getElementsByClassName("modal-body")[0].clientHeight);
 
       // this.props.store.uIStore.mainHeight = document.getElementsByClassName("modal-body")[0].clientHeight - 86;
       this.props.store.uIStore.setMainHeight(document.getElementsByClassName("modal-body")[0].clientHeight - 86);

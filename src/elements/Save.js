@@ -9,6 +9,8 @@ import CardsForm from './CardsForm';
 import TapButton from './TapButton';
 import Otp from './Otp';
 import ExtraFees from './ExtraFees';
+import ReactDOM from "react-dom";
+
 
 const styles = {
     'row1':{
@@ -43,8 +45,37 @@ class Save extends Component {
     this.state = {}
   }
 
+  calcHeight(){
+
+      this.props.store.uIStore.setMainHeight(0);
+
+      const node = document.getElementById('form-container');
+      console.log('node', node);
+      const allDivs = Array.from(node.querySelectorAll("#form-container > div"));
+      console.log('node', node.querySelectorAll("#form-container > div"));
+
+      var self = this;
+      var total = 0;
+      allDivs.forEach(function(element) {
+        total += element.clientHeight;
+        console.log('height', element.clientHeight);
+      });
+
+      this.props.store.uIStore.setMainHeight(total);
+  }
+
+  componentDidUpdate(nextProps){
+
+    if(this.props.store.uIStore.mainHeight == 0){
+      this.calcHeight();
+      console.log('Height didupdate', this.props.store.uIStore.mainHeight);
+    }
+
+  }
+
   componentDidMount(){
     this.props.store.uIStore.setPageIndex(0, 'y');
+    this.calcHeight();
   }
 
   handleBtnClick(){
@@ -77,10 +108,35 @@ class Save extends Component {
 
     var self = this, cards = {};
 
-    return (<div style={{width: '100%', height: '100%', position:'relative'}}>
-                  <Separator />
-                    <CardsForm ref="paymentForm" store={store} saveCardOption={false}/>
-                  <Separator />
+    if(store.uIStore.getIsMobile){
+      var styles = {
+        height: '86px',
+        position: 'absolute',
+        width: '90%',
+        bottom: 0,
+        top:'86.5%'
+      }
+
+
+    }
+    else {
+      var styles = {
+        height: '86px',
+        position: 'relative',
+        width: '100%'
+      }
+
+    }
+
+    var height = (store.uIStore.mainHeight+ 86) +'px';
+
+    return (<div style={{width: '100%', height: height, position:'relative'}}>
+              <Separator />
+                <CardsForm ref="paymentForm" store={store} saveCardOption={false}/>
+              <Separator />
+
+              {store.uIStore.getPageIndex != 3 && store.uIStore.getPageIndex != 4 ?
+              <div style={styles}>
 
                   <div style={{height: '86px', position:'relative'}}>
                       <TapButton
@@ -93,6 +149,8 @@ class Save extends Component {
                         animate={this.props.store.uIStore.btn.loader}
                         handleClick={this.handleBtnClick.bind(this)}>{store.configStore.btn}</TapButton>
                   </div>
+              </div>
+              : null}
 
             </div>);
   }

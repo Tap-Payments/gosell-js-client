@@ -108,6 +108,8 @@ class Pay extends Component {
         bottom: 0,
         top:'86.5%'
       }
+
+      var height = (store.uIStore.mainHeight+ 86) +'px';
     }
     else {
       var styles = {
@@ -115,6 +117,8 @@ class Pay extends Component {
         position: 'relative',
         width: '100%'
       }
+
+      var height = store.uIStore.mainHeight +'px';
     }
 
 
@@ -123,7 +127,7 @@ class Pay extends Component {
     console.log('options height', store.uIStore.mainHeight);
 
     // console.log('btn btn ', store.uIStore.btn);
-    var height = store.uIStore.mainHeight+'px';
+
     console.log('slider height', height);
 
      return (
@@ -153,7 +157,7 @@ class Pay extends Component {
                 </div>
 
                 <div key={4} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>
-                     <BusinessInfo store={store} width="100%"/>
+                     <BusinessInfo store={store} width="100%" height="100%"/>
                 </div>
 
         </TapSlider>
