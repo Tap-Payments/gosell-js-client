@@ -8,8 +8,9 @@ let delta = 200;
 
 class TapSlider extends Component {
   constructor(props) {
-    super(props);
-    this.state = {};
+  super(props);
+  this.state = {
+  };
   }
 
   componentWillMount(){
@@ -32,10 +33,11 @@ class TapSlider extends Component {
     window.addEventListener("resize", this.resetDimintions.bind(this));
     let height = this.props.style.height && this.props.style.height.indexOf('px')?this.props.style.height:null;
     let width = this.props.style.width && this.props.style.width.indexOf('px')?this.props.style.width:null;
-    store.setInitialWidth(document.getElementById('tapAwesomeSlider').clientWidth);
+    //store.setInitialWidth(document.getElementById('tapAwesomeSlider').clientWidth);
     // store.setInitialHeight( document.getElementById('tapAwesomeSlider').clientHeight);
     store.addItem(this.props.componentKey);
   }
+
   componentWillReceiveProps(nextProps){
     if (nextProps.style.height!=this.props.style.height){
       console.log('slider height from did update : ', nextProps.style.height);
