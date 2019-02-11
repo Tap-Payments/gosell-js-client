@@ -77,6 +77,32 @@ class UIStore {
 
   }
 
+  getMobileHeight(){
+    console.log('doc height', document.getElementsByClassName("tap-payments-modal-body"));
+    console.log('doc height', document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight);
+
+    this.setMainHeight(document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86);
+  }
+
+  calcElementsHeight(id){
+
+      this.setMainHeight(0);
+
+      const node = document.getElementById(id);
+      console.log('node', node);
+      const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
+      console.log('node', node.querySelectorAll("#form-container > div"));
+
+      var self = this;
+      var total = 0;
+      allDivs.forEach(function(element) {
+        total += element.clientHeight;
+        console.log('height', element.clientHeight);
+      });
+
+      this.setMainHeight(total);
+  }
+
   setMainHeight(value){
 
     this.mainHeight = value;

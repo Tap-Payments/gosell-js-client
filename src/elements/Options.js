@@ -73,27 +73,29 @@ class Options extends Component {
   calcHeight(){
 
     if(this.props.store.uIStore.getIsMobile){
-      console.log('doc height', document.getElementsByClassName("tap-payments-modal-body"));
-      console.log('doc height', document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight);
-
-      // this.props.store.uIStore.mainHeight = document.getElementsByClassName("modal-body")[0].clientHeight - 86;
-      this.props.store.uIStore.setMainHeight(document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86);
+      this.props.store.uIStore.getMobileHeight();
+      // console.log('doc height', document.getElementsByClassName("tap-payments-modal-body"));
+      // console.log('doc height', document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight);
+      //
+      // // this.props.store.uIStore.mainHeight = document.getElementsByClassName("modal-body")[0].clientHeight - 86;
+      // this.props.store.uIStore.setMainHeight(document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86);
     }
     else {
-      // this.props.store.uIStore.mainHeight = 0;
-      this.props.store.uIStore.setMainHeight(0);
+      this.props.store.uIStore.calcElementsHeight('gosell-gateway-payment-options');
 
-      const node = ReactDOM.findDOMNode(this.paymentOptions);
-      const allDivs = Array.from(node.querySelectorAll("#gosell-gateway-payment-options > div"));
-
-      var self = this;
-      var total = 0;
-      allDivs.forEach(function(element) {
-        total += element.clientHeight;
-        console.log('height', element.clientHeight);
-      });
-
-      this.props.store.uIStore.setMainHeight(total);
+      // this.props.store.uIStore.setMainHeight(0);
+      // 
+      // const node = ReactDOM.findDOMNode(this.paymentOptions);
+      // const allDivs = Array.from(node.querySelectorAll("#gosell-gateway-payment-options > div"));
+      //
+      // var self = this;
+      // var total = 0;
+      // allDivs.forEach(function(element) {
+      //   total += element.clientHeight;
+      //   console.log('height', element.clientHeight);
+      // });
+      //
+      // this.props.store.uIStore.setMainHeight(total);
     }
 
     // this.forceUpdate();
