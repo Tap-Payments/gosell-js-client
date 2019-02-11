@@ -78,39 +78,32 @@ class UIStore {
 
   }
 
-  setSliderHeight(){
-    if(this.getIsMobile){
-      this.btn.style = {
-        height: '86px',
-        position: 'absolute',
-        width: '90%',
-        bottom: 0,
-        top:'86.5%'
-      }
-
-      this.sliderHeight = this.mainHeight+ 86;
-      console.log("it's slider height", this.sliderHeight);
-    }
-    else {
-      this.btn.style = {
-        height: '86px',
-        position: 'relative',
-        width: '100%'
-      }
-
-      this.sliderHeight = this.mainHeight;
-      console.log("it's slider height", this.sliderHeight);
-    }
-  }
-
   calcElementsHeight(id){
 
     if(this.getIsMobile){
-      console.log('doc height', document.getElementsByClassName("tap-payments-modal-body"));
-      console.log('doc height', document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight);
 
-      this.setMainHeight(document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86);
-      this.setSliderHeight();
+      this.setMainHeight(0);
+
+      var modalBodyHeight = document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86;
+
+      const node = document.getElementById(id);
+      console.log('node', node);
+      const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
+
+      var self = this;
+      var total = 0;
+      allDivs.forEach(function(element) {
+        total += element.clientHeight;
+        console.log('height', element.clientHeight);
+      });
+
+      if(modalBodyHeight > total){
+        this.setMainHeight(total + 86);
+      }
+      else {
+        this.setMainHeight(modalBodyHeight);
+      }
+
     }
     else {
       this.setMainHeight(0);
@@ -118,7 +111,6 @@ class UIStore {
       const node = document.getElementById(id);
       console.log('node', node);
       const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
-      console.log('node', node.querySelectorAll("#form-container > div"));
 
       var self = this;
       var total = 0;
@@ -128,7 +120,8 @@ class UIStore {
       });
 
       this.setMainHeight(total);
-      this.setSliderHeight();
+
+
     }
 
   }
@@ -136,27 +129,37 @@ class UIStore {
   setMainHeight(value){
 
     this.mainHeight = value;
-    console.log('&& mainHeight', this.mainHeight);
-
     if(this.mainHeight > 0){
 
-      this.bodyHeight = this.mainHeight + 86;
-      console.log('&& bodyHeight', this.bodyHeight);
-      this.modalHeight = this.bodyHeight + 156;
-      console.log('&& modalHeight', this.modalHeight);
-
-      this.calcModalHeight();
+      if(this.getIsMobile){
+        this.bodyHeight = this.mainHeight + 86;
+        // console.log('&& bodyHeight', this.bodyHeight);
+        this.modalHeight = this.bodyHeight + 65;
+        console.log('&& modalHeight', this.modalHeight);
+      }
+      else {
+        this.bodyHeight = this.mainHeight + 86;
+        console.log('&& bodyHeight', this.bodyHeight);
+        this.modalHeight = this.bodyHeight + 156;
+        console.log('&& modalHeight', this.modalHeight);
+      }
     }
     else {
 
-      this.modalHeight = 'fit-content';
-      this.bodyHeight = 'fit-content';
-
-      this.calcModalHeight();
+      if(this.getIsMobile){
+        this.modalHeight = '90%';
+        this.bodyHeight = '90%';
+      }
+      else {
+        this.modalHeight = 'fit-content';
+        this.bodyHeight = 'fit-content';
+      }
 
     }
 
-    console.log('set main height', this.mainHeight);
+    this.calcModalHeight();
+    this.setSliderHeight();
+
   }
 
   calcModalHeight(){
@@ -165,8 +168,8 @@ class UIStore {
       this.modal = {
         mode: 'simple',
         modalStyle: {
-          'modal': {marginTop: '10px'},
-          'body': {backgroundColor: '#E9E9E9', height: '90%', maxHeight: '90%'}
+          'modal': {height: this.modalHeight},
+          'body': {backgroundColor: '#E9E9E9', height: this.bodyHeight, maxHeight: '90%'}
         },
         headerStyle: {
           'header': {backgroundColor: '#F7F7F7', height: '65px'},
@@ -190,6 +193,31 @@ class UIStore {
       }
     }
 
+  }
+
+  setSliderHeight(){
+
+    var self = this;
+
+    switch (this.getPageIndex) {
+      case 0:
+        self.sliderHeight = self.mainHeight;
+        break;
+      case 1:
+        self.sliderHeight = self.mainHeight;
+        break;
+      case 2:
+        self.sliderHeight = self.mainHeight;
+        break;
+      case 3:
+        self.sliderHeight = self.bodyHeight;
+        break;
+      case 4:
+        self.sliderHeight = self.bodyHeight;
+        break;
+    }
+
+    // this.calcModalHeight();
   }
 
   formatNumber(num){
@@ -370,11 +398,12 @@ class UIStore {
     switch (value) {
       case 0:
         self.goSellBtn({
-          title: this.RootStore.configStore.btn,
+          title: self.RootStore.configStore.btn,
           color: '#2ACE00',
           active: false,
           loader: false
         });
+        // self.sliderHeight = self.mainHeight;
         break;
       case 1:
         self.goSellBtn({
@@ -383,6 +412,7 @@ class UIStore {
           active: true,
           loader: false
         });
+        // self.sliderHeight = self.mainHeight;
         break;
       case 2:
         self.goSellBtn({
@@ -391,6 +421,7 @@ class UIStore {
           active: false,
           loader: false
         });
+        // self.sliderHeight = self.mainHeight;
         break;
       default:
         self.mainHeight = '100%';
@@ -398,6 +429,7 @@ class UIStore {
     }
 
     this.pageIndex = value;
+    this.setSliderHeight();
   }
 
   computed
@@ -483,8 +515,6 @@ class UIStore {
       active: value.active ? value.active : this.btn.active,
       loader: value.loader ? value.loader : this.btn.loader,
     }
-
-    this.setSliderHeight();
 
     console.log('btn is active? ', this.btn.active);
   }

@@ -97,7 +97,7 @@ class Save extends Component {
               <Separator />
 
               {store.uIStore.getPageIndex != 3 && store.uIStore.getPageIndex != 4 ?
-              <div style={store.uIStore.btn.style}>
+              <div style={{height: '86px', position: 'relative', width: '100%'}}>
 
                   <div style={{height: '86px', position:'relative'}}>
                       <TapButton
