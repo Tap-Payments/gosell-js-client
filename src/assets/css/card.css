@@ -6,8 +6,9 @@
 }
 
 .tap-cards {
-  -ms-overflow-style: none;
-  overflow: -moz-scrollbars-none;
+  /* -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none; */
+  overflow: auto;
 }
 
 .tap-cards::-webkit-scrollbar {

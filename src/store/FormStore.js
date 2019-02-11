@@ -14,6 +14,8 @@ class FormStore{
     this._encryption_key = '';
     this.tds = '';
 
+    this.content_loaded = false;
+
     this.hide = null;
 
     this.checkFocus = this.checkFocus.bind(this);
@@ -406,10 +408,17 @@ class FormStore{
           active_brand = event.BIN.card_brand;
       }
 
-      // if(event.loaded){
-      //   console.log('loaded!!!!! ', event.loaded);
-      //   self.RootStore.uIStore.JSLibisLoading = true;
-      // }
+      if(event.loaded){
+        console.log('loaded!!!!! ', event.loaded);
+
+        if(self.RootStore.configStore.transaction_mode === 'get_token' || self.RootStore.configStore.transaction_mode === 'save_card'){
+          self.RootStore.uIStore.calcElementsHeight('form-container');
+        }
+        else {
+          self.RootStore.uIStore.calcElementsHeight('gosell-gateway-payment-options');
+        }
+
+      }
     });
 
   }
@@ -541,6 +550,7 @@ decorate(FormStore, {
   currencyCode:observable,
   tap:observable,
   card:observable,
+  content_loaded: observable
 });
 
 export default FormStore;
