@@ -188,7 +188,7 @@ class Modal extends React.Component {
             <div className={this.state.isOpenWait}  style={this.state.modalStyle}>
               <div className="tap-payments-modal-wrapper">
                 {(this.props.close == 'closeIn' || this.props.close == 'closeInOut')?
-                  <div className="header-close-icon closeIn" onClick={this.handleClose} style={this.state.dir == 'rtl' ? {left: '0'} : {right: '0'}}>
+                  <div className="tap-payments-header-close-icon closeIn" onClick={this.handleClose} style={this.state.dir == 'rtl' ? {left: '0'} : {right: '0'}}>
                     <img className="closeIn" src={this.props.closeIcon} width="18" height="18" alt="close"/>
                   </div>
                   : null}
@@ -199,7 +199,7 @@ class Modal extends React.Component {
                     {(this.state.dir=='ltr'?this.props.onClickBack:this.props.onClickNext)&&
                       <NaviButton type='back' onClick={this.state.dir=='ltr'?this.props.onClickBack:this.props.onClickNext}/>
                     }
-                    <div className="body-container" style={this.state.bodyContainerStyle}>
+                    <div className="tap-payments-body-container" style={this.state.bodyContainerStyle}>
                       {this.props.children}
                     </div>
 
@@ -216,7 +216,7 @@ class Modal extends React.Component {
           }
 
           {this.props.mode === 'page' ?
-            <div className="page" style={{backgroundColor: this.props.pageBgColor}}>
+            <div className="tap-payments-page" style={{backgroundColor: this.props.pageBgColor}}>
               {this.props.pageBgImg ? <img className="tap-payments-page-bg-img" src={this.props.pageBgImg} style={this.props.pageBgStyle} alt="background-img"/> : null}
             </div>
 

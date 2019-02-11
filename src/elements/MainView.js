@@ -11,24 +11,24 @@ class MainView extends Component {
       let store = this.props.store;
       console.log('sub pages +++++++++++++++++++++++++ ', store.uIStore.getSubPage);
       console.log('page dir >>>>>>>>>>>>>>>>>>>>>>>>>>>>', store.uIStore.pageDir);
-      let height;
-      switch (store.configStore.transaction_mode) {
-        case 'charge':
-          height = "100%";
-          break;
-        case 'authorize':
-          height = "100%";
-          break;
-        case 'save_card':
-          height = "auto";
-          break;
-        case 'get_token':
-          height = "auto";
-          break;
-        default:
-          height = "100%";
-          break;
-      }
+      // let height;
+      // switch (store.configStore.transaction_mode) {
+      //   case 'charge':
+      //     height = "100%";
+      //     break;
+      //   case 'authorize':
+      //     height = "100%";
+      //     break;
+      //   case 'save_card':
+      //     height = "auto";
+      //     break;
+      //   case 'get_token':
+      //     height = "auto";
+      //     break;
+      //   default:
+      //     height = "100%";
+      //     break;
+      // }
 
       return (
           <React.Fragment>
@@ -41,7 +41,7 @@ class MainView extends Component {
 
                 <SideMenu key={1} id='business-info' dir={store.uIStore.getDir}  animationDuration={'600ms'} expand={store.uIStore.getSubPage === 1 ? true : false} width={200}>
                     {store.configStore.contactInfo && store.merchantStore.contact && store.merchantStore.contact.length > 0 ?
-                      <BusinessInfo store={store} width="65px" height={height} style={{overflow: 'auto'}}/>
+                      <BusinessInfo store={store} width="65px" height="auto" style={{overflow: 'auto'}}/>
                     : null}
                 </SideMenu>
               </React.Fragment>
