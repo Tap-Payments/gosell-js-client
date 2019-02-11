@@ -70,50 +70,18 @@ class Options extends Component {
     this.props.store.actionStore.onWebPaymentClick(payment);
   }
 
-  calcHeight(){
-
-    if(this.props.store.uIStore.getIsMobile){
-      this.props.store.uIStore.getMobileHeight();
-      // console.log('doc height', document.getElementsByClassName("tap-payments-modal-body"));
-      // console.log('doc height', document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight);
-      //
-      // // this.props.store.uIStore.mainHeight = document.getElementsByClassName("modal-body")[0].clientHeight - 86;
-      // this.props.store.uIStore.setMainHeight(document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86);
-    }
-    else {
-      this.props.store.uIStore.calcElementsHeight('gosell-gateway-payment-options');
-
-      // this.props.store.uIStore.setMainHeight(0);
-      // 
-      // const node = ReactDOM.findDOMNode(this.paymentOptions);
-      // const allDivs = Array.from(node.querySelectorAll("#gosell-gateway-payment-options > div"));
-      //
-      // var self = this;
-      // var total = 0;
-      // allDivs.forEach(function(element) {
-      //   total += element.clientHeight;
-      //   console.log('height', element.clientHeight);
-      // });
-      //
-      // this.props.store.uIStore.setMainHeight(total);
-    }
-
-    // this.forceUpdate();
-
-  }
-
   componentDidMount(){
 
       console.log('Height didMount', this.props.store.uIStore.mainHeight);
 
-      this.calcHeight();
+      this.props.store.uIStore.calcElementsHeight('gosell-gateway-payment-options');
       // this.paymentOptions.style.height = this.props.store.uIStore.mainHeight;
   }
 
   componentDidUpdate(nextProps){
 
     if(this.props.store.uIStore.mainHeight == 0){
-      this.calcHeight();
+      this.props.store.uIStore.calcElementsHeight('gosell-gateway-payment-options');
       console.log('Height didupdate', this.props.store.uIStore.mainHeight);
     }
 

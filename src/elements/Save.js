@@ -91,35 +91,13 @@ class Save extends Component {
 
     var self = this, cards = {};
 
-    if(store.uIStore.getIsMobile){
-      var styles = {
-        height: '86px',
-        position: 'absolute',
-        width: '90%',
-        bottom: 0,
-        top:'86.5%'
-      }
-
-
-    }
-    else {
-      var styles = {
-        height: '86px',
-        position: 'relative',
-        width: '100%'
-      }
-
-    }
-
-    var height = (store.uIStore.mainHeight+ 86) +'px';
-
-    return (<div style={{width: '100%', height: height, position:'relative'}}>
+    return (<div style={{width: '100%', height: store.uIStore.sliderHeight+ "px", position:'relative'}}>
               <Separator />
                 <CardsForm ref="paymentForm" store={store} saveCardOption={false}/>
               <Separator />
 
               {store.uIStore.getPageIndex != 3 && store.uIStore.getPageIndex != 4 ?
-              <div style={styles}>
+              <div style={store.uIStore.btn.style}>
 
                   <div style={{height: '86px', position:'relative'}}>
                       <TapButton

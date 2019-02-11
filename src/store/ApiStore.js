@@ -66,6 +66,8 @@ class ApiStore{
      console.log('session ', self.RootStore.merchantStore.session);
 
      if(self.RootStore.merchantStore.session == null){
+
+       console.log('public key', this.RootStore.configStore.gateway.publicKey);
        await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
          console.log('auth response from init ', result);
          if(result.status !== 'success'){
