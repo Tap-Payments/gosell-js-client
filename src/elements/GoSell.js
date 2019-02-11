@@ -140,7 +140,8 @@ class GoSell extends Component {
         GoSell.showTranxResult();
     });
 
-    window.addEventListener('resize', this.handleWindowSizeChange);
+    RootStore.uIStore.calcModalHeight();
+    window.addEventListener('resize', RootStore.uIStore.calcModalHeight());
   }
 
   handleClick(){
@@ -196,37 +197,37 @@ class GoSell extends Component {
 
   handleUI(){
 
-    if(RootStore.uIStore.getIsMobile){
-      this.setState({
-        animate: true,
-        mode: 'simple',
-        modalStyle: {
-          'modal': {marginTop: '10px'},
-          'body': {backgroundColor: '#E9E9E9', height: '90%', maxHeight: '90%'} //overflow: 'scroll',
-        },
-        headerStyle: {
-          'header': {backgroundColor: '#F7F7F7', height: '65px'},
-          'titleStyle': {cursor: 'pointer'},
-          'iconStyle': {width: '40px', height: '40px', borderRadius:'100%'}
-        }
-      });
-    }
-    else {
-
-      this.setState({
-        animate: false,
-        mode: 'advanced',
-        modalStyle: {
-          'modal': {width:'400px',height: 'fit-content'},
-          'body': {backgroundColor: '#E9E9E9', height: 'fit-content', minHeight: '227px'}
-        },
-        headerStyle: {
-          'header': {backgroundColor: '#F7F7F7', height: 'auto', marginTop: '50px'},
-          'titleStyle': {cursor: 'pointer'},
-          'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
-        }
-      });
-    }
+    // if(RootStore.uIStore.getIsMobile){
+    //
+    //   RootStore.uIStore.mode = {
+    //     mode: 'simple',
+    //     modalStyle: {
+    //       'modal': {marginTop: '10px'},
+    //       'body': {backgroundColor: '#E9E9E9', height: '90%', maxHeight: '90%'} //overflow: 'scroll',
+    //     },
+    //     headerStyle: {
+    //       'header': {backgroundColor: '#F7F7F7', height: '65px'},
+    //       'titleStyle': {cursor: 'pointer'},
+    //       'iconStyle': {width: '40px', height: '40px', borderRadius:'100%'}
+    //     }
+    //   }
+    //
+    // }
+    // else {
+    //
+    //   RootStore.uIStore.mode = {
+    //     mode: 'advanced',
+    //     modalStyle: {
+    //       'modal': {width:'400px',height: 'fit-content'},
+    //       'body': {backgroundColor: '#E9E9E9', height: 'fit-content', minHeight: '227px'}
+    //     },
+    //     headerStyle: {
+    //       'header': {backgroundColor: '#F7F7F7', height: 'auto', marginTop: '50px'},
+    //       'titleStyle': {cursor: 'pointer'},
+    //       'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
+    //     }
+    //   };
+    // }
   }
 
   closeModal(){
@@ -261,20 +262,20 @@ class GoSell extends Component {
                   handleClose={this.closeModal.bind(this)}
                 />}
                 animate={true}
-                style={this.state.modalStyle}
+                style={RootStore.uIStore.modal.modalStyle}
                 mode={RootStore.uIStore.modal_mode}
                 pageBgImg={RootStore.uIStore.modal_mode === 'page'? RootStore.uIStore.modal_bg_img : null}
                 pageBgColor={RootStore.uIStore.modal_mode === 'page'? '#F0F1F2' : null}
                 notification={RootStore.uIStore.generateCustomNotification}
                 header={<Header
                   dir={RootStore.uIStore.getDir}
-                  mode={this.state.mode}
+                  mode={RootStore.uIStore.modal.mode}
                   modalIcon={RootStore.merchantStore.logo}
                   modalTitle={<Details store={RootStore}/>}
                   close={RootStore.uIStore.modal_mode === 'popup' ? "closeIn": "none"}
                   closeIcon={Paths.imgsPath + 'close.svg'}
                   onClose={GoSell.handleClose}
-                  style={this.state.headerStyle}
+                  style={RootStore.uIStore.modal.headerStyle}
                   separator={RootStore.uIStore.getIsMobile}></Header>}>
                   {RootStore.uIStore.getOpenModal ?
                       <MainView store={RootStore} /> : null }
