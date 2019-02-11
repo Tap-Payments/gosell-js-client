@@ -78,9 +78,9 @@ class GoSell extends Component {
     var body =  document.body.children;
 
     for(var i=0; i<body.length; i++){
-      if(body[i].tagName === 'DIV' && !body[i].classList.contains('modal_container')){
+      if(body[i].tagName === 'DIV' && !body[i].classList.contains('tap-payments-modal-container')){
         console.log('body ', body[i].tagName);
-        body[i].classList.add('gosell-modal-blur-bg');
+        body[i].classList.add('gosell-tap-payments-modal-blur-bg');
         break;
       }
     }
@@ -187,9 +187,9 @@ class GoSell extends Component {
       var body =  document.body.children;
 
       for(var i=0; i<body.length; i++){
-        if(body[i].tagName === 'DIV' && body[i].classList.contains('gosell-modal-blur-bg')){
+        if(body[i].tagName === 'DIV' && body[i].classList.contains('gosell-tap-payments-modal-blur-bg')){
           console.log('body ', body[i]);
-          body[i].classList.remove('gosell-modal-blur-bg');
+          body[i].classList.remove('gosell-tap-payments-modal-blur-bg');
           break;
         }
       }

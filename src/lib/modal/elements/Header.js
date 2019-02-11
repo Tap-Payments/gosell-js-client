@@ -117,7 +117,7 @@ class Header extends Component{
       // console.log(typeof this.props.modalIcon);
 
       return(
-          <Header className="modal-header" dir={this.props.dir? this.props.dir : null} style={Object.assign(this.state.separator, this.state.headerStyle)}>
+          <Header className="tap-payments-modal-header" dir={this.props.dir? this.props.dir : null} style={Object.assign(this.state.separator, this.state.headerStyle)}>
           {this.props.modalIcon?
               <ModalIcon>
                 <Circle>

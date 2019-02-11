@@ -73,11 +73,11 @@ class Options extends Component {
   calcHeight(){
 
     if(this.props.store.uIStore.getIsMobile){
-      console.log('modal-body height', document.getElementsByClassName("modal-body"));
-      console.log('modal-body height', document.getElementsByClassName("modal-body")[0].clientHeight);
+      console.log('doc height', document.getElementsByClassName("tap-payments-modal-body"));
+      console.log('doc height', document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight);
 
       // this.props.store.uIStore.mainHeight = document.getElementsByClassName("modal-body")[0].clientHeight - 86;
-      this.props.store.uIStore.setMainHeight(document.getElementsByClassName("modal-body")[0].clientHeight - 86);
+      this.props.store.uIStore.setMainHeight(document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86);
     }
     else {
       // this.props.store.uIStore.mainHeight = 0;
