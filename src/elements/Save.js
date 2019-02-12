@@ -96,7 +96,6 @@ class Save extends Component {
                 <CardsForm ref="paymentForm" store={store} saveCardOption={false}/>
               <Separator />
 
-              {store.uIStore.getPageIndex != 3 && store.uIStore.getPageIndex != 4 ?
               <div style={{height: '86px', position: 'relative', width: '100%'}}>
 
                   <div style={{height: '86px', position:'relative'}}>
@@ -111,8 +110,6 @@ class Save extends Component {
                         handleClick={this.handleBtnClick.bind(this)}>{store.configStore.btn}</TapButton>
                   </div>
               </div>
-              : null}
-
             </div>);
   }
 }
