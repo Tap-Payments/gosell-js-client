@@ -138,9 +138,9 @@ class GoSell extends Component {
 
   componentDidMount() {
 
-    RootStore.configStore.configure().then(result => {
-        GoSell.showTranxResult();
-    });
+    // RootStore.configStore.configure().then(result => {
+    //     GoSell.showTranxResult();
+    // });
 
     RootStore.uIStore.calcModalHeight();
     window.addEventListener('resize', RootStore.uIStore.calcModalHeight());
