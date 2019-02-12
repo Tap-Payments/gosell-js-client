@@ -22,7 +22,7 @@ class Modal extends React.Component {
 
     //console.log('open', modal.state.isOpen);
 
-    setTimeout(function(){ modal.setState({ isOpenWait: "showModal animateUp" }); }, 700);
+    setTimeout(function(){ modal.setState({ isOpenWait: "tap-payments-showModal tap-payments-animateUp" }); }, 700);
     var mymd = document.getElementById('mymd');
 
     document.body.classList.add('tap-payments-modal-open');
@@ -46,7 +46,7 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isOpen: this.props.open, loading: this.props.isLoading, isOpenWait: "showModal", modalStyle: {}, bodyStyle: {}, bodyContainerStyle: {}, dir: 'ltr', width: 400};
+    this.state = { isOpen: this.props.open, loading: this.props.isLoading, isOpenWait: "tap-payments-showModal", modalStyle: {}, bodyStyle: {}, bodyContainerStyle: {}, dir: 'ltr', width: 400};
 
     this.handleClose = this.handleClose.bind(this);
 
@@ -68,13 +68,13 @@ class Modal extends React.Component {
 
     if(this.props.animate && !this.props.isLoading){
       var self = this;
-      setTimeout(function(){ self.setState({ isOpenWait: "showModal animateUp", loading: this.props.isLoading }); }, 700);
+      setTimeout(function(){ self.setState({ isOpenWait: "tap-payments-showModal tap-payments-animateUp", loading: this.props.isLoading }); }, 700);
       document.body.classList.add('tap-payments-modal-open');
     }
     // else if(this.props.animate && this.props.isLoading){
     //   console.log('down animation');
     //   var self = this;
-    //   setTimeout(function(){ self.setState({ isOpenWait: "hideModal animateDown", loading: this.props.isLoading }); }, 700);
+    //   setTimeout(function(){ self.setState({ isOpenWait: "tap-payments-hideModal tap-payments-animateDown", loading: this.props.isLoading }); }, 700);
     //   //document.body.classList.remove('tap-payments-modal-open');
     // }
 
@@ -145,12 +145,12 @@ class Modal extends React.Component {
 
      if(!nextProps.isLoading){ // && nextProps.animate
        var self = this;
-       setTimeout(function(){ self.setState({ isOpenWait: "showModal animateUp", loading: nextProps.isLoading }); }, 1000);
+       setTimeout(function(){ self.setState({ isOpenWait: "tap-payments-showModal tap-payments-animateUp", loading: nextProps.isLoading }); }, 1000);
        // document.body.classList.add('tap-payments-modal-open');
      }
      else if(nextProps.animate && nextProps.isLoading){
        var self = this;
-       self.setState({ isOpenWait: "hideModal animateDown"});
+       self.setState({ isOpenWait: "tap-payments-hideModal tap-payments-animateDown"});
        setTimeout(function(){ self.setState({loading: nextProps.isLoading }); }, 1000);
        // document.body.classList.remove('tap-payments-modal-open');
      }
