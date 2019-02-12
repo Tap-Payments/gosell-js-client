@@ -9,7 +9,7 @@ class Details extends Component {
   }
 
   handleClick(){
-    this.props.store.actionStore.handleBusinessInfoClick();
+      this.props.store.actionStore.handleBusinessInfoClick();
   }
 
   render() {
