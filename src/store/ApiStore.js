@@ -337,7 +337,7 @@ class ApiStore{
       case 'authorize':
         transaction = this.authorize(source, type, fees).then(async auth => {
 
-          if(chg.data.code != 100){
+          if(auth.data.code != 100){
             if(auth.status == 200){
 
                 if(auth.data.status.toUpperCase() === 'INITIATED' && type !== 'CARD'){

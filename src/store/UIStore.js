@@ -40,9 +40,17 @@ class UIStore {
     this.modal_mode = 'popup';
 
     this.mainHeight = 0;
-    this.modalHeight = 0;
-    this.bodyHeight = 0;
     this.sliderHeight = 0;
+
+    if(this.getIsMobile){
+      this.modalHeight = '90%';
+      this.bodyHeight = '90%';
+    }
+    else {
+      this.modalHeight = 'fit-content';
+      this.bodyHeight = 'fit-content';
+    }
+
 
     this.modal_bg_img = null;
     // this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';
@@ -94,15 +102,23 @@ class UIStore {
       var total = 0;
       allDivs.forEach(function(element) {
         total += element.clientHeight;
-        console.log('height', element.clientHeight);
       });
 
-      if(modalBodyHeight > total){
-        this.setMainHeight(total + 86);
+      console.log('&& total', total);
+      console.log('&& modalBodyHeight', modalBodyHeight);
+
+      if(modalBodyHeight > total || (id === 'form-container' && modalBodyHeight < total)){
+        this.setMainHeight(total);
       }
       else {
         this.setMainHeight(modalBodyHeight);
       }
+      // if(modalBodyHeight >= total){
+      //   this.setMainHeight(total);
+      // }
+      // else {
+      //   this.setMainHeight(modalBodyHeight);
+      // }
 
     }
     else {
@@ -129,11 +145,13 @@ class UIStore {
   setMainHeight(value){
 
     this.mainHeight = value;
+    console.log('&& mainHeight', this.mainHeight);
+
     if(this.mainHeight > 0){
 
       if(this.getIsMobile){
         this.bodyHeight = this.mainHeight + 86;
-        // console.log('&& bodyHeight', this.bodyHeight);
+        console.log('&& bodyHeight', this.bodyHeight);
         this.modalHeight = this.bodyHeight + 65;
         console.log('&& modalHeight', this.modalHeight);
       }
@@ -143,18 +161,6 @@ class UIStore {
         this.modalHeight = this.bodyHeight + 156;
         console.log('&& modalHeight', this.modalHeight);
       }
-    }
-    else {
-
-      if(this.getIsMobile){
-        this.modalHeight = '90%';
-        this.bodyHeight = '90%';
-      }
-      else {
-        this.modalHeight = 'fit-content';
-        this.bodyHeight = 'fit-content';
-      }
-
     }
 
     this.calcModalHeight();
