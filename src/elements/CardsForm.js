@@ -30,7 +30,7 @@ class CardsForm extends Component {
                     style={{pointerEvents:store.uIStore.btn.active&&store.uIStore.btn.loader?'none':'auto',
                             opacity:store.uIStore.btn.active&&store.uIStore.btn.loader?'0.6':'1',
                             transition: 'opacity 0.3s',
-                            webkitTransition: 'opacity 0.3s'
+                            WebkitTransition: 'opacity 0.3s'
                           }}>
                 </div>
             </form>
