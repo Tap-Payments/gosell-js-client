@@ -116,7 +116,7 @@ class ActionStore {
           this.handleOrderDetailsClick();
         }
 
-        if(this.RootStore.uIStore.getPageIndex != 4 && this.RootStore.uIStore.getPageIndex != 0){
+        if(this.RootStore.uIStore.getPageIndex != 3 && this.RootStore.uIStore.getPageIndex != 4 && this.RootStore.uIStore.getPageIndex != 0){
           this.RootStore.uIStore.warningHandler();
         }
         else {
@@ -286,28 +286,37 @@ class ActionStore {
       this.RootStore.uIStore.warningHandler();
     }
     else {
-      this.RootStore.formStore.clearCardForm();
-      this.RootStore.uIStore.setIsActive('WEB');
+      this.resetSettings();
 
-      if(payment.extra_fees){
-        self.RootStore.paymentStore.active_payment_option = payment;
-
-        this.RootStore.paymentStore.getFees(this.RootStore.paymentStore.active_payment_option.name);
-
-        self.RootStore.paymentStore.source_id = payment.source_id;
-
-        this.RootStore.uIStore.setPageIndex(1, 'y');
+      if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
+        this.RootStore.uIStore.setSubPage(-1);
       }
-      else {
-        self.RootStore.paymentStore.active_payment_option = payment;
-        self.RootStore.paymentStore.active_payment_option_total_amount = payment.amount;
-        self.RootStore.paymentStore.active_payment_option_fees = 0;
 
-        this.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
-        this.RootStore.apiStore.handleTransaction(payment.source_id, 'WEB', 0.0).then(result => {
-          console.log('hi from charge response', result);
-        });
+      if(this.RootStore.uIStore.getPageIndex == 0){
+        this.RootStore.formStore.clearCardForm();
+        this.RootStore.uIStore.setIsActive('WEB');
+
+        if(payment.extra_fees){
+          self.RootStore.paymentStore.active_payment_option = payment;
+
+          this.RootStore.paymentStore.getFees(this.RootStore.paymentStore.active_payment_option.name);
+
+          self.RootStore.paymentStore.source_id = payment.source_id;
+
+          this.RootStore.uIStore.setPageIndex(1, 'y');
+        }
+        else {
+          self.RootStore.paymentStore.active_payment_option = payment;
+          self.RootStore.paymentStore.active_payment_option_total_amount = payment.amount;
+          self.RootStore.paymentStore.active_payment_option_fees = 0;
+
+          this.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
+          this.RootStore.apiStore.handleTransaction(payment.source_id, 'WEB', 0.0).then(result => {
+            console.log('hi from charge response', result);
+          });
+        }
       }
+
     }
 
 

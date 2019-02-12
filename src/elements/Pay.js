@@ -139,7 +139,7 @@ class Pay extends Component {
         </TapSlider>
 
         {store.uIStore.getPageIndex != 3 && store.uIStore.getPageIndex != 4 ?
-          <div style={store.uIStore.btn.style}>
+          <div style={{height: '86px', position: 'relative', width: '100%'}}>
                 <TapButton
                   id="gosell-gateway-btn"
                   dir={store.uIStore.getDir}

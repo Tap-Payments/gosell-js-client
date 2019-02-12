@@ -36,6 +36,7 @@ class TapSlider extends Component {
     //store.setInitialWidth(document.getElementById('tapAwesomeSlider').clientWidth);
     // store.setInitialHeight( document.getElementById('tapAwesomeSlider').clientHeight);
     store.addItem(this.props.componentKey);
+    console.log('slider height didmount +++ ', this.props.style.height);
   }
 
   componentWillReceiveProps(nextProps){
@@ -43,6 +44,8 @@ class TapSlider extends Component {
       console.log('slider height from did update : ', nextProps.style.height);
       store.setInitialHeight(nextProps.style.height);
     }
+
+    console.log('slider height will receive props+++ ', nextProps.style.height);
   }
 
   componentDidUpdate(prevProps){
@@ -54,7 +57,12 @@ class TapSlider extends Component {
         store.setInitialHeight(store.activeItemElement.clientHeight);
       }
 
+      //we need it for index no. 3 & 4 on mobile
+      if(this.props.style.height){
+        store.setInitialHeight(this.props.style.height);
+      }
 
+      console.log('slider height did update +++ ', this.props.style.height);
       store.slide(this.props.axis, this.props.componentKey);
     }
     else {

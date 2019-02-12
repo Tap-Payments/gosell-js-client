@@ -121,8 +121,7 @@ class SupportedCurrencies extends Component {
         );
 
 
-      var bg = 'transparent';
-      bg = 'rgba(255, 255, 255, 0.6)';
+      var bg = this.props.store.uIStore.getIsMobile ? 'transparent' : 'rgba(255, 255, 255, 0.6)';
 
       // this.props.store.uIStore.modal_mode === 'page' ? bg = 'rgba(255, 255, 255, 0.5)' :  bg = 'rgba(0,0,0,0.30)';
 
