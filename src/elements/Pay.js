@@ -111,7 +111,7 @@ class Pay extends Component {
        <TapSlider
            componentKey={store.uIStore.getPageIndex}
            axis={store.uIStore.pageDir}
-           animationDuration={1000}
+           animationDuration={store.actionStore.sliderAnimationDuration}
            style={{ height: store.uIStore.sliderHeight + "px", width:'100%'}}
            direction={store.uIStore.getDir}
            animationStatus = {this.animationStatusHandler.bind(this)}>

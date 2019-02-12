@@ -17,6 +17,19 @@ class ActionStore {
 
     this.handleExtraFeesClick = this.handleExtraFeesClick.bind(this);
     this.handleOTPClick = this.handleOTPClick.bind(this);
+    this.sliderAnimationDuration = 1000;
+    this.slideEnded = true;
+  }
+
+  waitTillSlideEndes(){
+    this.slideEnded = false;
+    setTimeout(
+        function() {
+          this.slideEnded = true;
+        }
+        .bind(this),
+        this.sliderAnimationDuration
+    );
   }
 
   resetSettings(){
@@ -28,7 +41,7 @@ class ActionStore {
     this.RootStore.paymentStore.active_payment_option = null;
     this.RootStore.paymentStore.active_payment_option_total_amount = 0;
     this.RootStore.paymentStore.active_payment_option_fees = 0;
-    this.RootStore.uIStore.shakeCards(false);
+
 
     // this.RootStore.uIStore.goSellBtn({
     //   title: this.RootStore.configStore.btn,
@@ -39,59 +52,50 @@ class ActionStore {
   }
 
   handleOrderDetailsClick(){
-
       if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
         this.RootStore.uIStore.warningHandler();
       }
       else {
+        if(this.slideEnded){
+          this.waitTillSlideEndes();
+          if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
+            this.RootStore.uIStore.setSubPage(-1);
+          }
+          if(this.RootStore.uIStore.getPageIndex == 0){
+            this.RootStore.uIStore.goSellBtn({
+              title: this.RootStore.configStore.btn,
+              active: false,
+              loader: false
+            });
+            this.resetSettings();
+            console.log('index', this.RootStore.uIStore.getPageIndex);
+              var paymentOptions = document.getElementById('gosell-gateway-payment-options');
+              var order = document.getElementById('gosell-gateway-order-details');
 
-        if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
-          this.RootStore.uIStore.setSubPage(-1);
-        }
-
-        if(this.RootStore.uIStore.getPageIndex == 0 && this.RootStore.uIStore.delete_card == null){
-
-          this.RootStore.uIStore.goSellBtn({
-            title: this.RootStore.configStore.btn,
-            active: false,
-            loader: false
-          });
-
-          this.resetSettings();
-
-          console.log('index', this.RootStore.uIStore.getPageIndex);
-
-            var paymentOptions = document.getElementById('gosell-gateway-payment-options');
-            var order = document.getElementById('gosell-gateway-order-details');
-
-            console.log('payment options now', paymentOptions);
-            if(this.RootStore.uIStore.show_order_details){
-              console.log('setSubPage', this.RootStore.uIStore.getSubPage);
+              console.log('payment options now', paymentOptions);
+              if(this.RootStore.uIStore.show_order_details){
+                console.log('setSubPage', this.RootStore.uIStore.getSubPage);
 
 
-              paymentOptions.style.height = order.style.height;
-              order.style.height = 0;
-              console.log('payment options now is ', paymentOptions.style.height);
-              console.log('order now is ', order.style.height);
-              this.RootStore.uIStore.show_order_details = false;
-            }
-            else{
-              order.style.height = paymentOptions.clientHeight;
-              paymentOptions.style.height = 0;
-              console.log('order now is ', order.style.height);
-              console.log('paymentOptions now is ', paymentOptions.style.height);
-              this.RootStore.uIStore.show_order_details = true;
-            }
-
-        }
-        else {
-          if(this.RootStore.uIStore.delete_card == null) {
-            this.RootStore.uIStore.warningHandler();
+                paymentOptions.style.height = order.style.height;
+                order.style.height = 0;
+                console.log('payment options now is ', paymentOptions.style.height);
+                console.log('order now is ', order.style.height);
+                this.RootStore.uIStore.show_order_details = false;
+              }
+              else{
+                order.style.height = paymentOptions.clientHeight;
+                paymentOptions.style.height = 0;
+                console.log('order now is ', order.style.height);
+                console.log('paymentOptions now is ', paymentOptions.style.height);
+                this.RootStore.uIStore.show_order_details = true;
+              }
+          }
+          else {
+              this.RootStore.uIStore.warningHandler();
           }
         }
-
       }
-
   }
 
   handleBusinessInfoClick(){
@@ -110,7 +114,7 @@ class ActionStore {
       if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
         this.RootStore.uIStore.warningHandler();
       }
-      else if(this.RootStore.uIStore.delete_card == null){
+      else {
 
         this.resetSettings();
 
@@ -149,7 +153,7 @@ class ActionStore {
     if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
       this.RootStore.uIStore.warningHandler();
     }
-    else if(this.RootStore.uIStore.delete_card == null){
+    else {
 
       // this.RootStore.uIStore.goSellBtn({
       //   title: this.RootStore.configStore.btn,
@@ -287,7 +291,7 @@ class ActionStore {
     if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
       this.RootStore.uIStore.warningHandler();
     }
-    else if(this.RootStore.uIStore.delete_card == null) {
+    else {
       this.resetSettings();
 
       if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
