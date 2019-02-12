@@ -581,12 +581,15 @@ class UIStore {
   }
 
   setErrorHandler(value){
+    console.log(this.delete_card,"342345234sfgsdfbsdfg3w4$@#$%#@$%@#$@$#");
     var self = this;
     this.errorHandler = value;
 
-    setTimeout(function(){
-      self.closeNotification();
-    }, 5000);
+    if(this.delete_card === null || this.detete_card !== false) {
+      setTimeout(function(){
+        self.closeNotification();
+      }, 5000);
+    }
   }
 
   warningHandler(){

@@ -554,7 +554,7 @@ a.tap-payments-close:hover {
   height: 100%;
 }
 
-.tap-payments-tap-option{
+.tap-payments-option{
   padding: 0 15px;
   /* text-decoration: underline; */
   font-weight: bold;
@@ -567,7 +567,7 @@ a.tap-payments-close:hover {
   font-size: 15px;
 }
 
-.tap-payments-tap-option:hover{
+.tap-payments-option:hover{
   background-color: rgba(255,255,255,0.20);
   border-left: .5px solid rgba(255,255,255,0.25);
   border-right: .5px solid rgba(255,255,255,0.25);
