@@ -64,7 +64,7 @@ class Card extends Component {
       msg: 'Are you sure you would like to delete card ●●●● ' + this.props.last4digits + '?',
       options: [
         {title: 'Confirm', action: this.confirmDeleteCard.bind(this, this.cardRef.id)},
-        {title: 'x', action: this.cancelDeleteCard.bind(this)},
+        {title: '×', action: this.cancelDeleteCard.bind(this)},
       ]
     });
   }
