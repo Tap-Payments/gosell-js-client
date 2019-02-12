@@ -63,7 +63,9 @@ class GoSell extends Component {
         window.open(result.data.transaction.url, '_self');
         // GoSell.handleClose();
       }
-    });
+    }).catch(error => {
+      console.log(error);
+    })
   }
 
   static handleView(){
