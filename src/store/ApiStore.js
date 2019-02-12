@@ -10,63 +10,65 @@ class ApiStore{
   }
 
   async auth(publicKey){
-    var self = this;
+     var self = this;
 
-    var body = {
-      "mode": "Development",
-      "headers": {
-        "authorization": "Bearer " + publicKey,
-      }
-    }
+     var body = {
+       "mode": "Development",
+       "headers": {
+         "authorization": "Bearer " + publicKey,
+       }
+     }
 
-    var res = null, data = null;
-    await axios.post(Paths.serverPath + '/init', body)
-    .then(async function (response) {
+     var res = null, data = null;
+     await axios.post(Paths.serverPath + '/init', body)
+     .then(async function (response) {
 
-      res = response.data;
+       res = response.data;
 
-      // console.log('auth response', res);
+       // console.log('auth response', res);
 
-      if(res.status === 'success'){
+       if(res.status === 'success'){
 
-        data = res.data;
+         data = res.data;
 
-        self.mode = data.live_mode;
-        self.RootStore.merchantStore.merchant = {id: data.merchant_id, name: data.merchant_name};
-        self.RootStore.uIStore.modal_bg_img = data.merchant.background.url;
+         self.mode = data.live_mode;
+         self.RootStore.merchantStore.merchant = {id: data.merchant_id, name: data.merchant_name};
+         self.RootStore.uIStore.modal_bg_img = data.merchant.background.url;
 
-        self.RootStore.merchantStore.pk = self.RootStore.configStore.gateway.publicKey;
-        self.RootStore.merchantStore.session = await data.session_token;
+         self.RootStore.merchantStore.pk = self.RootStore.configStore.gateway.publicKey;
+         self.RootStore.merchantStore.session = await data.session_token;
+
+         self.RootStore.paymentStore.status_display_duration = data.sdk_settings.status_display_duration;
+         self.RootStore.paymentStore.otp_resend_interval = data.sdk_settings.otp_resend_interval;
+         self.RootStore.paymentStore.otp_resend_attempts = data.sdk_settings.otp_resend_attempts;
+
+         self.RootStore.paymentStore.card_wallet = data.permission.card_wallet;
+         self.RootStore.paymentStore.setThreeDSecure(data.permission.threeDSecure);
 
        }
        else if(response.data.error || response.data.errors){
            self.showError(response.data);
        }
 
-        self.RootStore.paymentStore.card_wallet = data.permission.card_wallet;
-        self.RootStore.paymentStore.setThreeDSecure(data.permission.threeDSecure);
+     })
+     .catch(function (error) {
+       console.log(error);
+     });
 
-      }
+     return await res;
 
-    })
-    .catch(function (error) {
-      // TODO: check message content
-      self.RootStore.uIStore.showMsg('warning', 'Please try later!', 'Server accessibility error');
-      console.log(error);
-    });
-    return await res;
   }
 
   async init(){
-    var self = this;
+     var self = this;
 
-    this.RootStore.uIStore.dir = this.RootStore.configStore.language === 'ar' ? 'rtl' : 'ltr';
+     this.RootStore.uIStore.dir = this.RootStore.configStore.language === 'ar' ? 'rtl' : 'ltr';
 
-    var payment = null, merchant = null;
+     var payment = null, merchant = null;
 
-    console.log('session ', self.RootStore.merchantStore.session);
+     console.log('session ', self.RootStore.merchantStore.session);
 
-    if(self.RootStore.merchantStore.session == null){
+     if(self.RootStore.merchantStore.session == null){
 
        console.log('public key', this.RootStore.configStore.gateway.publicKey);
        await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
@@ -75,77 +77,77 @@ class ApiStore{
              self.showError(result);
            }
 
-      });
-    }
+       });
+     }
 
-    merchant = await self.getMerchantDetails();
-    payment = await self.setPaymentOptions();
+      merchant = await self.getMerchantDetails();
+      payment = await self.setPaymentOptions();
 
-    if(payment.status == 200 && merchant.status == 200){
-      this.RootStore.uIStore.stopLoading();
-      return await payment;
-    }
+      if(payment.status == 200 && merchant.status == 200){
+        this.RootStore.uIStore.stopLoading();
+        return await payment;
+      }
 
 
-  }
+   }
 
-  // async init(){
-  //    var self = this;
-  //
-  //    this.RootStore.uIStore.dir = this.RootStore.configStore.language === 'ar' ? 'rtl' : 'ltr';
-  //
-  //    var body = {
-  //      "mode": "Development",
-  //      "headers": {
-  //        "authorization": "Bearer " + this.RootStore.configStore.gateway.publicKey,
-  //      }
-  //    }
-  //
-  //    var res = null, data = null, payment = null, merchant = null;
-  //    await axios.post(Paths.serverPath + '/init', body)
-  //    .then(async function (response) {
-  //
-  //      res = response.data;
-  //
-  //      console.log('init response', res);
-  //
-  //      if(res.status === 'success'){
-  //
-  //        data = res.data;
-  //        self.mode = data.live_mode;
-  //        self.RootStore.merchantStore.merchant = {id: data.merchant_id, name: data.merchant_name};
-  //        self.RootStore.merchantStore.pk = self.RootStore.configStore.gateway.publicKey;
-  //        self.RootStore.merchantStore.session = data.session_token;
-  //
-  //        self.RootStore.paymentStore.status_display_duration = data.sdk_settings.status_display_duration;
-  //        self.RootStore.paymentStore.otp_resend_interval = data.sdk_settings.otp_resend_interval;
-  //        self.RootStore.paymentStore.otp_resend_attempts = data.sdk_settings.otp_resend_attempts;
-  //
-  //        self.RootStore.paymentStore.card_wallet = data.permission.card_wallet;
-  //        self.RootStore.paymentStore.setThreeDSecure(data.permission.threeDSecure);
-  //
-  //        merchant = await self.getMerchantDetails();
-  //
-  //        payment = await self.setPaymentOptions();
-  //
-  //      }
-  //      else {
-  //        self.RootStore.uIStore.showMsg('warning', res.errors[0].description, res.errors[0].code);
-  //      }
-  //    })
-  //    .catch(function (error) {
-  //      console.log(error);
-  //    });
-  //
-  //      if(res.status === 'success' && payment.status == 200 && merchant.status == 200){
-  //         this.RootStore.uIStore.stopLoading();
-  //         return await res;
-  //       }
-  //       else {
-  //         return await null;
-  //       }
-  //
-  //  }
+ // async init(){
+ //    var self = this;
+ //
+ //    this.RootStore.uIStore.dir = this.RootStore.configStore.language === 'ar' ? 'rtl' : 'ltr';
+ //
+ //    var body = {
+ //      "mode": "Development",
+ //      "headers": {
+ //        "authorization": "Bearer " + this.RootStore.configStore.gateway.publicKey,
+ //      }
+ //    }
+ //
+ //    var res = null, data = null, payment = null, merchant = null;
+ //    await axios.post(Paths.serverPath + '/init', body)
+ //    .then(async function (response) {
+ //
+ //      res = response.data;
+ //
+ //      console.log('init response', res);
+ //
+ //      if(res.status === 'success'){
+ //
+ //        data = res.data;
+ //        self.mode = data.live_mode;
+ //        self.RootStore.merchantStore.merchant = {id: data.merchant_id, name: data.merchant_name};
+ //        self.RootStore.merchantStore.pk = self.RootStore.configStore.gateway.publicKey;
+ //        self.RootStore.merchantStore.session = data.session_token;
+ //
+ //        self.RootStore.paymentStore.status_display_duration = data.sdk_settings.status_display_duration;
+ //        self.RootStore.paymentStore.otp_resend_interval = data.sdk_settings.otp_resend_interval;
+ //        self.RootStore.paymentStore.otp_resend_attempts = data.sdk_settings.otp_resend_attempts;
+ //
+ //        self.RootStore.paymentStore.card_wallet = data.permission.card_wallet;
+ //        self.RootStore.paymentStore.setThreeDSecure(data.permission.threeDSecure);
+ //
+ //        merchant = await self.getMerchantDetails();
+ //
+ //        payment = await self.setPaymentOptions();
+ //
+ //      }
+ //      else {
+ //        self.RootStore.uIStore.showMsg('warning', res.errors[0].description, res.errors[0].code);
+ //      }
+ //    })
+ //    .catch(function (error) {
+ //      console.log(error);
+ //    });
+ //
+ //      if(res.status === 'success' && payment.status == 200 && merchant.status == 200){
+ //         this.RootStore.uIStore.stopLoading();
+ //         return await res;
+ //       }
+ //       else {
+ //         return await null;
+ //       }
+ //
+ //  }
 
  showError(json) {
     var self = this;
@@ -178,14 +180,14 @@ class ApiStore{
     var mode = null;
     switch (this.RootStore.configStore.transaction_mode){
       case 'charge':
-      mode = "PURCHASE";
-      break;
+        mode = "PURCHASE";
+        break;
       case 'authorize':
-      mode = "AUTHORIZE_CAPTURE";
-      break;
+          mode = "AUTHORIZE_CAPTURE";
+          break;
       default:
-      mode = null;
-      break;
+        mode = null;
+        break;
     }
 
     var customer = this.RootStore.configStore.gateway.customerCards && this.RootStore.configStore.customer ? this.RootStore.configStore.customer.id : null;
@@ -196,13 +198,13 @@ class ApiStore{
       "path": '/v2/payment/types',
       "headers": headers,
       "reqBody": {
-        "transaction_mode": mode,
-        "items": this.RootStore.configStore.items,
-        "shipping": this.RootStore.configStore.shipping,
-        "taxes": this.RootStore.configStore.taxes,
-        "customer": customer,
-        "currency" :  this.RootStore.configStore.order.currency,
-        "total_amount": this.RootStore.configStore.order.amount
+         "transaction_mode": mode,
+         "items": this.RootStore.configStore.items,
+         "shipping": this.RootStore.configStore.shipping,
+         "taxes": this.RootStore.configStore.taxes,
+         "customer": customer,
+         "currency" :  this.RootStore.configStore.order.currency,
+         "total_amount": this.RootStore.configStore.order.amount
       }
     }
 
@@ -293,33 +295,35 @@ class ApiStore{
   }
 
   async createTransaction(){
-    var self = this;
+     var self = this;
 
-    var transaction = null;
+     var transaction = null;
 
-    await this.auth(self.RootStore.configStore.gateway.publicKey).then(async result => {
-      // console.log('auth response', result);
-      if(result.status === 'success'){
+     await this.auth(self.RootStore.configStore.gateway.publicKey).then(async result => {
+       // console.log('auth response', result);
+       if(result.status === 'success'){
 
-        switch (self.RootStore.configStore.transaction_mode) {
-          case 'charge':
-          transaction = await self.charge('src_all', null, null);
-          break;
-          case 'authorize':
-          transaction = await self.authorize('src_all', null, null);
-          break;
-        }
+         switch (self.RootStore.configStore.transaction_mode) {
+           case 'charge':
+             transaction = await self.charge('src_all', null, null);
+             break;
+           case 'authorize':
+             transaction = await self.authorize('src_all', null, null);
+             break;
+         }
 
        }
        else {
+         if(result.error || result.errors){
            self.showError(result);
+         }
        }
 
-    });
+     });
 
-    return await transaction;
+     return await transaction;
 
-  }
+   }
 
   async handleTransaction(source, type, fees){
     var transaction = null;
@@ -366,12 +370,8 @@ class ApiStore{
             self.showError(chg.data);
             // self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
           }
-        }
-        else {
-          self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
-        }
-      });
-      break;
+        });
+        break;
       case 'authorize':
         transaction = this.authorize(source, type, fees).then(async auth => {
 
@@ -414,13 +414,9 @@ class ApiStore{
             self.showError(auth.data);
             // self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
           }
-        }
-        else {
-          self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
-        }
 
-      });
-      break;
+        });
+        break;
     }
 
     return await transaction;
@@ -556,11 +552,11 @@ class ApiStore{
   }
 
   async getTransaction(id){
-    var self = this;
+     var self = this;
 
-    var transaction = null;
+     var transaction = null;
 
-    // console.log('session ', self.RootStore.merchantStore.session);
+     // console.log('session ', self.RootStore.merchantStore.session);
 
      if(self.RootStore.merchantStore.session == null){
        await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
@@ -570,39 +566,29 @@ class ApiStore{
            // self.RootStore.uIStore.showMsg('warning', result.errors[0].description, result.errors[0].code);
          }
 
-      });
-    }
+       });
+     }
 
-    var type = id.substring(0,4);
-    console.log('type ====================> ', type);
+     var type = id.substring(0,4);
+     console.log('type ====================> ', type);
 
-    switch (type) {
-      case 'chg_':
-      transaction = await self.getCharge(id);
-      break;
-      case 'auth':
-      transaction = await self.getAuthorize(id);
-      break;
-    }
+     switch (type) {
+       case 'chg_':
+         transaction = await self.getCharge(id);
+         break;
+       case 'auth':
+         transaction = await self.getAuthorize(id);
+         break;
+     }
 
-    return await transaction;
+     return await transaction;
 
-  }
+   }
 
-  async getTransactionResult(id){
-    var self = this;
+    async getTransactionResult(id){
+        var self = this;
 
-    var transaction = null;
-
-    if(self.RootStore.merchantStore.session == null){
-      await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
-        console.log('auth response from getTransactionResult', result);
-        if(result.status !== 'success'){
-          self.RootStore.uIStore.showMsg('warning', result.errors[0].description, result.errors[0].code);
-        }
-
-      });
-    }
+        var transaction = null;
 
         if(self.RootStore.merchantStore.session == null){
           await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
@@ -612,38 +598,8 @@ class ApiStore{
               // self.RootStore.uIStore.showMsg('warning', result.errors[0].description, result.errors[0].code);
             }
 
-          }
+          });
         }
-        else {
-          console.log('error', charge);
-          self.RootStore.uIStore.showMsg('error', charge.data.errors[0].description, null);
-        }
-      });
-      break;
-      case 'auth':
-      console.log('In auth');
-      await self.getAuthorize(id).then(async auth => {
-        console.log('auth res', auth);
-        if(auth.status == 200){
-          transaction = auth;
-          if(auth.data.status && auth.data.status.toUpperCase() === 'AUTHORIZED'){
-            console.log('CAPTURED', auth.data);
-            console.log('uIStore', self.RootStore.uIStore.notifications);
-
-            if(self.RootStore.configStore.gateway.notifications && self.RootStore.configStore.gateway.notifications !== 'standard'){
-              document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = 'Successful';
-            }
-            else {
-              self.RootStore.uIStore.showMsg('success', "Successful Transaction", auth.data.id);
-            }
-          }
-          else {
-            if(self.RootStore.configStore.gateway.notifications && self.RootStore.configStore.gateway.notifications !== 'standard'){
-              document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = auth.data.response.message;
-            }
-            else {
-              self.RootStore.uIStore.showMsg('warning', auth.data.response.message, auth.data.id);
-            }
 
         var type = id.substring(0,4);
 
@@ -717,19 +673,11 @@ class ApiStore{
             });
             break;
         }
-        else {
-          console.log('error', auth.data);
-          // self.RootStore.uIStore.showMsg('error', auth.data.errors[0].description, null);
-          self.showError(auth.data);
-        }
-      });
-      break;
-    }
 
-    console.log('I am here', transaction);
-    return await transaction;
+        console.log('I am here', transaction);
+        return await transaction;
 
-  }
+      }
 
   //
   // async getTransaction(id){
@@ -918,9 +866,9 @@ class ApiStore{
       "path": '/v2/payment/types',
       "headers": headers,
       "reqBody": {
-        "customer": this.RootStore.configStore.customer.id ? this.RootStore.configStore.customer.id : null,
-        "currency" : this.RootStore.paymentStore.current_currency.currency,
-        "total_amount": this.RootStore.paymentStore.current_currency.amount
+         "customer": this.RootStore.configStore.customer.id ? this.RootStore.configStore.customer.id : null,
+         "currency" : this.RootStore.paymentStore.current_currency.currency,
+         "total_amount": this.RootStore.paymentStore.current_currency.amount
       }
     }
 
@@ -1209,11 +1157,11 @@ class ApiStore{
     var path = null;
     switch (this.RootStore.configStore.transaction_mode) {
       case 'charge':
-      path = "/v2/charges/authenticate/"+this.RootStore.paymentStore.charge.id
-      break;
+        path = "/v2/charges/authenticate/"+this.RootStore.paymentStore.charge.id
+        break;
       case 'authorize':
-      path = "/v2/authorize/authenticate/"+this.RootStore.paymentStore.authorize.id
-      break;
+        path = "/v2/authorize/authenticate/"+this.RootStore.paymentStore.authorize.id
+        break;
     }
 
     var headers = {
@@ -1284,11 +1232,11 @@ class ApiStore{
     var path = null;
     switch (this.RootStore.configStore.transaction_mode) {
       case 'charge':
-      path = "/v2/charges/authenticate/"+ this.RootStore.paymentStore.charge.id
-      break;
+        path = "/v2/charges/authenticate/"+ this.RootStore.paymentStore.charge.id
+        break;
       case 'authorize':
-      path = "/v2/authorize/authenticate/"+this.RootStore.paymentStore.authorize.id
-      break;
+        path = "/v2/authorize/authenticate/"+this.RootStore.paymentStore.authorize.id
+        break;
     }
 
     var headers = {
