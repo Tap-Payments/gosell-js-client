@@ -81,21 +81,25 @@ class FormStore{
       var self = this;
 
       var frameurl="secure.gosell.io/tappaymentwidget/public/"
-      function _ensureHTTPS(){
+      function _ensureHTTPS(key){
+
+          if (window.location.protocol=='http:' && 0 === key.indexOf("pk_live")){
+           throw new Error("Live goSell integrations must use HTTPS. live public key implementations should use ssl implementation, while sandbox public key can be used over http protocol implementation.");
+          }
           var e = window.location.protocol,
           t = -1 !== ["https:", "file:"].indexOf(e),
           n = -1 !== ["localhost", "127.0.0.1", "0.0.0.0"].indexOf(window.location.hostname),
-          o = "Live goSell Card Form integrations must use HTTPS. For more information: ";
+          o = "Live Tapjsli.js integrations must use HTTPS.";
           if (!t) {
-              window.console && console.warn("You may test your goSell Card Form integration over HTTP. However, live goSell Card Form integrations must use HTTPS.")
+              window.console && console.warn("You may test your goSell integration over HTTP. However, live goSell integrations must use HTTPS.")
           } else {
               window.console && console.warn(o)
           }
 
       };
-      if ("" === key) throw new Error("Please call Tapjsli() with your publishable key. You used an empty string.");
-      if (0 === key.indexOf("sk_")) throw new Error("You should not use your secret key.\n Please pass a publishable key instead.");
 
+      if ("" === key) throw new Error("Please call goSell() with your publishable key. You used an empty string.");
+      if (0 === key.indexOf("sk_")) throw new Error("You should not use your secret key with goSell.\n        Please pass a publishable key instead.");
       _ensureHTTPS(key);
 
       try {
@@ -126,7 +130,7 @@ class FormStore{
           return new Promise(function(resolve, reject) {
 
               var iframeWin = document.getElementById("myFrame").contentWindow;
-              iframeWin.postMessage({'action':'submit','key':self._apiKey,'encryption_key':self._encryption_key}, "https://"+frameurl+"/tap_payment_widget_ui");
+              iframeWin.postMessage({'action':'submit','key':self._apiKey,'encryption_key':self._encryption_key}, window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui");
 
               window.addEventListener('message', receivertoken, false);
 
@@ -174,7 +178,7 @@ class FormStore{
                       if(document.getElementById("myFrame")!=null){
                           self.currencyCode=crncy;
                           var iframeWin = document.getElementById("myFrame").contentWindow;
-                          iframeWin.postMessage({'action':'currency','key':self._apiKey,'currency':crncy}, "https://"+frameurl+"/tap_payment_widget_ui");
+                          iframeWin.postMessage({'action':'currency','key':self._apiKey,'currency':crncy}, window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui");
                       }
 
               });
@@ -184,7 +188,7 @@ class FormStore{
               return new Promise(function(resolve, reject) {
                       if(document.getElementById("myFrame")!=null){
                           var iframeWin = document.getElementById("myFrame").contentWindow;
-                          iframeWin.postMessage({'action':'clearForm','key':self._apiKey}, "https://"+frameurl+"/tap_payment_widget_ui");
+                          iframeWin.postMessage({'action':'clearForm','key':self._apiKey}, window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui");
                       }
 
               });
@@ -202,7 +206,7 @@ class FormStore{
               /*this._iframe.onload = function(){
                   detect_details().then(function(details) {
                       var iframeWin = document.getElementById("myFrame").contentWindow;
-                      iframeWin.postMessage({'action':'userdetails','key':this._apiKey,'details':details}, "https://"+frameurl+"/tap_payment_widget");
+                      iframeWin.postMessage({'action':'userdetails','key':this._apiKey,'details':details}, window.location.protocol+"//"+frameurl+"/tap_payment_widget");
                   });
               };*/
 
@@ -231,7 +235,7 @@ class FormStore{
                           res({loaded:true});
                           self.detect_details().then(function(details) {
                               var iframeWin = document.getElementById("myFrame").contentWindow;
-                              iframeWin.postMessage({'action':'client_ip','key':self._apiKey,'client_ip':details.ip}, "https://"+frameurl+"/tap_payment_widget");
+                              iframeWin.postMessage({'action':'client_ip','key':self._apiKey,'client_ip':details.ip}, window.location.protocol+"//"+frameurl+"/tap_payment_widget");
                           });
                           //console.log(e.data.layout.height);
                           //iframeWin.setAttribute("height",e.data.layout.height)
@@ -265,7 +269,7 @@ class FormStore{
 
               x.setAttribute("style",'border: none !important;margin: 0px !important;padding: 0px !important;min-width: 100% !important;overflow: hidden !important;display: block !important;');
 
-              x.setAttribute("src", /*window.location.protocol+*/"https://"+frameurl+"/tap_payment_widget_ui?"+ self.objectToQueryString(options_object)+'&key='+key+'&'+ self.objectToQueryString(paymentOptions));
+              x.setAttribute("src", window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui?"+ self.objectToQueryString(options_object)+'&key='+key+'&'+ self.objectToQueryString(paymentOptions));
               this.card._iframe =  x;
               self.currencyCode = paymentOptions.currencyCode
               console.log('it is card', this.card);
