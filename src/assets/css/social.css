@@ -1,20 +1,22 @@
 .right-social-icon-container {
-    display: flex;
+    /* display: flex;
     justify-content: center;
     align-items: center;
     width: 70px;
-    height: 70px;
-    left: 0;
+    height: 70px; */
+    left: 25px;
+    top: 25px;
     position: absolute;
 }
 
 .left-social-icon-container {
-    display: flex;
+    /* display: flex;
     justify-content: center;
     align-items: center;
     width: 70px;
-    height: 70px;
-    right: 0;
+    height: 70px; */
+    right: 25px;
+    top: 25px;
     position: absolute;
 }
 
@@ -26,6 +28,10 @@
     height: 70px;
     left: 0;
     position: absolute;
+}
+
+.right-social-icon,.left-social-icon{
+  position: relative;
 }
 
 .tap-social .left-social-icon:hover .tap-social-info, .tap-social .right-social-icon:hover .tap-social-info{
