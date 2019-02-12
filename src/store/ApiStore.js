@@ -46,6 +46,9 @@ class ApiStore{
          self.RootStore.paymentStore.setThreeDSecure(data.permission.threeDSecure);
 
        }
+       else if(response.data.error || response.data.errors){
+           self.showError(response.data);
+       }
 
      })
      .catch(function (error) {
@@ -70,9 +73,9 @@ class ApiStore{
        console.log('public key', this.RootStore.configStore.gateway.publicKey);
        await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
          console.log('auth response from init ', result);
-         if(result.status !== 'success'){
-           self.RootStore.uIStore.showMsg('warning', result.errors[0].description, result.errors[0].code);
-         }
+           if(result.error || result.errors){
+             self.showError(result);
+           }
 
        });
      }
@@ -146,6 +149,27 @@ class ApiStore{
  //
  //  }
 
+ showError(json) {
+    var self = this;
+
+    if(json.errors){
+      self.RootStore.uIStore.showMsg('warning', json.errors[0].description, json.errors[0].code);
+    }
+    else if(json.error){
+      self.RootStore.uIStore.showMsg('warning', json.error.description, json.error.code);
+    }
+    else if(json.response){
+      self.RootStore.uIStore.showMsg('error', json.response.message, json.id);
+    }
+    else if(json.message){
+      self.RootStore.uIStore.showMsg('warning', json.message, json.code);
+    }
+    else {
+      self.RootStore.uIStore.showMsg('warning', 'Something went wrong!', null);
+    }
+
+  }
+
   async setPaymentOptions(){
     var self = this;
 
@@ -193,14 +217,23 @@ class ApiStore{
 
        if(response.data.code != 100){
          if(response.status == 200){
-           self.RootStore.paymentStore.getPaymentMethods(response.data, self.RootStore.configStore.order ? self.RootStore.configStore.order.currency : null);
+
+           if(response.data.error || response.data.errors){
+             self.showError(response.data);
+           }
+           else {
+             self.RootStore.paymentStore.getPaymentMethods(response.data, self.RootStore.configStore.order ? self.RootStore.configStore.order.currency : null);
+           }
+
          }
          else {
-            self.RootStore.uIStore.showMsg('warning', response.data.errors[0].description, response.data.errors[0].code);
+            // self.RootStore.uIStore.showMsg('warning', response.data.errors[0].description, response.data.errors[0].code);
+            self.showError(response.data);
          }
        }
        else {
-         self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
+         self.showError(response.data);
+         // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
        }
     })
     .catch(function (error) {
@@ -234,14 +267,23 @@ class ApiStore{
 
       if(response.data.code != 100){
         if(res.status == 200){
-          self.RootStore.merchantStore.setDetails(response.data);
+
+          if(response.data.error || response.data.errors){
+            self.showError(response.data);
+          }
+          else {
+            self.RootStore.merchantStore.setDetails(response.data);
+          }
+
         }
         else {
-           self.RootStore.uIStore.showMsg('warning', response.data.errors[0].description, response.data.errors[0].code);
+            // self.RootStore.uIStore.showMsg('warning', response.data.errors[0].description, response.data.errors[0].code);
+            self.showError(response.data);
         }
       }
       else {
-        self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
+        self.showError(response.data);
+        // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
       }
 
     })
@@ -270,17 +312,11 @@ class ApiStore{
              break;
          }
 
-         // if(result.status === 'success' && transaction.status == 200){
-         //   return await transaction;
-         // }
-         // else {
-         //   return await null;
-         // }
-
        }
        else {
-         //self.RootStore.uIStore.showMsg('warning', result.errors[0].description, result.errors[0].code);
-         console.log('error', result.errors[0]);
+         if(result.error || result.errors){
+           self.showError(result);
+         }
        }
 
      });
@@ -321,16 +357,18 @@ class ApiStore{
                   }
                 }
                 else {
-                  self.RootStore.uIStore.showMsg('error', chg.data.response.message, chg.data.id);
-                  console.log('charge id', chg.data.id);
+                  self.showError(chg.data);
+                  // self.RootStore.uIStore.showMsg('error', chg.data.response.message, chg.data.id);
+                  // console.log('charge id', chg.data.id);
                 }
             }
             else {
-              self.RootStore.uIStore.showMsg('error', chg.data.errors[0].description, null);
+                self.showError(chg.data);
             }
           }
           else {
-            self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
+            self.showError(chg.data);
+            // self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
           }
         });
         break;
@@ -364,17 +402,17 @@ class ApiStore{
                   }
                 }
                 else {
-                  self.RootStore.uIStore.showMsg('error', auth.data.response.message, null);
+                  // self.RootStore.uIStore.showMsg('error', auth.data.response.message, null);
+                  self.showError(auth.data);
                 }
             }
             else {
-              console.log('!= 200', auth.data);
-              self.RootStore.uIStore.showMsg('error', auth.data.errors[0].description, null);
-
+                self.showError(auth.data);
             }
           }
           else {
-            self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
+            self.showError(auth.data);
+            // self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
           }
 
         });
@@ -434,7 +472,8 @@ class ApiStore{
       console.log('type ==============> ', type);
 
       if(response.data.code == 100){
-        self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
+        self.showError(response.data);
+        // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
       }
 
     })
@@ -499,7 +538,8 @@ class ApiStore{
       console.log('authorize', res);
 
       if(response.data.code == 100){
-        self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
+        self.showError(response.data);
+        // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
       }
 
 
@@ -522,7 +562,8 @@ class ApiStore{
        await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
          console.log('auth response from getTransaction', result);
          if(result.status !== 'success'){
-           self.RootStore.uIStore.showMsg('warning', result.errors[0].description, result.errors[0].code);
+           self.showError(result);
+           // self.RootStore.uIStore.showMsg('warning', result.errors[0].description, result.errors[0].code);
          }
 
        });
@@ -553,7 +594,8 @@ class ApiStore{
           await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
             console.log('auth response from getTransactionResult', result);
             if(result.status !== 'success'){
-              self.RootStore.uIStore.showMsg('warning', result.errors[0].description, result.errors[0].code);
+              self.showError(result);
+              // self.RootStore.uIStore.showMsg('warning', result.errors[0].description, result.errors[0].code);
             }
 
           });
@@ -581,14 +623,16 @@ class ApiStore{
                         document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = charge.data.response.message;
                       }
                       else {
-                        self.RootStore.uIStore.showMsg('warning', charge.data.response.message, charge.data.id);
+                        self.showError(charge.data);
+                        // self.RootStore.uIStore.showMsg('warning', charge.data.response.message, charge.data.id);
                       }
 
                     }
               }
               else {
                 console.log('error', charge);
-                self.RootStore.uIStore.showMsg('error', charge.data.errors[0].description, null);
+                self.showError(charge.data);
+                // self.RootStore.uIStore.showMsg('error', charge.data.errors[0].description, null);
               }
             });
             break;
@@ -614,7 +658,8 @@ class ApiStore{
                       document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = auth.data.response.message;
                     }
                     else {
-                      self.RootStore.uIStore.showMsg('warning', auth.data.response.message, auth.data.id);
+                      self.showError(auth.data);
+                      // self.RootStore.uIStore.showMsg('warning', auth.data.response.message, auth.data.id);
                     }
 
                   }
@@ -622,7 +667,8 @@ class ApiStore{
               }
               else {
                 console.log('error', auth.data);
-                self.RootStore.uIStore.showMsg('error', auth.data.errors[0].description, null);
+                self.showError(auth.data);
+                // self.RootStore.uIStore.showMsg('error', auth.data.errors[0].description, null);
               }
             });
             break;
@@ -718,7 +764,8 @@ class ApiStore{
       res = response;
 
       if(response.data.code == 100){
-          self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
+        self.showError(response.data);
+          // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
       }
 
     })
@@ -750,7 +797,8 @@ class ApiStore{
       res = response;
 
       if(response.data.code == 100){
-         self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
+        self.showError(response.data);
+         // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
       }
     })
     .catch(function (error) {
@@ -794,7 +842,8 @@ class ApiStore{
         }
       }
       else {
-        self.RootStore.uIStore.showMsg('warning', res.message, res.code);
+        self.showError(response.data);
+        // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
       }
 
     })
@@ -857,7 +906,8 @@ class ApiStore{
          }
        }
        else {
-         self.RootStore.uIStore.showMsg('warning', res.message, res.code);
+         self.showError(response.data);
+         // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
        }
 
     })
@@ -900,7 +950,8 @@ class ApiStore{
           console.log('error', res);
         }
       }else{
-        self.RootStore.uIStore.showMsg('warning', res.message, res.code);
+        // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
+        self.showError(response.data);
       }
 
     })
@@ -959,7 +1010,8 @@ class ApiStore{
         }
       }
       else {
-        self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
+        self.showError(response.data);
+        // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
       }
 
     })
@@ -1015,7 +1067,8 @@ class ApiStore{
         }
       }
       else {
-        self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
+        self.showError(response.data);
+        // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
       }
 
     })
@@ -1080,12 +1133,14 @@ class ApiStore{
           // self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
           //
           // setTimeout(function(){
-            self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
+          self.showError(response.data);
+            // self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
           // }, 1000);
         }
       }
       else {
-        self.RootStore.uIStore.showMsg('warning', res.message, res.code);
+        self.showError(response.data);
+        // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
       }
 
     })
@@ -1144,20 +1199,24 @@ class ApiStore{
             self.RootStore.uIStore.showMsg('success', 'Authorized Transaction', res.id);
           }
           else {
-            if(res.errors){
-              self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
-            }
-            else {
-              self.RootStore.uIStore.showMsg('error', res.response.message, res.id);
-            }
+            // if(res.errors){
+            //   self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
+            // }
+            // else {
+            //   self.RootStore.uIStore.showMsg('error', res.response.message, res.id);
+            // }
+
+            self.showError(response.data);
           }
         }
         else {
           console.log('error', res);
-          self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
+          self.showError(response.data);
+          // self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
         }
       }else {
-        self.RootStore.uIStore.showMsg('warning', res.message, res.code);
+        self.showError(response.data);
+        // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
       }
     })
     .catch(function (error) {
@@ -1208,7 +1267,8 @@ class ApiStore{
             // self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
             //
             // setTimeout(function(){
-              self.RootStore.uIStore.showMsg('error', res.response.message, res.id);
+              // self.RootStore.uIStore.showMsg('error', res.response.message, res.id);
+              self.showError(response.data);
             // }, 1000);
 
           }else {
@@ -1227,11 +1287,13 @@ class ApiStore{
           // self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
           //
           // setTimeout(function(){
-            self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
+          self.showError(response.data);
+            // self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
           // }, 1000);
         }
       }else {
-        self.RootStore.uIStore.showMsg('warning', res.message, res.code);
+        self.showError(response.data);
+        // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
       }
 
     })

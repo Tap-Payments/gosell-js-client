@@ -187,7 +187,7 @@ class PaymentStore{
 
       console.log('array ???????????? ',Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0);
       console.log('supported', this.supported_currencies);
-      if(Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0){
+      if(this.supported_currencies && Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0){
         self.supported_currencies.forEach(function(cur){
 
           if(cur.currency === currency){
@@ -217,6 +217,7 @@ class PaymentStore{
 
     this.payment_methods = {};
     var config_payment_methods = this.RootStore.configStore.gateway.supportedPaymentMethods;
+    console.log('config_payment_methods', config_payment_methods);
 
     if(typeof config_payment_methods === 'object' || Array.isArray(config_payment_methods.slice())){
       self.payment_methods = value.filter(function(el){
@@ -227,6 +228,8 @@ class PaymentStore{
     else {
       self.payment_methods = value;
     }
+
+    console.log('value filter issue', value);
 
     self.payment_methods.filter(function(el){
       el.supported_currencies.forEach(function(cur){
@@ -307,8 +310,8 @@ class PaymentStore{
   get savedCardsByCurrency(){
     var self = this;
 
-    if((Array.isArray(this.cardPayments.slice()) && this.cardPayments.length > 0)
-      && (Array.isArray(this.customer_cards.slice()) && this.customer_cards.length > 0)){
+    if(this.cardPayments && (Array.isArray(this.cardPayments.slice()) && this.cardPayments.length > 0)
+      && this.customer_cards && (Array.isArray(this.customer_cards.slice()) && this.customer_cards.length > 0)){
       var arr = [];
       this.customer_cards.forEach(function(card){
         var curs = card.supported_currencies;

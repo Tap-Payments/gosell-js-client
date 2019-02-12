@@ -84,12 +84,12 @@ class FormStore{
       function _ensureHTTPS(key){
 
           if (window.location.protocol=='http:' && 0 === key.indexOf("pk_live")){
-           throw new Error("Live goSell integrations must use HTTPS. live public key implementations should use ssl implementation, while sandbox public key can be used over http protocol implementation.");
+           throw new Error("goSell integrations must use HTTPS.You're using live public key, which should be used with ssl certificate.");
           }
           var e = window.location.protocol,
           t = -1 !== ["https:", "file:"].indexOf(e),
           n = -1 !== ["localhost", "127.0.0.1", "0.0.0.0"].indexOf(window.location.hostname),
-          o = "Live Tapjsli.js integrations must use HTTPS.";
+          o = "Live goSell integrations must use HTTPS.";
           if (!t) {
               window.console && console.warn("You may test your goSell integration over HTTP. However, live goSell integrations must use HTTPS.")
           } else {
