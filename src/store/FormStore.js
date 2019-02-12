@@ -14,8 +14,6 @@ class FormStore{
     this._encryption_key = '';
     this.tds = '';
 
-    this.content_loaded = false;
-
     this.hide = null;
 
     this.checkFocus = this.checkFocus.bind(this);
@@ -412,6 +410,7 @@ class FormStore{
         console.log('loaded!!!!! ', event.loaded);
 
         if(self.RootStore.configStore.transaction_mode === 'get_token' || self.RootStore.configStore.transaction_mode === 'save_card'){
+          console.log('&& update the element height');
           self.RootStore.uIStore.calcElementsHeight('form-container');
         }
         else {
@@ -550,7 +549,6 @@ decorate(FormStore, {
   currencyCode:observable,
   tap:observable,
   card:observable,
-  content_loaded: observable
 });
 
 export default FormStore;
