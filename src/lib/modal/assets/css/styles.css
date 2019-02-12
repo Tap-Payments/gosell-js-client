@@ -4,9 +4,10 @@ body{
 
 .tap-payments-modal-open {
   overflow: hidden !important;
+  position: fixed;
 }
 
-.showModal{
+.tap-payments-showModal{
   z-index: 1000;
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -16,7 +17,7 @@ body{
   opacity: 0;
 }
 
-.hideModal{
+.tap-payments-hideModal{
   z-index: 1000;
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -26,7 +27,7 @@ body{
   opacity: 1;
 }
 
-.modal{
+.tap-payments-modal{
   z-index: 1000;
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -36,7 +37,7 @@ body{
   opacity: 1;
 }
 
-.animateUp{
+.tap-payments-animateUp{
   transform: translateY(0%);
   visibility: visible;
   -webkit-animation-name: modalSlideUp;
@@ -61,7 +62,7 @@ body{
   100% {opacity: 1; visibility: visible; transform: translateY(0%)}
 }
 
-.animateDown{
+.tap-payments-animateDown{
   transform: translateY(0%);
   visibility: visible;
   -webkit-animation-name: modalSlideDown;
@@ -300,7 +301,7 @@ body{
   /*margin: 16px 16px 0px 16px;*/
 }
 
-.btn_part{
+.tap-payments-btn-part{
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
@@ -319,16 +320,16 @@ body{
     outline: none;
 }
 
-.btn_part:hover{
+.tap-payments-btn-part:hover{
     cursor: pointer;
     opacity: 0.9;
 }
 
-.avatarContainer{
+.tap-payments-avatarContainer{
   margin: auto;
 }
 
-.avatar{
+.tap-payments-avatar{
   background-color: #4b4847;
   color: white;
   width: 100px;
@@ -337,14 +338,14 @@ body{
   margin: inherit;
 }
 
-.text{
+.tap-payments-text{
   z-index: 999;
   text-align: center;
   vertical-align: middle;
   line-height: 90px;
 }
 
-.circle_icon_wrapper{
+.tap-payments-circle_icon_wrapper{
   /*position: absolute;
   width: fit-content;
   top: 0;
@@ -384,7 +385,7 @@ body{
 
 }
 
-.circle_icon{
+.tap-payments-circle_icon{
     /*border-radius: 100%;
     background: #fff;
     border: 1px solid white;
@@ -405,7 +406,7 @@ body{
     display: flex;
 }
 
-.avatar_title{
+.tap-payments-avatar_title{
   /*  display: flex;
     align-items: center;
     justify-content: center;
@@ -420,15 +421,15 @@ body{
     font-weight: 100;
 }
 
-.circle_icon img{
+.tap-payments-circle_icon img{
     width: 100%;
 }
 
-.notification_bar{
+.tap-payments-notification-bar{
   display: none;
 }
 
-.notification_true{
+.tap-payments-notification-true{
   position: fixed;
   width: 100%;
   height: -webkit-fit-content;
@@ -472,7 +473,7 @@ body{
 }
 
 
-.close {
+.tap-payments-close {
     float: right;
     font-size: 21px;
     font-weight: 100;
@@ -482,30 +483,30 @@ body{
     /* filter: alpha(opacity=20); */
     opacity: .9;
 }
-a.close {
+a.tap-payments-close {
     text-decoration: none;
     font-size: 30px;
     line-height: 1.2;
     cursor: pointer;
 }
 
-a.close:hover {
+a.tap-payments-close:hover {
   opacity: 1;
 }
 
-.notification_bar .close {
+.tap-payments-notification-bar .tap-payments-close {
   position: absolute;
   padding: 0px 20px;
   line-height: 0;
 }
 
-.notification_title{
+.tap-payments-notification-title{
   padding: 10px 50px;
   margin: 0px;
   width: 100%;
 }
 
-.notification_false {
+.tap-payments-notification-false {
   position: fixed;
   width: 100%;
   height: -webkit-fit-content;
@@ -548,13 +549,13 @@ a.close:hover {
     100% {top:-50px;}
 }
 
-.tap-options{
+.tap-payments-options{
   padding: 0px 50px;
   display: flex;
   height: 100%;
 }
 
-.tap-option{
+.tap-payments-option{
   padding: 0 15px;
   /* text-decoration: underline; */
   font-weight: bold;
@@ -567,7 +568,7 @@ a.close:hover {
   font-size: 15px;
 }
 
-.tap-option:hover{
+.tap-payments-option:hover{
   background-color: rgba(255,255,255,0.20);
   border-left: .5px solid rgba(255,255,255,0.25);
   border-right: .5px solid rgba(255,255,255,0.25);
@@ -589,7 +590,7 @@ a.close:hover {
   }
 
 
-  .showModal, .modal{
+  .tap-payments-showModal, .tap-payments-modal{
     width: 90% !important;
     height: 90%;
     position: absolute;
@@ -600,7 +601,7 @@ a.close:hover {
     margin: auto;
   }
 
-  .hideModal, .modal{
+  .tap-payments-hideModal, .tap-payments-modal{
     width: 100% !important;
   }
 
@@ -616,20 +617,20 @@ a.close:hover {
     width: 90%;
   }
 
-  .btn_part{
+  .tap-payments-btn-part{
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     width: 90%;
   }
 
-  .notification_title{
+  .tap-payments-notification-title{
     padding: 10px 50px;
     margin: 0px;
     width: 90%;
   }
 
-  .tap-options{
+  .tap-payments-options{
     padding: 10px 20px;
   }
 

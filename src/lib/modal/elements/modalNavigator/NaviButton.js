@@ -33,28 +33,28 @@ class NaviButton extends Component{
 
     return(
       <div
-        className='navi-placeholder'
+        className='tap-payments-navi-placeholder'
         style={typeSwitch?{right:'0px'}:{left:'0px'}}
         >
         <div
-          id={typeSwitch?'next-area':'back-area'}
+          id={typeSwitch?'tap-payments-next-area':'tap-payments-back-area'}
           onMouseEnter={this.areaMouseEnterHandler}
           onMouseLeave={this.areaMouseLeaveHandler}
           className={this.state.areaMouseEnter?"expand":""}>
         </div>
         <div
           className={this.state.areaMouseEnter?"fadeOut":""}
-          id={typeSwitch?'next-button-background':'back-button-background'}
+          id={typeSwitch?'tap-payments-next-button-background':'tap-payments-back-button-background'}
           >
           <img
-            className={typeSwitch?'navi-img-next':'navi-img-back'}
+            className={typeSwitch?'tap-payments-navi-img-next':'tap-payments-navi-img-back'}
             src={ typeSwitch ? arrowReverse : arrow }/>
         </div>
         <button
           onClick={this.props.onClick}
           onMouseEnter={this.areaMouseEnterHandler}
           onMouseLeave={this.areaMouseLeaveHandler}
-          id={typeSwitch?'next-button':'back-button'}
+          id={typeSwitch?'tap-payments-next-button':'tap-payments-back-button'}
           className={this.state.areaMouseEnter?"fadeOut":""}>
         </button>
       </div>

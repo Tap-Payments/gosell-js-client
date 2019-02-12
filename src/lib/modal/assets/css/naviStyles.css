@@ -1,10 +1,10 @@
-.navi-placeholder{
+.tap-payments-navi-placeholder{
   height:100%;
   position: absolute;
   top:0;
 }
 
-#back-button {
+#tap-payments-back-button {
   -webkit-transition: all 300ms linear;
   transition: all 300ms linear;
   -webkit-transition-property: left, right;
@@ -28,13 +28,13 @@
   left:0;
 }
 
-#back-button.fadeOut{
+#tap-payments-back-button.fadeOut{
   display: inline;
   left:-45px;
 
 }
 
-#back-button-background{
+#tap-payments-back-button-background{
   -webkit-transition: all 300ms linear;
   transition: all 300ms linear;
   -webkit-transition-property: left, right;
@@ -69,11 +69,11 @@
   direction: ltr;
 }
 
-#back-button-background.fadeOut{
+#tap-payments-back-button-background.fadeOut{
   left:-45px;
 }
 
-#back-area{
+#tap-payments-back-area{
   -webkit-transition: all 300ms linear;
   transition: all 300ms linear;
   -webkit-transition-property: left, right, width,opacity;
@@ -86,13 +86,13 @@
   left: -10px;
 }
 
-#back-area.expand{
+#tap-payments-back-area.expand{
   /* background-color: red; */
   width:60px!important;
   left:-50px;
 }
 
-#next-button {
+#tap-payments-next-button {
   -webkit-transition: all 300ms linear;
   transition: all 300ms linear;
   -webkit-transition-property: left, right;
@@ -116,12 +116,12 @@
   right:0;
 }
 
-#next-button.fadeOut{
+#tap-payments-next-button.fadeOut{
   display: inline;
   right:-45px;
 }
 
-#next-button-background{
+#tap-payments-next-button-background{
   -webkit-transition: all 300ms linear;
   transition: all 300ms linear;
   -webkit-transition-property: left, right;
@@ -156,11 +156,11 @@
   direction: rtl;
 }
 
-#next-button-background.fadeOut{
+#tap-payments-next-button-background.fadeOut{
   right:-45px;
 }
 
-#next-area{
+#tap-payments-next-area{
   -webkit-transition: all 300ms linear;
   transition: all 300ms linear;
   -webkit-transition-property: left, right, width,opacity;
@@ -174,35 +174,35 @@
   right: -10px;
 }
 
-#next-area.expand{
+#tap-payments-next-area.expand{
   /* background-color: red; */
   width:60px!important;
   right:-50px;
 }
 
-.navi-img-back{
+.tap-payments-navi-img-back{
   position: relative;
   left:18px;
 }
 
-.navi-img-next{
+.tap-payments-navi-img-next{
   position: relative;
   right:18px;
 }
 
 @media(max-width: 440px){
 
-  #back-button-background{
+  #tap-payments-back-button-background{
     width: 40px;
     left: 10px;
     z-index: 999;
   }
 
-  #back-button-background.fadeOut {
+  #tap-payments-back-button-background.fadeOut {
       left: 10px;
   }
 
-  #back-button{
+  #tap-payments-back-button{
     width: 40px;
     left: 10px;
     z-index: 999;
@@ -210,22 +210,22 @@
     display: block;
   }
 
-  #back-button.fadeOut {
+  #tap-payments-back-button.fadeOut {
       left:10px;
       z-index: 999;
   }
 
-  #next-button-background{
+  #tap-payments-next-button-background{
     width: 40px;
     right: 10px;
     z-index: 999;
   }
 
-  #next-button-background.fadeOut {
+  #tap-payments-next-button-background.fadeOut {
       right: 10px;
   }
 
-  #next-button{
+  #tap-payments-next-button{
     width: 40px;
     right: 10px;
     z-index: 999;
@@ -233,7 +233,7 @@
     display: block;
   }
 
-  #next-button.fadeOut {
+  #tap-payments-next-button.fadeOut {
       right:10px;
       z-index: 999;
   }
