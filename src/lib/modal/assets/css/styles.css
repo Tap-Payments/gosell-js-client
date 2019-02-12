@@ -556,7 +556,7 @@ a.tap-payments-close:hover {
 }
 
 .tap-payments-option{
-  padding: 0 15px;
+  padding: 0 10px;
   /* text-decoration: underline; */
   font-weight: bold;
   cursor: pointer;
@@ -564,7 +564,7 @@ a.tap-payments-close:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 50px;
+  min-width: 20px;
   font-size: 15px;
 }
 
@@ -625,13 +625,13 @@ a.tap-payments-close:hover {
   }
 
   .tap-payments-notification-title{
-    padding: 10px 10px;
+    padding: 10px 20px;
     margin: 0px;
     width: 90%;
   }
 
   .tap-payments-options{
-    padding: 10px 10px;
+    padding: 0px 10px;
   }
 
   .tap-payments-page-bg-img{
