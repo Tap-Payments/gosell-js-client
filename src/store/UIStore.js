@@ -471,12 +471,17 @@ class UIStore {
     if(!value){
       this.shake_cards = false;
       this.edit_customer_cards = 'Edit';
+
     }
     else {
       this.shake_cards = true;
       this.errorHandler = {};
       this.edit_customer_cards = 'Cancel';
+      if(this.getSubPage === 1 || this.getSubPage === 0){
+        this.setSubPage(-1);
+      }
     }
+
 
     this.RootStore.paymentStore.selected_card = null;
   }
@@ -537,11 +542,13 @@ class UIStore {
   closeNotification(){
     var self = this;
 
-    this.errorHandler.visable = false;
-    setTimeout(function(){
-      self.errorHandler = {};
-    }, 500);
-
+    if(self.delete_card === null) {
+      this.errorHandler.visable = false;
+      setTimeout(function(){
+        self.errorHandler = {};
+      },
+      500);
+    }
   }
 
   computed
@@ -587,15 +594,12 @@ class UIStore {
   }
 
   setErrorHandler(value){
-    console.log(this.delete_card,"342345234sfgsdfbsdfg3w4$@#$%#@$%@#$@$#");
     var self = this;
     this.errorHandler = value;
 
-    if(this.delete_card === null || this.detete_card !== false) {
       setTimeout(function(){
         self.closeNotification();
       }, 5000);
-    }
   }
 
   warningHandler(){
