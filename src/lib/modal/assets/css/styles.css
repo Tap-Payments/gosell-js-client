@@ -4,6 +4,7 @@ body{
 
 .tap-payments-modal-open {
   overflow: hidden !important;
+  position: fixed;
 }
 
 .tap-payments-showModal{
