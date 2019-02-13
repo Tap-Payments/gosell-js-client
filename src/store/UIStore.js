@@ -554,7 +554,7 @@ class UIStore {
   computed
   get generateCustomNotification(){
 
-   console.log('notifications >>>>>>>>>>>>', this.RootStore.configStore.notifications);
+   // console.log('notifications >>>>>>>>>>>>', this.RootStore.configStore.notifications);
 
     if(this.RootStore.configStore.notifications !== 'standard' && !this.getErrorHandler.options){
         console.log('id', this.RootStore.configStore.notifications);
