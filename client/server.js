@@ -148,7 +148,11 @@ app.post('/init', (req, res) => {
               if(error) {
                 res.send(error);
               }
-              // console.log('response', response.body);
+              // console.log(
+              //   "%c/response",
+              //   "background: blue; color: white; display: block;"
+              // );
+              // console.log(response.body);
               res.send(response.body);
             });
           }
@@ -163,7 +167,12 @@ app.post('/init', (req, res) => {
                 if(error) {
                   res.send(error);
                 }
-                // console.log('response', response.body);
+
+              // console.log(
+              //   "%c/response",
+              //   "background: blue; color: white; display: block;"
+              // );
+              // console.log(response.body);
                 res.send(response.body);
               });
             }
@@ -180,9 +189,13 @@ app.post('/init', (req, res) => {
                 if(error) {
                   res.send(error);
                 }
-                // console.log('response', response.body);
+
+              // console.log(
+              //   "%c/response",
+              //   "background: blue; color: white; display: block;"
+              // );
+              // console.log(response.body);
                 res.send(response.body);
-                // console.log(response);
               });
 
             }
@@ -197,7 +210,12 @@ app.post('/init', (req, res) => {
                   if(error) {
                     res.send(error);
                   }
-                  // console.log('response', response.body);
+
+                // console.log(
+                //   "%c/response",
+                //   "background: blue; color: white; display: block;"
+                // );
+                // console.log(response.body);
                   res.send(response.body);
                 });
               }
