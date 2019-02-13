@@ -163,12 +163,14 @@ class GoSell extends Component {
     if(window.innerWidth <= 823 && device === 'phone'){
       RootStore.uIStore.setIsMobile(true);
       RootStore.uIStore.setSubPage(-1);
-      this.handleUI();
+      // this.handleUI();
+      RootStore.uIStore.calcModalHeight();
     }
     else {
       RootStore.uIStore.setIsMobile(false);
       RootStore.uIStore.setPageIndex(0, 'x');
-      this.handleUI();
+      // this.handleUI();
+      RootStore.uIStore.calcModalHeight();
     }
 
 
@@ -186,6 +188,9 @@ class GoSell extends Component {
       RootStore.uIStore.setOpenModal(false);
       RootStore.uIStore.getErrorHandler.visable = false;
       RootStore.uIStore.startLoading('loader', 'Please Wait');
+
+      //reset all data in the config store
+      // RootStore.configStore.setConfig(null, 'GOSELL');
 
       var body =  document.body.children;
 

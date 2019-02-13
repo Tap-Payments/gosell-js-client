@@ -447,25 +447,65 @@ class PaymentStore{
     // });
   }
 
+  // sort(){
+  //
+  //   this.webPayments = [];
+  //   this.cardPayments = [];
+  //   if(Array.isArray(this.payment_methods.slice())){
+  //     var self = this;
+  //
+  //     this.payment_methods.forEach(function(method) {
+  //       if(method.payment_type === 'web'){
+  //         self.webPayments.push(method);
+  //         //self.charge(method.source_id);
+  //       }
+  //
+  //       if(method.payment_type === 'card'){
+  //         self.cardPayments.push(method);
+  //       }
+  //
+  //     });
+  //
+  //   }
+  //
+  // }
+
   sort(){
 
     this.webPayments = [];
     this.cardPayments = [];
-    if(Array.isArray(this.payment_methods.slice())){
+
+    if(this.payment_methods && this.payment_methods.slice().length > 0){
+
+      // console.log('**** in sort payment methods', this.payment_methods);
       var self = this;
 
-      this.payment_methods.forEach(function(method) {
-        if(method.payment_type === 'web'){
-          self.webPayments.push(method);
-          //self.charge(method.source_id);
+      this.payment_methods = this.payment_methods.slice();
+
+      var method = null;
+
+      for(var i = 0; i < this.payment_methods.length; i++){
+        method = this.payment_methods[i];
+
+        // console.log('**** method', method);
+        // console.log('**** method', method.payment_type);
+
+        try{
+          if(method.payment_type == 'web'){
+            this.webPayments.push(method);
+
+          } else if(method.payment_type == 'card'){
+            this.cardPayments.push(method);
+          }
+        }
+        catch(err) {
+          console.log('error', err)
         }
 
-        if(method.payment_type === 'card'){
-          self.cardPayments.push(method);
-        }
+        // console.log('**** web payments', this.webPayments);
+        // console.log('**** card payments', this.cardPayments);
 
-      });
-
+      }
     }
 
   }

@@ -303,6 +303,7 @@ class FormStore{
        paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
        TextDirection: this.RootStore.uIStore.getDir
      }
+     console.log('&& gosell elements', this.RootStore.paymentStore.currencies);
     }
     else {
       if(this.RootStore.configStore.transaction_mode === 'get_token' || this.RootStore.configStore.transaction_mode === 'save_card'){
@@ -312,6 +313,8 @@ class FormStore{
            paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
            TextDirection: this.RootStore.uIStore.getDir
          }
+
+         console.log('&& save card', this.RootStore.paymentStore.currencies);
       }
       else {
          paymentOptions = {
@@ -320,6 +323,8 @@ class FormStore{
           paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
           TextDirection: this.RootStore.uIStore.getDir
         }
+
+        console.log('&& else', [this.RootStore.paymentStore.current_currency.currency]);
       }
     }
 

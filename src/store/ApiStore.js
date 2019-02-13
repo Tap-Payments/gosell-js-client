@@ -84,11 +84,13 @@ class ApiStore{
       merchant = await self.getMerchantDetails();
       payment = await self.setPaymentOptions();
 
+      console.log('**** merchant', merchant);
+      console.log('**** payment', payment);
+
       if(payment.status == 200 && merchant.status == 200){
         this.RootStore.uIStore.stopLoading();
         return await payment;
       }
-
 
    }
 
@@ -211,10 +213,10 @@ class ApiStore{
 
     var res = null, data = null;
     await axios.post(Paths.serverPath +'/api', body)
-    .then(function (response) {
+    .then(async function (response) {
 
        res = response;
-       console.log('options API', res);
+       console.log('**** options API', res);
 
        if(response.data.code != 100){
          if(response.status == 200){
@@ -223,7 +225,9 @@ class ApiStore{
              self.showError(response.data);
            }
            else {
-             self.RootStore.paymentStore.getPaymentMethods(response.data, self.RootStore.configStore.order ? self.RootStore.configStore.order.currency : null);
+             console.log('****', 'hey Im in else');
+             await self.RootStore.paymentStore.getPaymentMethods(response.data, self.RootStore.configStore.order ? self.RootStore.configStore.order.currency : null);
+             console.log('****', 'hey Im in else');
            }
 
          }
@@ -261,10 +265,10 @@ class ApiStore{
     var res = null;
 
     await axios.post(Paths.serverPath +'/api', body)
-    .then(function (response) {
+    .then(async function (response) {
 
       res = response;
-      console.log('merchant API', res);
+      console.log('**** merchant API', res);
 
       if(response.data.code != 100){
         if(res.status == 200){
@@ -273,13 +277,13 @@ class ApiStore{
             self.showError(response.data);
           }
           else {
-            self.RootStore.merchantStore.setDetails(response.data);
+            await self.RootStore.merchantStore.setDetails(response.data);
           }
 
         }
         else {
             // self.RootStore.uIStore.showMsg('warning', response.data.errors[0].description, response.data.errors[0].code);
-            self.showError(response.data);
+            await self.showError(response.data);
         }
       }
       else {
