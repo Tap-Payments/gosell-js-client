@@ -187,7 +187,7 @@ class PaymentStore{
 
       console.log('array ???????????? ',Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0);
       console.log('supported', this.supported_currencies);
-      if(Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0){
+      if(this.supported_currencies && Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0){
         self.supported_currencies.forEach(function(cur){
 
           if(cur.currency === currency){
@@ -217,6 +217,7 @@ class PaymentStore{
 
     this.payment_methods = {};
     var config_payment_methods = this.RootStore.configStore.gateway.supportedPaymentMethods;
+    console.log('config_payment_methods', config_payment_methods);
 
     if(typeof config_payment_methods === 'object' || Array.isArray(config_payment_methods.slice())){
       self.payment_methods = value.filter(function(el){
@@ -227,6 +228,8 @@ class PaymentStore{
     else {
       self.payment_methods = value;
     }
+
+    console.log('value filter issue', value);
 
     self.payment_methods.filter(function(el){
       el.supported_currencies.forEach(function(cur){
@@ -307,8 +310,8 @@ class PaymentStore{
   get savedCardsByCurrency(){
     var self = this;
 
-    if((Array.isArray(this.cardPayments.slice()) && this.cardPayments.length > 0)
-      && (Array.isArray(this.customer_cards.slice()) && this.customer_cards.length > 0)){
+    if(this.cardPayments && (Array.isArray(this.cardPayments.slice()) && this.cardPayments.length > 0)
+      && this.customer_cards && (Array.isArray(this.customer_cards.slice()) && this.customer_cards.length > 0)){
       var arr = [];
       this.customer_cards.forEach(function(card){
         var curs = card.supported_currencies;
@@ -444,25 +447,65 @@ class PaymentStore{
     // });
   }
 
+  // sort(){
+  //
+  //   this.webPayments = [];
+  //   this.cardPayments = [];
+  //   if(Array.isArray(this.payment_methods.slice())){
+  //     var self = this;
+  //
+  //     this.payment_methods.forEach(function(method) {
+  //       if(method.payment_type === 'web'){
+  //         self.webPayments.push(method);
+  //         //self.charge(method.source_id);
+  //       }
+  //
+  //       if(method.payment_type === 'card'){
+  //         self.cardPayments.push(method);
+  //       }
+  //
+  //     });
+  //
+  //   }
+  //
+  // }
+
   sort(){
 
     this.webPayments = [];
     this.cardPayments = [];
-    if(Array.isArray(this.payment_methods.slice())){
+
+    if(this.payment_methods && this.payment_methods.slice().length > 0){
+
+      // console.log('**** in sort payment methods', this.payment_methods);
       var self = this;
 
-      this.payment_methods.forEach(function(method) {
-        if(method.payment_type === 'web'){
-          self.webPayments.push(method);
-          //self.charge(method.source_id);
+      this.payment_methods = this.payment_methods.slice();
+
+      var method = null;
+
+      for(var i = 0; i < this.payment_methods.length; i++){
+        method = this.payment_methods[i];
+
+        // console.log('**** method', method);
+        // console.log('**** method', method.payment_type);
+
+        try{
+          if(method.payment_type == 'web'){
+            this.webPayments.push(method);
+
+          } else if(method.payment_type == 'card'){
+            this.cardPayments.push(method);
+          }
+        }
+        catch(err) {
+          console.log('error', err)
         }
 
-        if(method.payment_type === 'card'){
-          self.cardPayments.push(method);
-        }
+        // console.log('**** web payments', this.webPayments);
+        // console.log('**** card payments', this.cardPayments);
 
-      });
-
+      }
     }
 
   }

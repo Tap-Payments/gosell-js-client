@@ -95,12 +95,15 @@ class GoSell extends Component {
     var tap_id = null;
 
     if(urlParams.has('tap_id')){
-      GoSell.handleView();
-      tap_id = urlParams.get('tap_id');
-      console.log('tap_id', tap_id);
-      RootStore.apiStore.getTransactionResult(tap_id).then(result => {
-        console.log('init response', result);
-        console.log('url', RootStore.configStore.redirect_url);
+
+      RootStore.configStore.configure().then(result => {
+        GoSell.handleView();
+        tap_id = urlParams.get('tap_id');
+        console.log('tap_id', tap_id);
+        RootStore.apiStore.getTransactionResult(tap_id).then(result => {
+          console.log('init response', result);
+          console.log('url', RootStore.configStore.redirect_url);
+        });
       });
 
       return true;
@@ -138,9 +141,7 @@ class GoSell extends Component {
 
   componentDidMount() {
 
-    // RootStore.configStore.configure().then(result => {
-    //     GoSell.showTranxResult();
-    // });
+    GoSell.showTranxResult();
 
     RootStore.uIStore.calcModalHeight();
     window.addEventListener('resize', RootStore.uIStore.calcModalHeight());
@@ -162,12 +163,14 @@ class GoSell extends Component {
     if(window.innerWidth <= 823 && device === 'phone'){
       RootStore.uIStore.setIsMobile(true);
       RootStore.uIStore.setSubPage(-1);
-      this.handleUI();
+      // this.handleUI();
+      RootStore.uIStore.calcModalHeight();
     }
     else {
       RootStore.uIStore.setIsMobile(false);
       RootStore.uIStore.setPageIndex(0, 'x');
-      this.handleUI();
+      // this.handleUI();
+      RootStore.uIStore.calcModalHeight();
     }
 
 
@@ -185,6 +188,9 @@ class GoSell extends Component {
       RootStore.uIStore.setOpenModal(false);
       RootStore.uIStore.getErrorHandler.visable = false;
       RootStore.uIStore.startLoading('loader', 'Please Wait');
+
+      //reset all data in the config store
+      // RootStore.configStore.setConfig(null, 'GOSELL');
 
       var body =  document.body.children;
 

@@ -65,13 +65,22 @@ class ConfigStore {
   }
 
   setConfig(value, view){
-    this.config = value;
-    this.view = view;
+      console.log('set setConfig');
+      this.config = value;
+      this.view = view;
   }
 
   async configure(){
     var self = this;
     var value = this.config;
+
+    console.log('public key',  value.gateway.publicKey);
+    if(window.location.protocol=='http:' && value.gateway.publicKey.indexOf("pk_live") == 0){
+      console.log('error setConfig');
+      this.RootStore.uIStore.showMsg('warning', 'goSell integrations must use HTTPS.', "You're using live public key, which should be used with ssl certificate.");
+      this.legalConfig = false;
+    }
+    else {
 
     if(value.gateway){
       if(value.gateway != null){
@@ -181,6 +190,7 @@ class ConfigStore {
         this.legalConfig = false;
       }
     }
+  }
 
     console.log('transaction_mode', this.transaction_mode);
 
