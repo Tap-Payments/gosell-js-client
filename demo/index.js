@@ -11,9 +11,9 @@ import Main from './Main';
 ReactDOM.render(
   <Router>
     <div>
-      <Route exact path="/open-light-box-demo" component={OpenLightBox} />
+      <Route path="/open-light-box-demo" component={OpenLightBox} />
       <Route path="/open-page-demo" component={OpenPaymentPage} />
-      <Route exact path="/gateway" component={GoSellPaymentGateway} />
+      <Route path="/gateway" component={GoSellPaymentGateway} />
       <Route path="/demo" component={GoSellDemo} />
       <Route path="/elements-demo" component={GoSellElementsDemo} />
       <Route exact path="/" component={Main} />
