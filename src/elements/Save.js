@@ -50,8 +50,8 @@ class Save extends Component {
 
     if(this.props.store.uIStore.mainHeight == 0){
       this.props.store.uIStore.calcElementsHeight('form-container');
-      console.log('content loaded? ', this.props.store.formStore.content_loaded);
-      console.log('Height didupdate', this.props.store.uIStore.mainHeight);
+      // console.log('content loaded? ', this.props.store.formStore.content_loaded);
+      // console.log('Height didupdate', this.props.store.uIStore.mainHeight);
     }
 
   }

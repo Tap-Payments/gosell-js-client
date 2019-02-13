@@ -130,7 +130,7 @@ class GoSell extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.handleWindowSizeChange();
-    console.log('nextProps', nextProps);
+    // console.log('nextProps', nextProps);
     this.config(nextProps);
   }
 

@@ -121,7 +121,7 @@ class FormStore{
       self.createToken = function(card,result){
 
           if(self.lock==true){
-              console.log('wait')
+              //console.log('wait')
               return;
           }
 
@@ -146,7 +146,7 @@ class FormStore{
                     var i_obj = iframe_obj.getAttribute('src');
 
                     if (0 === i_obj.indexOf(e.origin)){
-                        //console.log(e.data);
+                        ////console.log(e.data);
                         if(e.data.error){
                             self.lock = false;
                             resolve(e.data)
@@ -215,7 +215,7 @@ class FormStore{
 
 
               window.addEventListener('message', receiver, false);
-              //console.log(this)
+              ////console.log(this)
               if(this.card){
                 var iframe_obj = this.card._iframe;
               }
@@ -226,8 +226,8 @@ class FormStore{
               function receiver(e) {
                   //if (0 === self.card._iframe.src.indexOf(e.origin)){
                   if (0 === iframe_obj.src.indexOf(e.origin)){
-                      /*console.log("received in js library");
-                      console.log(e.data);*/
+                      /*//console.log("received in js library");
+                      //console.log(e.data);*/
                       if(e.data.layout){
                           var iframeWin = document.getElementById("myFrame");
                           //iframeWin.setAttribute("height","140px");
@@ -237,7 +237,7 @@ class FormStore{
                               var iframeWin = document.getElementById("myFrame").contentWindow;
                               iframeWin.postMessage({'action':'client_ip','key':self._apiKey,'client_ip':details.ip}, window.location.protocol+"//"+frameurl+"/tap_payment_widget");
                           });
-                          //console.log(e.data.layout.height);
+                          ////console.log(e.data.layout.height);
                           //iframeWin.setAttribute("height",e.data.layout.height)
                       }
                       if(e.data.success==true && e.data.BIN && e.data.type!='token'){
@@ -256,8 +256,8 @@ class FormStore{
 
               this.card.type= type;
 
-              console.log('type', type);
-              console.log('self.card', this.card);
+              //console.log('type', type);
+              //console.log('self.card', this.card);
               var x = document.createElement("IFRAME");
               x.setAttribute("id",'myFrame');
               x.setAttribute("name",'myFrame');
@@ -265,14 +265,14 @@ class FormStore{
               x.setAttribute("allowpaymentrequest",'true');
               //below line disables javascript in iframe
               //x.setAttribute("security",'restricted');
-              //console.log(objectToQueryString(options_object));
+              ////console.log(objectToQueryString(options_object));
 
               x.setAttribute("style",'border: none !important;margin: 0px !important;padding: 0px !important;min-width: 100% !important;overflow: hidden !important;display: block !important;');
 
               x.setAttribute("src", window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui?"+ self.objectToQueryString(options_object)+'&key='+key+'&'+ self.objectToQueryString(paymentOptions));
               this.card._iframe =  x;
               self.currencyCode = paymentOptions.currencyCode
-              console.log('it is card', this.card);
+              //console.log('it is card', this.card);
               return this.card;
           }
           this.elements.options = options;
@@ -294,7 +294,7 @@ class FormStore{
 
     var paymentOptions = {};
 
-    console.log('current currency', this.RootStore.paymentStore.current_currency);
+    //console.log('current currency', this.RootStore.paymentStore.current_currency);
 
     if(self.RootStore.configStore.view === 'GOSELL_ELEMENTS'){
       paymentOptions = {
@@ -303,7 +303,7 @@ class FormStore{
        paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
        TextDirection: this.RootStore.uIStore.getDir
      }
-     console.log('&& gosell elements', this.RootStore.paymentStore.currencies);
+     //console.log('&& gosell elements', this.RootStore.paymentStore.currencies);
     }
     else {
       if(this.RootStore.configStore.transaction_mode === 'get_token' || this.RootStore.configStore.transaction_mode === 'save_card'){
@@ -314,7 +314,7 @@ class FormStore{
            TextDirection: this.RootStore.uIStore.getDir
          }
 
-         console.log('&& save card', this.RootStore.paymentStore.currencies);
+         //console.log('&& save card', this.RootStore.paymentStore.currencies);
       }
       else {
          paymentOptions = {
@@ -324,7 +324,7 @@ class FormStore{
           TextDirection: this.RootStore.uIStore.getDir
         }
 
-        console.log('&& else', [this.RootStore.paymentStore.current_currency.currency]);
+        //console.log('&& else', [this.RootStore.paymentStore.current_currency.currency]);
       }
     }
 
@@ -335,7 +335,7 @@ class FormStore{
     var active_brand = null;
 
     this.card.addEventListener('change', function(event) {
-      console.log('event', event);
+      //console.log('event', event);
 
       if(event.code == 200){
         self.RootStore.paymentStore.save_card_active = true;
@@ -344,15 +344,14 @@ class FormStore{
 
         var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.current_currency.symbol + self.RootStore.uIStore.formatNumber(self.RootStore.paymentStore.active_payment_option_total_amount.toFixed(self.RootStore.paymentStore.current_currency.decimal_digit)) : '';
 
-        console.log('form total', total);
+        //console.log('form total', total);
         self.RootStore.uIStore.goSellBtn({
           title: self.RootStore.configStore.btn + ' ' + total,
           color: '#2ACE00',
-          active: true,
-          loader: false
+          active: true
         });
 
-        console.log('I am in success');
+        //console.log('I am in success');
 
         if(self.RootStore.configStore.transaction_mode === 'save_card'){
           self.RootStore.paymentStore.saveCardOption(true);
@@ -374,7 +373,7 @@ class FormStore{
             loader: false
           });
 
-          console.log('I am in error');
+          //console.log('I am in error');
           if(event.error_interactive){
             self.RootStore.uIStore.setErrorHandler({
               visable: true,
@@ -405,21 +404,22 @@ class FormStore{
       }
 
       if(event.BIN && event.BIN.card_brand !== active_brand){
-          console.log(event.BIN.card_brand);
+          //console.log(event.BIN.card_brand);
 
           if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
             self.RootStore.paymentStore.getFees(event.BIN.card_brand);
+
           }
 
-          console.log(active_brand, event.BIN);
+          //console.log(active_brand, event.BIN);
           active_brand = event.BIN.card_brand;
       }
 
       if(event.loaded){
-        console.log('loaded!!!!! ', event.loaded);
+        //console.log('loaded!!!!! ', event.loaded);
 
         if(self.RootStore.configStore.transaction_mode === 'get_token' || self.RootStore.configStore.transaction_mode === 'save_card'){
-          console.log('&& update the element height');
+          //console.log('&& update the element height');
           self.RootStore.uIStore.calcElementsHeight('form-container');
         }
         else {
@@ -441,7 +441,7 @@ class FormStore{
         if(document.activeElement == isfocused) {
           if(statusFocus != false){
               statusFocus=false;
-              //console.log('in focus');
+              ////console.log('in focus');
               // if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
                 self.cardFormHandleClick();
               // }
@@ -485,6 +485,8 @@ class FormStore{
 
        //form is active
        this.RootStore.uIStore.setIsActive('FORM');
+
+
     }
 
    }
@@ -518,10 +520,10 @@ class FormStore{
                }
 
                self.RootStore.uIStore.setIsActive('FORM');
-               console.log('result ----> ', result);
+               //console.log('result ----> ', result);
                self.RootStore.paymentStore.source_id = result.id;
                self.RootStore.paymentStore.active_payment_option = result.card;
-               console.log('card details', result.card);
+               //console.log('card details', result.card);
                self.RootStore.uIStore.stopBtnLoader();
                self.clearCardForm();
 
@@ -544,10 +546,10 @@ class FormStore{
    }
 
    switchCurrency(value){
-     console.log('switch currencies', value);
+     //console.log('switch currencies', value);
      var currency = value.currency;
      var v = [currency];
-     console.log('switcher', v);
+     //console.log('switcher', v);
      this.card.currency(v);
    }
 
