@@ -95,12 +95,15 @@ class GoSell extends Component {
     var tap_id = null;
 
     if(urlParams.has('tap_id')){
-      GoSell.handleView();
-      tap_id = urlParams.get('tap_id');
-      console.log('tap_id', tap_id);
-      RootStore.apiStore.getTransactionResult(tap_id).then(result => {
-        console.log('init response', result);
-        console.log('url', RootStore.configStore.redirect_url);
+
+      RootStore.configStore.configure().then(result => {
+        GoSell.handleView();
+        tap_id = urlParams.get('tap_id');
+        console.log('tap_id', tap_id);
+        RootStore.apiStore.getTransactionResult(tap_id).then(result => {
+          console.log('init response', result);
+          console.log('url', RootStore.configStore.redirect_url);
+        });
       });
 
       return true;
@@ -138,9 +141,7 @@ class GoSell extends Component {
 
   componentDidMount() {
 
-    // RootStore.configStore.configure().then(result => {
-    //     GoSell.showTranxResult();
-    // });
+    GoSell.showTranxResult();
 
     RootStore.uIStore.calcModalHeight();
     window.addEventListener('resize', RootStore.uIStore.calcModalHeight());
