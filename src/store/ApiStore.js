@@ -52,6 +52,7 @@ class ApiStore{
 
      })
      .catch(function (error) {
+       self.showError(error);
        console.log(error);
      });
 
