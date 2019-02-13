@@ -42,7 +42,7 @@ class ActionStore {
     this.RootStore.paymentStore.active_payment_option_total_amount = 0;
     this.RootStore.paymentStore.active_payment_option_fees = 0;
 
-
+    this.RootStore.uIStore.shakeCards(false);
     // this.RootStore.uIStore.goSellBtn({
     //   title: this.RootStore.configStore.btn,
     //   active: false,
@@ -55,7 +55,7 @@ class ActionStore {
       if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
         this.RootStore.uIStore.warningHandler();
       }
-      else {
+      else if(this.RootStore.uIStore.delete_card === null){
         if(this.slideEnded){
           this.waitTillSlideEndes();
           if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
@@ -114,7 +114,7 @@ class ActionStore {
       if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
         this.RootStore.uIStore.warningHandler();
       }
-      else {
+      else if(this.RootStore.uIStore.delete_card === null){
 
         this.resetSettings();
 
@@ -153,7 +153,7 @@ class ActionStore {
     if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
       this.RootStore.uIStore.warningHandler();
     }
-    else {
+    else if(this.RootStore.uIStore.delete_card === null){
 
       // this.RootStore.uIStore.goSellBtn({
       //   title: this.RootStore.configStore.btn,
@@ -291,7 +291,7 @@ class ActionStore {
     if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
       this.RootStore.uIStore.warningHandler();
     }
-    else {
+    else if(this.RootStore.uIStore.delete_card === null){
       this.resetSettings();
 
       if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
