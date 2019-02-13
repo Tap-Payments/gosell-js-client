@@ -195,13 +195,15 @@ class FormStore{
           }
           self.elements.card.mount= function(id){
               var s = document.querySelector(id);
+              if(s){
               //s.parentNode.style.maxWidth="400px";
-              var d = document.createElement("div");
-              d.setAttribute("id",'privateTapElement');
-              d.setAttribute("style",'height:inherit;margin: 0px !important; padding: 0px !important; border: medium none !important; display: block !important; background: transparent none repeat scroll 0% 0% !important; position: relative !important; opacity: 1 !important; width:100%;');
+                  var d = document.createElement("div");
+                  d.setAttribute("id",'privateTapElement');
+                  d.setAttribute("style",'height:inherit;margin: 0px !important; padding: 0px !important; border: medium none !important; display: block !important; background: transparent none repeat scroll 0% 0% !important; position: relative !important; opacity: 1 !important; width:100%;');
 
-              s.appendChild(d);
-              d.appendChild(this._iframe);
+                  s.appendChild(d);
+                  d.appendChild(this._iframe);
+              }
               //bewlo code is not working due to CORs restriction, should enable it then un comment
               /*this._iframe.onload = function(){
                   detect_details().then(function(details) {
@@ -225,9 +227,9 @@ class FormStore{
 
               function receiver(e) {
                   //if (0 === self.card._iframe.src.indexOf(e.origin)){
-                  if (0 === iframe_obj.src.indexOf(e.origin)){
-                      /*//console.log("received in js library");
-                      //console.log(e.data);*/
+                  if (iframe_obj && 0 === iframe_obj.src.indexOf(e.origin)){
+                      /*console.log("received in js library");
+                      console.log(e.data);*/
                       if(e.data.layout){
                           var iframeWin = document.getElementById("myFrame");
                           //iframeWin.setAttribute("height","140px");
