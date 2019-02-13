@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
 import ReactCodeInput from '../lib/codeInput/src/ReactCodeInput';
 import '../assets/css/otp.css';
-import back from '../assets/imgs/back-arrow.svg';
 import Timer from './Timer';
 import TapButton from './TapButton';
 import Confirm from './Confirm';
@@ -17,8 +16,8 @@ class Otp extends Component {
       animate_btn: false,
       animate_fields:false,
       active: false,
-      updated: false,
-      value: null
+      // updated: false,
+      // value: null
     }
   }
 
@@ -66,50 +65,79 @@ class Otp extends Component {
     });
   }
 
-  handleClick(){
-    var self = this;
-    var store = this.props.store;
-
-    this.setState({
-      active: true,
-      animate_btn: true,
-      updated: false,
-    });
-
-    setTimeout(function(){
-      self.props.store.uIStore.startLoading('loader', 'Please Wait', null);
-    }, 1000);
-
-    store.apiStore.authentication(this.props.store.paymentStore.authenticate.type, this.state.value).then(result => {
-
-          store.uIStore.stopBtnLoader();
-          store.uIStore.setIsActive(null);
-          store.paymentStore.selected_card = null;
-
-    });
-  }
+  // handleClick(){
+  //   var self = this;
+  //   var store = this.props.store;
+  //
+  //   this.setState({
+  //     active: true,
+  //     animate_btn: true,
+  //     updated: false,
+  //   });
+  //
+  //   // setTimeout(function(){
+  //     self.props.store.uIStore.startLoading('loader', 'Please Wait', null);
+  //   // }, 1000);
+  //
+  //   store.apiStore.authentication(this.props.store.paymentStore.authenticate.type, this.state.value).then(result => {
+  //
+  //         store.uIStore.stopBtnLoader();
+  //         store.uIStore.setIsActive(null);
+  //         store.paymentStore.selected_card = null;
+  //
+  //   });
+  // }
 
   handleChange(event){
-    this.setState({  updated: false, animate: false, value: event});
+    // this.setState({  updated: false, animate: false, value: event});
+    var store = this.props.store;
+
+    store.uIStore.goSellBtn({
+      loader: false,
+    });
+
+    store.uIStore.goSellOtp({
+      updated: false,
+      value: event,
+    });
 
     if(event.length === 6){
-      this.setState({
-        active: true
+      store.uIStore.goSellBtn({
+        active: true,
       });
+
+      // this.setState({
+      //   active: true
+      // });
     }
     else {
-      this.setState({
+      store.uIStore.goSellBtn({
         active: false
       });
+
+      // this.setState({
+      //   active: false
+      // });
     }
   }
 
   resendOTP(){
+
+    this.props.store.uIStore.goSellBtn({
+      active: false,
+      loader: false,
+    });
+
+    this.props.store.uIStore.goSellOtp({
+        updated: true,
+        value: event,
+      });
+
      this.setState({
-       animate_btn:false,
-       animate_fields:true,
+       // animate_btn:false,
+       // animate_fields:true,
        active:false,
-       updated:true,
+       // updated:true,
      });
 
      this.props.store.apiStore.requestAuthentication().then(result => {
@@ -133,39 +161,42 @@ class Otp extends Component {
     const props = {
       className: 'reactCodeInput',
       inputStyle: {
-        margin:  '0px',
         MozAppearance: 'textfield',
-        width: '45px',
+        width: this.props.store.uIStore.getIsMobile ? '40px' : '45px',
         borderRadius: '8px',
         fontSize: '24px',
         height: '52px',
-        paddingLeft: '0px',
         color: '#535353',
         border: '1px solid #CECECE',
         textAlign: 'center',
-        outlineColor: '#009AFF'
+        outlineColor: '#009AFF',
+        margin: this.props.store.uIStore.getIsMobile ? '1%' : '0px',
+        padding: this.props.store.uIStore.getIsMobile ? '0' : '0 12px',
       },
       inputStyleInvalid: {
-        margin:  '0px',
+        margin:  '40%',
         MozAppearance: 'textfield',
-        width: '45px',
+        width: this.props.store.uIStore.getIsMobile ? '40px' : '45px',
         borderRadius: '8px',
         fontSize: '24px',
         height: '52px',
-        paddingLeft: '0px',
         color: '#535353',
         border: '1px solid #CECECE',
         textAlign: 'center',
-        outlineColor: '#009AFF'
+        outlineColor: '#009AFF',
+        margin: this.props.store.uIStore.getIsMobile ? '1%' : '0px',
+        padding: this.props.store.uIStore.getIsMobile ? '0' : '0 12px',
       }
     }
 
     return (
-      <Confirm index={1} store={this.props.store} animate_btn={this.state.animate_btn} active_btn={this.state.active} handleBtnClick={this.handleClick.bind(this)}>
+      <Confirm index={2} store={this.props.store}>
 
           <div className={this.state.animate_fields ? "wrong-entry" : null}>
             <ReactCodeInput
-              updated={this.state.updated}
+              ref={this.props.store.uIStore.targetElement}
+              autoFocus={false}
+              updated={this.props.store.uIStore.otp.updated}
               type='otpCode'
               onChange={this.handleChange.bind(this)}
               fields={6} {...props}/>
@@ -177,7 +208,7 @@ class Otp extends Component {
             <div className='tap-otp-settings' style={this.props.dir === 'ltr' ? {textAlign: 'right'} : {textAlign: 'left'}}>
             {this.state.running ?
              <Timer running={this.state.running} time={count}/> :
-             <a className={!this.state.running ? "tap-otp-resend" : "tap-otp-resend tap-otp-fadeOut"} onClick={this.resendOTP.bind(this)}>RESEND</a>
+             <div className={!this.state.running ? "tap-otp-resend" : "tap-otp-resend tap-otp-fadeOut"} onClick={this.resendOTP.bind(this)}>RESEND</div>
             }
             </div>
 

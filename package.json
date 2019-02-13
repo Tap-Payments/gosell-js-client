@@ -5,15 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start_": "npm run start-dev & npm run start-server",
+    "start": "npm run start-dev & npm run start-server",
     "start-dev": "cross-env NODE_ENV=development webpack-dev-server --compress",
     "start-server": "nodemon client/server.js",
     "build": "cross-env NODE_ENV=production webpack",
     "transpile": "babel src -d dist --copy-files",
     "prepublishOnly": "npm run transpile",
     "online-demo": "gh-pages -d demo/dist",
-    "publish-all": "npm run build-prod && npm run online-demo",
-    "start": "pm2 start process.json --no-daemon"
+    "publish-all": "npm run build-prod && npm run online-demo"
   },
   "author": "Hala Q. <h.qutmosh@tap.company> (https://tap.company)",
   "license": "ISC",
@@ -60,15 +59,16 @@
     "compression-webpack-plugin": "^2.0.0",
     "cssnano": "^4.1.8",
     "express": "^4.16.4",
-    "mobx": "^5.5.2",
+    "jwt-js-decode": "^1.3.7",
+    "mobx": "^4.9.2",
     "mobx-react": "^5.3.5",
     "react-addons-css-transition-group": "^15.6.2",
     "react-router-dom": "^4.3.1",
     "react-router-page-transition": "^3.1.0",
-    "react-swipeable-views": "^0.13.0",
     "request": "^2.88.0",
-    "styled-components": "^4.1.3",
+    "styled-components": "^3.4.10",
     "uglifyjs-webpack-plugin": "^2.1.0",
+    "url-search-params": "^1.1.0",
     "webpack-merge": "^4.1.5"
   }
 }

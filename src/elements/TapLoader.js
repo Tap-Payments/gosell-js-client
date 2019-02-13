@@ -1,8 +1,6 @@
 import React, { Component }  from 'react';
-import security from '../assets/imgs/3d-security.svg';
 import styled from "styled-components";
 import '../assets/css/msg.css';
-import errorIcon from '../assets/imgs/error-icon.svg';
 import TapButton from './TapButton';
 import {Loader} from '@tap-payments/loader';
 import * as shortBlackLoader from '../assets/loader/black-loader.json';
@@ -129,7 +127,7 @@ class TapLoader extends Component {
               />
             </div>
             <p className='tap-msg-title' style={{color: this.props.color === 'white' ? this.props.color : '#4b4847'}}>{this.props.title}</p>
-            <p className="tap-msg-desc" style={{color: this.props.color === 'white' ? '#a4a5a7' : '#f7f7f7'}}>{this.props.desc}</p>
+            <p className="tap-msg-desc" style={{color: this.props.color === 'white' ? '#a4a5a7' : '#797777'}}>{this.props.desc}</p>
             <br/>
             {this.props.close ? <Btn onClick={this.handleClose.bind(this)}>Close</Btn> : null}
           </div>

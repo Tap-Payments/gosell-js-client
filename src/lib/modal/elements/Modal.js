@@ -22,10 +22,10 @@ class Modal extends React.Component {
 
     //console.log('open', modal.state.isOpen);
 
-    setTimeout(function(){ modal.setState({ isOpenWait: "showModal animateUp" }); }, 700);
+    setTimeout(function(){ modal.setState({ isOpenWait: "tap-payments-showModal tap-payments-animateUp" }); }, 700);
     var mymd = document.getElementById('mymd');
 
-    document.body.classList.add('modal-open');
+    document.body.classList.add('tap-payments-modal-open');
 
   }
 
@@ -38,7 +38,7 @@ class Modal extends React.Component {
     modal.setState({ isOpen: false });
     //modal.forceUpdate();
 
-    document.body.classList.remove('modal-open');
+    document.body.classList.remove('tap-payments-modal-open');
 
 
   }
@@ -46,7 +46,7 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { isOpen: this.props.open, loading: this.props.isLoading, isOpenWait: "showModal", modalStyle: {}, bodyStyle: {}, bodyContainerStyle: {}, dir: 'ltr', width: 400};
+    this.state = { isOpen: this.props.open, loading: this.props.isLoading, isOpenWait: "tap-payments-showModal", modalStyle: {}, bodyStyle: {}, bodyContainerStyle: {}, dir: 'ltr', width: 400};
 
     this.handleClose = this.handleClose.bind(this);
 
@@ -58,16 +58,24 @@ class Modal extends React.Component {
       isOpen: this.props.open
     });
 
+    if(this.props.open){
+      document.body.classList.add('tap-payments-modal-open');
+    }
+    else {
+      document.body.classList.remove('tap-payments-modal-open');
+    }
+
+
     if(this.props.animate && !this.props.isLoading){
       var self = this;
-      setTimeout(function(){ self.setState({ isOpenWait: "showModal animateUp", loading: this.props.isLoading }); }, 700);
-      document.body.classList.add('modal-open');
+      setTimeout(function(){ self.setState({ isOpenWait: "tap-payments-showModal tap-payments-animateUp", loading: this.props.isLoading }); }, 700);
+      document.body.classList.add('tap-payments-modal-open');
     }
     // else if(this.props.animate && this.props.isLoading){
     //   console.log('down animation');
     //   var self = this;
-    //   setTimeout(function(){ self.setState({ isOpenWait: "hideModal animateDown", loading: this.props.isLoading }); }, 700);
-    //   //document.body.classList.remove('modal-open');
+    //   setTimeout(function(){ self.setState({ isOpenWait: "tap-payments-hideModal tap-payments-animateDown", loading: this.props.isLoading }); }, 700);
+    //   //document.body.classList.remove('tap-payments-modal-open');
     // }
 
     if(this.props.width){
@@ -78,7 +86,7 @@ class Modal extends React.Component {
 
     if(this.props.style){
       this.setState({
-        modalStyle: Object.assign({width: this.state.width + 'px'}, this.props.style.modal),
+        modalStyle: this.props.style.modal,
         bodyStyle: this.props.style.body,
         bodyContainerStyle: this.props.style.bodyContainer
       });
@@ -119,15 +127,32 @@ class Modal extends React.Component {
     // console.log('is loading from modal', nextProps.isLoading);
     // console.log('is animate from modal', nextProps.animate);
 
+    if(nextProps.open){
+      document.body.classList.add('tap-payments-modal-open');
+    }
+    else {
+      document.body.classList.remove('tap-payments-modal-open');
+    }
+
+    if(nextProps.style){
+      this.setState({
+        modalStyle: nextProps.style.modal,
+        bodyStyle: nextProps.style.body,
+        bodyContainerStyle: nextProps.style.bodyContainer
+      });
+    }
+
+
      if(!nextProps.isLoading){ // && nextProps.animate
        var self = this;
-       setTimeout(function(){ self.setState({ isOpenWait: "showModal animateUp", loading: nextProps.isLoading }); }, 1000);
-       //document.body.classList.add('modal-open');
+       setTimeout(function(){ self.setState({ isOpenWait: "tap-payments-showModal tap-payments-animateUp", loading: nextProps.isLoading }); }, 1000);
+       // document.body.classList.add('tap-payments-modal-open');
      }
      else if(nextProps.animate && nextProps.isLoading){
        var self = this;
-       self.setState({ isOpenWait: "hideModal animateDown"});
+       self.setState({ isOpenWait: "tap-payments-hideModal tap-payments-animateDown"});
        setTimeout(function(){ self.setState({loading: nextProps.isLoading }); }, 1000);
+       // document.body.classList.remove('tap-payments-modal-open');
      }
   }
 
@@ -144,36 +169,37 @@ class Modal extends React.Component {
   handleClose(e) {
     //console.log(e.target.className);
     // close modal on background click
-    if (e.target.className === 'closeIn' || e.target.className === 'modal-background-color closeOut' || e.target.className === 'modal-background-color closeInOut') {
+    if (e.target.className === 'closeIn' || e.target.className === 'tap-payments-modal-background-color closeOut' || e.target.className === 'tap-payments-modal-background-color closeInOut') {
       Modal.close(this.props.id)(e);
     }
   }
 
 
   render() {
-
+    //tap-payments-modal-container
     return (
-      <div className="modal_container" dir={this.state.dir} style={{display: this.state.isOpen ? '' : 'none'}} onClick={this.handleClose} ref={el => this.modaldialog = el}>
+
+      <div className="tap-payments-modal-container" dir={this.state.dir} style={{display: this.state.isOpen ? '' : 'none'}} onClick={this.handleClose} ref={el => this.modaldialog = el}>
         {this.props.notification}
 
         {this.state.isOpen && this.state.loading ?
             this.props.loader
             :
             <div className={this.state.isOpenWait}  style={this.state.modalStyle}>
-              <div className="modal-wrapper">
+              <div className="tap-payments-modal-wrapper">
                 {(this.props.close == 'closeIn' || this.props.close == 'closeInOut')?
-                  <div className="header-close-icon closeIn" onClick={this.handleClose} style={this.state.dir == 'rtl' ? {left: '0'} : {right: '0'}}>
+                  <div className="tap-payments-header-close-icon closeIn" onClick={this.handleClose} style={this.state.dir == 'rtl' ? {left: '0'} : {right: '0'}}>
                     <img className="closeIn" src={this.props.closeIcon} width="18" height="18" alt="close"/>
                   </div>
                   : null}
 
                   <div>{this.props.header}</div>
 
-                  <div className="modal-body" style={this.state.bodyStyle}>
+                  <div className="tap-payments-modal-body" style={this.state.bodyStyle}>
                     {(this.state.dir=='ltr'?this.props.onClickBack:this.props.onClickNext)&&
                       <NaviButton type='back' onClick={this.state.dir=='ltr'?this.props.onClickBack:this.props.onClickNext}/>
                     }
-                    <div className="body-container" style={this.state.bodyContainerStyle}>
+                    <div className="tap-payments-body-container" style={this.state.bodyContainerStyle}>
                       {this.props.children}
                     </div>
 
@@ -190,12 +216,12 @@ class Modal extends React.Component {
           }
 
           {this.props.mode === 'page' ?
-            <div className="page" style={{backgroundColor: this.props.pageBgColor}}>
-              {this.props.pageBgImg ? <img src={this.props.pageBgImg} style={this.props.pageBgStyle} alt="background-img"/> : null}
+            <div className="tap-payments-page" style={{backgroundColor: this.props.pageBgColor}}>
+              {this.props.pageBgImg ? <img className="tap-payments-page-bg-img" src={this.props.pageBgImg} style={this.props.pageBgStyle} alt="background-img"/> : null}
             </div>
 
             : this.props.mode === 'popup'?
-              <div className={"modal-background-color "+this.props.close} onClick={this.handleClose}></div> : null}
+              <div className={"tap-payments-modal-background-color "+this.props.close} onClick={this.handleClose}></div> : null}
           </div>
 
         );

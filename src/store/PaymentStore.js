@@ -10,6 +10,7 @@ class PaymentStore{
     this.current_amount = 0;
     this.current_currency = {};
     this.settlement_currency = null;
+    this.old_currency = null;
 
     //gcc currrencies list
     this.gcc = ["BHD", "SAR", "AED", "OMR", "QAR", "KWD"];
@@ -22,6 +23,7 @@ class PaymentStore{
 
     //filtered list of supported currencies
     this.supported_currencies = {};
+    this.filtered_currencies = {};
 
     this.customer_cards = [];
     this.customer_cards_by_currency = [];
@@ -67,18 +69,18 @@ class PaymentStore{
   setThreeDSecure(value){
     var self = this;
 
-    if(value){
-      switch (self.RootStore.configStore.transaction_mode) {
-        case "charge":
-          self.three_d_Secure = self.RootStore.configStore.charge.threeDSecure;
-          break;
-        case "authorize":
-          self.three_d_Secure = self.RootStore.configStore.authorize.threeDSecure;
-          break;
-        default:
+    // if(value){
+    //   switch (self.RootStore.configStore.transaction_mode) {
+    //     case "charge":
+    //       self.three_d_Secure = self.RootStore.configStore.charge.threeDSecure;
+    //       break;
+    //     case "authorize":
+    //       self.three_d_Secure = self.RootStore.configStore.authorize.threeDSecure;
+    //       break;
+    //     default:
           self.three_d_Secure = value;
-      }
-    }
+      // }
+    // }
 
   }
 
@@ -105,26 +107,35 @@ class PaymentStore{
 
   getFees(value){
     var self = this;
-    console.log('payment methods in getFee', self.payment_methods);
+    console.log('99 payment methods in getFee', self.payment_methods);
     var active = self.payment_methods.filter(function(payment){
-        console.log(value, payment.name);
-        console.log('payment', payment);
-        console.log('what is the problem?????????? ', value.indexOf(payment.name));
-        if(value.indexOf(payment.name) >= 0){
-          if(payment.extra_fees){
-            var total_extra_fees = self.calcExtraFees(payment.extra_fees);
-            self.active_payment_option_fees = total_extra_fees;
-            self.active_payment_option_total_amount = self.current_currency.amount + self.active_payment_option_fees;
+        // console.log('99 '+ value, payment.name);
+        // console.log('99 payment', payment);
+        // console.log('99 what is the problem?????????? ', value.indexOf(payment.name));
+        try{
+          if(value.indexOf(payment.name) >= 0){
+            if(payment.extra_fees){
+              var total_extra_fees = self.calcExtraFees(payment.extra_fees);
+              self.active_payment_option_fees = total_extra_fees;
+              self.active_payment_option_total_amount = self.current_currency.amount + self.active_payment_option_fees;
+            }
+            else{
+              self.active_payment_option_fees = 0;
+              self.active_payment_option_total_amount = self.current_currency.amount;
+
+            }
           }
-          else{
-            self.active_payment_option_fees = 0;
-            self.active_payment_option_total_amount = self.current_currency.amount;
-          }
+        }
+        catch(error){
+          console.log('error', error);
         }
       return payment;
     });
 
     self.active_payment_option = active[0];
+    console.log('99 self.active_payment_option', self.active_payment_option);
+    console.log('99 active_payment_option_fees', self.active_payment_option_fees);
+    console.log('99 active_payment_option_total_amount', self.active_payment_option_total_amount);
   }
 
   calcExtraFees(fees){
@@ -165,7 +176,7 @@ class PaymentStore{
 
     if(data != null){
 
-      data = JSON.parse(data);
+      // data = JSON.parse(data);
       this.setPaymentMethods(data.payment_methods);
       this.setSupportedCurrencies(data.supported_currencies);
 
@@ -183,9 +194,9 @@ class PaymentStore{
 
       var self = this;
 
-      console.log('array ???????????? ', Array.isArray(this.supported_currencies) && this.supported_currencies.length > 0);
+      console.log('array ???????????? ',Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0);
       console.log('supported', this.supported_currencies);
-      if(Array.isArray(this.supported_currencies) && this.supported_currencies.length > 0){
+      if(this.supported_currencies && Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0){
         self.supported_currencies.forEach(function(cur){
 
           if(cur.currency === currency){
@@ -215,8 +226,9 @@ class PaymentStore{
 
     this.payment_methods = {};
     var config_payment_methods = this.RootStore.configStore.gateway.supportedPaymentMethods;
+    console.log('config_payment_methods', config_payment_methods);
 
-    if(typeof config_payment_methods === 'object' || Array.isArray(config_payment_methods)){
+    if(typeof config_payment_methods === 'object' || Array.isArray(config_payment_methods.slice())){
       self.payment_methods = value.filter(function(el){
         return config_payment_methods.indexOf(el.name) >= 0;
       });
@@ -225,6 +237,8 @@ class PaymentStore{
     else {
       self.payment_methods = value;
     }
+
+    console.log('value filter issue', value);
 
     self.payment_methods.filter(function(el){
       el.supported_currencies.forEach(function(cur){
@@ -239,7 +253,7 @@ class PaymentStore{
   get getWebPaymentsByCurrency(){
     var self = this;
 
-    if(Array.isArray(this.webPayments)){
+    if(Array.isArray(this.webPayments.slice())){
       var arr = [];
       this.webPayments.forEach(function(payment){
         var curs = payment.supported_currencies;
@@ -261,7 +275,7 @@ class PaymentStore{
   get getCardPaymentsByCurrency(){
     var self = this;
 
-    if(Array.isArray(this.cardPayments)){
+    if(Array.isArray(this.cardPayments.slice())){
       var arr = [];
       this.cardPayments.forEach(function(payment){
         var curs = payment.supported_currencies;
@@ -305,8 +319,8 @@ class PaymentStore{
   get savedCardsByCurrency(){
     var self = this;
 
-    if((Array.isArray(this.cardPayments) && this.cardPayments.length > 0)
-      && (Array.isArray(this.customer_cards) && this.customer_cards.length > 0)){
+    if(this.cardPayments && (Array.isArray(this.cardPayments.slice()) && this.cardPayments.length > 0)
+      && this.customer_cards && (Array.isArray(this.customer_cards.slice()) && this.customer_cards.length > 0)){
       var arr = [];
       this.customer_cards.forEach(function(card){
         var curs = card.supported_currencies;
@@ -324,7 +338,7 @@ class PaymentStore{
   }
 
   getCardDetails(cardName){
-    if(Array.isArray(this.cardPayments) && this.cardPayments.length > 0){
+    if(Array.isArray(this.cardPayments.slice()) && this.cardPayments.length > 0){
       var self = this;
       var selectedCard = null;
       this.cardPayments.forEach(function(card){
@@ -341,7 +355,17 @@ class PaymentStore{
 
 
   setCurrentCurrency(value){
-    console.log("current currency", value.currency);
+    console.log("+ current currency", value.currency);
+    console.log('+ current currency', this.current_currency.currency);
+    console.log('+ value.currency', value.currency);
+
+    if(this.current_currency.currency != undefined){
+      this.old_currency = this.current_currency.currency;
+    }
+    else {
+      this.old_currency = value.currency;
+    }
+
     this.current_currency = value;
     this.customer_cards_by_currency = this.savedCardsByCurrency;
     this.active_payment_option_total_amount = value.currency;
@@ -360,11 +384,15 @@ class PaymentStore{
     this.supported_currencies = {};
     var config_currencies = this.RootStore.configStore.gateway.supportedCurrencies;
 
-    if(typeof config_currencies === 'object' || Array.isArray(config_currencies)){
+    console.log('config ******* ', config_currencies);
+    if(typeof config_currencies == 'object'){
       self.currencies = config_currencies;
       self.supported_currencies = value.filter(function(el){
+
           return config_currencies.indexOf(el.currency) >= 0;
       });
+
+      console.log('inside the object', self.supported_currencies);
     }
     else {
       switch (config_currencies){
@@ -384,6 +412,8 @@ class PaymentStore{
       }
     }
 
+    console.log('config ******* ', self.supported_currencies);
+
     var methods_currencies = this.supported_currencies_based_on_methods;
     value = self.supported_currencies;
     console.log('supported_currencies', this.supported_currencies);
@@ -392,6 +422,8 @@ class PaymentStore{
         return methods_currencies.indexOf(el.currency) >= 0;
     });
 
+    console.log('config ******* ', self.supported_currencies_based_on_methods);
+
   }
 
   //supported currencies based on cards list (saveCard & token modes only)
@@ -399,7 +431,7 @@ class PaymentStore{
     console.log('this.cardPayments', this.cardPayments);
     var self = this;
 
-    if(Array.isArray(this.cardPayments)){
+    if(Array.isArray(this.cardPayments.slice())){
       var self = this;
       var arr = [];
 
@@ -424,25 +456,65 @@ class PaymentStore{
     // });
   }
 
+  // sort(){
+  //
+  //   this.webPayments = [];
+  //   this.cardPayments = [];
+  //   if(Array.isArray(this.payment_methods.slice())){
+  //     var self = this;
+  //
+  //     this.payment_methods.forEach(function(method) {
+  //       if(method.payment_type === 'web'){
+  //         self.webPayments.push(method);
+  //         //self.charge(method.source_id);
+  //       }
+  //
+  //       if(method.payment_type === 'card'){
+  //         self.cardPayments.push(method);
+  //       }
+  //
+  //     });
+  //
+  //   }
+  //
+  // }
+
   sort(){
 
     this.webPayments = [];
     this.cardPayments = [];
-    if(Array.isArray(this.payment_methods)){
+
+    if(this.payment_methods && this.payment_methods.slice().length > 0){
+
+      // console.log('**** in sort payment methods', this.payment_methods);
       var self = this;
 
-      this.payment_methods.forEach(function(method) {
-        if(method.payment_type === 'web'){
-          self.webPayments.push(method);
-          //self.charge(method.source_id);
+      this.payment_methods = this.payment_methods.slice();
+
+      var method = null;
+
+      for(var i = 0; i < this.payment_methods.length; i++){
+        method = this.payment_methods[i];
+
+        // console.log('**** method', method);
+        // console.log('**** method', method.payment_type);
+
+        try{
+          if(method.payment_type == 'web'){
+            this.webPayments.push(method);
+
+          } else if(method.payment_type == 'card'){
+            this.cardPayments.push(method);
+          }
+        }
+        catch(err) {
+          console.log('error', err)
         }
 
-        if(method.payment_type === 'card'){
-          self.cardPayments.push(method);
-        }
+        // console.log('**** web payments', this.webPayments);
+        // console.log('**** card payments', this.cardPayments);
 
-      });
-
+      }
     }
 
   }
@@ -464,15 +536,21 @@ class PaymentStore{
   computed
   get getCurrentValue(){
     let old = this.RootStore.configStore.order;
+
+    console.log('old', old);
     let current =  this.RootStore.paymentStore.current_currency;
     let old_amount = this.RootStore.uIStore.formatNumber(old.amount.toFixed(old.decimal_digit));
     let new_amount = this.RootStore.uIStore.formatNumber(current.amount.toFixed(current.decimal_digit));
+
+    console.log(old_amount, new_amount);
 
     var title = {'main': old.symbol + ' ' + old_amount};
 
     if(current.currency !== old.currency){
         title = {'main': current.symbol + ' ' + new_amount, 'secondary': old.symbol + ' ' + old_amount}
     }
+
+    console.log('title', title);
 
     return title;
 
@@ -522,6 +600,7 @@ decorate(PaymentStore, {
   authenticate: observable,
   authorize: observable,
   charge:observable,
+  old_currency: observable
 });
 
 

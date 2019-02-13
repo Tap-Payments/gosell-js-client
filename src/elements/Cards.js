@@ -12,7 +12,6 @@ class Cards extends Component {
     super(props);
     this.state = {
       cards: this.props.cards,
-      // title: 'Edit'
     }
   }
 
@@ -43,9 +42,20 @@ class Cards extends Component {
   // }
 
   editCards(){
-    var shake = this.props.store.uIStore.shake_cards;
-    this.props.store.uIStore.setIsActive('CARD');
-    this.props.store.uIStore.shakeCards(!shake);
+
+    if(this.props.store.uIStore.btn.active && this.props.store.uIStore.btn.loader){
+      this.props.store.uIStore.warningHandler();
+    }
+    else {
+      var shake = this.props.store.uIStore.shake_cards;
+      this.props.store.uIStore.setIsActive('CARD');
+      this.props.store.uIStore.shakeCards(!shake);
+    }
+  }
+
+  componentWillUnmount(){
+    this.props.store.uIStore.setIsActive(null);
+    this.props.store.uIStore.shakeCards(false);
   }
 
 
@@ -59,6 +69,8 @@ class Cards extends Component {
     if(store.paymentStore.customer_cards_by_currency.length > 0){
 
        cards = store.paymentStore.customer_cards_by_currency.map((card, index) =>{
+         var card_obj = this.props.store.paymentStore.getCardDetails(card.scheme);
+
          return(<Card
            key={index}
            index={index}
@@ -66,7 +78,7 @@ class Cards extends Component {
            id={card.id}
            dir={this.props.dir}
            shake={store.uIStore.shake_cards}
-           scheme={this.props.store.paymentStore.getCardDetails(card.scheme).image}
+           scheme={card_obj != null ? card_obj.image : null}
            bank={card.bank_logo}
            store={this.props.store}
            last4digits={card.last_four}/>)
@@ -76,7 +88,7 @@ class Cards extends Component {
     if(store.paymentStore.customer_cards_by_currency.length > 0){
       return (
         <React.Fragment>
-            <Label title="Recent" dir={store.uIStore.getDir} edit={store.uIStore.edit_customer_cards} handleClick={this.editCards.bind(this)}/>
+            <Label title="Recent" dir={store.uIStore.getDir} edit={store.uIStore.edit_customer_cards} handleClick={store.uIStore.delete_card === null ? this.editCards.bind(this) : null}/>
             <div id="cards" className="tap-cards" ref={(node) => this.cardsRef = node} dir={this.props.dir} style={this.props.style ? this.props.style : null}>
                 <div className="tap-cards-container">{cards}</div>
             </div>

@@ -20,7 +20,6 @@ class SocialIcon extends Component {
       backgroundColor: 'rgba(0,0,0,0.25)',
       borderRadius: '8px',
       margin:'5px',
-      pointerEvents:'none'
     }
 
     const SocialBtn = styled.a`

@@ -21,13 +21,13 @@ module.exports = {
 								{
 									loader: "file-loader",
 									options: {
-										name: commonPaths.imgsFolder + '/[name].[hash].[ext]',
+										name: commonPaths.imgsFolder + '/[name].[ext]',
 									},
 								},
 						    {
 						      loader: 'image-webpack-loader',
 						      options: {
-										name: commonPaths.imgsFolder + '/[name].[hash].[ext]',
+										name: commonPaths.imgsFolder + '/[name].[ext]',
 						        // bypassOnDebug: true, // webpack@1.x
 						        disable: true, // webpack@2.x and newer
 										// svgo: {
@@ -42,7 +42,7 @@ module.exports = {
 						use: {
 							loader: "file-loader",
 							options: {
-								name: commonPaths.fontsFolder + '/[name].[hash].[ext]',
+								name: commonPaths.fontsFolder + '/[name].[ext]',
 							},
 						},
 					}
@@ -62,7 +62,7 @@ module.exports = {
 		new webpack.ProgressPlugin(),
 		new HtmlWebpackPlugin({
 			template: commonPaths.templatePath,
-			favicon: commonPaths.imgsPath + '/tapLogo.png'
+			favicon: './webpack/tap-favicon.ico'
 		})
 	]
 };

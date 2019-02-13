@@ -1,0 +1,134 @@
+import React, { Component }  from 'react';
+import styled from "styled-components";
+
+class Item extends Component {
+
+  constructor(props){
+    super(props);
+  }
+
+  handleClick(){}
+
+  render() {
+
+    var align = this.props.dir === 'ltr' ? 'left' : 'right';
+
+    const ItemContainer = styled.div`
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 16px;
+      height: auto;
+      min-height: ${this.props.discount ? '50px' : '30px'};
+    `
+
+    const Icon = styled.div`
+      background: #fff;
+      border: 1px solid #e9e9e9;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+    `
+
+    const ItemDescContainer = styled.div`
+      display: flex;
+      flex-direction: column;
+      margin: 0px 10px 0px 10px;
+    `
+
+    const Title = styled.div`
+      font-size: 14px;
+      color: #4A4A4A;
+    `
+
+    const SubTitle = styled.div`
+      font-size: 12px;
+      color: #8D9094;
+    `
+
+    const Badge = styled.div`
+      width: 40px;
+      height: 20px;
+      background: #6B6F73;
+      font-family: Roboto-Regular;
+      font-size: 13px;
+      color: #F0F1F2;
+      -webkit-letter-spacing: 0;
+      -moz-letter-spacing: 0;
+      -ms-letter-spacing: 0;
+      letter-spacing: 0;
+      text-align: center;
+      border-radius: 40px;
+      margin: 0px 10px 0px 10px;
+    `
+
+    const TotalAmount = styled.div`
+      font-family: Roboto-Regular;
+      font-size: 14px;
+      color: #4A4F54;
+      letter-spacing: -0.11px;
+      text-align: right;
+      margin: 0px 10px 0px 10px;
+      `
+
+    const Side1 = styled.div`
+      display: flex;
+      float: ${this.props.dir === 'ltr' ? 'left' : 'right'};
+    `
+    const Side2 = styled.div`
+      display: flex;
+      float: ${this.props.dir === 'ltr' ? 'right' : 'left'};
+      align-items: center;
+    `
+
+    return (
+      <ItemContainer>
+        <Side1>
+          {this.props.icon ?
+            <Icon>
+              {this.props.icon}
+            </Icon>
+          : null }
+
+
+          <ItemDescContainer>
+            <Title>
+              {this.props.title}
+            </Title>
+
+            {this.props.amount_per_unit ?
+              <SubTitle>
+                Unit Price: {this.props.amount_per_unit}
+              </SubTitle>
+            : null}
+
+            {this.props.discount ?
+              <SubTitle>
+                Discount: {this.props.discount}
+              </SubTitle>
+            : null}
+
+          </ItemDescContainer>
+        </Side1>
+
+        <Side2>
+          <Badge>
+            {this.props.qty}
+          </Badge>
+
+          <TotalAmount>
+            {this.props.total}
+          </TotalAmount>
+        </Side2>
+      </ItemContainer>
+    );
+  }
+}
+
+export default Item;

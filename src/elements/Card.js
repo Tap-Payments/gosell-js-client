@@ -1,8 +1,9 @@
 import React, { Component }  from 'react';
 import styled from "styled-components";
 import '../assets/css/card.css';
-import checkmark from '../assets/imgs/checkmark.svg';
-import deleteIcon from '../assets/imgs/delete.svg';
+// import checkmark from '../assets/imgs/checkmark.svg';
+// import deleteIcon from '../assets/imgs/delete.svg';
+import Paths from '../../webpack/paths';
 import {observer} from 'mobx-react';
 import {Loader} from '@tap-payments/loader';
 import * as oneRingLoader from '../assets/loader/white-loader-one-ring.json';
@@ -35,7 +36,6 @@ class Card extends Component {
     Card.cards.push(this.cardRef);
   }
 
-
   componentWillReceiveProps(nextProps){
 
     this.setState({
@@ -64,7 +64,7 @@ class Card extends Component {
       msg: 'Are you sure you would like to delete card ●●●● ' + this.props.last4digits + '?',
       options: [
         {title: 'Confirm', action: this.confirmDeleteCard.bind(this, this.cardRef.id)},
-        {title: 'Cancel', action: this.cancelDeleteCard.bind(this)},
+        {title: '×', action: this.cancelDeleteCard.bind(this)},
       ]
     });
   }
@@ -170,13 +170,13 @@ class Card extends Component {
           onClick={this.handleCustomerCards.bind(this)}>
             {this.state.shake ?
               <RemoveCard onClick={this.deleteCard.bind(this)}>
-                  <img src={deleteIcon} width="18" height="18" alt="Delete the saved card"/>
+                  <img src={Paths.imgsPath + 'delete.svg'} width="18" height="18" alt="Delete the saved card"/>
               </RemoveCard>
            : null}
 
             <React.Fragment>
             <div className='tap-contents' style={{opacity: this.state.fade ? 0 : 1}}>{this.props.bank ? <img src={this.props.scheme} width='30'/> : <br style={{lineHeight:'1.5'}}/> }</div>
-            <div className='tap-contents' style={{opacity: this.state.fade ? 0 : 1}}>
+            <div className='tap-contents' style={this.state.fade ? {opacity: 0, padding:'5px 0px'} : {opacity: 1, padding:'5px 0px'}}>
               {this.props.bank ? <img src={this.props.bank} width='30'/> : <img src={this.props.scheme} height='27'/>}
             </div>
             <div className='tap-contents' style={{opacity: this.state.fade ? 0 : 1}}>

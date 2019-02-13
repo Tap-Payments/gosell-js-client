@@ -6,13 +6,11 @@ import Img from './Img';
 import Separator from './Separator';
 import Cards from './Cards';
 import CardsForm from './CardsForm';
-import closeIcon from '../assets/imgs/close.svg';
-import tapLogo from '../assets/imgs/tapLogo.png';
-import bill from '../assets/imgs/bill.svg';
 import TapButton from './TapButton';
 import Otp from './Otp';
-import SwipeableViews from 'react-swipeable-views';
 import ExtraFees from './ExtraFees';
+import ReactDOM from "react-dom";
+
 
 const styles = {
     'row1':{
@@ -47,8 +45,20 @@ class Save extends Component {
     this.state = {}
   }
 
+
+  componentDidUpdate(nextProps){
+
+    if(this.props.store.uIStore.mainHeight == 0){
+      this.props.store.uIStore.calcElementsHeight('form-container');
+      // console.log('content loaded? ', this.props.store.formStore.content_loaded);
+      // console.log('Height didupdate', this.props.store.uIStore.mainHeight);
+    }
+
+  }
+
   componentDidMount(){
-    this.props.store.uIStore.setPageIndex(0);
+    this.props.store.uIStore.setPageIndex(0, 'y');
+    this.props.store.uIStore.calcElementsHeight('form-container');
   }
 
   handleBtnClick(){
@@ -81,10 +91,12 @@ class Save extends Component {
 
     var self = this, cards = {};
 
-    return (<div style={{width: '100%', height: '100%', position:'relative'}}>
-                  <Separator />
-                    <CardsForm ref="paymentForm" store={store} saveCardOption={false}/>
-                  <Separator />
+    return (<div style={{width: '100%', height: store.uIStore.sliderHeight+ "px", position:'relative'}}>
+              <Separator />
+                <CardsForm ref="paymentForm" store={store} saveCardOption={false}/>
+              <Separator />
+
+              <div style={{height: '86px', position: 'relative', width: '100%'}}>
 
                   <div style={{height: '86px', position:'relative'}}>
                       <TapButton
@@ -93,11 +105,11 @@ class Save extends Component {
                         width="90%"
                         height="44px"
                         btnColor={'#2ACE00'}
-                        active={store.uIStore.pay_btn}
-                        animate={this.props.store.uIStore.getBtnLoaderStatus}
+                        active={store.uIStore.btn.active}
+                        animate={this.props.store.uIStore.btn.loader}
                         handleClick={this.handleBtnClick.bind(this)}>{store.configStore.btn}</TapButton>
                   </div>
-
+              </div>
             </div>);
   }
 }

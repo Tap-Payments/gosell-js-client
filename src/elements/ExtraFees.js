@@ -13,36 +13,20 @@ class ExtraFees extends Component {
     }
   }
 
-  handleExtraFeesClick(){
-    var self = this;
-    var store = this.props.store;
-
-    if(store.uIStore.getIsActive != null && store.uIStore.getIsActive.toUpperCase() !== 'CARD'){
-        store.uIStore.startLoading('loader', 'Please Wait', null);
-    }
-
-    store.apiStore.handleTransaction(store.paymentStore.source_id,
-      store.paymentStore.active_payment_option.payment_type,
-      store.paymentStore.active_payment_option_fees).then(result =>{
-
-          if(store.uIStore.getIsActive != null && store.uIStore.getIsActive.toUpperCase() !== 'CARD'){
-            // setTimeout(function(){
-            //     self.props.store.uIStore.setOpenModal(false);
-            //     self.props.store.uIStore.load = false;
-            //     self.props.store.uIStore.isLoading = false;
-                self.props.store.uIStore.stopBtnLoader();
-             // }, 5000);
-          }
-        });
-  }
-
   render() {
-    let current = this.props.store.paymentStore.current_currency;
-    let fees = this.props.store.paymentStore.active_payment_option_fees;
-    let total = this.props.store.paymentStore.active_payment_option_total_amount;
+
+    let store = this.props.store;
+    let current = store.paymentStore.current_currency;
+
+    let fees = store.paymentStore.active_payment_option_fees;
+    fees = store.uIStore.formatNumber(fees.toFixed(current.decimal_digit));
+
+    let total = store.paymentStore.active_payment_option_total_amount;
+    console.log("total ******** ", total);
+    total = total > 0 ? store.uIStore.formatNumber(total.toFixed(current.decimal_digit)) : total;
 
     return (
-        <Confirm index={0} store={this.props.store} animate_btn={false} active_btn={this.state.active} handleBtnClick={this.handleExtraFeesClick.bind(this)}>
+        <Confirm index={1} store={store}>
             <div dir={this.props.dir} className="tap-extra-fees-container">
               <p className="tap-extra-fees-title">Confirm Extra Charges</p>
               <p className="tap-extra-fees-msg">You will be charged an additional fee of {current.symbol + fees} for the type of payment, totalling an amount of {current.symbol+ total}.</p>

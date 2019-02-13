@@ -12,14 +12,21 @@ module.exports = {
 
 	templatePath: path.resolve(__dirname, "../", "src/index.html"),
 
-	imgsPath: path.resolve(__dirname, "../", "src/assets/imgs/"),
 	imgsFolder: "imgs",
 	fontsFolder: "fonts",
 	cssFolder: "css",
-	jsFolder: "js"
+	jsFolder: "js",
 
+	imgsPath: 'https://goselljslib.b-cdn.net/imgs/',
+	fontsPath: 'https://goSellJSLib.b-cdn.net/fonts/',
+	// serverPath: 'http://localhost:8000',
+	// serverPath: 'http://192.168.8.164:8000',
+	// serverPath: 'http://192.168.1.119:8000',
+	serverPath: 'http://35.237.168.102/api',
+	// serverPath: 'http://192.168.0.7:8000'
 };
 
 // GoSellGateway - page
 // GoSellGateway - popup
 // GoSellElements
+// imgsPath: path.resolve(__dirname, "../", "src/assets/imgs/"),

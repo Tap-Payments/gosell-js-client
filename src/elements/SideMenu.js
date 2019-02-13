@@ -17,33 +17,35 @@ class SideMenu extends Component{
     let expandMenu, styles, alian;
     var duration = this.props.animationDuration;
 
+    console.log('width +++++++ ', this.props.width);
+
     if(dir === 'ltr'){
-      styles = {right:'0px', width: this.props.width, opacity: 1}
+      styles = {right:'0px', width: this.props.width + 'px', opacity: 1}
       alian = 'right';
 
       expandMenu= {
-        width: this.props.width,
-        maxWidth: this.props.width,
-        left: this.props.width,
+        width: this.props.width + 'px',
+        maxWidth: this.props.width + 'px',
+        left: (this.props.width - 5) + 'px',
         transition: 'all '+duration+' linear '+this.state.delay,
-        opacity: 1
+        opacity: 1,
       }
     }
     else {
-      styles = {left:'0px', width: this.props.width, opacity: 1}
+      styles = {left:'0px', width: this.props.width + 'px', opacity: 1}
       alian = 'left';
 
       expandMenu= {
-        width: this.props.width,
-        maxWidth: this.props.width,
-        right: this.props.width,
+        width: this.props.width + 'px',
+        maxWidth: this.props.width + 'px',
+        right: (this.props.width - 5) + 'px',
         transition: 'all '+duration+' linear '+this.state.delay,
-        opacity: 1
+        opacity: 1,
       }
     }
 
     return(
-      <div className='tap-side-menu' style={styles}>
+      <div  id="gosell-side-menu" className='tap-side-menu' style={styles}>
           <div id={alian + '-menu-background'}  style={this.props.expand ? expandMenu : {transition: 'all '+duration+' linear'}}>
               {this.props.children}
           </div>
