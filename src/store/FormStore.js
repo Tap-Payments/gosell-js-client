@@ -435,7 +435,7 @@ class FormStore{
 
         if(document.activeElement == isfocused) {
           if(statusFocus != false){
-              statusFocus=false;
+              statusFocus = false;
               //console.log('in focus');
               // if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
                 self.cardFormHandleClick();

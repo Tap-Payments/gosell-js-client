@@ -100,6 +100,7 @@ class Header extends Component{
       var Title = styled.div`
         line-height: 40px;
         font-weight: 100;
+        margin: auto;
         ${this.state.titleStyle}
       `;
     }
@@ -111,6 +112,7 @@ class Header extends Component{
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+        margin: auto;
         ${this.state.iconStyle}
     `;
 
@@ -131,7 +133,7 @@ class Header extends Component{
 
            {this.props.modalTitle ?
                 <Title className="tap-payments-header-title">
-                  <span style={this.state.titleStyle}>{this.props.modalTitle}</span>
+                  <div style={this.state.titleStyle}>{this.props.modalTitle}</div>
                 </Title>
            : null}
 

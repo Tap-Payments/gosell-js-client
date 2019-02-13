@@ -75,7 +75,7 @@ class UIStore {
       },
       headerStyle:{
         'header': {backgroundColor: '#F7F7F7', height: 'auto', marginTop: '50px'},
-        'titleStyle': {cursor: 'pointer'},
+        'titleStyle': {cursor: 'pointer', margin: 'auto'},
         'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
       }
     }
@@ -193,7 +193,7 @@ class UIStore {
         },
         headerStyle:{
           'header': {backgroundColor: '#F7F7F7', height: '106px', marginTop: '50px'},
-          'titleStyle': {cursor: 'pointer'},
+          'titleStyle': {cursor: 'pointer', margin: 'auto'},
           'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
         }
       }
