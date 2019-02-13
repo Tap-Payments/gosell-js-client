@@ -189,9 +189,6 @@ class GoSell extends Component {
       RootStore.uIStore.getErrorHandler.visable = false;
       RootStore.uIStore.startLoading('loader', 'Please Wait');
 
-      //reset all data in the config store
-      // RootStore.configStore.setConfig(null, 'GOSELL');
-
       var body =  document.body.children;
 
       for(var i=0; i<body.length; i++){
@@ -280,7 +277,7 @@ class GoSell extends Component {
                   mode={RootStore.uIStore.modal.mode}
                   modalIcon={RootStore.merchantStore.logo}
                   modalTitle={<Details store={RootStore}/>}
-                  close={RootStore.uIStore.modal_mode === 'popup' ? "closeIn": "none"}
+                  close={RootStore.uIStore.modal_mode === 'popup' && RootStore.uIStore.delete_card == null && !RootStore.uIStore.btn.loader ? "closeIn" : "none"}
                   closeIcon={Paths.imgsPath + 'close.svg'}
                   onClose={GoSell.handleClose}
                   style={RootStore.uIStore.modal.headerStyle}

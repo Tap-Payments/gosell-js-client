@@ -4,7 +4,7 @@ body{
 
 .tap-payments-modal-open {
   overflow: hidden !important;
-  position: fixed;
+  position: relative;
 }
 
 .tap-payments-showModal{
@@ -580,6 +580,10 @@ a.tap-payments-close:hover {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   } */
+
+  .tap-payments-modal-open {
+    position: fixed;
+  }
 
   .tap-payments-modal-container {
     width: 100%;
