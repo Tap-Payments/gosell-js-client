@@ -81,7 +81,7 @@ class Options extends Component {
   componentDidUpdate(nextProps){
     if(this.props.store.uIStore.mainHeight == 0 && document.getElementById('gosell-gateway-payment-options') ){
       this.props.store.uIStore.calcElementsHeight('gosell-gateway-payment-options');
-      console.log('Height didupdate', this.props.store.uIStore.mainHeight);
+      // console.log('Height didupdate', this.props.store.uIStore.mainHeight);
     }
 
     // this.paymentOptions.style.height = this.props.store.uIStore.mainHeight;

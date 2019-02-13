@@ -527,7 +527,7 @@ class UIStore {
       loader: value.loader ? value.loader : this.btn.loader,
     }
 
-    console.log('btn is active? ', this.btn.active);
+    // console.log('btn is active? ', this.btn.active);
   }
 
   goSellOtp(value){

@@ -41,11 +41,11 @@ class TapSlider extends Component {
 
   componentWillReceiveProps(nextProps){
     if (nextProps.style.height!=this.props.style.height){
-      console.log('slider height from did update : ', nextProps.style.height);
+      // console.log('slider height from did update : ', nextProps.style.height);
       store.setInitialHeight(nextProps.style.height);
     }
 
-    console.log('slider height will receive props+++ ', nextProps.style.height);
+    // console.log('slider height will receive props+++ ', nextProps.style.height);
   }
 
   componentDidUpdate(prevProps){
@@ -53,7 +53,7 @@ class TapSlider extends Component {
 
       //  to update the height before going next
       if(store.currentItemKey == 0){
-        console.log('height from did update : ', store.activeItemElement.clientHeight);
+        // console.log('height from did update : ', store.activeItemElement.clientHeight);
         store.setInitialHeight(store.activeItemElement.clientHeight);
       }
 
@@ -62,7 +62,7 @@ class TapSlider extends Component {
         store.setInitialHeight(this.props.style.height);
       }
 
-      console.log('slider height did update +++ ', this.props.style.height);
+      // console.log('slider height did update +++ ', this.props.style.height);
       store.slide(this.props.axis, this.props.componentKey);
     }
     else {

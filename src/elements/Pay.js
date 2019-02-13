@@ -102,7 +102,7 @@ class Pay extends Component {
 
     var title = '', self = this, cards = {};
 
-    console.log('options height', store.uIStore.mainHeight);
+    // console.log('options height', store.uIStore.mainHeight);
 
     // console.log('btn btn ', store.uIStore.btn);
 

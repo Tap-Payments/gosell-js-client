@@ -107,26 +107,35 @@ class PaymentStore{
 
   getFees(value){
     var self = this;
-    console.log('payment methods in getFee', self.payment_methods);
+    console.log('99 payment methods in getFee', self.payment_methods);
     var active = self.payment_methods.filter(function(payment){
-        console.log(value, payment.name);
-        console.log('payment', payment);
-        console.log('what is the problem?????????? ', value.indexOf(payment.name));
-        if(value.indexOf(payment.name) >= 0){
-          if(payment.extra_fees){
-            var total_extra_fees = self.calcExtraFees(payment.extra_fees);
-            self.active_payment_option_fees = total_extra_fees;
-            self.active_payment_option_total_amount = self.current_currency.amount + self.active_payment_option_fees;
+        // console.log('99 '+ value, payment.name);
+        // console.log('99 payment', payment);
+        // console.log('99 what is the problem?????????? ', value.indexOf(payment.name));
+        try{
+          if(value.indexOf(payment.name) >= 0){
+            if(payment.extra_fees){
+              var total_extra_fees = self.calcExtraFees(payment.extra_fees);
+              self.active_payment_option_fees = total_extra_fees;
+              self.active_payment_option_total_amount = self.current_currency.amount + self.active_payment_option_fees;
+            }
+            else{
+              self.active_payment_option_fees = 0;
+              self.active_payment_option_total_amount = self.current_currency.amount;
+
+            }
           }
-          else{
-            self.active_payment_option_fees = 0;
-            self.active_payment_option_total_amount = self.current_currency.amount;
-          }
+        }
+        catch(error){
+          console.log('error', error);
         }
       return payment;
     });
 
     self.active_payment_option = active[0];
+    console.log('99 self.active_payment_option', self.active_payment_option);
+    console.log('99 active_payment_option_fees', self.active_payment_option_fees);
+    console.log('99 active_payment_option_total_amount', self.active_payment_option_total_amount);
   }
 
   calcExtraFees(fees){

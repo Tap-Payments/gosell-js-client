@@ -19,7 +19,7 @@ class TapSliderItem extends Component {
     // }
     this.props.store.setInitialWidth(document.getElementById('tapAwesomeSlider').clientWidth);
     if(this.props.store.currentItemKey == 0){
-        console.log('height from did update : ', this.tapAwesomeItem.clientHeight);
+        // console.log('height from did update : ', this.tapAwesomeItem.clientHeight);
 
         this.props.store.setInitialHeight(this.tapAwesomeItem.clientHeight);
       }

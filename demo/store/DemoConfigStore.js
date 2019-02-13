@@ -45,14 +45,14 @@ class DemoConfigStore {
     // this.elements_transaction_mode = 'saveCard';
 
     this.customer = {
-        id:"cus_m1QB0320181401l1LD1812485",
-        first_name: "Hala",
-        middle_name: "A.",
-        last_name: "Qutmosh",
-        email: "h.qutmosh@tap.company",
+        id:"cus_k2D15820191258y4H21302372",//"cus_m1QB0320181401l1LD1812485",
+        first_name: "Ali",
+        middle_name: "-",
+        last_name: "Malik",
+        email: "a.malik@tap.company",
         phone: {
-            country_code: "965",
-            number: "62221019"
+            country_code: "973",
+            number: "39389898"
         }
       };
 
@@ -75,8 +75,8 @@ class DemoConfigStore {
            email: false,
            sms: true
          },
-         redirect: "http://"+window.location.hostname+":3000/open-light-box-demo",
-         post: "http://"+window.location.hostname+":3000/open-light-box-demo"
+         redirect: "http://35.237.168.102/open-light-box-demo",
+         post: "http://35.237.168.102/open-light-box-demo"
       };
 
     this.order = {
