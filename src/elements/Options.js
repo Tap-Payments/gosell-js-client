@@ -100,7 +100,7 @@ class Options extends Component {
               key={payment.id}
               dir={store.uIStore.getDir}
               style={styles.row2}
-              rowIcon={<Img imgSrc={payment.image} imgWidth="30"/>}
+              rowIcon={<Img imgSrc={payment.image} imgWidth="30" style={{padding: '6px 20px'}}/>}
               rowTitle={{'secondary': payment.name}}
               onClick={this.handleWebClick.bind(this, payment)}
               addArrow={true}/>
