@@ -25,7 +25,7 @@ class GoSellElements extends Component {
 
   cardForm(){
     RootStore.formStore.generateCardForm();
-     window.setInterval(RootStore.formStore.checkFocus, 10);
+     // window.setInterval(RootStore.formStore.checkFocus, 10);
   }
 
   componentWillReceiveProps(nextProps) {

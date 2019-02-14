@@ -53,7 +53,8 @@ class ApiStore{
      })
      .catch(function (error) {
        self.showError(error);
-       console.log(error);
+       // console.log(error);
+
      });
 
      return await res;
@@ -94,69 +95,12 @@ class ApiStore{
 
    }
 
- // async init(){
- //    var self = this;
- //
- //    this.RootStore.uIStore.dir = this.RootStore.configStore.language === 'ar' ? 'rtl' : 'ltr';
- //
- //    var body = {
- //      "mode": "Development",
- //      "headers": {
- //        "authorization": "Bearer " + this.RootStore.configStore.gateway.publicKey,
- //      }
- //    }
- //
- //    var res = null, data = null, payment = null, merchant = null;
- //    await axios.post(Paths.serverPath + '/init', body)
- //    .then(async function (response) {
- //
- //      res = response.data;
- //
- //      console.log('init response', res);
- //
- //      if(res.status === 'success'){
- //
- //        data = res.data;
- //        self.mode = data.live_mode;
- //        self.RootStore.merchantStore.merchant = {id: data.merchant_id, name: data.merchant_name};
- //        self.RootStore.merchantStore.pk = self.RootStore.configStore.gateway.publicKey;
- //        self.RootStore.merchantStore.session = data.session_token;
- //
- //        self.RootStore.paymentStore.status_display_duration = data.sdk_settings.status_display_duration;
- //        self.RootStore.paymentStore.otp_resend_interval = data.sdk_settings.otp_resend_interval;
- //        self.RootStore.paymentStore.otp_resend_attempts = data.sdk_settings.otp_resend_attempts;
- //
- //        self.RootStore.paymentStore.card_wallet = data.permission.card_wallet;
- //        self.RootStore.paymentStore.setThreeDSecure(data.permission.threeDSecure);
- //
- //        merchant = await self.getMerchantDetails();
- //
- //        payment = await self.setPaymentOptions();
- //
- //      }
- //      else {
- //        self.RootStore.uIStore.showMsg('warning', res.errors[0].description, res.errors[0].code);
- //      }
- //    })
- //    .catch(function (error) {
- //      console.log(error);
- //    });
- //
- //      if(res.status === 'success' && payment.status == 200 && merchant.status == 200){
- //         this.RootStore.uIStore.stopLoading();
- //         return await res;
- //       }
- //       else {
- //         return await null;
- //       }
- //
- //  }
-
  showError(json) {
     var self = this;
 
     if(json.errors){
       self.RootStore.uIStore.showMsg('warning', json.errors[0].description, json.errors[0].code);
+
     }
     else if(json.error){
       self.RootStore.uIStore.showMsg('warning', json.error.description, json.error.code);
@@ -473,6 +417,7 @@ class ApiStore{
     .then(async function (response) {
       res = response;
       console.log('charge', response);
+      self.RootStore.configStore.callbackFunc(response.data);
 
       console.log('type ==============> ', type);
 
@@ -541,6 +486,8 @@ class ApiStore{
     .then(async function (response) {
       res = response;
       console.log('authorize', res);
+
+      self.RootStore.configStore.callbackFunc(response.data);
 
       if(response.data.code == 100){
         self.showError(response.data);
@@ -768,6 +715,8 @@ class ApiStore{
     .then(async function (response) {
       res = response;
 
+      self.RootStore.configStore.callbackFunc(response.data);
+
       if(response.data.code == 100){
         self.showError(response.data);
           // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
@@ -800,6 +749,8 @@ class ApiStore{
     await axios.post(Paths.serverPath +'/api', body)
     .then(async function (response) {
       res = response;
+
+      self.RootStore.configStore.callbackFunc(response.data);
 
       if(response.data.code == 100){
         self.showError(response.data);
@@ -1124,6 +1075,8 @@ class ApiStore{
     .then(async function (response) {
 
       res = response.data;
+
+      self.RootStore.configStore.callbackFunc(response.data);
 
       console.log('charge', res);
 

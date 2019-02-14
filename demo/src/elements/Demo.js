@@ -16,13 +16,27 @@ class Demo extends Component {
     }
   }
 
+  componentDidMount(){
+    // window.addEventListener('change', function(event){
+    //   console.log('goSell event hey!! ', event);
+    // })
+
+  }
+
+  hey(data){
+    console.log(data);
+  }
+
+
   handleLightBox(){
+    GoSell.openLightBox(this.hey);
+
     this.setState({
       showElements: false
     });
 
     setTimeout(function(){
-      GoSell.openLightBox();
+      // GoSell.openLightBox();
     }, 500);
 
   }

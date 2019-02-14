@@ -16,7 +16,7 @@ class FormStore{
 
     this.hide = null;
 
-    this.checkFocus = this.checkFocus.bind(this);
+    // this.checkFocus = this.checkFocus.bind(this);
     this.generateToken = this.generateToken.bind(this);
   }
 
@@ -117,6 +117,8 @@ class FormStore{
       };
       self.statusFocus = function(card,result){
 
+        console.log('hey focus');
+
       }
       self.createToken = function(card,result){
 
@@ -215,7 +217,7 @@ class FormStore{
           }
           self.elements.card.addEventListener= function(id, res){
 
-
+            console.log('card id', id);
               window.addEventListener('message', receiver, false);
               ////console.log(this)
               if(this.card){
@@ -247,7 +249,6 @@ class FormStore{
                           res(e.data)
 
                       } else {
-
                           res(e.data)
                        }
                  }
@@ -273,8 +274,9 @@ class FormStore{
 
               x.setAttribute("src", window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui?"+ self.objectToQueryString(options_object)+'&key='+key+'&'+ self.objectToQueryString(paymentOptions));
               this.card._iframe =  x;
-              self.currencyCode = paymentOptions.currencyCode
-              //console.log('it is card', this.card);
+              self.currencyCode = paymentOptions.currencyCode;
+              // console.log('it is card', this.card);
+
               return this.card;
           }
           this.elements.options = options;
@@ -333,131 +335,140 @@ class FormStore{
     this.card = elements.create('card', {style: style}, paymentOptions);
     this.card.mount('#element-container');
 
-    var bin = true;
-    var active_brand = null;
-
     this.card.addEventListener('change', function(event) {
-      //console.log('event', event);
+      console.log('change event', event);
 
-      if(event.code == 200){
-        self.RootStore.paymentStore.save_card_active = true;
-        self.RootStore.uIStore.setIsActive('FORM');
-        // self.RootStore.uIStore.payBtn(true);
-
-        var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.current_currency.symbol + self.RootStore.uIStore.formatNumber(self.RootStore.paymentStore.active_payment_option_total_amount.toFixed(self.RootStore.paymentStore.current_currency.decimal_digit)) : '';
-
-        //console.log('form total', total);
-        self.RootStore.uIStore.goSellBtn({
-          title: self.RootStore.configStore.btn + ' ' + total,
-          color: '#2ACE00',
-          active: true
-        });
-
-        //console.log('I am in success');
-
-        if(self.RootStore.configStore.transaction_mode === 'save_card'){
-          self.RootStore.paymentStore.saveCardOption(true);
-        }
-      }
-      else if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
-
-        if(self.RootStore.uIStore.btn.active && self.RootStore.uIStore.btn.loader){
-          self.RootStore.uIStore.warningHandler();
-        }
-        else {
-          self.RootStore.paymentStore.save_card_active = false;
-          self.RootStore.paymentStore.saveCardOption(false);
-          // self.RootStore.uIStore.payBtn(false);
-
-          self.RootStore.uIStore.goSellBtn({
-            title: self.RootStore.configStore.btn,
-            active: false,
-            loader: false
-          });
-
-          //console.log('I am in error');
-          if(event.error_interactive){
-            self.RootStore.uIStore.setErrorHandler({
-              visable: true,
-              code: event.error_interactive.code,
-              msg: event.error_interactive.message,
-              type: 'error'
-            });
-          }
-
-        	if(event.error && event.error.code && (event.error.code === 409 || event.error.code === 403)){
-        		//hide form here
-            self.hide = true;
-
-            if(event.error.code === 403){
-              self.RootStore.uIStore.setErrorHandler({
-                visable: true,
-                code: event.error.code,
-                msg: event.error.message,
-                type: 'error'
-              });
-            }
-        	}
-          else {
-            self.hide = false;
-          }
-        }
-
-      }
-
-      if(event.BIN && event.BIN.card_brand !== active_brand){
-          //console.log(event.BIN.card_brand);
-
-          if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
-            self.RootStore.paymentStore.getFees(event.BIN.card_brand);
-
-          }
-
-          //console.log(active_brand, event.BIN);
-          active_brand = event.BIN.card_brand;
-      }
-
-      if(event.loaded){
-        //console.log('loaded!!!!! ', event.loaded);
-
-        if(self.RootStore.configStore.transaction_mode === 'get_token' || self.RootStore.configStore.transaction_mode === 'save_card'){
-          //console.log('&& update the element height');
-          self.RootStore.uIStore.calcElementsHeight('form-container');
-        }
-        else {
-          self.RootStore.uIStore.calcElementsHeight('gosell-gateway-payment-options');
-        }
-
-      }
+      self.onChange(event);
     });
 
   }
 
-  checkFocus() {
-
+  onChange(event){
     var self = this;
-    var statusFocus = null;
+    var bin = true;
+    var active_brand = null;
 
-    var isfocused = document.getElementById("myFrame");
+    if(event.code == 200){
+      self.RootStore.paymentStore.save_card_active = true;
+      self.RootStore.uIStore.setIsActive('FORM');
+      // self.RootStore.uIStore.payBtn(true);
 
-        if(document.activeElement == isfocused) {
-          if(statusFocus != false){
-              statusFocus=false;
-              ////console.log('in focus');
-              // if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
-                self.cardFormHandleClick();
-              // }
-              //return {"statusFocus":statusFocus,'message':"iframe has focus"};
-          }
-        } else {
-          if(statusFocus != true){
-              statusFocus=true;
-              //return {"statusFocus":statusFocus,'message':"iframe has not focused"};
-          }
+      var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.current_currency.symbol + self.RootStore.uIStore.formatNumber(self.RootStore.paymentStore.active_payment_option_total_amount.toFixed(self.RootStore.paymentStore.current_currency.decimal_digit)) : '';
+
+      //console.log('form total', total);
+      self.RootStore.uIStore.goSellBtn({
+        title: self.RootStore.configStore.btn + ' ' + total,
+        color: '#2ACE00',
+        active: true
+      });
+
+      //console.log('I am in success');
+
+      if(self.RootStore.configStore.transaction_mode === 'save_card'){
+        self.RootStore.paymentStore.saveCardOption(true);
+      }
+    }
+    else if(event.code == 100 && event.focus == 'in'){
+      self.cardFormHandleClick();
+    }
+    else if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
+
+      if(self.RootStore.uIStore.btn.active && self.RootStore.uIStore.btn.loader){
+        self.RootStore.uIStore.warningHandler();
+      }
+      else {
+        self.RootStore.paymentStore.save_card_active = false;
+        self.RootStore.paymentStore.saveCardOption(false);
+        // self.RootStore.uIStore.payBtn(false);
+
+        self.RootStore.uIStore.goSellBtn({
+          title: self.RootStore.configStore.btn,
+          active: false,
+          loader: false
+        });
+
+        //console.log('I am in error');
+        if(event.error_interactive){
+          self.RootStore.uIStore.setErrorHandler({
+            visable: true,
+            code: event.error_interactive.code,
+            msg: event.error_interactive.message,
+            type: 'error'
+          });
         }
 
-        return;
-   }
+        if(event.error && event.error.code && (event.error.code === 409 || event.error.code === 403)){
+          //hide form here
+          self.hide = true;
+
+          if(event.error.code === 403){
+            self.RootStore.uIStore.setErrorHandler({
+              visable: true,
+              code: event.error.code,
+              msg: event.error.message,
+              type: 'error'
+            });
+          }
+        }
+        else {
+          self.hide = false;
+        }
+      }
+
+    }
+
+    if(event.BIN && event.BIN.card_brand !== active_brand){
+        //console.log(event.BIN.card_brand);
+
+        if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
+          self.RootStore.paymentStore.getFees(event.BIN.card_brand);
+
+        }
+
+        //console.log(active_brand, event.BIN);
+        active_brand = event.BIN.card_brand;
+    }
+
+    if(event.loaded){
+      //console.log('loaded!!!!! ', event.loaded);
+
+      if(self.RootStore.configStore.transaction_mode === 'get_token' || self.RootStore.configStore.transaction_mode === 'save_card'){
+        //console.log('&& update the element height');
+        self.RootStore.uIStore.calcElementsHeight('form-container');
+      }
+      else {
+        self.RootStore.uIStore.calcElementsHeight('gosell-gateway-payment-options');
+      }
+
+    }
+  }
+
+  // checkFocus() {
+  //
+  //   var self = this;
+  //   var statusFocus = null;
+  //
+  //   var isfocused = document.getElementById("myFrame");
+  //
+  //       if(document.activeElement == isfocused) {
+  //         if(statusFocus != false){
+  //             statusFocus=false;
+  //             // console.log('in focus');
+  //             // if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
+  //               self.cardFormHandleClick();
+  //             // }
+  //             //return {"statusFocus":statusFocus,'message':"iframe has focus"};
+  //         }
+  //       } else {
+  //         if(statusFocus != true){
+  //           // console.log('in focus');
+  //             statusFocus=true;
+  //             //return {"statusFocus":statusFocus,'message':"iframe has not focused"};
+  //         }
+  //       }
+  //
+  //       return;
+  //  }
 
    cardFormHandleClick(){
 
@@ -513,6 +524,9 @@ class FormStore{
          } else {
                // Send the token to your server
                if(self.RootStore.configStore.transaction_mode === 'get_token'){
+
+                 self.RootStore.configStore.callbackFunc(result);
+
                  self.RootStore.uIStore.setErrorHandler({
                    visable: true,
                    code: 200,

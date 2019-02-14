@@ -14,6 +14,7 @@ class DemoConfigStore {
         saveCardOption:true,
         customerCards: true,
         notifications:'standard',
+        callback: this.callbackFunc,
         labels:{
             cardNumber:"Card Number",
             expirationDate:"MM/YY",
@@ -45,14 +46,14 @@ class DemoConfigStore {
     // this.elements_transaction_mode = 'saveCard';
 
     this.customer = {
-        id:"cus_k2D15820191258y4H21302372",//"cus_m1QB0320181401l1LD1812485",
-        first_name: "Ali",
+        id:"cus_m1QB0320181401l1LD1812485",//"cus_k2D15820191258y4H21302372",
+        first_name: "Hala",
         middle_name: "-",
-        last_name: "Malik",
-        email: "a.malik@tap.company",
+        last_name: "Q",
+        email: "h.qutmosh@tap.company",
         phone: {
-            country_code: "973",
-            number: "39389898"
+            country_code: "965",
+            number: "62221019"
         }
       };
 
@@ -75,8 +76,8 @@ class DemoConfigStore {
            email: false,
            sms: true
          },
-         redirect: "http://35.237.168.102/open-light-box-demo",
-         post: "http://35.237.168.102/open-light-box-demo"
+         redirect: "http://localhost:3000/open-light-box-demo",
+         post: "http://localhost:3000/open-light-box-demo"
       };
 
     this.order = {
@@ -127,6 +128,9 @@ class DemoConfigStore {
     // this.updateOrder = this.updateOrder.bind(this);
   }
 
+  callbackFunc(response){
+    console.log('response from callback func', response);
+  }
 
   updateGatewayObj(e) {
      // console.log(e.target.name, e.target.value);

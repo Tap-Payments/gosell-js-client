@@ -12,11 +12,10 @@ import RootStore from '../store/RootStore.js';
 class GoSell extends Component {
 
   //open Tap gateway as a light box by JS library
-  static openLightBox(e){
+  static openLightBox(){
     RootStore.uIStore.modal_mode = 'popup';
 
     GoSell.handleView();
-
     RootStore.configStore.configure().then(result => {
       if(!GoSell.showTranxResult()){
         setTimeout(function(){
@@ -130,7 +129,7 @@ class GoSell extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.handleWindowSizeChange();
-    // console.log('nextProps', nextProps);
+    console.log('nextProps', nextProps);
     this.config(nextProps);
   }
 
@@ -241,6 +240,7 @@ class GoSell extends Component {
     var urlParams = new URLSearchParams(window.location.search);
 
     if(urlParams.has('tap_id')){
+      console.log('redirect url', RootStore.configStore.redirect_url);
       window.open(RootStore.configStore.redirect_url, '_self');
     }
     else {
