@@ -85,6 +85,7 @@ class TapLoader extends Component {
   }
 
   render() {
+    let style = {position:'relative',top:((50-(Math.floor(window.innerHeight/100)%100))+"%")};
 
     const Btn = styled.a`
     font-family: 'Roboto-Regular',sans-serif;
@@ -114,9 +115,9 @@ class TapLoader extends Component {
     `;
 
     return (
-      <div className="tap-msg" style={{zIndex: '99999999999999'}}>
-          <div className='tap-msg-wrapper'>
-            <div style={{width: '60px', height: '60px', margin: '0px 10px'}}>
+      <div className="tap-msg" style={{position:'relative',zIndex: '99999999999999'}}>
+          <div className='tap-msg-wrapper' style={window.innerWidth >= 440 ? style : {color:''}}>
+            <div style={{width: '60px', height: '60px', margin: 'auto'}}>
               <Loader
                 toggleAnimation={this.state.status}
                 animationData={this.state.loader}
