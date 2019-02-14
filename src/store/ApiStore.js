@@ -1055,6 +1055,8 @@ class ApiStore{
   async createCard(customer_id, token){
     var self = this;
 
+    self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
+    
     var headers = {
       'session_token':self.RootStore.merchantStore.session
     }

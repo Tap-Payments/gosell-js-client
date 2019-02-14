@@ -117,7 +117,6 @@ class FormStore{
       };
       self.statusFocus = function(card,result){
 
-        console.log('hey focus');
 
       }
       self.createToken = function(card,result){
@@ -217,7 +216,7 @@ class FormStore{
           }
           self.elements.card.addEventListener= function(id, res){
 
-            console.log('card id', id);
+            // console.log('card id', id);
               window.addEventListener('message', receiver, false);
               ////console.log(this)
               if(this.card){
@@ -337,7 +336,6 @@ class FormStore{
 
     this.card.addEventListener('change', function(event) {
       console.log('change event', event);
-
       self.onChange(event);
     });
 
@@ -362,6 +360,8 @@ class FormStore{
         active: true
       });
 
+      // console.log('onChange', self.RootStore.uIStore.btn);
+
       //console.log('I am in success');
 
       if(self.RootStore.configStore.transaction_mode === 'save_card'){
@@ -370,52 +370,57 @@ class FormStore{
     }
     else if(event.code == 100 && event.focus == 'in'){
       self.cardFormHandleClick();
-    }
-    else if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
+      if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
 
-      if(self.RootStore.uIStore.btn.active && self.RootStore.uIStore.btn.loader){
-        self.RootStore.uIStore.warningHandler();
-      }
-      else {
-        self.RootStore.paymentStore.save_card_active = false;
-        self.RootStore.paymentStore.saveCardOption(false);
-        // self.RootStore.uIStore.payBtn(false);
-
-        self.RootStore.uIStore.goSellBtn({
-          title: self.RootStore.configStore.btn,
-          active: false,
-          loader: false
-        });
-
-        //console.log('I am in error');
-        if(event.error_interactive){
-          self.RootStore.uIStore.setErrorHandler({
-            visable: true,
-            code: event.error_interactive.code,
-            msg: event.error_interactive.message,
-            type: 'error'
-          });
+        if(self.RootStore.uIStore.btn.active && self.RootStore.uIStore.btn.loader){
+          self.RootStore.uIStore.warningHandler();
         }
+        else {
+          self.RootStore.paymentStore.save_card_active = false;
+          self.RootStore.paymentStore.saveCardOption(false);
+          // self.RootStore.uIStore.payBtn(false);
 
-        if(event.error && event.error.code && (event.error.code === 409 || event.error.code === 403)){
-          //hide form here
-          self.hide = true;
+          console.log('event code 400');
+          self.RootStore.uIStore.goSellBtn({
+            title: self.RootStore.configStore.btn,
+            active: false,
+            loader: false
+          });
 
-          if(event.error.code === 403){
+          //console.log('I am in error');
+          if(event.error_interactive){
             self.RootStore.uIStore.setErrorHandler({
               visable: true,
-              code: event.error.code,
-              msg: event.error.message,
+              code: event.error_interactive.code,
+              msg: event.error_interactive.message,
               type: 'error'
             });
           }
-        }
-        else {
-          self.hide = false;
-        }
-      }
 
+          if(event.error && event.error.code && (event.error.code === 409 || event.error.code === 403)){
+            //hide form here
+            self.hide = true;
+
+            if(event.error.code === 403){
+              self.RootStore.uIStore.setErrorHandler({
+                visable: true,
+                code: event.error.code,
+                msg: event.error.message,
+                type: 'error'
+              });
+            }
+          }
+          else {
+            self.hide = false;
+          }
+        }
+
+      }
     }
+    // else if(event.code == 101 && event.focus == 'out'){
+    //   console.log("it's out");
+    // }
+
 
     if(event.BIN && event.BIN.card_brand !== active_brand){
         //console.log(event.BIN.card_brand);
@@ -488,6 +493,7 @@ class FormStore{
          this.RootStore.uIStore.setErrorHandler({});
          this.RootStore.uIStore.delete_card = null;
          // this.RootStore.uIStore.payBtn(false);
+
          this.RootStore.uIStore.goSellBtn({
            title: this.RootStore.configStore.btn,
            active: false,
@@ -541,7 +547,7 @@ class FormStore{
                self.RootStore.paymentStore.active_payment_option = result.card;
                //console.log('card details', result.card);
                self.RootStore.uIStore.stopBtnLoader();
-               self.clearCardForm();
+
 
          }
      });
@@ -551,7 +557,6 @@ class FormStore{
      if(this.card != null){
        this.card.clearForm();
        // this.RootStore.uIStore.payBtn(false);
-
        this.RootStore.uIStore.goSellBtn({
          title: this.RootStore.configStore.btn,
          active: false,

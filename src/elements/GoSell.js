@@ -199,41 +199,6 @@ class GoSell extends Component {
       }
   }
 
-  handleUI(){
-
-    // if(RootStore.uIStore.getIsMobile){
-    //
-    //   RootStore.uIStore.mode = {
-    //     mode: 'simple',
-    //     modalStyle: {
-    //       'modal': {marginTop: '10px'},
-    //       'body': {backgroundColor: '#E9E9E9', height: '90%', maxHeight: '90%'} //overflow: 'scroll',
-    //     },
-    //     headerStyle: {
-    //       'header': {backgroundColor: '#F7F7F7', height: '65px'},
-    //       'titleStyle': {cursor: 'pointer'},
-    //       'iconStyle': {width: '40px', height: '40px', borderRadius:'100%'}
-    //     }
-    //   }
-    //
-    // }
-    // else {
-    //
-    //   RootStore.uIStore.mode = {
-    //     mode: 'advanced',
-    //     modalStyle: {
-    //       'modal': {width:'400px',height: 'fit-content'},
-    //       'body': {backgroundColor: '#E9E9E9', height: 'fit-content', minHeight: '227px'}
-    //     },
-    //     headerStyle: {
-    //       'header': {backgroundColor: '#F7F7F7', height: 'auto', marginTop: '50px'},
-    //       'titleStyle': {cursor: 'pointer'},
-    //       'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
-    //     }
-    //   };
-    // }
-  }
-
   closeModal(){
     var URLSearchParams = require('url-search-params');
 

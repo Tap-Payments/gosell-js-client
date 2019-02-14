@@ -14,7 +14,6 @@ class ActionStore {
 
     this.onWebPaymentClick = this.onWebPaymentClick.bind(this);
     this.onPayBtnClick = this.onPayBtnClick.bind(this);
-    this.cardFormHandleClick = this.cardFormHandleClick.bind(this);
 
     this.handleExtraFeesClick = this.handleExtraFeesClick.bind(this);
     this.handleOTPClick = this.handleOTPClick.bind(this);
@@ -44,6 +43,7 @@ class ActionStore {
     this.RootStore.paymentStore.active_payment_option_fees = 0;
 
     this.RootStore.uIStore.shakeCards(false);
+    this.RootStore.formStore.clearCardForm();
     // this.RootStore.uIStore.goSellBtn({
     //   title: this.RootStore.configStore.btn,
     //   active: false,
@@ -283,39 +283,6 @@ class ActionStore {
            }
          });
     }
-
-  }
-
-  cardFormHandleClick(){
-    console.log('cardFormHandleClick');
-    if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
-      this.RootStore.uIStore.warningHandler();
-    }
-    else {
-      this.RootStore.paymentStore.selected_card = null;
-      this.RootStore.uIStore.setSubPage(-1);
-
-      //clear open menus
-      // this.RootStore.uIStore.setPageIndex(0);
-      // this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
-
-      if(this.RootStore.uIStore.getIsActive !== 'FORM'){
-        this.RootStore.paymentStore.active_payment_option_total_amount = 0;
-        this.RootStore.uIStore.setErrorHandler({});
-        this.RootStore.uIStore.delete_card = null;
-        // this.RootStore.uIStore.payBtn(false);
-        this.RootStore.uIStore.goSellBtn({
-          title: this.RootStore.configStore.btn,
-          active: false,
-          loader: false
-        });
-
-      }
-
-      //form is active
-      this.RootStore.uIStore.setIsActive('FORM');
-
-   }
 
   }
 

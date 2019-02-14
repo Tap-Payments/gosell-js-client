@@ -51,7 +51,10 @@ class Pay extends Component {
   handlePayBtnClick(){
 
     var store = this.props.store;
-    store.uIStore.startBtnLoader();
+    store.uIStore.goSellBtn({
+      active: true,
+      loader: true,
+    });
 
     switch (store.uIStore.getPageIndex) {
       case 0:

@@ -515,8 +515,8 @@ class UIStore {
   goSellBtn(value){
 
     if(!value.active){
+      console.log('!value.active');
       this.btn.active = false;
-      this.btn.loader = false;
       // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
     }
 
