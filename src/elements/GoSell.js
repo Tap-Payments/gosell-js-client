@@ -240,8 +240,10 @@ class GoSell extends Component {
     var urlParams = new URLSearchParams(window.location.search);
 
     if(urlParams.has('tap_id')){
-      console.log('redirect url', RootStore.configStore.redirect_url);
-      window.open(RootStore.configStore.redirect_url, '_self');
+      var url = document.location.href;
+      var url = url.split('?');
+
+      window.open(url[0], '_self');
     }
     else {
       // RootStore.uIStore.setOpenModal(false);
