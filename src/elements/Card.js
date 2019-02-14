@@ -151,7 +151,7 @@ class Card extends Component {
 
         {this.state.loading ?
         <div className="tap-progressbar-container" style={{opacity: this.state.fade ? 0 : 1}}>
-          <div style={{width: '40px', height: '40px', margin: '0px 10px'}}>
+          <div style={{width: '40px', height: '40px', margin: '30px auto',textAlign:'center'}}>
             <Loader
               toggleAnimation={this.state.delete}
               animationData={oneRingLoader}
