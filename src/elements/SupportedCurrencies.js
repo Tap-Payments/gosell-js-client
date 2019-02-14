@@ -90,11 +90,12 @@ class SupportedCurrencies extends Component {
                 '&:hover': {
                   backgroundColor: '#fff'
                 }},
+                'subtitle': {textAlign: 'right', margin: '0 21px', lineHeight: '38px'},
                 'textStyle': {color: '#474747', margin: '0'},
                 'iconStyle': {padding:'0 6px'}
               }}
               rowTitle={{'secondary': currency.currency}}
-              rowIcon={<img src={currency.flag} width="27"/>}
+              rowIcon={<img src={currency.flag} width="27" style={{padding: '6px 21px', height:'27px'}}/>}
               onClick={this.handleClick.bind(this, currency)}
               addArrow={false}
               />
