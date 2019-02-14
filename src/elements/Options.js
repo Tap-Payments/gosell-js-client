@@ -20,7 +20,7 @@ const styles = {
         //    boxShadow: 'inset 0px 11px 0px -10px #2ACE00, inset 0px -11px 0px -10px #2ACE00'
         }
     },
-      'textStyle': {width: '100%', textAlign: 'center'},
+      'textStyle': { textAlign: 'center'},
       'iconStyle': {width: '65px', height: '65px'}
     },
     'row2':{
@@ -32,7 +32,9 @@ const styles = {
       'iconStyle': {width: '65px', height: '48px'},
       'textStyle': {width: '100%'},
       'subtitle':{
-        fontSize: '15px'
+        fontSize: '15px',
+        lineHeight: '48px',
+        margin: '0px 82px'
       }
     },
     'order_row':{
@@ -143,8 +145,8 @@ class Options extends Component {
                 style={styles.row1}
                 rowIcon={<Img imgSrc={Paths.imgsPath + 'bill.svg'} imgWidth="18" style={
                   store.uIStore.getDir === 'ltr' ?
-                  {borderRight: '0.5px solid rgba(0, 0, 0, 0.17)'}
-                   : {borderLeft: '0.5px solid rgba(0, 0, 0, 0.17)'}}/>}
+                  {borderRight: '0.5px solid rgba(0, 0, 0, 0.17)' , padding: '21px 23px'}
+                   : {borderLeft: '0.5px solid rgba(0, 0, 0, 0.17)', padding: '21px 23px'}}/>}
                 rowTitle={this.props.store.paymentStore.getCurrentValue}
                 onClick={this.props.store.actionStore.currenciesHandleClick}
                 addArrow={true}/>

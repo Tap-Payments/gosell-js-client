@@ -49,6 +49,7 @@ class Row extends Component {
       ${this.props.style.textStyle};
     `
 
+    const arrowImg = this.props.style.arrowImg? this.props.style.arrowImg : this.props.dir === 'ltr' ? Paths.imgsPath + 'rightArrow.svg' : Paths.imgsPath + 'leftArrow.svg';
     if(this.props.rowTitle && this.props.rowTitle.main && this.props.rowTitle.secondary){
       var title = ( <Text className="tap-text-container">
           <p className="tap-subtitle" style={this.props.style.subtitle}>{this.props.rowTitle.secondary}</p>
@@ -94,8 +95,7 @@ class Row extends Component {
          }
 
          {(this.props.addArrow ||  this.props.addArrow === true) ?
-           <div className="tap-arrow" style={this.props.dir === 'ltr'? {textAlign: 'right'} : {textAlign:'left'}}>
-                <img src={this.props.style.arrowImg? this.props.style.arrowImg : this.props.dir === 'ltr' ? Paths.imgsPath + 'rightArrow.svg' : Paths.imgsPath + 'leftArrow.svg' } alt="Arrow"/>
+           <div className="tap-arrow" style={{ backgroundImage: 'url('+ arrowImg +')' }}>
           </div>
         : null}
 

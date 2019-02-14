@@ -70,7 +70,7 @@ class SupportedCurrencies extends Component {
             id={index}
             key={index}
             dir={this.props.dir}
-            style={{'rowContainer': {width: '100%', backgroundColor: 'white', height: '44px'}, 'textStyle': {width: '100%'}}}
+            style={{'rowContainer': {width: '100%', backgroundColor: 'white', height: '44px'}, 'textStyle': {width: '100%'}, 'subtitle': {lineHeight: '45px', padding: '0 15px'} }}
             rowTitle={{'secondary': currency.symbol + ' - ' + currency.name}}
             onClick={this.handleClick.bind(this, currency)}
             addArrow={false}
@@ -150,8 +150,8 @@ class SupportedCurrencies extends Component {
               <Separator />
               <Row
                 dir={this.props.dir}
-                style={{'rowContainer': {height:'48px', backgroundColor: 'white'}, 'iconStyle':{width: '45px'}, 'textStyle': {width: '100%', margin:'0', textAlign: this.props.dir === 'ltr' ? 'left' : 'right'}}}
-                rowIcon={<Img imgSrc={this.props.dir === 'ltr'? Paths.imgsPath + 'leftArrow.svg' : Paths.imgsPath +  'rightArrow.svg' } imgWidth="7"/>}
+                style={{'rowContainer': {height:'48px', backgroundColor: 'white'}, 'iconStyle':{width: '45px'}, 'textStyle': {width: '100%', margin:'0', textAlign: this.props.dir === 'ltr' ? 'left' : 'right'}, 'subtitle': {lineHeight: '45px', padding: '0 40px'} }}
+                rowIcon={<Img imgSrc={this.props.dir === 'ltr'? Paths.imgsPath + 'leftArrow.svg' : Paths.imgsPath +  'rightArrow.svg' } imgWidth="7" style={{padding: '16px'}}/>}
                 rowTitle={{'secondary': 'Select Currency'}}
                 onClick={this.handleClick.bind(this, this.props.store.paymentStore.current_currency)}/>
               <Separator />

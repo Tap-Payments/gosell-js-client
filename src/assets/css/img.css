@@ -1,5 +1,5 @@
 .tap-img-container{
-  width: 65px;
+  /* width: 65px;
   height: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -9,5 +9,5 @@
           align-items: center;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
-          justify-content: center;
+          justify-content: center; */
 }
