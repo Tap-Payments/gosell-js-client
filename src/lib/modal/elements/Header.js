@@ -74,11 +74,7 @@ class Header extends Component{
       `;
 
       var ModalIcon = styled.div`
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        display: inline-block;
         width: ${this.state.headerStyle.height};
         height: ${this.state.headerStyle.height};
       `;
@@ -122,12 +118,9 @@ class Header extends Component{
           <Header className="tap-payments-modal-header" dir={this.props.dir? this.props.dir : null} style={Object.assign(this.state.separator, this.state.headerStyle)}>
           {this.props.modalIcon?
               <ModalIcon>
-                <Circle>
                   {typeof this.props.modalIcon === 'object' ?
                   this.props.modalIcon :
                   <img src={this.props.modalIcon} width="100%" style={this.state.iconStyle} alt="Modal Icon"/>}
-
-                </Circle>
               </ModalIcon>
            : null}
 
