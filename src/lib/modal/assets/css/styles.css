@@ -253,9 +253,9 @@ body{
 }
 
 .tap-payments-header-icon{
-    display: -webkit-box;
+    /* display: -webkit-box;
     display: -ms-flexbox;
-    display: flex;
+    display: flex; */
   /*  align-items: flex-end;*/
     justify-content: center;
     align-items: center;
