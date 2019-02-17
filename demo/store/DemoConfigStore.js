@@ -1,4 +1,5 @@
 import {decorate, observable, computed} from 'mobx';
+import Cookies from "js-cookie";
 
 //include all the
 class DemoConfigStore {
@@ -44,9 +45,9 @@ class DemoConfigStore {
     this.transaction_mode = 'charge';
 
     // this.elements_transaction_mode = 'saveCard';
-
+    let customerIDCookie  = Cookies.get("goSellDemo_" + "customerID");
     this.customer = {
-        id:"cus_m1QB0320181401l1LD1812485",//"cus_k2D15820191258y4H21302372",
+        id: customerIDCookie?customerIDCookie:"cus_m1QB0320181401l1LD1812485",//"cus_k2D15820191258y4H21302372",
         first_name: "Hala",
         middle_name: "-",
         last_name: "Q",
@@ -129,7 +130,26 @@ class DemoConfigStore {
   }
 
   callbackFunc(response){
+    let customerID = null
+
     console.log('response from callback func', response);
+    if (response && response.customer){
+      // there are two different structures
+      if (response.customer.id){
+        // handle charge response
+        customerID = response.customer.id
+      } else {
+        // handle save_card response
+        customerID = response.customer
+      }
+    }
+
+    if (customerID){
+      // update the cookie
+      Cookies.set("goSellDemo_" + "customerID", customerID);
+      //  update the customer obj in the store
+      this.customer.id  = customerID;
+    }
   }
 
   updateGatewayObj(e) {
