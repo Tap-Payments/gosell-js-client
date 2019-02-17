@@ -28,7 +28,7 @@ class ActionStore {
           this.slideEnded = true;
         }
         .bind(this),
-        this.sliderAnimationDuration
+        this.sliderAnimationDuration-(this.sliderAnimationDuration/3)
     );
   }
 

@@ -1,5 +1,7 @@
 .tap-cards {
   overflow: auto;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
   display: block;
   padding: 10px 0px 5px 0px;
@@ -18,13 +20,14 @@
 .tap-cards-container {
   display: block;
   /* flex-direction: row; */
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding: 0 15px;
   width: auto;
 }
 
-[dir="rtl"]
-.tap-card {
+[dir="rtl"] .tap-card {
   float: right;
 }
 
@@ -35,8 +38,12 @@
   padding: 0px 5px;
   position: relative;
   /* display: flex; */
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .tap-progressbar-container {
@@ -45,9 +52,13 @@
   /* display: flex;
   flex-direction: column; */
   /* display: block; */
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   justify-items: center;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   pointer-events: none;
   height: inherit;
   width: inherit;
@@ -60,23 +71,30 @@
   display: block;
   /* flex-direction: column; */
   /* justify-content: space-evenly; */
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   justify-items: center;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   cursor: pointer;
   height: 100%;
   width: 100%;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
+          box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
 }
 
 .tap-card-container:hover, .tap-card-container:active {
   background-color: white;
-  box-shadow: 0px 0px 4px #2ACE00;
+  -webkit-box-shadow: 0px 0px 4px #2ACE00;
+          box-shadow: 0px 0px 4px #2ACE00;
 }
 
 .tap-card-active {
   background-color: white;
-  box-shadow: 0px 0px 5px #2ACE00;
+  -webkit-box-shadow: 0px 0px 5px #2ACE00;
+          box-shadow: 0px 0px 5px #2ACE00;
 }
 
 .tap-contents {
@@ -104,10 +122,14 @@
   width: 0px;
   height: 2px;
   background: #2ACE00;
-  transform: translate(3px, 11px) rotate(-45deg);
-  transform-origin: left;
+  -webkit-transform: translate(3px, 11px) rotate(-45deg);
+          transform: translate(3px, 11px) rotate(-45deg);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-transition: all 150ms;
   transition: all 150ms;
-  transition-delay: 0ms;
+  -webkit-transition-delay: 0ms;
+          transition-delay: 0ms;
 }
 
 .checkbox:before {
@@ -116,20 +138,26 @@
   width: 0px;
   height: 2px;
   background: #2ACE00;
-  transform: translate(0px, 7px) rotate(45deg);
-  transform-origin: left;
+  -webkit-transform: translate(0px, 7px) rotate(45deg);
+          transform: translate(0px, 7px) rotate(45deg);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-transition: all 150ms;
   transition: all 150ms;
-  transition-delay: 150ms;
+  -webkit-transition-delay: 150ms;
+          transition-delay: 150ms;
 }
 
 .show:before {
   width: 6px;
-  transition-delay: 0ms;
+  -webkit-transition-delay: 0ms;
+          transition-delay: 0ms;
 }
 
 .show:after {
   width: 12px;
-  transition-delay: 150ms;
+  -webkit-transition-delay: 150ms;
+          transition-delay: 150ms;
 }
 
 /*shake animation */
@@ -139,12 +167,17 @@
   display: block;
   /* display: flex;
   flex-direction: column; */
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   justify-items: center;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   /* height: 100%; */
   width: 100%;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
+          box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
   -webkit-animation-name: wiggle;
   -webkit-animation-duration: 0.3s;
   -webkit-transform-origin: 50% 50%;
@@ -152,17 +185,37 @@
   -webkit-animation-timing-function: linear;
 }
 
-@keyframes wiggle {
+@-webkit-keyframes wiggle {
   0% {
-    transform: rotate(-3deg);
+    -webkit-transform: rotate(-3deg);
+            transform: rotate(-3deg);
   }
 
   50% {
-    transform: rotate(3deg);
+    -webkit-transform: rotate(3deg);
+            transform: rotate(3deg);
   }
 
   100% {
-    transform: rotate(-3deg);
+    -webkit-transform: rotate(-3deg);
+            transform: rotate(-3deg);
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    -webkit-transform: rotate(-3deg);
+            transform: rotate(-3deg);
+  }
+
+  50% {
+    -webkit-transform: rotate(3deg);
+            transform: rotate(3deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(-3deg);
+            transform: rotate(-3deg);
   }
 }
 
@@ -181,9 +234,13 @@
   /* margin: 0px 5px; */
   /* display: flex; */
   /* flex-direction: column; */
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   justify-items: center;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   /* height: 100%; */
   width: 100%;
   /* box-shadow: 0px 0px 4px rgba(0,0,0,0.08); */
@@ -210,6 +267,23 @@
   -webkit-animation-timing-function: linear;
 }
 
+@-webkit-keyframes card-width {
+  0% {
+    width: 100px;
+  }
+
+  90% {
+    width: 0px;
+    opacity: 0;
+  }
+
+  100% {
+    width: 0px;
+    opacity: 0;
+    margin: 0px;
+  }
+}
+
 @keyframes card-width {
   0% {
     width: 100px;
@@ -222,6 +296,23 @@
 
   100% {
     width: 0px;
+    opacity: 0;
+    margin: 0px;
+  }
+}
+
+@-webkit-keyframes card-height {
+  0% {
+    height: 100px;
+  }
+
+  90% {
+    height: 0px;
+    opacity: 0;
+  }
+
+  100% {
+    height: 0px;
     opacity: 0;
     margin: 0px;
   }
