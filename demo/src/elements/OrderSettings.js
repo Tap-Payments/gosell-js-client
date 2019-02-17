@@ -1,5 +1,5 @@
 import React, { Component }  from "react";
-import Store from '../../store/DemoConfigStore';
+// import Store from '../../store/DemoConfigStore';
 import {observer} from 'mobx-react';
 import './app.css';
 
@@ -7,6 +7,8 @@ class GatewaySettings extends Component {
 
   constructor(props){
     super(props);
+    this.Store = props.store
+
   }
 
   render() {
@@ -19,8 +21,8 @@ class GatewaySettings extends Component {
                  <div className='app-row'>
                    <select
                       name="currency"
-                      value={Store.order.currency}
-                      onChange={(value) => Store.updateOrder(value)}>
+                      value={this.Store.order.currency}
+                      onChange={(value) => this.Store.updateOrder(value)}>
                       <option value="KWD">KWD</option>
                       <option value="SAR">SAR</option>
                       <option value="BHD">BHD</option>
@@ -44,8 +46,8 @@ class GatewaySettings extends Component {
                      type="text"
                      style={{width: '100%'}}
                      name="amount"
-                     value={Store.order.amount}
-                     onChange={(value) => Store.updateOrder(value)}/>
+                     value={this.Store.order.amount}
+                     onChange={(value) => this.Store.updateOrder(value)}/>
                  </div>
                </div>
                <br />
