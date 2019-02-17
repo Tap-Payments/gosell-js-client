@@ -175,7 +175,7 @@ class Card extends Component {
            : null}
 
             <React.Fragment>
-            <div className='tap-contents' style={{opacity: this.state.fade ? 0 : 1}}>{this.props.bank ? <img src={this.props.scheme} width='30'/> : <br style={{lineHeight:'1.5'}}/> }</div>
+            <div className='tap-contents' style={{opacity: this.state.fade ? 0 : 1, paddingTop: this.state.fade? "0px" : "5px"}}>{this.props.bank ? <img src={this.props.scheme} width='30'/> : <br style={{lineHeight:'1.5'}}/> }</div>
             <div className='tap-contents' style={this.state.fade ? {opacity: 0, padding:'5px 0px'} : {opacity: 1, padding:'5px 0px'}}>
               {this.props.bank ? <img src={this.props.bank} width='30'/> : <img src={this.props.scheme} height='27'/>}
             </div>

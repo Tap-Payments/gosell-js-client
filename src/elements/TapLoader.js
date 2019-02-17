@@ -97,7 +97,7 @@ class TapLoader extends Component {
     -ms-letter-spacing: 0.79px;
     letter-spacing: 0.79px;
     text-align: center;
-    margin: 0;
+    margin: 0 auto;
     text-transform: uppercase;
     border: 2px solid #FFF;
     border-radius: 50px;

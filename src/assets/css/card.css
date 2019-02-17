@@ -16,7 +16,7 @@
 }
 
 .tap-cards-container {
-  display: table;
+  display: block;
   /* flex-direction: row; */
   align-items: center;
   padding: 0 15px;
@@ -26,7 +26,6 @@
 .tap-card {
   height: 100px;
   width: 100px;
-  display: table-cell;
   padding: 0px 5px;
   position: relative;
   /* display: flex; */
@@ -52,7 +51,7 @@
 .tap-card-container {
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.75);
-  display: table;
+  display: block;
   /* flex-direction: column; */
   /* justify-content: space-evenly; */
   justify-content: center;
@@ -75,6 +74,9 @@
 }
 
 .tap-contents {
+  /* display: table-row; */
+  height: 30px;
+  /* margin-top: 5px; */
   text-align: center;
   pointer-events: none;
 }
@@ -86,7 +88,8 @@
 }
 
 .checkbox {
-  position: relative;
+  position: absolute;
+  left: 15px;
 }
 
 .checkbox:after {
@@ -127,6 +130,7 @@
 .tap-card-shake {
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.75);
+  display: block;
   /* display: flex;
   flex-direction: column; */
   justify-content: center;
@@ -167,6 +171,7 @@
   border-radius: 8px;
   background-color: rgb(255, 255, 255);
   opacity: 0.50;
+  /* display: table; */
   /* margin: 0px 5px; */
   /* display: flex; */
   /* flex-direction: column; */
