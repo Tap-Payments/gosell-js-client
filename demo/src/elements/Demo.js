@@ -5,6 +5,7 @@ import './app.css';
 import TapBtn from './TapBtn';
 import { GoSell } from "../../../src";
 import { GoSellElements } from "../../../src";
+import Cookies from "js-cookie";
 
 class Demo extends Component {
 
@@ -27,10 +28,15 @@ class Demo extends Component {
     console.log(data);
   }
 
-
+  setPublicKeyCookie(){
+    if (this.Store.gateway.publicKey) {
+      Cookies.set("goSellDemo_" + "publicKey", this.Store.gateway.publicKey);
+    }
+  }
   handleLightBox(){
     GoSell.openLightBox(this.hey);
-
+    // set p-key on start
+    this.setPublicKeyCookie()
     this.setState({
       showElements: false
     });
@@ -42,12 +48,15 @@ class Demo extends Component {
   }
 
   handleElements(){
+    // set p-key on start
+    this.setPublicKeyCookie()
     this.setState({
       showElements: !this.state.showElements
     });
   }
 
   handleGoSellElements(){
+
     this.Store.btnLoading = true;
 
     GoSellElements.submit().then(result => {

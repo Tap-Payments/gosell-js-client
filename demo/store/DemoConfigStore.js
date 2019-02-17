@@ -5,9 +5,11 @@ import Cookies from "js-cookie";
 class DemoConfigStore {
 
   constructor() {
+    // check if there is a p-key on start
+    let publicKeyCookie  = Cookies.get("goSellDemo_" + "publicKey");
 
     this.gateway = {
-      publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
+      publicKey: publicKeyCookie?publicKeyCookie:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
       language:"en",
       contactInfo:true,
       supportedCurrencies: 'all', // all | gcc | ["KWD", "SAR"]
