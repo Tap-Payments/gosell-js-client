@@ -23,9 +23,15 @@
   width: auto;
 }
 
+[dir="rtl"]
+.tap-card {
+  float: right;
+}
+
 .tap-card {
   height: 100px;
   width: 100px;
+  float: left;
   padding: 0px 5px;
   position: relative;
   /* display: flex; */
