@@ -98,6 +98,9 @@ class Card extends Component {
                  shake: true,
                  loading: false
              });
+             // calculate the modal again
+             this.props.store.uIStore.calcElementsHeight('gosell-gateway-payment-options');
+
           });
         }
 
