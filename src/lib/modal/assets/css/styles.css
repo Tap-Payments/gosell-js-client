@@ -238,11 +238,8 @@ body{
 .tap-payments-modal-header{
   width: 100%;
   height: 50px;
-  /* display: flex; */
-  /*justify-content: space-between;*/
   align-items: center;
   background-color: #fff;
-  /*align-items: center;*/
   border-radius: 8px 8px 0px 0px;
   margin: 0 auto;
   border: 1px solid #eaeaea;
@@ -250,6 +247,7 @@ body{
   box-shadow: rgba(0, 0, 0, 0.27) 0px 0px 36px 2px;
   border-radius: 8px 8px 0px 0px;
   position: relative;
+  text-align: center;
 }
 
 .tap-payments-header-icon{
@@ -269,11 +267,8 @@ body{
 }
 
 .tap-payments-header-title{
-  /* display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex; */
-  /*align-items: flex-start;
-  margin: 16px 16px 0px 0px;*/
+  display: inline-block;
+  vertical-align: top;
 }
 
 .tap-payments-header-close-icon{
@@ -611,6 +606,7 @@ a.tap-payments-close:hover {
 
   .tap-payments-modal-header{
     width: 90%;
+    text-align: justify;
   }
 
   .tap-payments-modal-body{
