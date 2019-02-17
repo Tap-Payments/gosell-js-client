@@ -86,7 +86,7 @@ class Cards extends Component {
            last4digits={card.last_four}/>)
        });
     }
-    var cardLength = 110*cards.length + 10 + "px";
+    var cardLength = 110*cards.length + 15 + "px";
     if(store.paymentStore.customer_cards_by_currency.length > 0){
       return (
         <React.Fragment>
