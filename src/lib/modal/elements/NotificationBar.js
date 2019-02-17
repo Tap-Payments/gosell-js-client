@@ -117,7 +117,7 @@ class NotificationBar extends Component{
             {this.props.options ? <div className="tap-payments-options" style={this.props.dir == 'rtl' ? {textAlign: 'left', left: '0'} : {textAlign: 'right', right: '0'}}>
               {options}
               </div>
-            : <a className="tap-payments-close" onClick={this.handleClose.bind(this)} title="close" style={this.props.dir == 'rtl' ? {left: '0'} : {right: '0'}}>{this.props.children ? "×" : ""}</a>}
+            : <div className="tap-payments-close" onClick={this.handleClose.bind(this)} title="close" style={this.props.dir == 'rtl' ? {left: '0'} : {right: '0'}}>{this.props.children ? "×" : ""}</div>}
 
             <div className="tap-payments-notification-title" style={this.props.options ? {display: 'flex', textAlign: this.props.dir == 'rtl' ? 'right' : 'left'} : {}} onClick={this.props.onClick}>
               {this.props.children}
