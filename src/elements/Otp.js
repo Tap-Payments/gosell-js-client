@@ -203,6 +203,7 @@ class Otp extends Component {
           </div>
 
           <table className="gosell-gateway-details-wrapper" dir={this.props.dir}>
+          <tbody>
             <tr>
               <td className="gosell-gateway-otp-msg-container">
                 <p className="gosell-gateway-otp-msg">Please enter the OTP that has been sent to <span className="gosell-gateway-otp-span">{this.props.store.paymentStore.authenticate ? this.props.store.paymentStore.authenticate.value : null}</span></p>
@@ -215,7 +216,7 @@ class Otp extends Component {
                 }
               </td>
             </tr>
-
+            </tbody>
           </table>
 
         </Confirm>
