@@ -1,9 +1,9 @@
 .tap-cards {
   overflow: auto;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  display: block;
+  /* height: -webkit-fit-content;
+  height: -moz-fit-content; */
+  /* height: fit-content;
+  display: flex; */
   padding: 10px 0px 5px 0px;
 }
 
@@ -18,12 +18,20 @@
 }
 
 .tap-cards-container {
-  display: block;
-  /* flex-direction: row; */
-  -webkit-box-align: center;
+  /* display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; */
+  /* overflow-x: scroll; */
+  /* -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row; */
+  /* display: inline-block; */
+  /* -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
-  padding: 0 15px;
+          align-items: center; */
+  height: 110px;
+  margin: 0 15px;
   width: auto;
 }
 
@@ -35,9 +43,11 @@
   height: 100px;
   width: 100px;
   float: left;
-  padding: 0px 5px;
-  position: relative;
-  /* display: flex; */
+  margin: 0px 5px;
+  /* position: relative; */
+  /* display: inline-block; */
+  /* display: inline-block; */
+  /* display: table-cell; */
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -52,13 +62,13 @@
   /* display: flex;
   flex-direction: column; */
   /* display: block; */
-  -webkit-box-pack: center;
+  /* -webkit-box-pack: center;
       -ms-flex-pack: center;
-          justify-content: center;
+          justify-content: center; */
   justify-items: center;
-  -webkit-box-align: center;
+  /* -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-items: center; */
   pointer-events: none;
   height: inherit;
   width: inherit;
@@ -67,17 +77,19 @@
 
 .tap-card-container {
   border-radius: 8px;
+  /* display: flex; */
   background-color: rgba(255, 255, 255, 0.75);
-  display: block;
+  position: relative;
+  /* display: block; */
   /* flex-direction: column; */
   /* justify-content: space-evenly; */
-  -webkit-box-pack: center;
+  /* -webkit-box-pack: center;
       -ms-flex-pack: center;
-          justify-content: center;
-  justify-items: center;
+          justify-content: center; */
+  /* justify-items: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-items: center; */
   cursor: pointer;
   height: 100%;
   width: 100%;
@@ -164,16 +176,16 @@
 .tap-card-shake {
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.75);
-  display: block;
+  position: relative;
   /* display: flex;
   flex-direction: column; */
-  -webkit-box-pack: center;
+  /* -webkit-box-pack: center;
       -ms-flex-pack: center;
-          justify-content: center;
-  justify-items: center;
-  -webkit-box-align: center;
+          justify-content: center; */
+  /* justify-items: center; */
+  /* -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center;
+          align-items: center; */
   /* height: 100%; */
   width: 100%;
   -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
