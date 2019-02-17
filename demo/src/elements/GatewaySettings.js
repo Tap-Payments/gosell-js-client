@@ -1,5 +1,5 @@
 import React, { Component }  from "react";
-import Store from '../../store/DemoConfigStore';
+// import Store from '../../store/DemoConfigStore';
 import {observer} from 'mobx-react';
 import './app.css';
 
@@ -7,6 +7,7 @@ class GatewaySettings extends Component {
 
   constructor(props){
     super(props);
+    this.Store = props.store
 
   }
 
@@ -23,9 +24,9 @@ class GatewaySettings extends Component {
                   name="publicKey"
                   placeholder="Public key"
                   style={{width: '100%'}}
-                  value={Store.gateway.publicKey}
+                  value={this.Store.gateway.publicKey}
                   //disabled={true}
-                  onChange={(value) => Store.updateGatewayObj(value)}
+                  onChange={(value) => this.Store.updateGatewayObj(value)}
                   />
               </div>
               <p style={{fontSize: '12px', color: 'gray', margin: '0px'}}>pls, don't change public key if you're going to test redirect payments like KNET since the page should call get charge API with the same public key after the redirection.</p>
@@ -40,8 +41,8 @@ class GatewaySettings extends Component {
                     type="radio"
                     name="language"
                     value="en"
-                    checked={Store.gateway.language === 'en'}
-                    onChange={(value) => Store.updateGatewayObj(value)}/>
+                    checked={this.Store.gateway.language === 'en'}
+                    onChange={(value) => this.Store.updateGatewayObj(value)}/>
                   En
                 </label>
 
@@ -50,8 +51,8 @@ class GatewaySettings extends Component {
                     type="radio"
                     name="language"
                     value="ar"
-                    checked={Store.gateway.language === 'ar'}
-                    onChange={(value) => Store.updateGatewayObj(value)}/>
+                    checked={this.Store.gateway.language === 'ar'}
+                    onChange={(value) => this.Store.updateGatewayObj(value)}/>
                   Ar
                 </label>
               </div>
@@ -63,8 +64,8 @@ class GatewaySettings extends Component {
               <input
                 type="checkbox"
                 name="contactInfo"
-                checked={Store.gateway.contactInfo == true}
-                onChange={(value) => Store.updateGatewayObj(value)}/>
+                checked={this.Store.gateway.contactInfo == true}
+                onChange={(value) => this.Store.updateGatewayObj(value)}/>
             </div>
             <br />
 
@@ -76,8 +77,8 @@ class GatewaySettings extends Component {
                   style={{width: '100%'}}
                   name="supportedCurrencies"
                   placeholder="KWD,SAR"
-                  value={Store.gateway.supportedCurrencies}
-                  onChange={(value) => Store.updateGatewayObj(value)}/>
+                  value={this.Store.gateway.supportedCurrencies}
+                  onChange={(value) => this.Store.updateGatewayObj(value)}/>
               </div>
 
               <p style={{fontSize: '12px', color: 'gray', margin: '0px'}}>Add coma between the currencies list</p>
@@ -92,8 +93,8 @@ class GatewaySettings extends Component {
                   style={{width: '100%'}}
                   name="supportedPaymentMethods"
                   placeholder="all | ['KNET','VISA','MASTERCARD','MADA']"
-                  value={Store.gateway.supportedPaymentMethods}
-                  onChange={(value) => Store.updateGatewayObj(value)}/>
+                  value={this.Store.gateway.supportedPaymentMethods}
+                  onChange={(value) => this.Store.updateGatewayObj(value)}/>
               </div>
               <p style={{fontSize: '12px', color: 'gray', margin: '0px'}}>Add coma between the payment methods list</p>
 
@@ -105,8 +106,8 @@ class GatewaySettings extends Component {
               <input
                 type="checkbox"
                 name="saveCardOption"
-                checked={Store.gateway.saveCardOption == true}
-                onChange={(value) => Store.updateGatewayObj(value)}/>
+                checked={this.Store.gateway.saveCardOption == true}
+                onChange={(value) => this.Store.updateGatewayObj(value)}/>
             </div>
             <br />
 
@@ -115,8 +116,8 @@ class GatewaySettings extends Component {
               <input
                 type="checkbox"
                 name="customerCards"
-                checked={Store.gateway.customerCards == true}
-                onChange={(value) => Store.updateGatewayObj(value)}/>
+                checked={this.Store.gateway.customerCards == true}
+                onChange={(value) => this.Store.updateGatewayObj(value)}/>
             </div>
             <br />
             <div className='app-container'>
@@ -127,8 +128,8 @@ class GatewaySettings extends Component {
                   style={{width: '100%'}}
                   name="notifications"
                   placeholder="standard"
-                  value={Store.gateway.notifications}
-                  onChange={(value) => Store.updateGatewayObj(value)}/>
+                  value={this.Store.gateway.notifications}
+                  onChange={(value) => this.Store.updateGatewayObj(value)}/>
               </div>
             </div>
             <br />
@@ -141,8 +142,8 @@ class GatewaySettings extends Component {
                 style={{width: '100%'}}
                 name="labels"
                 placeholder="Pay"
-                value={Store.gateway.labels.actionButton}
-                onChange={(value) => Store.updateGatewayObj(value)}/>
+                value={this.Store.gateway.labels.actionButton}
+                onChange={(value) => this.Store.updateGatewayObj(value)}/>
 
               </div>
             </div>
