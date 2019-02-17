@@ -532,8 +532,15 @@ class FormStore{
             });
 
          } else {
-               // Send the token to your server
-               if(self.RootStore.configStore.transaction_mode === 'get_token'){
+             self.RootStore.uIStore.setIsActive('FORM');
+             //console.log('result ----> ', result);
+             self.RootStore.paymentStore.source_id = result.id;
+             self.RootStore.paymentStore.active_payment_option = result.card;
+             //console.log('card details', result.card);
+             self.RootStore.uIStore.stopBtnLoader();
+
+             // Send the token to your server
+             if(self.RootStore.configStore.transaction_mode === 'get_token'){
 
                  self.RootStore.configStore.callbackFunc(result);
 
@@ -543,14 +550,9 @@ class FormStore{
                    msg: result.id,
                    type: 'success'
                  });
-               }
 
-               self.RootStore.uIStore.setIsActive('FORM');
-               //console.log('result ----> ', result);
-               self.RootStore.paymentStore.source_id = result.id;
-               self.RootStore.paymentStore.active_payment_option = result.card;
-               //console.log('card details', result.card);
-               self.RootStore.uIStore.stopBtnLoader();
+                 self.clearCardForm();
+              }
 
 
          }

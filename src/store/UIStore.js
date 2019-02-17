@@ -129,9 +129,7 @@ class UIStore {
       });
 
       this.setMainHeight(total);
-
     }
-
   }
 
   setMainHeight(value){

@@ -29,7 +29,7 @@ class GoSellDemo extends Component {
              saveCardOption:true,
              customerCards: true,
              notifications:'standard',
-             callback: this.callbackFunc,
+             callback: this.callbackFunc.bind(this),
              labels:{
                  cardNumber:"Card Number",
                  expirationDate:"MM/YY",

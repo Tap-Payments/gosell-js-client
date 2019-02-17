@@ -290,6 +290,7 @@ class ApiStore{
                 }
                 else if(chg.data.status && chg.data.status.toUpperCase() === 'CAPTURED' && type !== 'CARD'){
                   console.log('CAPTURED form');
+                  self.RootStore.configStore.callbackFunc(chg.data);
                   self.RootStore.uIStore.showMsg('success', 'Successful Transaction', chg.data.id);
                 }
                 else if(chg.data.status &&  chg.data.status.toUpperCase() === 'INITIATED' && type === 'CARD'){
@@ -305,12 +306,14 @@ class ApiStore{
                   }
                 }
                 else {
+                  self.RootStore.configStore.callbackFunc(chg.data);
                   self.showError(chg.data);
                   // self.RootStore.uIStore.showMsg('error', chg.data.response.message, chg.data.id);
                   // console.log('charge id', chg.data.id);
                 }
             }
             else {
+              self.RootStore.configStore.callbackFunc(chg.data);
                 self.showError(chg.data);
             }
           }
@@ -332,16 +335,18 @@ class ApiStore{
                 }
                 else if(auth.data.status.toUpperCase() === 'AUTHORIZED' && type !== 'CARD'){
                   console.log('AUTHORIZED form');
+                  self.RootStore.configStore.callbackFunc(auth.data);
                   self.RootStore.uIStore.showMsg('success', 'Authorized Transaction', auth.data.id);
                 }
                 else if(auth.data.status.toUpperCase() === 'CAPTURED' && type !== 'CARD'){
+                  self.RootStore.configStore.callbackFunc(auth.data);
                   console.log('CAPTURED form');
                   self.RootStore.uIStore.showMsg('success', 'Captured Transaction', auth.data.id);
                 }
                 else if(auth.data.status.toUpperCase() === 'INITIATED' && type === 'CARD'){
                   console.log('CAPTURED card', auth.data);
                   self.RootStore.paymentStore.authorize = auth.data;
-                  console.log('charge id', auth.data.id);
+                  console.log('authorize id', auth.data.id);
                   self.RootStore.paymentStore.authenticate = auth.data.authenticate;
 
                   if(auth.data.authenticate && auth.data.authenticate.status === 'INITIATED'){
@@ -350,11 +355,13 @@ class ApiStore{
                   }
                 }
                 else {
+                  self.RootStore.configStore.callbackFunc(auth.data);
                   // self.RootStore.uIStore.showMsg('error', auth.data.response.message, null);
                   self.showError(auth.data);
                 }
             }
             else {
+              self.RootStore.configStore.callbackFunc(auth.data);
                 self.showError(auth.data);
             }
           }
@@ -416,7 +423,7 @@ class ApiStore{
     .then(async function (response) {
       res = response;
       console.log('charge', response);
-      self.RootStore.configStore.callbackFunc(response.data);
+      // self.RootStore.configStore.callbackFunc(response.data);
 
       console.log('type ==============> ', type);
 
@@ -486,7 +493,7 @@ class ApiStore{
       res = response;
       console.log('authorize', res);
 
-      self.RootStore.configStore.callbackFunc(response.data);
+      // self.RootStore.configStore.callbackFunc(response.data);
 
       if(response.data.code == 100){
         self.showError(response.data);
@@ -557,6 +564,8 @@ class ApiStore{
         switch (type) {
           case 'chg_':
             await self.getCharge(id).then(async charge => {
+                self.RootStore.configStore.callbackFunc(charge.data);
+
                 if(charge.status == 200){
                     transaction = charge;
                     if(charge.data.status && charge.data.status.toUpperCase() === 'CAPTURED'){
@@ -590,6 +599,8 @@ class ApiStore{
           case 'auth':
             console.log('In auth');
             await self.getAuthorize(id).then(async auth => {
+
+              self.RootStore.configStore.callbackFunc(auth.data);
               console.log('auth res', auth);
               if(auth.status == 200){
                   transaction = auth;
@@ -714,7 +725,7 @@ class ApiStore{
     .then(async function (response) {
       res = response;
 
-      self.RootStore.configStore.callbackFunc(response.data);
+      // self.RootStore.configStore.callbackFunc(response.data);
 
       if(response.data.code == 100){
         self.showError(response.data);
@@ -749,7 +760,7 @@ class ApiStore{
     .then(async function (response) {
       res = response;
 
-      self.RootStore.configStore.callbackFunc(response.data);
+      // self.RootStore.configStore.callbackFunc(response.data);
 
       if(response.data.code == 100){
         self.showError(response.data);
@@ -1142,6 +1153,7 @@ class ApiStore{
     await axios.post(Paths.serverPath + '/api', body)
     .then(async function (response) {
       res = response.data;
+      self.RootStore.configStore.callbackFunc(response.data);
 
       if(res.code != 100){
         if(response.status == 200){
