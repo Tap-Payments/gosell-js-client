@@ -144,7 +144,7 @@ class UIStore {
 
   setMainHeight(value){
 
-    this.mainHeight = value;
+    this.mainHeight = value + 10;
     console.log('&& mainHeight', this.mainHeight);
 
     if(this.mainHeight > 0){
