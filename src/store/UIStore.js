@@ -51,7 +51,6 @@ class UIStore {
       this.bodyHeight = 'fit-content';
     }
 
-
     this.modal_bg_img = null;
     // this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';
     // this.modal_bg_img = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fbt_We8MuRrBLMU-rhczNxpAkivP0RKlxrIS8-k2FkeNsALL';
@@ -99,7 +98,7 @@ class UIStore {
       const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
 
       var self = this;
-      var total = 0;
+      var total = 10;
       allDivs.forEach(function(element) {
         total += element.clientHeight;
       });
@@ -113,12 +112,6 @@ class UIStore {
       else {
         this.setMainHeight(modalBodyHeight);
       }
-      // if(modalBodyHeight >= total){
-      //   this.setMainHeight(total);
-      // }
-      // else {
-      //   this.setMainHeight(modalBodyHeight);
-      // }
 
     }
     else {
@@ -129,7 +122,7 @@ class UIStore {
       const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
 
       var self = this;
-      var total = 0;
+      var total = 10;
       allDivs.forEach(function(element) {
         total += element.clientHeight;
         console.log('height', element.clientHeight);
@@ -137,15 +130,13 @@ class UIStore {
 
       this.setMainHeight(total);
 
-
     }
 
   }
 
   setMainHeight(value){
 
-    this.mainHeight = value + 10;
-    console.log('&& mainHeight', this.mainHeight);
+    this.mainHeight = value;
 
     if(this.mainHeight > 0){
 
