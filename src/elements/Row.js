@@ -52,8 +52,8 @@ class Row extends Component {
     const arrowImg = this.props.style.arrowImg? this.props.style.arrowImg : this.props.dir === 'ltr' ? Paths.imgsPath + 'rightArrow.svg' : Paths.imgsPath + 'leftArrow.svg';
     if(this.props.rowTitle && this.props.rowTitle.main && this.props.rowTitle.secondary){
       var title = ( <Text className="tap-text-container">
-          <p className="tap-subtitle" style={this.props.style.subtitle}>{this.props.rowTitle.secondary}</p>
-          <p className="tap-title" style={this.props.style.title}>{this.props.rowTitle.main}</p>
+          <p className="tap-subtitle title-subtitle" style={this.props.style.subtitle}>{this.props.rowTitle.secondary}</p>
+          <p className="tap-title title-subtitle" style={this.props.style.title}>{this.props.rowTitle.main}</p>
         </Text>);
     }
     else if(this.props.rowTitle &&  this.props.rowTitle.main){

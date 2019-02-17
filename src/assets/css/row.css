@@ -64,3 +64,11 @@
   font-family: 'Roboto-Regular', sans-serif;
   line-height: 65px;
 }
+
+.tap-subtitle.title-subtitle{
+  line-height: 41px;
+}
+
+.tap-title.title-subtitle{
+  line-height: 0px;
+}
