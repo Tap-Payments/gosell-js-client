@@ -300,9 +300,8 @@ class ApiStore{
 
                   if(chg.data.authenticate && chg.data.authenticate.status === 'INITIATED'){
 
-                    // self.RootStore.uIStore.getIsMobile ? self.RootStore.uIStore.setSubPage(0) : self.RootStore.uIStore.setSubPage(-1);
                     self.RootStore.uIStore.setPageIndex(2, 'y');
-                    // self.RootStore.uIStore.confirm = 1;
+                    self.RootStore.uIStore.stopBtnLoader();
                   }
                 }
                 else {
@@ -1056,7 +1055,7 @@ class ApiStore{
     var self = this;
 
     self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
-    
+
     var headers = {
       'session_token':self.RootStore.merchantStore.session
     }
