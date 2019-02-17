@@ -106,7 +106,7 @@ class TapSliderStore {
 
   updateItem(key) {
     this.currentItemKey =  key;
-    console.log("updateItem");
+    // console.log("updateItem");
     ReactDOM.render(
       React.createElement(TapSliderItem, {store:this, child: this.children[key], className:'', style:{width:this.sliderInitialWidth, height:this.sliderInitialHeight}}),
       document.getElementById(this.newItemId)

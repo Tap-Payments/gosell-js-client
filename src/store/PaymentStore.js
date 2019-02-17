@@ -107,26 +107,35 @@ class PaymentStore{
 
   getFees(value){
     var self = this;
-    console.log('payment methods in getFee', self.payment_methods);
+    console.log('99 payment methods in getFee', self.payment_methods);
     var active = self.payment_methods.filter(function(payment){
-        console.log(value, payment.name);
-        console.log('payment', payment);
-        console.log('what is the problem?????????? ', value.indexOf(payment.name));
-        if(value.indexOf(payment.name) >= 0){
-          if(payment.extra_fees){
-            var total_extra_fees = self.calcExtraFees(payment.extra_fees);
-            self.active_payment_option_fees = total_extra_fees;
-            self.active_payment_option_total_amount = self.current_currency.amount + self.active_payment_option_fees;
+        // console.log('99 '+ value, payment.name);
+        // console.log('99 payment', payment);
+        // console.log('99 what is the problem?????????? ', value.indexOf(payment.name));
+        try{
+          if(value.indexOf(payment.name) >= 0){
+            if(payment.extra_fees){
+              var total_extra_fees = self.calcExtraFees(payment.extra_fees);
+              self.active_payment_option_fees = total_extra_fees;
+              self.active_payment_option_total_amount = self.current_currency.amount + self.active_payment_option_fees;
+            }
+            else{
+              self.active_payment_option_fees = 0;
+              self.active_payment_option_total_amount = self.current_currency.amount;
+
+            }
           }
-          else{
-            self.active_payment_option_fees = 0;
-            self.active_payment_option_total_amount = self.current_currency.amount;
-          }
+        }
+        catch(error){
+          console.log('error', error);
         }
       return payment;
     });
 
     self.active_payment_option = active[0];
+    console.log('99 self.active_payment_option', self.active_payment_option);
+    console.log('99 active_payment_option_fees', self.active_payment_option_fees);
+    console.log('99 active_payment_option_total_amount', self.active_payment_option_total_amount);
   }
 
   calcExtraFees(fees){
@@ -447,25 +456,65 @@ class PaymentStore{
     // });
   }
 
+  // sort(){
+  //
+  //   this.webPayments = [];
+  //   this.cardPayments = [];
+  //   if(Array.isArray(this.payment_methods.slice())){
+  //     var self = this;
+  //
+  //     this.payment_methods.forEach(function(method) {
+  //       if(method.payment_type === 'web'){
+  //         self.webPayments.push(method);
+  //         //self.charge(method.source_id);
+  //       }
+  //
+  //       if(method.payment_type === 'card'){
+  //         self.cardPayments.push(method);
+  //       }
+  //
+  //     });
+  //
+  //   }
+  //
+  // }
+
   sort(){
 
     this.webPayments = [];
     this.cardPayments = [];
-    if(Array.isArray(this.payment_methods.slice())){
+
+    if(this.payment_methods && this.payment_methods.slice().length > 0){
+
+      // console.log('**** in sort payment methods', this.payment_methods);
       var self = this;
 
-      this.payment_methods.forEach(function(method) {
-        if(method.payment_type === 'web'){
-          self.webPayments.push(method);
-          //self.charge(method.source_id);
+      this.payment_methods = this.payment_methods.slice();
+
+      var method = null;
+
+      for(var i = 0; i < this.payment_methods.length; i++){
+        method = this.payment_methods[i];
+
+        // console.log('**** method', method);
+        // console.log('**** method', method.payment_type);
+
+        try{
+          if(method.payment_type == 'web'){
+            this.webPayments.push(method);
+
+          } else if(method.payment_type == 'card'){
+            this.cardPayments.push(method);
+          }
+        }
+        catch(err) {
+          console.log('error', err)
         }
 
-        if(method.payment_type === 'card'){
-          self.cardPayments.push(method);
-        }
+        // console.log('**** web payments', this.webPayments);
+        // console.log('**** card payments', this.cardPayments);
 
-      });
-
+      }
     }
 
   }

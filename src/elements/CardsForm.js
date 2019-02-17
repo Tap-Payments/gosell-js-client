@@ -17,18 +17,18 @@ class CardsForm extends Component {
   cardForm(){
     var store = this.props.store;
     store.formStore.generateCardForm();
-     window.setInterval(store.formStore.checkFocus, 10);
+     // window.setInterval(store.formStore.checkFocus, 10);
   }
 
   render() {
     let store = this.props.store;
     return(
-      <div style={{margin: '0px'}}>
-            <form id="form-container" method="post" ref={(node) => this.cardFormRef = node}>
+      <div style={{margin: '0px'}} onClick={store.actionStore.cardFormHandleClick}>
+            <form id="form-container" method="post" ref={(node) => this.cardFormRef = node} >
                 {store.uIStore.btn.active&&store.uIStore.btn.loader?null:null}
                 <div id="element-container"
                     style={{pointerEvents:(store.uIStore.btn.active&&store.uIStore.btn.loader)||store.uIStore.delete_card !== null?'none':'auto',
-                            opacity:store.uIStore.btn.active&&store.uIStore.btn.loader?'0.6':'1',
+                            opacity: (store.uIStore.btn.active && store.uIStore.btn.loader) || store.uIStore.delete_card != null ?'0.6':'1',
                             transition: 'opacity 0.3s',
                             WebkitTransition: 'opacity 0.3s'
                           }}>

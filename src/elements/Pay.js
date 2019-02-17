@@ -51,7 +51,10 @@ class Pay extends Component {
   handlePayBtnClick(){
 
     var store = this.props.store;
-    store.uIStore.startBtnLoader();
+    store.uIStore.goSellBtn({
+      active: true,
+      loader: true,
+    });
 
     switch (store.uIStore.getPageIndex) {
       case 0:
@@ -102,7 +105,7 @@ class Pay extends Component {
 
     var title = '', self = this, cards = {};
 
-    console.log('options height', store.uIStore.mainHeight);
+    // console.log('options height', store.uIStore.mainHeight);
 
     // console.log('btn btn ', store.uIStore.btn);
 

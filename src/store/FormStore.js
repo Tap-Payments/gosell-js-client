@@ -16,7 +16,7 @@ class FormStore{
 
     this.hide = null;
 
-    this.checkFocus = this.checkFocus.bind(this);
+    // this.checkFocus = this.checkFocus.bind(this);
     this.generateToken = this.generateToken.bind(this);
   }
 
@@ -117,11 +117,12 @@ class FormStore{
       };
       self.statusFocus = function(card,result){
 
+
       }
       self.createToken = function(card,result){
 
           if(self.lock==true){
-              console.log('wait')
+              //console.log('wait')
               return;
           }
 
@@ -146,7 +147,7 @@ class FormStore{
                     var i_obj = iframe_obj.getAttribute('src');
 
                     if (0 === i_obj.indexOf(e.origin)){
-                        //console.log(e.data);
+                        ////console.log(e.data);
                         if(e.data.error){
                             self.lock = false;
                             resolve(e.data)
@@ -195,13 +196,15 @@ class FormStore{
           }
           self.elements.card.mount= function(id){
               var s = document.querySelector(id);
+              if(s){
               //s.parentNode.style.maxWidth="400px";
-              var d = document.createElement("div");
-              d.setAttribute("id",'privateTapElement');
-              d.setAttribute("style",'height:inherit;margin: 0px !important; padding: 0px !important; border: medium none !important; display: block !important; background: transparent none repeat scroll 0% 0% !important; position: relative !important; opacity: 1 !important; width:100%;');
+                  var d = document.createElement("div");
+                  d.setAttribute("id",'privateTapElement');
+                  d.setAttribute("style",'height:inherit;margin: 0px !important; padding: 0px !important; border: medium none !important; display: block !important; background: transparent none repeat scroll 0% 0% !important; position: relative !important; opacity: 1 !important; width:100%;');
 
-              s.appendChild(d);
-              d.appendChild(this._iframe);
+                  s.appendChild(d);
+                  d.appendChild(this._iframe);
+              }
               //bewlo code is not working due to CORs restriction, should enable it then un comment
               /*this._iframe.onload = function(){
                   detect_details().then(function(details) {
@@ -213,9 +216,9 @@ class FormStore{
           }
           self.elements.card.addEventListener= function(id, res){
 
-
+            // console.log('card id', id);
               window.addEventListener('message', receiver, false);
-              //console.log(this)
+              ////console.log(this)
               if(this.card){
                 var iframe_obj = this.card._iframe;
               }
@@ -225,7 +228,7 @@ class FormStore{
 
               function receiver(e) {
                   //if (0 === self.card._iframe.src.indexOf(e.origin)){
-                  if (0 === iframe_obj.src.indexOf(e.origin)){
+                  if (iframe_obj && 0 === iframe_obj.src.indexOf(e.origin)){
                       /*console.log("received in js library");
                       console.log(e.data);*/
                       if(e.data.layout){
@@ -237,7 +240,7 @@ class FormStore{
                               var iframeWin = document.getElementById("myFrame").contentWindow;
                               iframeWin.postMessage({'action':'client_ip','key':self._apiKey,'client_ip':details.ip}, window.location.protocol+"//"+frameurl+"/tap_payment_widget");
                           });
-                          //console.log(e.data.layout.height);
+                          ////console.log(e.data.layout.height);
                           //iframeWin.setAttribute("height",e.data.layout.height)
                       }
                       if(e.data.success==true && e.data.BIN && e.data.type!='token'){
@@ -245,7 +248,6 @@ class FormStore{
                           res(e.data)
 
                       } else {
-
                           res(e.data)
                        }
                  }
@@ -256,8 +258,8 @@ class FormStore{
 
               this.card.type= type;
 
-              console.log('type', type);
-              console.log('self.card', this.card);
+              //console.log('type', type);
+              //console.log('self.card', this.card);
               var x = document.createElement("IFRAME");
               x.setAttribute("id",'myFrame');
               x.setAttribute("name",'myFrame');
@@ -265,14 +267,15 @@ class FormStore{
               x.setAttribute("allowpaymentrequest",'true');
               //below line disables javascript in iframe
               //x.setAttribute("security",'restricted');
-              //console.log(objectToQueryString(options_object));
+              ////console.log(objectToQueryString(options_object));
 
               x.setAttribute("style",'border: none !important;margin: 0px !important;padding: 0px !important;min-width: 100% !important;overflow: hidden !important;display: block !important;');
 
               x.setAttribute("src", window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui?"+ self.objectToQueryString(options_object)+'&key='+key+'&'+ self.objectToQueryString(paymentOptions));
               this.card._iframe =  x;
-              self.currencyCode = paymentOptions.currencyCode
-              console.log('it is card', this.card);
+              self.currencyCode = paymentOptions.currencyCode;
+              // console.log('it is card', this.card);
+
               return this.card;
           }
           this.elements.options = options;
@@ -294,7 +297,7 @@ class FormStore{
 
     var paymentOptions = {};
 
-    console.log('current currency', this.RootStore.paymentStore.current_currency);
+    //console.log('current currency', this.RootStore.paymentStore.current_currency);
 
     if(self.RootStore.configStore.view === 'GOSELL_ELEMENTS'){
       paymentOptions = {
@@ -303,6 +306,7 @@ class FormStore{
        paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
        TextDirection: this.RootStore.uIStore.getDir
      }
+     //console.log('&& gosell elements', this.RootStore.paymentStore.currencies);
     }
     else {
       if(this.RootStore.configStore.transaction_mode === 'get_token' || this.RootStore.configStore.transaction_mode === 'save_card'){
@@ -312,6 +316,8 @@ class FormStore{
            paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
            TextDirection: this.RootStore.uIStore.getDir
          }
+
+         //console.log('&& save card', this.RootStore.paymentStore.currencies);
       }
       else {
          paymentOptions = {
@@ -320,40 +326,51 @@ class FormStore{
           paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
           TextDirection: this.RootStore.uIStore.getDir
         }
+
+        //console.log('&& else', [this.RootStore.paymentStore.current_currency.currency]);
       }
     }
 
     this.card = elements.create('card', {style: style}, paymentOptions);
     this.card.mount('#element-container');
 
+    this.card.addEventListener('change', function(event) {
+      console.log('change event', event);
+      self.onChange(event);
+    });
+
+  }
+
+  onChange(event){
+    var self = this;
     var bin = true;
     var active_brand = null;
 
-    this.card.addEventListener('change', function(event) {
-      console.log('event', event);
+    if(event.code == 200){
+      self.RootStore.paymentStore.save_card_active = true;
+      self.RootStore.uIStore.setIsActive('FORM');
+      // self.RootStore.uIStore.payBtn(true);
 
-      if(event.code == 200){
-        self.RootStore.paymentStore.save_card_active = true;
-        self.RootStore.uIStore.setIsActive('FORM');
-        // self.RootStore.uIStore.payBtn(true);
+      var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.current_currency.symbol + self.RootStore.uIStore.formatNumber(self.RootStore.paymentStore.active_payment_option_total_amount.toFixed(self.RootStore.paymentStore.current_currency.decimal_digit)) : '';
 
-        var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.current_currency.symbol + self.RootStore.uIStore.formatNumber(self.RootStore.paymentStore.active_payment_option_total_amount.toFixed(self.RootStore.paymentStore.current_currency.decimal_digit)) : '';
+      //console.log('form total', total);
+      self.RootStore.uIStore.goSellBtn({
+        title: self.RootStore.configStore.btn + ' ' + total,
+        color: '#2ACE00',
+        active: true
+      });
 
-        console.log('form total', total);
-        self.RootStore.uIStore.goSellBtn({
-          title: self.RootStore.configStore.btn + ' ' + total,
-          color: '#2ACE00',
-          active: true,
-          loader: false
-        });
+      // console.log('onChange', self.RootStore.uIStore.btn);
 
-        console.log('I am in success');
+      //console.log('I am in success');
 
-        if(self.RootStore.configStore.transaction_mode === 'save_card'){
-          self.RootStore.paymentStore.saveCardOption(true);
-        }
+      if(self.RootStore.configStore.transaction_mode === 'save_card'){
+        self.RootStore.paymentStore.saveCardOption(true);
       }
-      else if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
+    }
+    else if(event.code == 100 && event.focus == 'in'){
+      self.cardFormHandleClick();
+      if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
 
         if(self.RootStore.uIStore.btn.active && self.RootStore.uIStore.btn.loader){
           self.RootStore.uIStore.warningHandler();
@@ -363,13 +380,14 @@ class FormStore{
           self.RootStore.paymentStore.saveCardOption(false);
           // self.RootStore.uIStore.payBtn(false);
 
+          console.log('event code 400');
           self.RootStore.uIStore.goSellBtn({
             title: self.RootStore.configStore.btn,
             active: false,
             loader: false
           });
 
-          console.log('I am in error');
+          //console.log('I am in error');
           if(event.error_interactive){
             self.RootStore.uIStore.setErrorHandler({
               visable: true,
@@ -379,8 +397,8 @@ class FormStore{
             });
           }
 
-        	if(event.error && event.error.code && (event.error.code === 409 || event.error.code === 403)){
-        		//hide form here
+          if(event.error && event.error.code && (event.error.code === 409 || event.error.code === 403)){
+            //hide form here
             self.hide = true;
 
             if(event.error.code === 403){
@@ -391,66 +409,71 @@ class FormStore{
                 type: 'error'
               });
             }
-        	}
+          }
           else {
             self.hide = false;
           }
         }
 
       }
+    }
+    // else if(event.code == 101 && event.focus == 'out'){
+    //   console.log("it's out");
+    // }
 
-      if(event.BIN && event.BIN.card_brand !== active_brand){
-          console.log(event.BIN.card_brand);
 
-          if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
-            self.RootStore.paymentStore.getFees(event.BIN.card_brand);
-          }
+    if(event.BIN && event.BIN.card_brand !== active_brand){
+        //console.log(event.BIN.card_brand);
 
-          console.log(active_brand, event.BIN);
-          active_brand = event.BIN.card_brand;
-      }
+        if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
+          self.RootStore.paymentStore.getFees(event.BIN.card_brand);
 
-      if(event.loaded){
-        console.log('loaded!!!!! ', event.loaded);
-
-        if(self.RootStore.configStore.transaction_mode === 'get_token' || self.RootStore.configStore.transaction_mode === 'save_card'){
-          console.log('&& update the element height');
-          self.RootStore.uIStore.calcElementsHeight('form-container');
-        }
-        else {
-          self.RootStore.uIStore.calcElementsHeight('gosell-gateway-payment-options');
         }
 
-      }
-    });
+        //console.log(active_brand, event.BIN);
+        active_brand = event.BIN.card_brand;
+    }
 
+    if(event.loaded){
+      //console.log('loaded!!!!! ', event.loaded);
+
+      if(self.RootStore.configStore.transaction_mode === 'get_token' || self.RootStore.configStore.transaction_mode === 'save_card'){
+        //console.log('&& update the element height');
+        self.RootStore.uIStore.calcElementsHeight('form-container');
+      }
+      else {
+        self.RootStore.uIStore.calcElementsHeight('gosell-gateway-payment-options');
+      }
+
+    }
   }
 
-  checkFocus() {
-
-    var self = this;
-    var statusFocus = null;
-
-    var isfocused = document.getElementById("myFrame");
-
-        if(document.activeElement == isfocused) {
-          if(statusFocus != false){
-              statusFocus=false;
-              //console.log('in focus');
-              // if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
-                self.cardFormHandleClick();
-              // }
-              //return {"statusFocus":statusFocus,'message':"iframe has focus"};
-          }
-        } else {
-          if(statusFocus != true){
-              statusFocus=true;
-              //return {"statusFocus":statusFocus,'message':"iframe has not focused"};
-          }
-        }
-
-        return;
-   }
+  // checkFocus() {
+  //
+  //   var self = this;
+  //   var statusFocus = null;
+  //
+  //   var isfocused = document.getElementById("myFrame");
+  //
+  //       if(document.activeElement == isfocused) {
+  //         if(statusFocus != false){
+  //             statusFocus=false;
+  //             // console.log('in focus');
+  //             // if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
+  //               self.cardFormHandleClick();
+  //             // }
+  //             //return {"statusFocus":statusFocus,'message':"iframe has focus"};
+  //         }
+  //       } else {
+  //         if(statusFocus != true){
+  //           // console.log('in focus');
+  //             statusFocus=true;
+  //             //return {"statusFocus":statusFocus,'message':"iframe has not focused"};
+  //         }
+  //       }
+  //
+  //       return;
+  //  }
 
    cardFormHandleClick(){
 
@@ -470,6 +493,7 @@ class FormStore{
          this.RootStore.uIStore.setErrorHandler({});
          this.RootStore.uIStore.delete_card = null;
          // this.RootStore.uIStore.payBtn(false);
+
          this.RootStore.uIStore.goSellBtn({
            title: this.RootStore.configStore.btn,
            active: false,
@@ -480,6 +504,8 @@ class FormStore{
 
        //form is active
        this.RootStore.uIStore.setIsActive('FORM');
+
+
     }
 
    }
@@ -504,6 +530,9 @@ class FormStore{
          } else {
                // Send the token to your server
                if(self.RootStore.configStore.transaction_mode === 'get_token'){
+
+                 self.RootStore.configStore.callbackFunc(result);
+
                  self.RootStore.uIStore.setErrorHandler({
                    visable: true,
                    code: 200,
@@ -513,12 +542,12 @@ class FormStore{
                }
 
                self.RootStore.uIStore.setIsActive('FORM');
-               console.log('result ----> ', result);
+               //console.log('result ----> ', result);
                self.RootStore.paymentStore.source_id = result.id;
                self.RootStore.paymentStore.active_payment_option = result.card;
-               console.log('card details', result.card);
+               //console.log('card details', result.card);
                self.RootStore.uIStore.stopBtnLoader();
-               self.clearCardForm();
+
 
          }
      });
@@ -528,7 +557,6 @@ class FormStore{
      if(this.card != null){
        this.card.clearForm();
        // this.RootStore.uIStore.payBtn(false);
-
        this.RootStore.uIStore.goSellBtn({
          title: this.RootStore.configStore.btn,
          active: false,
@@ -539,10 +567,10 @@ class FormStore{
    }
 
    switchCurrency(value){
-     console.log('switch currencies', value);
+     //console.log('switch currencies', value);
      var currency = value.currency;
      var v = [currency];
-     console.log('switcher', v);
+     //console.log('switcher', v);
      this.card.currency(v);
    }
 

@@ -7,6 +7,10 @@ class GoSellDemo extends Component {
     super(props);
   }
 
+  callbackFunc(response){
+    console.log(response);
+  }
+
   render() {
 
     return (
@@ -25,6 +29,7 @@ class GoSellDemo extends Component {
              saveCardOption:true,
              customerCards: true,
              notifications:'standard',
+             callback: this.callbackFunc,
              labels:{
                  cardNumber:"Card Number",
                  expirationDate:"MM/YY",

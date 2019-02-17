@@ -50,8 +50,8 @@ class Save extends Component {
 
     if(this.props.store.uIStore.mainHeight == 0){
       this.props.store.uIStore.calcElementsHeight('form-container');
-      console.log('content loaded? ', this.props.store.formStore.content_loaded);
-      console.log('Height didupdate', this.props.store.uIStore.mainHeight);
+      // console.log('content loaded? ', this.props.store.formStore.content_loaded);
+      // console.log('Height didupdate', this.props.store.uIStore.mainHeight);
     }
 
   }
@@ -64,8 +64,12 @@ class Save extends Component {
   handleBtnClick(){
 
     var store = this.props.store;
-    store.uIStore.startBtnLoader();
-
+    store.uIStore.goSellBtn({
+      active: true,
+      loader: true,
+    });
+    
+    console.log('hey', store.uIStore.btn);
     if(store.configStore.transaction_mode === 'save_card'){
       store.paymentStore.save_card_active = true;
       store.paymentStore.saveCardOption(true);
@@ -73,14 +77,14 @@ class Save extends Component {
       store.formStore.generateToken().then(result => {
         store.apiStore.saveCustomerCard(store.paymentStore.source_id).then(result =>{
           console.log('create card ......>>>>>>>>> ', result);
-          store.uIStore.stopBtnLoader();
+          // store.uIStore.stopBtnLoader();
         });
       });
     }
     else {
       store.formStore.generateToken().then(result => {
           console.log('token ......>>>>>>>>> ', result);
-          store.uIStore.stopBtnLoader();
+          // store.uIStore.stopBtnLoader();
       });
     }
   }

@@ -64,6 +64,12 @@ class ConfigStore {
     this.view = '';
   }
 
+  callbackFunc(data){
+    if(this.RootStore.configStore.gateway.callback){
+      this.RootStore.configStore.gateway.callback(data);
+    }
+  }
+
   setConfig(value, view){
       console.log('set setConfig');
       this.config = value;

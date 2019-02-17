@@ -12,11 +12,10 @@ import RootStore from '../store/RootStore.js';
 class GoSell extends Component {
 
   //open Tap gateway as a light box by JS library
-  static openLightBox(e){
+  static openLightBox(){
     RootStore.uIStore.modal_mode = 'popup';
 
     GoSell.handleView();
-
     RootStore.configStore.configure().then(result => {
       if(!GoSell.showTranxResult()){
         setTimeout(function(){
@@ -163,12 +162,14 @@ class GoSell extends Component {
     if(window.innerWidth <= 823 && device === 'phone'){
       RootStore.uIStore.setIsMobile(true);
       RootStore.uIStore.setSubPage(-1);
-      this.handleUI();
+      // this.handleUI();
+      RootStore.uIStore.calcModalHeight();
     }
     else {
       RootStore.uIStore.setIsMobile(false);
       RootStore.uIStore.setPageIndex(0, 'x');
-      this.handleUI();
+      // this.handleUI();
+      RootStore.uIStore.calcModalHeight();
     }
 
 
@@ -198,48 +199,16 @@ class GoSell extends Component {
       }
   }
 
-  handleUI(){
-
-    // if(RootStore.uIStore.getIsMobile){
-    //
-    //   RootStore.uIStore.mode = {
-    //     mode: 'simple',
-    //     modalStyle: {
-    //       'modal': {marginTop: '10px'},
-    //       'body': {backgroundColor: '#E9E9E9', height: '90%', maxHeight: '90%'} //overflow: 'scroll',
-    //     },
-    //     headerStyle: {
-    //       'header': {backgroundColor: '#F7F7F7', height: '65px'},
-    //       'titleStyle': {cursor: 'pointer'},
-    //       'iconStyle': {width: '40px', height: '40px', borderRadius:'100%'}
-    //     }
-    //   }
-    //
-    // }
-    // else {
-    //
-    //   RootStore.uIStore.mode = {
-    //     mode: 'advanced',
-    //     modalStyle: {
-    //       'modal': {width:'400px',height: 'fit-content'},
-    //       'body': {backgroundColor: '#E9E9E9', height: 'fit-content', minHeight: '227px'}
-    //     },
-    //     headerStyle: {
-    //       'header': {backgroundColor: '#F7F7F7', height: 'auto', marginTop: '50px'},
-    //       'titleStyle': {cursor: 'pointer'},
-    //       'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
-    //     }
-    //   };
-    // }
-  }
-
   closeModal(){
     var URLSearchParams = require('url-search-params');
 
     var urlParams = new URLSearchParams(window.location.search);
 
     if(urlParams.has('tap_id')){
-      window.open(RootStore.configStore.redirect_url, '_self');
+      var url = document.location.href;
+      var url = url.split('?');
+
+      window.open(url[0], '_self');
     }
     else {
       // RootStore.uIStore.setOpenModal(false);
@@ -275,7 +244,7 @@ class GoSell extends Component {
                   mode={RootStore.uIStore.modal.mode}
                   modalIcon={RootStore.merchantStore.logo}
                   modalTitle={<Details store={RootStore}/>}
-                  close={RootStore.uIStore.modal_mode === 'popup' ? "closeIn": "none"}
+                  close={RootStore.uIStore.modal_mode === 'popup' && RootStore.uIStore.delete_card == null && !RootStore.uIStore.btn.loader ? "closeIn" : "none"}
                   closeIcon={Paths.imgsPath + 'close.svg'}
                   onClose={GoSell.handleClose}
                   style={RootStore.uIStore.modal.headerStyle}

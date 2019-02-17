@@ -515,8 +515,8 @@ class UIStore {
   goSellBtn(value){
 
     if(!value.active){
+      console.log('!value.active');
       this.btn.active = false;
-      this.btn.loader = false;
       // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
     }
 
@@ -527,7 +527,7 @@ class UIStore {
       loader: value.loader ? value.loader : this.btn.loader,
     }
 
-    console.log('btn is active? ', this.btn.active);
+    // console.log('btn is active? ', this.btn.active);
   }
 
   goSellOtp(value){
@@ -554,7 +554,7 @@ class UIStore {
   computed
   get generateCustomNotification(){
 
-   console.log('notifications >>>>>>>>>>>>', this.RootStore.configStore.notifications);
+   // console.log('notifications >>>>>>>>>>>>', this.RootStore.configStore.notifications);
 
     if(this.RootStore.configStore.notifications !== 'standard' && !this.getErrorHandler.options){
         console.log('id', this.RootStore.configStore.notifications);
