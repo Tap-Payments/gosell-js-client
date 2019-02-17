@@ -461,7 +461,7 @@ body{
     float: right;
     font-size: 21px;
     font-weight: 100;
-    line-height: 1;
+    /* line-height: 1; */
     color: #fff;
     /* text-shadow: 0 1px 0 #fff; */
     /* filter: alpha(opacity=20); */
@@ -470,7 +470,7 @@ body{
 a.tap-payments-close {
     text-decoration: none;
     font-size: 30px;
-    line-height: 1.2;
+    /* line-height: 1.2; */
     cursor: pointer;
 }
 
@@ -551,9 +551,11 @@ a.tap-payments-close:hover {
   padding: 0 10px;
   font-weight: bold;
   cursor: pointer;
-  height: 24px;
+  height: 100%;
   display: inline-block;
   font-size: 15px;
+  vertical-align: top;
+  line-height: 37px;
 }
 
 .tap-payments-option:hover{
