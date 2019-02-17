@@ -75,8 +75,6 @@ class Header extends Component{
 
       var ModalIcon = styled.div`
         display: inline-block;
-        width: ${this.state.headerStyle.height};
-        height: ${this.state.headerStyle.height};
       `;
 
       var Title = styled.div`
