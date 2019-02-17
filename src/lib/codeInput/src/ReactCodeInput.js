@@ -274,7 +274,7 @@ class ReactCodeInput extends Component {
       };
 
     Object.assign(styles.container, {
-      display: 'inline-block',
+      // display: 'inline-block',
     });
 
     if (!className && inputStyle.length === 0) {

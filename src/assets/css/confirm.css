@@ -20,3 +20,9 @@
   align-items: center; */
   cursor: pointer;
 }
+
+.gosell-gateway-confirm-container{
+  text-align: center;
+  height: auto;
+  width: 100%;
+}
