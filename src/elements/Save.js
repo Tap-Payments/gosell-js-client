@@ -68,7 +68,7 @@ class Save extends Component {
       active: true,
       loader: true,
     });
-    
+
     console.log('hey', store.uIStore.btn);
     if(store.configStore.transaction_mode === 'save_card'){
       store.paymentStore.save_card_active = true;
@@ -111,7 +111,8 @@ class Save extends Component {
                         btnColor={'#2ACE00'}
                         active={store.uIStore.btn.active}
                         animate={this.props.store.uIStore.btn.loader}
-                        handleClick={this.handleBtnClick.bind(this)}>{store.configStore.btn}</TapButton>
+                        handleClick={this.handleBtnClick.bind(this)}
+                        store={store}>{store.configStore.btn}</TapButton>
                   </div>
               </div>
             </div>);
