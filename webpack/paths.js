@@ -19,7 +19,7 @@ module.exports = {
 
 	imgsPath: 'https://goselljslib.b-cdn.net/imgs/',
 	fontsPath: 'https://goSellJSLib.b-cdn.net/fonts/',
-	serverPath: 'http://localhost:8000',
+	serverPath: 'http://192.168.8.193:8000',
 	// serverPath: 'http://192.168.8.164:8000',
 	// serverPath: 'http://192.168.1.119:8000',
 	// serverPath: 'http://35.237.168.102/api',
