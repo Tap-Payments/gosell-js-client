@@ -5,122 +5,124 @@ import Cookies from "js-cookie";
 class DemoConfigStore {
 
   constructor() {
+    // check if there is a p-key on start
+    let publicKeyCookie  = Cookies.get("goSellDemo_" + "publicKey");
 
     this.gateway = {
-        publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
-        language:"en",
-        contactInfo:true,
-        supportedCurrencies: 'all', // all | gcc | ["KWD", "SAR"]
-        supportedPaymentMethods: "all", // all | ["KNET","VISA","MASTERCARD","MADA"]
-        saveCardOption:true,
-        customerCards: true,
-        notifications:'standard',
-        callback: this.callbackFunc.bind(this),
-        labels:{
-            cardNumber:"Card Number",
-            expirationDate:"MM/YY",
-            cvv:"CVV",
-            cardHolder:"Name on Card",
-            actionButton:"Pay"
+      publicKey: publicKeyCookie?publicKeyCookie:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
+      language:"en",
+      contactInfo:true,
+      supportedCurrencies: 'all', // all | gcc | ["KWD", "SAR"]
+      supportedPaymentMethods: "all", // all | ["KNET","VISA","MASTERCARD","MADA"]
+      saveCardOption:true,
+      customerCards: true,
+      notifications:'standard',
+      callback: this.callbackFunc.bind(this),
+      labels:{
+        cardNumber:"Card Number",
+        expirationDate:"MM/YY",
+        cvv:"CVV",
+        cardHolder:"Name on Card",
+        actionButton:"Pay"
+      },
+      style: {
+        base: {
+          color: '#535353',
+          lineHeight: '18px',
+          fontFamily: 'sans-serif',
+          fontSmoothing: 'antialiased',
+          fontSize: '16px',
+          '::placeholder': {
+            color: 'rgba(0, 0, 0, 0.26)',
+            fontSize:'15px'
+          }
         },
-        style: {
-            base: {
-              color: '#535353',
-              lineHeight: '18px',
-              fontFamily: 'sans-serif',
-              fontSmoothing: 'antialiased',
-              fontSize: '16px',
-              '::placeholder': {
-                color: 'rgba(0, 0, 0, 0.26)',
-                fontSize:'15px'
-              }
-            },
-            invalid: {
-              color: 'red',
-              iconColor: '#fa755a '
-            }
+        invalid: {
+          color: 'red',
+          iconColor: '#fa755a '
         }
-      };
+      }
+    };
 
     this.transaction_mode = 'charge';
 
     // this.elements_transaction_mode = 'saveCard';
     let customerIDCookie  = Cookies.get("goSellDemo_" + "customerID");
     this.customer = {
-        id: customerIDCookie?customerIDCookie:"cus_m1QB0320181401l1LD1812485",//"cus_k2D15820191258y4H21302372",
-        first_name: "Hala",
-        middle_name: "-",
-        last_name: "Q",
-        email: "h.qutmosh@tap.company",
-        phone: {
-            country_code: "965",
-            number: "62221019"
-        }
-      };
+      id: customerIDCookie?customerIDCookie:"cus_m1QB0320181401l1LD1812485",//"cus_k2D15820191258y4H21302372",
+      first_name: "Hala",
+      middle_name: "-",
+      last_name: "Q",
+      email: "h.qutmosh@tap.company",
+      phone: {
+        country_code: "965",
+        number: "62221019"
+      }
+    };
 
     this.authorize = {
-        type: 'VOID',
-        time: 100
+      type: 'VOID',
+      time: 100
     }
 
     this.transaction = {
-         saveCard: false,
-         threeDSecure: true,
-         description: "Test Description",
-         statement_descriptor: "Sample",
-         reference:{
-           transaction: "txn_0001",
-           order: "ord_0001"
-         },
-         metadata:{},
-         receipt:{
-           email: false,
-           sms: true
-         },
-         redirect: "http://localhost:3000/open-light-box-demo",
-         post: "http://localhost:3000/open-light-box-demo"
-      };
+      saveCard: false,
+      threeDSecure: true,
+      description: "Test Description",
+      statement_descriptor: "Sample",
+      reference:{
+        transaction: "txn_0001",
+        order: "ord_0001"
+      },
+      metadata:{},
+      receipt:{
+        email: false,
+        sms: true
+      },
+      redirect: "http://localhost:3000/open-light-box-demo",
+      post: "http://localhost:3000/open-light-box-demo"
+    };
 
     this.order = {
-        amount: 100,
-        currency:"KWD",
-        items:[{
-          id:1,
-          name:'item1',
-          description: 'item1 desc',
-          quantity:'x1',
-          amount_per_unit:'KD00.000',
-          discount: {
-            type: 'P',
-            value: '10%'
-          },
-          total_amount: 'KD000.000'
+      amount: 100,
+      currency:"KWD",
+      items:[{
+        id:1,
+        name:'item1',
+        description: 'item1 desc',
+        quantity:'x1',
+        amount_per_unit:'KD00.000',
+        discount: {
+          type: 'P',
+          value: '10%'
         },
-        {
-          id:2,
-          name:'item2',
-          description: 'item2 desc',
-          quantity:'x2',
-          amount_per_unit:'KD00.000',
-          discount: {
-            type: 'P',
-            value: '10%'
-          },
-          total_amount: 'KD000.000'
+        total_amount: 'KD000.000'
+      },
+      {
+        id:2,
+        name:'item2',
+        description: 'item2 desc',
+        quantity:'x2',
+        amount_per_unit:'KD00.000',
+        discount: {
+          type: 'P',
+          value: '10%'
         },
-        {
-          id:3,
-          name:'item3',
-          description: 'item3 desc',
-          quantity:'x1',
-          amount_per_unit:'KD00.000',
-          discount: {
-            type: 'P',
-            value: '10%'
-          },
-          total_amount: 'KD000.000'
-        }]
-      };
+        total_amount: 'KD000.000'
+      },
+      {
+        id:3,
+        name:'item3',
+        description: 'item3 desc',
+        quantity:'x1',
+        amount_per_unit:'KD00.000',
+        discount: {
+          type: 'P',
+          value: '10%'
+        },
+        total_amount: 'KD000.000'
+      }]
+    };
 
     this.btnLoading = false;
 
@@ -130,7 +132,7 @@ class DemoConfigStore {
   }
 
   callbackFunc(response){
-    let customerID = null
+    let customerID = null;
 
     console.log('response from callback func', response);
     if (response && response.customer){
@@ -152,8 +154,9 @@ class DemoConfigStore {
     }
   }
 
+
   updateGatewayObj(e) {
-     // console.log(e.target.name, e.target.value);
+    // console.log(e.target.name, e.target.value);
 
     let gatewayObj = Object.assign({}, this.gateway);
     let key = e.target.name;
@@ -200,7 +203,6 @@ class DemoConfigStore {
     else {
       customerObj[key] = e.target.value;
     }
-
     this.customer = customerObj;
   }
 

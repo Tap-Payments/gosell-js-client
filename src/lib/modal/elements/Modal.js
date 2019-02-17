@@ -85,8 +85,13 @@ class Modal extends React.Component {
     }
 
     if(this.props.style){
+      let modalStyle = this.props.style.modal;
+      if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+      {
+        modalStyle.height?modalStyle.height='':null
+      }
       this.setState({
-        modalStyle: this.props.style.modal,
+        modalStyle: modalStyle,
         bodyStyle: this.props.style.body,
         bodyContainerStyle: this.props.style.bodyContainer
       });
@@ -135,8 +140,13 @@ class Modal extends React.Component {
     }
 
     if(nextProps.style){
+      let modalStyle = nextProps.style.modal;
+      if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+      {
+        modalStyle.height?modalStyle.height='':null
+      }
       this.setState({
-        modalStyle: nextProps.style.modal,
+        modalStyle: modalStyle,
         bodyStyle: nextProps.style.body,
         bodyContainerStyle: nextProps.style.bodyContainer
       });
