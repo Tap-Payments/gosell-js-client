@@ -402,7 +402,7 @@ class UIStore {
         break;
       case 1:
         self.goSellBtn({
-          title: "Confirm",
+          title: self.RootStore.localizationStore.getContent('btn_confirm_title', null),
           color: '#007AFF',
           active: true,
           loader: false
@@ -411,7 +411,7 @@ class UIStore {
         break;
       case 2:
         self.goSellBtn({
-          title: "Confirm",
+          title: self.RootStore.localizationStore.getContent('btn_confirm_title', null),
           color: '#007AFF',
           active: false,
           loader: false

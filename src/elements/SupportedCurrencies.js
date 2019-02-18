@@ -168,7 +168,7 @@ class SupportedCurrencies extends Component {
                     //   dir={this.props.dir}
                     //   style={{'searchContainer': {width: this.props.width, height: '50px'}, 'searchbar': {border:'1px solid #E1E1E1'}}}
                     //   searchIcon={<img src={Paths.imgsPath + 'search.svg'} width="13"/>}
-                    //   searchPlaceholderText={'Search'}
+                    //   searchPlaceholderText={this.props.store.localizationStore.getContent('search_bar_placeholder', null)}
                     //   filterList={this.filter}/>
                   }
 
@@ -182,7 +182,7 @@ class SupportedCurrencies extends Component {
                    //   dir={this.props.dir}
                    //   style={{'searchContainer': {width: this.props.width,padding: '5px'}, 'searchbar': {color: '#474747', border: '1px solid #f7f7f7',backgroundColor: 'rgba(255, 255, 255, 0.2)'}}}
                    //   searchIcon={<img src={Paths.imgsPath + 'search.svg'} width="13"/>}
-                   //   searchPlaceholderText={'Search'}
+                   //   searchPlaceholderText={this.props.store.localizationStore.getContent('search_bar_placeholder', null)}
                    //   filterList={this.filter}/>
                  }
 
@@ -208,7 +208,7 @@ class SupportedCurrencies extends Component {
 //     //   dir={this.props.dir}
 //     //   style={{'searchContainer': {width: this.props.width,padding: '5px'}, 'searchbar': {color: '#474747', border: '1px solid #fff',backgroundColor: 'rgba(255, 255, 255, 0.2)'}}}
 //     //   searchIcon={<img src={Paths.imgsPath + 'search.svg'} width="13"/>}
-//     //   searchPlaceholderText={'Search'}
+//     //   searchPlaceholderText={this.props.store.localizationStore.getContent('search_bar_placeholder', null)}
 //     //   filterList={this.filterList.bind(this)}/>
 //   }
 //
@@ -226,7 +226,7 @@ class SupportedCurrencies extends Component {
 //    //   dir={this.props.dir}
 //    //   style={{'searchContainer': {width: this.props.width,padding: '5px'}, 'searchbar': {color: 'white', border: '1px solid #777578',backgroundColor: 'rgba(0,0,0,0.20)'}}}
 //    //   searchIcon={<img src={Paths.imgsPath + 'search.svg'} width="13"/>}
-//    //   searchPlaceholderText={'Search'}
+//    //   searchPlaceholderText={this.props.store.localizationStore.getContent('search_bar_placeholder', null)}
 //    //   filterList={this.filterList.bind(this)}/>
 //  }
 //    <div className='list-container' style={{direction: this.props.dir}}>

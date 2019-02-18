@@ -292,7 +292,7 @@ class ApiStore{
                 else if(chg.data.status && chg.data.status.toUpperCase() === 'CAPTURED' && type !== 'CARD'){
                   console.log('CAPTURED form');
                   self.RootStore.configStore.callbackFunc(chg.data);
-                  self.RootStore.uIStore.showMsg('success', 'Successful Transaction', chg.data.id);
+                  self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), chg.data.id);
                 }
                 else if(chg.data.status &&  chg.data.status.toUpperCase() === 'INITIATED' && type === 'CARD'){
                   console.log('CAPTURED card', chg.data);
@@ -576,7 +576,7 @@ class ApiStore{
                         document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = 'Successful';
                       }
                       else {
-                        self.RootStore.uIStore.showMsg('success', "Successful Transaction", charge.data.id);
+                        self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), charge.data.id);
                       }
                     }
                     else {
@@ -613,7 +613,7 @@ class ApiStore{
                       document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = 'Successful';
                     }
                     else {
-                      self.RootStore.uIStore.showMsg('success', "Successful Transaction", auth.data.id);
+                      self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), auth.data.id);
                     }
                   }
                   else {

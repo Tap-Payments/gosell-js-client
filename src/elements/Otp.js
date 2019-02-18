@@ -206,13 +206,13 @@ class Otp extends Component {
           <tbody>
             <tr>
               <td className="gosell-gateway-otp-msg-container">
-                <p className="gosell-gateway-otp-msg">Please enter the OTP that has been sent to <span className="gosell-gateway-otp-span">{this.props.store.paymentStore.authenticate ? this.props.store.paymentStore.authenticate.value : null}</span></p>
+                <p className="gosell-gateway-otp-msg">{this.props.store.localizationStore.getContent('otp_guide_text', null).replace('%@', '')} <span className="gosell-gateway-otp-span">{this.props.store.paymentStore.authenticate ? this.props.store.paymentStore.authenticate.value : null}</span></p>
               </td>
 
               <td className='gosell-gateway-otp-settings' style={this.props.dir === 'ltr' ? {textAlign: 'right'} : {textAlign: 'left'}}>
                 {this.state.running ?
                  <Timer running={this.state.running} time={count}/> :
-                 <div className={!this.state.running ? "gosell-gateway-otp-resend" : "gosell-gateway-otp-resend gosell-gateway-otp-fadeOut"} onClick={this.resendOTP.bind(this)}>RESEND</div>
+                 <div className={!this.state.running ? "gosell-gateway-otp-resend" : "gosell-gateway-otp-resend gosell-gateway-otp-fadeOut"} onClick={this.resendOTP.bind(this)}>{this.props.store.localizationStore.getContent('btn_resend_title', null)}</div>
                 }
               </td>
             </tr>

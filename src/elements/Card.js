@@ -49,21 +49,24 @@ class Card extends Component {
   }
 
   deleteCard(){
-    this.props.store.uIStore.delete_card = this.props.id;
-    this.props.store.uIStore.shakeCards(false);
+
+    var store = this.props.store;
+
+    store.uIStore.delete_card = this.props.id;
+    store.uIStore.shakeCards(false);
 
     this.setState({
       delete: true,
       shake: false
     });
 
-    this.props.store.uIStore.setErrorHandler({
+    store.uIStore.setErrorHandler({
       visable: true,
       type: 'warning',
       code: 'Delete Card',
-      msg: 'Are you sure you would like to delete card ●●●● ' + this.props.last4digits + '?',
+      msg: store.localizationStore.getContent('alert_delete_card_message', null).replace('%@', '●●●● ' + this.props.last4digits),
       options: [
-        {title: 'Confirm', action: this.confirmDeleteCard.bind(this, this.cardRef.id)},
+        {title: store.localizationStore.getContent('alert_cancel_payment_status_undefined_btn_confirm_title', null), action: this.confirmDeleteCard.bind(this, this.cardRef.id)},
         {title: '×', action: this.cancelDeleteCard.bind(this)},
       ]
     });

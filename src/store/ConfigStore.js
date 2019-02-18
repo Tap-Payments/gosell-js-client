@@ -13,14 +13,9 @@ class ConfigStore {
     this.contactInfo = true;
 
     this.language = 'en';
-    this.labels = {
-      cardNumber:"Card Number",
-      expirationDate:"MM/YY",
-      cvv:"CVV",
-      cardHolder:"Name on Card"
-    };
+    this.labels = {};
 
-    this.btn = "Pay";
+    this.btn = null;
 
     this.style = {
       base: {
@@ -74,6 +69,13 @@ class ConfigStore {
       console.log('set setConfig');
       this.config = value;
       this.view = view;
+      this.labels = {
+          cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+          expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+          cvv:this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+          cardHolder:this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
+      }
+      this.btn = this.RootStore.localizationStore.getContent('btn_pay_title_generic', null);
   }
 
   async configure(){
@@ -150,16 +152,16 @@ class ConfigStore {
         }
         else {
           if(this.transaction_mode === 'save_card'){
-            this.btn = 'Save';
+            this.btn = this.RootStore.localizationStore.getContent('btn_save_title', null);
           }
         }
 
         if(value.gateway.labels){
           this.labels = {
-            cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : "Card Number",
-            expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : "MM/YY",
-            cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : "CVV",
-            cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : "Name on Card"
+            cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+            expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+            cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+            cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
           };
         }
 
@@ -192,7 +194,7 @@ class ConfigStore {
       }
       else {
         console.log("Something went wrong! Please check the goSell configration");
-        this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the goSell configration", null);
+        this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
         this.legalConfig = false;
       }
     }
@@ -243,7 +245,7 @@ class ConfigStore {
         else {
           this.legalConfig = false;
           console.log("Something went wrong! Please check the customer details");
-          this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the customer details", null);
+          this.RootStore.uIStore.showMsg('warning',this.RootStore.localizationStore.getContent('gosell_customer_configration_msg', null), null);
 
           return await self.legalConfig;
         }
@@ -264,7 +266,7 @@ class ConfigStore {
       else {
         this.legalConfig = false;
         console.log("Something went wrong! Please check the goSell configration");
-        this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the goSell configration", null);
+        this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
 
         return await self.legalConfig;
       }
@@ -334,7 +336,7 @@ class ConfigStore {
       }
       else {
         this.legalConfig = false;
-        this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the order details", null);
+        this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_order_configration_msg', null), null);
 
         return await this.legalConfig;
       }
@@ -403,7 +405,7 @@ class ConfigStore {
       }
       else {
         this.legalConfig = false;
-        this.RootStore.uIStore.showMsg('warning', "Something went wrong! Please check the order details", null);
+        this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_order_configration_msg', null), null);
 
         return await self.legalConfig;
       }

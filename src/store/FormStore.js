@@ -359,8 +359,6 @@ class FormStore{
         active: true
       });
 
-      console.log('hey XXXX', 'ready to be clicked');
-
       // console.log('onChange', self.RootStore.uIStore.btn);
 
       //console.log('I am in success');

@@ -167,7 +167,7 @@ class Options extends Component {
               : null}
 
               {WebPayments.length > 0 || store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
-                <Label title="Others" dir={store.uIStore.getDir}/>
+                <Label title={store.localizationStore.getContent('payment_options_group_title_others', null)} dir={store.uIStore.getDir}/>
               : <div style={{paddingBottom: '20px'}}></div>}
 
               {WebPayments.length > 0 ?
