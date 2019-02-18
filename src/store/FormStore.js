@@ -13,8 +13,9 @@ class FormStore{
     this._apiKey = null;
     this._encryption_key = '';
     this.tds = '';
-
     this.hide = null;
+    // added to handle focus/blur of the card frame
+    this.submitBtnFlag  = false;
 
     // this.checkFocus = this.checkFocus.bind(this);
     this.generateToken = this.generateToken.bind(this);
@@ -370,6 +371,8 @@ class FormStore{
     }
     else if(event.code == 100 && event.focus == 'in'){
       self.cardFormHandleClick();
+      // set the flag true every time the frame is focused
+      this.submitBtnFlag  = true
     }
     else if(event.code == 403 && event.status == 'invalid'){
       self.RootStore.uIStore.goSellBtn({

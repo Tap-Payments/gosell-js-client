@@ -151,7 +151,8 @@ class Pay extends Component {
                   btnColor={store.uIStore.btn.color}
                   active={store.uIStore.btn.active}
                   animate={store.uIStore.btn.loader}
-                  handleClick={this.handlePayBtnClick.bind(this)}>{store.uIStore.btn.title}</TapButton>
+                  handleClick={this.handlePayBtnClick.bind(this)}
+                  store={store}>{store.uIStore.btn.title}</TapButton>
           </div>
         : null}
 

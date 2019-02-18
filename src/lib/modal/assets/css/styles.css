@@ -428,32 +428,20 @@ body{
 .tap-payments-notification-true{
   position: fixed;
   width: 100%;
-  height: -webkit-fit-content;
+  /* height: -webkit-fit-content;
   height: -moz-fit-content;
-  height: fit-content;
-  min-height: 40px;
+  height: fit-content; */
+  height: 40px;
   top: 0;
   text-align: center;
   left: 0;
   right: 0;
   z-index: 888888;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
   -webkit-animation-name: slideDown;
   -webkit-animation-duration: 0.7s;
   animation-name: slideDown;
   animation-duration: 0.7s;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: reverse;
-      -ms-flex-direction: row-reverse;
-          flex-direction: row-reverse;
+  display: block;
 }
 
 /* Safari 4.0 - 8.0 */
@@ -473,7 +461,7 @@ body{
     float: right;
     font-size: 21px;
     font-weight: 100;
-    line-height: 1;
+    /* line-height: 1; */
     color: #fff;
     /* text-shadow: 0 1px 0 #fff; */
     /* filter: alpha(opacity=20); */
@@ -482,7 +470,7 @@ body{
 a.tap-payments-close {
     text-decoration: none;
     font-size: 30px;
-    line-height: 1.2;
+    /* line-height: 1.2; */
     cursor: pointer;
 }
 
@@ -491,15 +479,19 @@ a.tap-payments-close:hover {
 }
 
 .tap-payments-notification-bar .tap-payments-close {
-  position: absolute;
-  padding: 0px 20px;
-  line-height: 0;
+  /* position: absolute; */
+  /* padding: 0px 20px; */
+  /* line-height: 0; */
 }
 
 .tap-payments-notification-title{
   padding: 10px 50px;
-  margin: 0px;
-  width: 100%;
+  float: left;
+  display: inline-block;
+}
+
+.tap-payments-notification-title[dir="ltr"] {
+  float: right;
 }
 
 .tap-payments-notification-false {
@@ -547,21 +539,23 @@ a.tap-payments-close:hover {
 
 .tap-payments-options{
   padding: 0px 50px;
-  display: flex;
   height: 100%;
+  float: right;
+}
+
+.tap-payments-options[dir="ltr"]{
+  float: left;
 }
 
 .tap-payments-option{
   padding: 0 10px;
-  /* text-decoration: underline; */
   font-weight: bold;
   cursor: pointer;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 20px;
+  display: inline-block;
   font-size: 15px;
+  vertical-align: top;
+  line-height: 37px;
 }
 
 .tap-payments-option:hover{

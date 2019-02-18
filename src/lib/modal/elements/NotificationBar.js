@@ -107,7 +107,7 @@ class NotificationBar extends Component{
 
       var options = this.props.options ? this.props.options.map(function(option, index){
         return(<div className="tap-payments-option" key={index} onClick={option.action}>
-              {option.title === "×" ? <a style={isFirefox ? {paddingTop:'19px'} : {color:''}} className="tap-payments-close">{option.title}</a> : option.title}
+              {option.title === "×" ? <a className="tap-payments-close">{option.title}</a> : option.title}
             </div>);
       }) : null;
 

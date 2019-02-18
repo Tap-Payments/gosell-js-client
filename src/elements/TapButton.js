@@ -47,6 +47,16 @@ class TapButton extends Component {
     }
   }
 
+  handleOnMouseOver(event){
+    // console.log('im over');
+    if (this.props.store.formStore.submitBtnFlag){
+      // console.log('frame unfocus');
+      document.activeElement.blur();
+      // set the flag to false so it wont blur again
+      this.props.store.formStore.submitBtnFlag = false
+    }
+  }
+
   render() {
     const Btn = styled.button`
       width: ${this.props.width};
@@ -85,7 +95,11 @@ class TapButton extends Component {
     `;
 
     return (
-        <Btn id={this.props.id} ref={(node) => this.tapBtn = node} className="tap-btn"  onClick={this.handleClick.bind(this)} onKeyUp={this.handleOnKeyUp.bind(this)}>
+        <Btn id={this.props.id} ref={(node) => this.tapBtn = node} className="tap-btn"
+          onClick={this.handleClick.bind(this)}
+          onKeyUp={this.handleOnKeyUp.bind(this)}
+          onMouseOver={this.handleOnMouseOver.bind(this)}
+          >
               <div style={{width: '30px', height: '30px', margin: '0px 10px', pointerEvents: 'none'}}>
                 <Loader
                   toggleAnimation={this.props.animate}
