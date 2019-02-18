@@ -48,11 +48,11 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.2.5",
     "@tap-payments/loader": "^1.0.11",
     "@tap-payments/modal": "^1.1.26",
     "autoprefixer": "^9.4.7",
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "bluebird": "^3.3.4",
     "body-parser": "^1.18.3",
     "classnames": "^2.2.6",

@@ -48,6 +48,7 @@
   /* display: inline-block; */
   /* display: inline-block; */
   /* display: table-cell; */
+  position: relative;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -247,6 +248,7 @@
   border-radius: 8px;
   background-color: rgb(255, 255, 255);
   opacity: 0.50;
+  position: relative;
   /* display: table; */
   /* margin: 0px 5px; */
   /* display: flex; */
