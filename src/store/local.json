@@ -1,0 +1,246 @@
+{
+  "alert_cancel_payment_btn_confirm_title":{
+    "en": "Confirm",
+    "ar": "تأكيد"
+  },
+  "alert_cancel_payment_btn_no_title":{
+    "en": "No",
+    "ar": "لا"
+  },
+  "alert_cancel_payment_message":{
+    "en": "Would you like to cancel payment?",
+    "ar": "هل تود إلغاء عملية الدفع؟"
+  },
+  "alert_cancel_payment_status_undefined_btn_confirm_title":{
+    "en": "Confirm",
+    "ar": "تأكيد"
+  },
+  "alert_cancel_payment_status_undefined_btn_no_title":{
+    "en": "No",
+    "ar": "لا"
+  },
+  "alert_cancel_payment_status_undefined_message":{
+    "en": "Would you like to cancel payment? Payment status will be undefined.",
+    "ar": "هل تود إلغاء عملية الدفع؟ حالة العملية ستصبح غير معرّفة"
+  },
+  "alert_cancel_payment_status_undefined_title":{
+    "en": "Cancel Payment",
+    "ar": "إلغاء عملية الدفع"
+  },
+  "alert_cancel_payment_title":{
+    "en": "Cancel Payment",
+    "ar": "إلغاء عملية الدفع"
+  },
+  "alert_delete_card_btn_cancel_title":{
+    "en": "Cancel",
+    "ar": "إلغاء"
+  },
+  "alert_delete_card_btn_delete_title":{
+    "en": "Delete",
+    "ar": "حذف"
+  },
+  "alert_delete_card_message":{
+    "en": "Are you sure you would like to delete card %@?",
+    "ar": "هل أنت متأكد من حذف البطاقة %@؟"
+  },
+  "alert_delete_card_title":{
+    "en": "Delete Card",
+    "ar": "حذف البطاقة"
+  },
+  "alert_extra_charges_btn_cancel_title":{
+    "en": "Cancel",
+    "ar": "إلغاء"
+  },
+  "alert_extra_charges_btn_confirm_title":{
+    "en": "Confirm",
+    "ar": "تأكيد"
+  },
+  "alert_extra_charges_message":{
+    "en": "You will be charged an additional fee of %@ for this type of payment, totalling an amount of %@",
+    "ar": "سوف تتم إضافة  %@ لهذه العملية، إجمالي المبلغ المطلوب   %@"
+  },
+  "alert_extra_charges_title":{
+    "en": "Confirm Extra Charges",
+    "ar": "تأكيد الرسوم الإضافية"
+  },
+  "btn_confirm_title":{
+    "en": "CONFIRM",
+    "ar": "تأكيد"
+  },
+  "btn_pay_title_amount":{
+    "en": "PAY %@",
+    "ar": "ادفع %@"
+  },
+  "btn_pay_title_generic":{
+    "en": "PAY",
+    "ar": "ادفع"
+  },
+  "btn_resend_title":{
+    "en": "RESEND",
+    "ar": "إعادة إرسال"
+  },
+  "btn_save_title":{
+    "en": "Save",
+    "ar": "حفظ"
+  },
+  "card_holder_required":{
+    "en": "Please fill Card holder name.",
+    "ar": "الرجاء تعبئة إسم حامل البطاقة "
+  },
+  "card_input_address_on_card_placeholder":{
+    "en": "Address on Card",
+    "ar": "العنوان الموجود في البطاقة"
+  },
+  "card_input_card_number_placeholder":{
+    "en": "Card Number",
+    "ar": "رقم البطاقة"
+  },
+  "card_input_cardholder_name_placeholder":{
+    "en": "Name On Card",
+    "ar": "الاسم الموجود في البطاقة"
+  },
+  "card_input_cvv_placeholder":{
+    "en": "CVV",
+    "ar": "الرمز الأمني"
+  },
+  "card_input_expiration_date_placeholder":{
+    "en": "MM/YY",
+    "ar": "شهر/سنة"
+  },
+  "card_number_required":{
+    "en": "Please fill Card Number.",
+    "ar": "الرجاء تعبئة رقم البطاقة"
+  },
+  "card_scanning_screen_title":{
+    "en": "Scanning Card",
+    "ar": "المسح الضوئي للبطاقة"
+  },
+  "common_cancel":{
+    "en": "Cancel",
+    "ar": "إلغاء"
+  },
+  "common_edit":{
+    "en": "Edit",
+    "ar": "تعديل"
+  },
+  "currency_selection_screen_title":{
+    "en": "Select Currency",
+    "ar": "اختر العملة"
+  },
+  "cvv_required":{
+    "en": "Please fill the CVV.",
+    "ar": "الرجاء تعبئة الرمز الأمني"
+  },
+  "error_card_holder_short":{
+    "en": "Card holder name is too short (minimum is 3 characters).",
+    "ar": "إسم حامل البطاقة قصير (الحد الأدنى هو 3 أحرف)"
+  },
+  "error_currency_not_supported":{
+    "en": "Currency not supported by any payment method",
+    "ar": "العملة غير معتمدة من قبل أي طريقة دفع"
+  },
+  "error_currency_not_supported_partial":{
+    "en": "%@currency not supported for %@payment_option",
+    "ar": "%@ العملة غير معتمدة لـ %@ خيار_الدفع"
+  },
+  "error_invalid_card":{
+    "en": "Invalid card given",
+    "ar": "بطاقة غير صالحة"
+  },
+  "errror_brand_not_supported":{
+    "en": "Card brand not supported",
+    "ar": "العلامة التجارية لبطاقة البنك غير معتمدة"
+  },
+  "expiry_date_past":{
+    "en": "Your card's expiration date is in the past.",
+    "ar": "تاريخ أنتهاء صلاحية بطاقتك السابق"
+  },
+  "expiry_date_required":{
+    "en": "Please fill expiry date.",
+    "ar": "الرجاء تعبئة تاريخ الإنتهاء"
+  },
+  "expiry_month_required":{
+    "en": "Expiry Month is required",
+    "ar": "مطلوب شهر إنتهاء الصلاحية "
+  },
+  "expiry_year_required":{
+    "en": "Expiry Year is required",
+    "ar": "مطلوب سنة إنتهاء الصلاحية "
+  },
+  "gosell_customer_configration_msg":{
+    "en": "Something went wrong! Please check the customer details",
+    "ar": "حدث خطأ ما! الرجاء التأكد من بيانات العميل "
+  },
+  "gosell_gateway_configration_msg":{
+    "en": "Something went wrong! Please check the goSell configuration",
+    "ar": "حدث خطأ ما! الرجاء التأكد من ضبط إعداد goSell"
+  },
+  "gosell_order_configration_msg":{
+    "en": "Something went wrong! Please check the order details",
+    "ar": "حدث خطأ ما! الرجاء التأكد من بيانات الطلب"
+  },
+  "gosell_successful_transaction":{
+    "en": "Successful Transaction",
+    "ar": "عملية ناجحة "
+  },
+  "otp_guide_text":{
+    "en": "Please enter the OTP that has been sent to %@",
+    "ar": "الرجاء إدخال الرقم الذي تم إرساله إلى %@"
+  },
+  "payment_options_group_title_others":{
+    "en": "OTHERS",
+    "ar": "أخرى"
+  },
+  "payment_options_group_title_recent":{
+    "en": "RECENT",
+    "ar": "مؤخراً"
+  },
+  "save_card_promotion_text":{
+    "en": "For a faster and more secure checkout, please save your card",
+    "ar": "لدفع آمن و سريع، قم بحفظ بطاقتك"
+  },
+  "search_bar_placeholder":{
+    "en": "Search",
+    "ar": "بحث"
+  },
+  "supported_currencies_aed":{
+    "en": "AED",
+    "ar": "د.إ"
+  },
+  "supported_currencies_bhd":{
+    "en": "BHD",
+    "ar": "د.ب"
+  },
+  "supported_currencies_ebp":{
+    "en": "GBP",
+    "ar": "جنيه إسترليني"
+  },
+  "supported_currencies_egp":{
+    "en": "EGP",
+    "ar": "ج.م"
+  },
+  "supported_currencies_eur":{
+    "en": "EUR",
+    "ar": "اليورو"
+  },
+  "supported_currencies_kwd":{
+    "en": "KWD",
+    "ar": "د.ك"
+  },
+  "supported_currencies_omr":{
+    "en": "OMR",
+    "ar": "ر.ع"
+  },
+  "supported_currencies_qar":{
+    "en": "QAR",
+    "ar": "ر.ق"
+  },
+  "supported_currencies_sar":{
+    "en": "SAR",
+    "ar": "ر.س"
+  },
+  "supported_currencies_usd":{
+    "en": "USD",
+    "ar": "دولار"
+  }
+}
