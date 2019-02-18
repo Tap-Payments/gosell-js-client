@@ -3,6 +3,7 @@ import styled from "styled-components";
 import '../assets/css/card.css';
 // import checkmark from '../assets/imgs/checkmark.svg';
 // import deleteIcon from '../assets/imgs/delete.svg';
+// import bank from '../assets/nbk.svg';
 import Paths from '../../webpack/paths';
 import {observer} from 'mobx-react';
 import {Loader} from '@tap-payments/loader';

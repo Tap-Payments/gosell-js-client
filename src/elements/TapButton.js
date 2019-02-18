@@ -51,7 +51,7 @@ class TapButton extends Component {
     // console.log('im over');
     if (this.props.store.formStore.submitBtnFlag){
       // console.log('frame unfocus');
-      document.activeElement.blur();
+      document.getElementsByClassName('tap-btn')[0].focus()
       // set the flag to false so it wont blur again
       this.props.store.formStore.submitBtnFlag = false
     }

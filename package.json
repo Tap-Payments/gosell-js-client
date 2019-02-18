@@ -52,6 +52,7 @@
     "@tap-payments/modal": "^1.1.26",
     "autoprefixer": "^9.4.7",
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "bluebird": "^3.3.4",
     "body-parser": "^1.18.3",
     "classnames": "^2.2.6",
