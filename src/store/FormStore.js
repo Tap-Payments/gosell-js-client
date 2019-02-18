@@ -349,16 +349,16 @@ class FormStore{
     if(event.code == 200){
       self.RootStore.paymentStore.save_card_active = true;
       self.RootStore.uIStore.setIsActive('FORM');
-      // self.RootStore.uIStore.payBtn(true);
-
+      console.log('form', self.RootStore.uIStore.getIsActive);
       var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.current_currency.symbol + self.RootStore.uIStore.formatNumber(self.RootStore.paymentStore.active_payment_option_total_amount.toFixed(self.RootStore.paymentStore.current_currency.decimal_digit)) : '';
 
-      //console.log('form total', total);
       self.RootStore.uIStore.goSellBtn({
         title: self.RootStore.configStore.btn + ' ' + total,
         color: '#2ACE00',
         active: true
       });
+
+      console.log('hey XXXX', 'ready to be clicked');
 
       // console.log('onChange', self.RootStore.uIStore.btn);
 
@@ -370,7 +370,6 @@ class FormStore{
     }
     else if(event.code == 100 && event.focus == 'in'){
       self.cardFormHandleClick();
-
     }
     else if(event.code == 403 && event.status == 'invalid'){
       self.RootStore.uIStore.goSellBtn({
@@ -419,11 +418,13 @@ class FormStore{
           }
         }
 
-      }
-    // }
-    // else if(event.code == 101 && event.focus == 'out'){
-    //   console.log("it's out");
-    // }
+    }
+    else if(event.code == 101 && event.code == 200){
+      console.log("it's out & successful");
+    }
+    else if(event.code == 101 && event.code != 200){
+      console.log("it's out");
+    }
 
 
     if(event.BIN && event.BIN.card_brand !== active_brand){
@@ -553,8 +554,6 @@ class FormStore{
 
                  self.clearCardForm();
               }
-
-
          }
      });
     }

@@ -1,10 +1,10 @@
 const webpack = require("webpack");
 const commonPaths = require("./paths");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-//	entry: commonPaths.entryPath,
 
 module.exports = {
 	entry: {
+		'babel-polyfill': ['babel-polyfill'],
     'gosell': commonPaths.entryPath,
     'gosell-demo': commonPaths.demoPath
   },
