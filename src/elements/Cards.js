@@ -61,7 +61,7 @@ class Cards extends Component {
 
   render() {
 
-    var isIE = !!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g);
+    // var isIE = !!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g);
 
     var self = this;
     var cards = null;
