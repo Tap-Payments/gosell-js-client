@@ -82,6 +82,7 @@ class UIStore {
     this.closeNotification = this.closeNotification.bind(this);
 
     this.targetElement = React.createRef();
+    this.browser = null;
 
   }
 
@@ -257,28 +258,57 @@ class UIStore {
   get deviceBrowser() {
     var browser = null;
     var isChromium = window.chrome;
-    var isOpera = window.navigator.userAgent.indexOf("OPR") > -1 || window.navigator.userAgent.indexOf("Opera") > -1;
+    var uA = navigator.userAgent,
+    isIE = /msie\s|trident\/|edge\//i.test(uA) && !!(document.uniqueID || document.documentMode || window.ActiveXObject || window.MSInputMethodContext),
+    checkVersion = (isIE && +(/(edge\/|rv:|msie\s)([\d.]+)/i.exec(uA)[2])) || NaN;
+    var isOpera = navigator.userAgent.indexOf("OPR") > -1 || navigator.userAgent.indexOf("Opera") > -1;
+    if(!this.isMobile) {
+      if(!!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g)) {
+        browser = "IE";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        browser = "FireFox";
+      }
+      else if(isChromium !== null && isOpera == true) {
+        browser = "Opera";
+      }
+      else if(navigator.appVersion.indexOf('Edge') > -1) {
+        browser = "Edge"
+      }
+      else if(navigator.userAgent.indexOf("Chrome") != -1) {
+        browser = "Chrome";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
+        browser = "Safari";
+      }
+      this.browser = browser;
+      return browser;
+    }
+    else {
+      var isIE = /*@cc_on!@*/false || !!document.documentMode;
 
-    if(!!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g)) {
-      browser = "IE";
+      if(typeof InstallTrigger !== 'undefined' || navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || navigator.userAgent.toLowerCase().indexOf('fxios') > -1) {
+        browser = "FireFox";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('edga/') >= 0 || navigator.userAgent.toLowerCase().indexOf('edgios/') >= 0) {
+        browser = "Edge";
+      }
+      else if((!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0 || navigator.userAgent.toLowerCase().indexOf('safari/') <= 0) {
+        browser = "Opera";
+      }
+      else if(!!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime) || navigator.userAgent.indexOf("Chrome") != -1 || navigator.userAgent.toLowerCase().indexOf('crios/') >= 0){
+        browser = "Chrome";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
+        browser = "Safari";
+      }
+      this.browser = browser;
+      return browser;
+      // Blink engine detection
+      // var isBlink = (isChrome || isOpera) && !!window.CSS;
     }
-    else if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-      browser = "FireFox";
-    }
-    else if(isChromium !== null && isOpera == true) {
-      browser = "Opera";
-    }
-    else if(navigator.appVersion.indexOf('Edge') > -1) {
-      browser = "Edge"
-    }
-    else if(navigator.userAgent.indexOf("Chrome") != -1) {
-      browser = "Chrome";
-    }
-    else if(navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
-      browser = "Safari";
-    }
-    return browser;
   }
+
 
   computed
   get getDir(){
