@@ -1,11 +1,4 @@
 {
   "presets": ["env", "react"],
-  "plugins": [
-    ["@babel/plugin-transform-regenerator", {
-      "asyncGenerators": false,
-      "generators": false,
-      "async": false
-    }],
-    ["transform-class-properties"]
-  ]
+  "plugins": ["transform-class-properties"]
 }
