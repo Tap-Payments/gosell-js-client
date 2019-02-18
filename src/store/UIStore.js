@@ -254,6 +254,33 @@ class UIStore {
   }
 
   computed
+  get deviceBrowser() {
+    var browser = null;
+    var isChromium = window.chrome;
+    var isOpera = window.navigator.userAgent.indexOf("OPR") > -1 || window.navigator.userAgent.indexOf("Opera") > -1;
+
+    if(!!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g)) {
+      browser = "IE";
+    }
+    else if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+      browser = "FireFox";
+    }
+    else if(isChromium !== null && isOpera == true) {
+      browser = "Opera";
+    }
+    else if(navigator.appVersion.indexOf('Edge') > -1) {
+      browser = "Edge"
+    }
+    else if(navigator.userAgent.indexOf("Chrome") != -1) {
+      browser = "Chrome";
+    }
+    else if(navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
+      browser = "Safari";
+    }
+    return browser;
+  }
+
+  computed
   get getDir(){
     return this.dir;
   }

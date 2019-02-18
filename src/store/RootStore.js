@@ -19,7 +19,8 @@ class RootStore {
     this.actionStore = new ActionStore(this);
     this.formStore = new FormStore(this);
     this.localizationStore = new LocalizationStore(this);
-
+    // console.log("this.props.store.uIStore.deviceBrowser()");
+    // console.log(this.uIStore.deviceBrowser);
   }
 }
 
