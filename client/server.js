@@ -59,13 +59,7 @@ function checkJWTExpiry(session) {
 
 
 app.post('/init', (req, res) => {
-  console.log(
-    "%c/INIT REQUEST",
-    "background: maroon; color: white; display: block;"
-  );
 
-  console.log("%cRequest",
-  "background: yellow; color: black; display: block;");
   console.log(req);
   var Request = require("request");
 
@@ -107,10 +101,10 @@ app.post('/init', (req, res) => {
 
 
   app.post('/api', (req, res) => {
-    console.log(
-      "%c/API REQUEST",
-      "background: maroon; color: white; display: block;"
-    );
+    // console.log(
+    //   "%c/API REQUEST",
+    //   "background: maroon; color: white; display: block;"
+    // );
 
     var Request = require("request");
 
@@ -222,12 +216,10 @@ app.post('/init', (req, res) => {
 
             }
             else {
-              console.log(
-                "%cINVALID SESSION",
-                "background: red; color: white; display: block;"
-              );
-              var error = {'code': 100, 'message': 'Session has been expired!'};
-              res.send(error);
+              var err = {
+                error: {'code': 99999, 'description': 'Session has been expired!'}
+              };
+              res.send(err);
             }
           });
 

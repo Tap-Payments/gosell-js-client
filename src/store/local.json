@@ -151,6 +151,10 @@
    "en": "Successful Transaction",
    "ar": "عملية ناجحة "
  },
+ "gosell_failed_transaction":{
+   "en": "Failed Transaction",
+   "ar": ""
+ },
  "supported_currencies_kwd":{
    "en": "KWD",
    "ar": "د.ك"
@@ -333,6 +337,10 @@
  },
  "gosell_payment_process_warning_msg":{
    "en": "Please wait until the payment process is completed!",
+   "ar": ""
+ },
+ "gosell_something_went_wrong":{
+   "en": "Sorry, something went wrong!",
    "ar": ""
  }
 }
