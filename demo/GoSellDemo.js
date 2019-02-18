@@ -56,7 +56,7 @@ class GoSellDemo extends Component {
              }
            }}
            customer={{
-             // id:"cus_m1QB0320181401l1LD1812485",
+             // id:"cus_m1QB0320181401l1LD1812433335",
              first_name: "Hala",
              middle_name: "A.",
              last_name: "Qutmosh",

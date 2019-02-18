@@ -36,7 +36,7 @@ class UIStore {
     this.notifications = 'standard';
 
     this.load = true;
-    this.edit_customer_cards = 'Edit';
+    this.edit_customer_cards = null;
     this.modal_mode = 'popup';
 
     this.mainHeight = 0;
@@ -492,7 +492,7 @@ class UIStore {
   setIsActive(value){
     if(value === 'FORM' || value === 'WEB'){
       this.delete_card = null;
-      this.edit_customer_cards = 'Edit';
+      this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_edit', null);
 
       if(this.RootStore.configStore.transaction_mode !== 'get_token' && this.RootStore.configStore.transaction_mode !== 'get_token'){
         this.shakeCards(false);
@@ -516,13 +516,13 @@ class UIStore {
 
     if(!value){
       this.shake_cards = false;
-      this.edit_customer_cards = 'Edit';
+      this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_edit', null);
 
     }
     else {
       this.shake_cards = true;
       this.errorHandler = {};
-      this.edit_customer_cards = 'Cancel';
+      this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_cancel', null);
       if(this.getSubPage === 1 || this.getSubPage === 0){
         this.setSubPage(-1);
       }
@@ -652,7 +652,7 @@ class UIStore {
     this.setErrorHandler({
       visable: true,
       code: 'error',
-      msg: "Please wait until the payment process is completed!",
+      msg: this.RootStore.localizationStore.getContent('gosell_payment_process_warning_msg', null),
       type: 'warning'
     });
   }

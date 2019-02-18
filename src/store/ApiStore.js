@@ -100,16 +100,19 @@ class ApiStore{
     var self = this;
 
     if(json.errors){
+      console.log(json.errors);
       self.RootStore.uIStore.showMsg('warning', json.errors[0].description, json.errors[0].code);
-
     }
     else if(json.error){
+      console.log(json.error);
       self.RootStore.uIStore.showMsg('warning', json.error.description, json.error.code);
     }
     else if(json.response){
+      console.log(json.response);
       self.RootStore.uIStore.showMsg('error', json.response.message, json.id);
     }
     else if(json.message){
+      console.log(json.message);
       self.RootStore.uIStore.showMsg('warning', json.message, json.code);
     }
     else {

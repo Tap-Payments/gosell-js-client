@@ -82,122 +82,127 @@ class ConfigStore {
     var self = this;
     var value = this.config;
 
-    console.log('public key',  value.gateway.publicKey);
-    if(window.location.protocol=='http:' && value.gateway.publicKey.indexOf("pk_live") == 0){
-      console.log('error setConfig');
-      this.RootStore.uIStore.showMsg('warning', 'goSell integrations must use HTTPS.', "You're using live public key, which should be used with ssl certificate.");
-      this.legalConfig = false;
-    }
-    else {
-
     if(value.gateway){
-      if(value.gateway != null){
-        this.gateway = value.gateway;
-
-        this.language = value.gateway.language ? value.gateway.language : 'en';
-
-        // console.log('supportedCurrencies', value.gateway.supportedCurrencies);
-        // console.log('type', typeof value.gateway.supportedCurrencies);
-
-        if(value.gateway.supportedCurrencies){
-          if(typeof value.gateway.supportedCurrencies == 'object'){
-            var currencies = [];
-            value.gateway.supportedCurrencies.forEach(function(c){
-              currencies.push(c.toUpperCase());
-            });
-
-            this.gateway.supportedCurrencies = currencies;
-          }
-          else {
-            this.gateway.supportedCurrencies = value.gateway.supportedCurrencies.toLowerCase();
-          }
-        }
-        else {
-          this.gateway.supportedCurrencies = 'all';
-        }
-
-        if(value.gateway.supportedPaymentMethods){
-          if(typeof value.gateway.supportedPaymentMethods == 'object'){
-            var methods = [];
-            value.gateway.supportedPaymentMethods.forEach(function(c){
-              methods.push(c.toUpperCase());
-            });
-
-            this.gateway.supportedPaymentMethods = methods;
-          }
-          else {
-            this.gateway.supportedPaymentMethods = value.gateway.supportedPaymentMethods.toLowerCase();
-          }
-        }
-        else {
-          this.gateway.supportedPaymentMethods = 'all';
-        }
-
-        if(value.gateway.saveCardOption != undefined){
-          this.gateway.saveCardOption = value.gateway.saveCardOption;
-        }
-        else {
-          this.gateway.saveCardOption = true;
-        }
-
-        if(value.gateway.customerCards != undefined){
-          this.gateway.customerCards = value.gateway.customerCards;
-        }
-        else {
-          this.gateway.customerCards = true;
-        }
-
-        if(value.gateway.labels && value.gateway.labels.actionButton){
-          this.btn = value.gateway.labels.actionButton;
-        }
-        else {
-          if(this.transaction_mode === 'save_card'){
-            this.btn = this.RootStore.localizationStore.getContent('btn_save_title', null);
-          }
-        }
-
-        if(value.gateway.labels){
-          this.labels = {
-            cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
-            expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
-            cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
-            cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
-          };
-        }
-
-        if(value.gateway.style && isEmpty(value.gateway.style)){
-          this.style = {
-            base: value.gateway.style.base && isEmpty(value.gateway.style.base) ? value.gateway.style.base : {
-              color: '#535353',
-              lineHeight: '18px',
-              fontFamily: 'sans-serif',
-              fontSmoothing: 'antialiased',
-              fontSize: '16px',
-              '::placeholder': {
-                color: 'rgba(0, 0, 0, 0.26)',
-                fontSize:'15px'
-              }
-            },
-            invalid: value.gateway.style.invalid && isEmpty(value.gateway.style.invalid) ? value.gateway.style.invalid : {
-              color: 'red',
-              iconColor: '#fa755a '
-            }
-          };
-        }
-
-        if(value.gateway.notifications && value.gateway.notifications !== 'standard'){
-          this.notifications = value.gateway.notifications;
-        }
-
-        return await this.tranxConfig(value);
-
-      }
-      else {
-        console.log("Something went wrong! Please check the goSell configration");
-        this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
+      if(window.location.protocol=='http:' && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0){
+        console.log('error setConfig');
+        this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_https_configration_msg', null), this.RootStore.localizationStore.getContent('gosell_https_configration_submsg', null));
         this.legalConfig = false;
       }
+      else {
+
+        if(value.gateway != null){
+          this.gateway = value.gateway;
+
+          this.language = value.gateway.language ? value.gateway.language : 'en';
+
+          // console.log('supportedCurrencies', value.gateway.supportedCurrencies);
+          // console.log('type', typeof value.gateway.supportedCurrencies);
+
+          if(value.gateway.supportedCurrencies){
+            if(typeof value.gateway.supportedCurrencies == 'object'){
+              var currencies = [];
+              value.gateway.supportedCurrencies.forEach(function(c){
+                currencies.push(c.toUpperCase());
+              });
+
+              this.gateway.supportedCurrencies = currencies;
+            }
+            else {
+              this.gateway.supportedCurrencies = value.gateway.supportedCurrencies.toLowerCase();
+            }
+          }
+          else {
+            this.gateway.supportedCurrencies = 'all';
+          }
+
+          if(value.gateway.supportedPaymentMethods){
+            if(typeof value.gateway.supportedPaymentMethods == 'object'){
+              var methods = [];
+              value.gateway.supportedPaymentMethods.forEach(function(c){
+                methods.push(c.toUpperCase());
+              });
+
+              this.gateway.supportedPaymentMethods = methods;
+            }
+            else {
+              this.gateway.supportedPaymentMethods = value.gateway.supportedPaymentMethods.toLowerCase();
+            }
+          }
+          else {
+            this.gateway.supportedPaymentMethods = 'all';
+          }
+
+          if(value.gateway.saveCardOption != undefined){
+            this.gateway.saveCardOption = value.gateway.saveCardOption;
+          }
+          else {
+            this.gateway.saveCardOption = true;
+          }
+
+          if(value.gateway.customerCards != undefined){
+            this.gateway.customerCards = value.gateway.customerCards;
+          }
+          else {
+            this.gateway.customerCards = true;
+          }
+
+          if(value.gateway.labels && value.gateway.labels.actionButton){
+            this.btn = value.gateway.labels.actionButton;
+          }
+          else {
+            if(this.transaction_mode === 'save_card'){
+              this.btn = this.RootStore.localizationStore.getContent('btn_save_title', null);
+            }
+          }
+
+          if(value.gateway.labels){
+            this.labels = {
+              cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+              expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+              cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+              cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
+            };
+          }
+
+          if(value.gateway.style && isEmpty(value.gateway.style)){
+            this.style = {
+              base: value.gateway.style.base && isEmpty(value.gateway.style.base) ? value.gateway.style.base : {
+                color: '#535353',
+                lineHeight: '18px',
+                fontFamily: 'sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                  color: 'rgba(0, 0, 0, 0.26)',
+                  fontSize:'15px'
+                }
+              },
+              invalid: value.gateway.style.invalid && isEmpty(value.gateway.style.invalid) ? value.gateway.style.invalid : {
+                color: 'red',
+                iconColor: '#fa755a '
+              }
+            };
+          }
+
+          if(value.gateway.notifications && value.gateway.notifications !== 'standard'){
+            this.notifications = value.gateway.notifications;
+          }
+
+          return await this.tranxConfig(value);
+
+        }
+        else {
+          console.log("Something went wrong! Please check the goSell configration");
+          this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
+          this.legalConfig = false;
+        }
+
     }
+  }
+  else {
+    console.log("Something went wrong! Please check the goSell configration");
+    this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
+    this.legalConfig = false;
   }
 
     console.log('transaction_mode', this.transaction_mode);

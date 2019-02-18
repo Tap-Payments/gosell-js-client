@@ -5,12 +5,11 @@ class LocalizationStore {
   constructor(RootStore) {
     this.RootStore = RootStore;
     this.strings = require('./local.json');
-
-    console.log(this.getContent('supported_currencies_ebp'));
   }
   getContent(key, lang) {
     const _defaultLang  = this.RootStore.configStore.language ? this.RootStore.configStore.language.toLowerCase() : 'en'
     const _lang = lang ? lang.toLowerCase() : _defaultLang;
+    console.log('key',key);
     if(key){
       const txt = this.strings[key][_lang];
       if (txt) {
@@ -23,6 +22,7 @@ class LocalizationStore {
     }
 
   }
+
 }
 
 // decorate(LocalizationStore, {
