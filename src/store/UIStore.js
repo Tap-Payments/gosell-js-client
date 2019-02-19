@@ -36,7 +36,7 @@ class UIStore {
     this.notifications = 'standard';
 
     this.load = true;
-    this.edit_customer_cards = 'Edit';
+    this.edit_customer_cards = null;
     this.modal_mode = 'popup';
 
     this.mainHeight = 0;
@@ -82,7 +82,8 @@ class UIStore {
     this.closeNotification = this.closeNotification.bind(this);
 
     this.targetElement = React.createRef();
-
+    this.browser = null;
+    this.deviceBrowser;
   }
 
   calcElementsHeight(id){
@@ -257,28 +258,57 @@ class UIStore {
   get deviceBrowser() {
     var browser = null;
     var isChromium = window.chrome;
-    var isOpera = window.navigator.userAgent.indexOf("OPR") > -1 || window.navigator.userAgent.indexOf("Opera") > -1;
+    var uA = navigator.userAgent,
+    isIE = /msie\s|trident\/|edge\//i.test(uA) && !!(document.uniqueID || document.documentMode || window.ActiveXObject || window.MSInputMethodContext),
+    checkVersion = (isIE && +(/(edge\/|rv:|msie\s)([\d.]+)/i.exec(uA)[2])) || NaN;
+    var isOpera = navigator.userAgent.indexOf("OPR") > -1 || navigator.userAgent.indexOf("Opera") > -1;
+    if(!this.isMobile) {
+      if(!!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g)) {
+        browser = "IE";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        browser = "FireFox";
+      }
+      else if(isChromium !== null && isOpera == true) {
+        browser = "Opera";
+      }
+      else if(navigator.appVersion.indexOf('Edge') > -1) {
+        browser = "Edge"
+      }
+      else if(navigator.userAgent.indexOf("Chrome") != -1) {
+        browser = "Chrome";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
+        browser = "Safari";
+      }
+      this.browser = browser;
+      return browser;
+    }
+    else {
+      var isIE = /*@cc_on!@*/false || !!document.documentMode;
 
-    if(!!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g)) {
-      browser = "IE";
+      if(typeof InstallTrigger !== 'undefined' || navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || navigator.userAgent.toLowerCase().indexOf('fxios') > -1) {
+        browser = "FireFox";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('edga/') >= 0 || navigator.userAgent.toLowerCase().indexOf('edgios/') >= 0) {
+        browser = "Edge";
+      }
+      else if((!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0 || navigator.userAgent.toLowerCase().indexOf('safari/') <= 0) {
+        browser = "Opera";
+      }
+      else if(!!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime) || navigator.userAgent.indexOf("Chrome") != -1 || navigator.userAgent.toLowerCase().indexOf('crios/') >= 0){
+        browser = "Chrome";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
+        browser = "Safari";
+      }
+      this.browser = browser;
+      return browser;
+      // Blink engine detection
+      // var isBlink = (isChrome || isOpera) && !!window.CSS;
     }
-    else if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-      browser = "FireFox";
-    }
-    else if(isChromium !== null && isOpera == true) {
-      browser = "Opera";
-    }
-    else if(navigator.appVersion.indexOf('Edge') > -1) {
-      browser = "Edge"
-    }
-    else if(navigator.userAgent.indexOf("Chrome") != -1) {
-      browser = "Chrome";
-    }
-    else if(navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
-      browser = "Safari";
-    }
-    return browser;
   }
+
 
   computed
   get getDir(){
@@ -435,7 +465,7 @@ class UIStore {
         break;
       case 1:
         self.goSellBtn({
-          title: "Confirm",
+          title: self.RootStore.localizationStore.getContent('btn_confirm_title', null),
           color: '#007AFF',
           active: true,
           loader: false
@@ -444,7 +474,7 @@ class UIStore {
         break;
       case 2:
         self.goSellBtn({
-          title: "Confirm",
+          title: self.RootStore.localizationStore.getContent('btn_confirm_title', null),
           color: '#007AFF',
           active: false,
           loader: false
@@ -468,7 +498,7 @@ class UIStore {
   setIsActive(value){
     if(value === 'FORM' || value === 'WEB'){
       this.delete_card = null;
-      this.edit_customer_cards = 'Edit';
+      this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_edit', null);
 
       if(this.RootStore.configStore.transaction_mode !== 'get_token' && this.RootStore.configStore.transaction_mode !== 'get_token'){
         this.shakeCards(false);
@@ -492,13 +522,13 @@ class UIStore {
 
     if(!value){
       this.shake_cards = false;
-      this.edit_customer_cards = 'Edit';
+      this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_edit', null);
 
     }
     else {
       this.shake_cards = true;
       this.errorHandler = {};
-      this.edit_customer_cards = 'Cancel';
+      this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_cancel', null);
       if(this.getSubPage === 1 || this.getSubPage === 0){
         this.setSubPage(-1);
       }
@@ -629,7 +659,7 @@ class UIStore {
     this.setErrorHandler({
       visable: true,
       code: 'error',
-      msg: "Please wait until the payment process is completed!",
+      msg: this.RootStore.localizationStore.getContent('gosell_payment_process_warning_msg', null),
       type: 'warning'
     });
   }
@@ -679,7 +709,8 @@ decorate(UIStore, {
   modal: observable,
   modalHeight: observable,
   bodyHeight: observable,
-  sliderHeight: observable
+  sliderHeight: observable,
+  browser: observable
 });
 
 export default UIStore;

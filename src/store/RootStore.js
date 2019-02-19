@@ -21,6 +21,8 @@ class RootStore {
     this.localizationStore = new LocalizationStore(this);
     // console.log("this.props.store.uIStore.deviceBrowser()");
     // console.log(this.uIStore.deviceBrowser);
+    // console.log(navigator);
+    // alert(navigator.appVersion+this.uIStore.deviceBrowser)
   }
 }
 

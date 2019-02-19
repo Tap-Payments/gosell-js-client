@@ -82,8 +82,7 @@ class SaveForm extends Component {
             {store.configStore.gateway && store.configStore.gateway.saveCardOption ?
             <SaveCardContainer>
               <SaveCardTitle>
-                  For faster and more secure checkout,
-                  save your card
+                  {store.localizationStore.getContent('save_card_promotion_text', null)}
               </SaveCardTitle>
               <div style={{ width: '25%' }}>
                 <Switcher

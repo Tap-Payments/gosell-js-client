@@ -151,10 +151,6 @@
    "en": "Successful Transaction",
    "ar": "عملية ناجحة "
  },
- "gosell_failed_transaction":{
-   "en": "Failed Transaction",
-   "ar": ""
- },
  "supported_currencies_kwd":{
    "en": "KWD",
    "ar": "د.ك"
@@ -179,7 +175,7 @@
    "en": "EUR",
    "ar": "اليورو"
  },
- "supported_currencies_gbp":{
+ "supported_currencies_ebp":{
    "en": "GBP",
    "ar": "جنيه إسترليني"
  },
@@ -219,8 +215,8 @@
    "en": "EUR",
    "ar": ""
  },
- "supported_currencies_symbol_gbp":{
-   "en": "GBP",
+ "supported_currencies_symbol_ebp":{
+   "en": "EGP",
    "ar": ""
  },
  "supported_currencies_symbol_omr":{
@@ -259,7 +255,7 @@
    "en": "EURO",
    "ar": ""
  },
- "supported_currencies_name_gbp":{
+ "supported_currencies_name_ebp":{
    "en": "British Pound ",
    "ar": ""
  },
@@ -333,14 +329,6 @@
  },
  "gosell_https_configration_submsg":{
    "en": "You're using live public key, which should be used with ssl certificate.",
-   "ar": ""
- },
- "gosell_payment_process_warning_msg":{
-   "en": "Please wait until the payment process is completed!",
-   "ar": ""
- },
- "gosell_something_went_wrong":{
-   "en": "Sorry, something went wrong!",
    "ar": ""
  }
 }

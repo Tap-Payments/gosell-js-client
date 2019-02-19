@@ -36,12 +36,12 @@ class MainView extends Component {
             {!store.getIsMobile ?
               <React.Fragment>
                 <SideMenu key={0} id='currencies' dir={store.uIStore.getDir}  animationDuration={'300ms'}  expand={store.uIStore.getSubPage === 0 ? true : false} width={110}>
-                    <SupportedCurrencies dir={store.uIStore.getDir} store={store} width='105px' />
+                    <SupportedCurrencies dir={store.uIStore.getDir} store={store} width='105px' height={store.uIStore.mainHeight + 192 + 'px'} />
                 </SideMenu>
 
                 <SideMenu key={1} id='business-info' dir={store.uIStore.getDir}  animationDuration={'600ms'} expand={store.uIStore.getSubPage === 1 ? true : false} width={200}>
                     {store.configStore.contactInfo && store.merchantStore.contact && store.merchantStore.contact.length > 0 ?
-                      <BusinessInfo store={store} width="65px" height="auto" style={{overflow: 'auto'}}/>
+                      <BusinessInfo store={store} width="65px" height={store.uIStore.mainHeight + 192 + 'px'} style={{overflow: 'auto'}}/>
                     : null}
                 </SideMenu>
               </React.Fragment>

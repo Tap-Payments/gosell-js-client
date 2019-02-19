@@ -127,9 +127,10 @@ class SupportedCurrencies extends Component {
       // this.props.store.uIStore.modal_mode === 'page' ? bg = 'rgba(255, 255, 255, 0.5)' :  bg = 'rgba(0,0,0,0.30)';
 
       const Currencies = styled.div`
-          height: 100%;
+          height: ${this.props.store.uIStore.getIsMobile ? "100%" : this.props.height};
           margin-bottom: -4px;
           overflow: hidden;
+          border-bottom-right-radius: 8px;
           background: ${bg};
       `
 

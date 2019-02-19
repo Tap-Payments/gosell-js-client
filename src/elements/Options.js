@@ -118,6 +118,7 @@ class Options extends Component {
         );
     }
 
+    var symbol = store.localizationStore.getContent('supported_currencies_symbol_' + store.configStore.order.currency.toLowerCase(), null);
 
     return (
 
@@ -127,7 +128,7 @@ class Options extends Component {
                   <Items
                     desc={store.configStore.tranx_description}
                     items={store.configStore.items}
-                    total={store.configStore.order.symbol + store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit))}/>
+                    total={symbol + store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit))}/>
                 </div>
             </div>
             <div
@@ -167,7 +168,7 @@ class Options extends Component {
               : null}
 
               {WebPayments.length > 0 || store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
-                <Label title="Others" dir={store.uIStore.getDir}/>
+                <Label title={store.localizationStore.getContent('payment_options_group_title_others', null)} dir={store.uIStore.getDir}/>
               : <div style={{paddingBottom: '20px'}}></div>}
 
               {WebPayments.length > 0 ?
