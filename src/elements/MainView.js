@@ -41,7 +41,7 @@ class MainView extends Component {
 
                 <SideMenu key={1} id='business-info' dir={store.uIStore.getDir}  animationDuration={'600ms'} expand={store.uIStore.getSubPage === 1 ? true : false} width={200}>
                     {store.configStore.contactInfo && store.merchantStore.contact && store.merchantStore.contact.length > 0 ?
-                      <BusinessInfo store={store} width="65px" height={store.uIStore.mainHeight + 192 + 'px'} style={{overflow: 'auto'}}/>
+                      <BusinessInfo store={store} width="65px" height={store.uIStore.browser === "IE" ? store.uIStore.mainHeight + 192 + 'px' : "auto"} style={{overflow: 'auto'}}/>
                     : null}
                 </SideMenu>
               </React.Fragment>
