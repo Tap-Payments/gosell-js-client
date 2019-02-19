@@ -36,6 +36,11 @@ class TapBtn extends Component {
       padding: 0;
       margin: 20px;
       border-radius: 50px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      justify-items: center;
+      align-items: center;
       border: none;
       outline: none;
       cursor: pointer;
