@@ -36,7 +36,7 @@ class UIStore {
     this.notifications = 'standard';
 
     this.load = true;
-    this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_edit', null);
+    this.edit_customer_cards = null;
     this.modal_mode = 'popup';
 
     this.mainHeight = 0;

@@ -235,7 +235,6 @@ app.post('/init', asyncHandler(async (req, res,) => {
             console.log(req);
             var Request = require("request");
 
-
             var header = {
               'AccessKey': '5ddcfa79-650e-4b9b-af363f771211-6a15-4927',
               'Content-Type':'application/json',
@@ -252,7 +251,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
                 }
 
                 var parseData = JSON.parse(response.body);
-                console.log('response ..... ', response.body);
+                // console.log('response ..... ', response.body);
                 res.send(parseData);
               });
 
