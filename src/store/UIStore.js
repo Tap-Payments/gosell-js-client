@@ -83,7 +83,7 @@ class UIStore {
 
     this.targetElement = React.createRef();
     this.browser = null;
-
+    this.deviceBrowser;
   }
 
   calcElementsHeight(id){
@@ -432,10 +432,16 @@ class UIStore {
 
     if(dir === 'x'){
       if(this.pageIndex > value){
-        this.pageDir = '-x';
+        this.dir==='ltr'?
+          this.pageDir = '-x'
+          :
+          this.pageDir = 'x'
       }
       else if(this.pageIndex < value){
-        this.pageDir = 'x';
+        this.dir==='ltr'?
+          this.pageDir = 'x'
+          :
+          this.pageDir = '-x'
       }
     }
     else if(dir === 'y'){
@@ -609,15 +615,13 @@ class UIStore {
         console.log('element', el);
 
         if(this.getErrorHandler.msg && el != null){
+          console.log('this is happening');
           el.innerHTML = this.getErrorHandler.msg;
         }
+        setTimeout(function(){
+          self.closeNotification();
+        }, 5000);
 
-        return(
-          <NotificationBar
-            mode={null}
-            dir={this.getDir}
-            show={false}>
-          </NotificationBar>);
       }
       else if(this.RootStore.configStore.notifications === 'standard' || this.getErrorHandler.options){
         return(
@@ -701,7 +705,8 @@ decorate(UIStore, {
   modal: observable,
   modalHeight: observable,
   bodyHeight: observable,
-  sliderHeight: observable
+  sliderHeight: observable,
+  browser: observable
 });
 
 export default UIStore;

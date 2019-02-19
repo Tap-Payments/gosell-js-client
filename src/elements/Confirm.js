@@ -84,7 +84,7 @@ class Confirm extends Component {
               <img src={Paths.imgsPath + 'back-arrow.svg'} width="43" style={{margin: '27px'}}/>
             </div>
 
-            <div className="gosell-gateway-confirm-container">
+            <div className="gosell-gateway-confirm-container" dir={this.props.store.uIStore.dir}>
               {this.props.children}
             </div>
           </div>

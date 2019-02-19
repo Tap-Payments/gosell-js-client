@@ -39,6 +39,10 @@
   padding: 25px 0px;
 }
 
+[dir='rtl'] .gosell-gateway-react-code-input.react-code-input{
+  direction: rtl;
+}
+
 .gosell-gateway-react-code-input.react-code-input > input[type=number]::-webkit-inner-spin-button,
 .gosell-gateway-react-code-input.react-code-input > input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;

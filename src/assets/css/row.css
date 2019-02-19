@@ -6,6 +6,7 @@
 
 .tap-row{
   width: 100%;
+  height: 100%;
   pointer-events: none;
   position: relative;
 }
@@ -15,11 +16,16 @@
   height: 100%;
   pointer-events: none;
   display: inline-block;
-  right: 0;
-  /* background-image: url(https://goselljslib.b-cdn.net/imgs/rightArrow.svg); */
+  right: 0 !important;
+  left: auto !important;
   background-repeat: no-repeat;
   background-position: center;
   position: absolute;
+}
+
+[dir='rtl'] .tap-arrow{
+  left: 0 !important;
+  right: auto !important;
 }
 
 .tap-value{
@@ -39,6 +45,14 @@
   height: 100%;
   pointer-events: none;
   display: inline-block;
+  position: absolute;
+  left: 0;
+  right: unset;
+}
+
+[dir="rtl"] .tap-icon{
+  right: 0;
+  left: 0
 }
 
 .tap-text-container{
