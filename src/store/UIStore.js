@@ -36,7 +36,7 @@ class UIStore {
     this.notifications = 'standard';
 
     this.load = true;
-    this.edit_customer_cards = null;
+    this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_edit', null);
     this.modal_mode = 'popup';
 
     this.mainHeight = 0;
@@ -619,13 +619,10 @@ class UIStore {
           el.innerHTML = this.getErrorHandler.msg;
 
         }
+        setTimeout(function(){
+          self.closeNotification();
+        }, 5000);
 
-        return(
-          <NotificationBar
-            mode={null}
-            dir={this.getDir}
-            show={false}>
-          </NotificationBar>);
       }
       else if(this.RootStore.configStore.notifications === 'standard' || this.getErrorHandler.options){
         return(
