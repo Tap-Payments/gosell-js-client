@@ -90,7 +90,7 @@ class SupportedCurrencies extends Component {
                 '&:hover': {
                   backgroundColor: '#fff'
                 }},
-                'subtitle': {textAlign: 'right', margin: '0 21px', lineHeight: '38px'},
+                'subtitle': {textAlign: this.props.dir==='ltr'?'right':'left', margin: '0 21px', lineHeight: '38px'},
                 'textStyle': {color: '#474747', margin: '0'},
                 'iconStyle': {padding:'0 6px'}
               }}

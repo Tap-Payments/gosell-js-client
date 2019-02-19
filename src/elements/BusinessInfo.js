@@ -210,6 +210,7 @@ class BusinessInfo extends Component {
               {store.merchantStore.desc ?
                 <React.Fragment>
                   <Row
+                    id="gosell-business-info-row"
                     dir={store.uIStore.getDir}
                     style={{'rowContainer': { backgroundColor: 'white', height: 'auto', padding: '16px'}, 'subtitle':{margin: '0'}}}
                     rowTitle={{'secondary': store.merchantStore.desc}}

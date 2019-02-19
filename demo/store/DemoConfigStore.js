@@ -10,7 +10,7 @@ class DemoConfigStore {
 
     this.gateway = {
       publicKey: publicKeyCookie?publicKeyCookie:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
-      language:"en",
+      language:"ar",
       contactInfo:true,
       supportedCurrencies: 'all', // all | gcc | ["KWD", "SAR"]
       supportedPaymentMethods: "all", // all | ["KNET","VISA","MASTERCARD","MADA"]

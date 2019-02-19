@@ -10,7 +10,7 @@ class GoSellPaymentGateway extends Component {
     this.state = {
       id: 'chg_t3YP4720191258i1ZP1302137',
       key: 'pk_test_Vlk842B1EA7tDN5QbrfGjYzh',
-      language: 'en',
+      language: 'ar',
       open: false
     }
   }

@@ -402,10 +402,16 @@ class UIStore {
 
     if(dir === 'x'){
       if(this.pageIndex > value){
-        this.pageDir = '-x';
+        this.dir==='ltr'?
+          this.pageDir = '-x'
+          :
+          this.pageDir = 'x'
       }
       else if(this.pageIndex < value){
-        this.pageDir = 'x';
+        this.dir==='ltr'?
+          this.pageDir = 'x'
+          :
+          this.pageDir = '-x'
       }
     }
     else if(dir === 'y'){
@@ -579,6 +585,7 @@ class UIStore {
         console.log('element', el);
 
         if(this.getErrorHandler.msg && el != null){
+          console.log('this is happening');
           el.innerHTML = this.getErrorHandler.msg;
 
         }
