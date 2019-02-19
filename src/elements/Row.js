@@ -9,18 +9,14 @@ class Row extends Component {
 
   constructor(props){
     super(props);
+
     this.state = {
       isMouseOver: false,
-      active: false,
+      active: false
     }
 
     this.onClickHandler = this.onClickHandler.bind(this);
 
-  }
-
-  getRowHeight(){
-    // console.log(document.getElementById(this.props.id));
-    return document.getElementById(this.props.id)?document.getElementById(this.props.id).clientHeight:null
   }
 
   onClickHandler(e){
@@ -52,8 +48,7 @@ class Row extends Component {
     const Text = styled.div`
       ${this.props.style.textStyle};
     `
-    console.log('ooooooooooo');
-    console.log(this.props.dir);
+
     const arrowImg = this.props.style.arrowImg? this.props.style.arrowImg : this.props.dir === 'ltr' ? Paths.imgsPath + 'rightArrow.svg' : Paths.imgsPath + 'leftArrow.svg';
     if(this.props.rowTitle && this.props.rowTitle.main && this.props.rowTitle.secondary){
       var title = ( <Text className="tap-text-container">
@@ -100,7 +95,7 @@ class Row extends Component {
          }
 
          {(this.props.addArrow ||  this.props.addArrow === true) ?
-           <div className="tap-arrow" style={{ backgroundImage: 'url('+ arrowImg +')', height: this.getRowHeight()}}>
+           <div className="tap-arrow" style={{ backgroundImage: 'url('+ arrowImg +')' }}>
           </div>
         : null}
 

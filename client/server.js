@@ -2,7 +2,6 @@ const express        = require('express');
 const bodyParser     = require('body-parser');
 const app            = express();
 const jwtJsDecode    = require('jwt-js-decode');
-const asyncHandler = require('express-async-handler')
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,12 +57,8 @@ function checkJWTExpiry(session) {
   }
 }
 
-app.post('/init', asyncHandler(async (req, res,) => {
-// app.post('/init', (req, res) => {
-  console.log(
-    "%c/INIT REQUEST",
-    "background: maroon; color: white; display: block;"
-  );
+
+app.post('/init', (req, res) => {
 
   console.log(req);
   var Request = require("request");
@@ -102,15 +97,14 @@ app.post('/init', asyncHandler(async (req, res,) => {
       });
     });
 
-  }));
+  });
 
-  app.post('/api', asyncHandler(async (req, res,) => {
 
-  // app.post('/api', (req, res) => {
-    console.log(
-      "%c/API REQUEST",
-      "background: maroon; color: white; display: block;"
-    );
+  app.post('/api', (req, res) => {
+    // console.log(
+    //   "%c/API REQUEST",
+    //   "background: maroon; color: white; display: block;"
+    // );
 
     var Request = require("request");
 
@@ -135,7 +129,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
           "color: green; display: block;"
         );
         // console.log('checkJWTExpiry >>>>>>>>>>>>>>>>>>>>>>>>>> ', checkJWTExpiry());
-        console.log(req);
+
         if(req.body.method.toLowerCase() === 'post'){
           console.log(
             "%c/POST  "+ req.body.path,
@@ -148,11 +142,11 @@ app.post('/init', asyncHandler(async (req, res,) => {
               if(error) {
                 res.send(error);
               }
-              console.log(
-                "%c/response",
-                "background: blue; color: white; display: block;"
-              );
-              console.log(response.body);
+              // console.log(
+              //   "%c/response",
+              //   "background: blue; color: white; display: block;"
+              // );
+              // console.log(response.body);
               res.send(response.body);
             });
           }
@@ -168,11 +162,11 @@ app.post('/init', asyncHandler(async (req, res,) => {
                   res.send(error);
                 }
 
-              console.log(
-                "%c/response",
-                "background: blue; color: white; display: block;"
-              );
-              console.log(response.body);
+              // console.log(
+              //   "%c/response",
+              //   "background: blue; color: white; display: block;"
+              // );
+              // console.log(response.body);
                 res.send(response.body);
               });
             }
@@ -190,11 +184,11 @@ app.post('/init', asyncHandler(async (req, res,) => {
                   res.send(error);
                 }
 
-              console.log(
-                "%c/response",
-                "background: blue; color: white; display: block;"
-              );
-              console.log(response.body);
+              // console.log(
+              //   "%c/response",
+              //   "background: blue; color: white; display: block;"
+              // );
+              // console.log(response.body);
                 res.send(response.body);
               });
 
@@ -211,11 +205,11 @@ app.post('/init', asyncHandler(async (req, res,) => {
                     res.send(error);
                   }
 
-                console.log(
-                  "%c/response",
-                  "background: blue; color: white; display: block;"
-                );
-                console.log(response.body);
+                // console.log(
+                //   "%c/response",
+                //   "background: blue; color: white; display: block;"
+                // );
+                // console.log(response.body);
                   res.send(response.body);
                 });
               }
@@ -227,7 +221,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
               };
               res.send(err);
             }
-          }));
+          });
 
 
           app.post('/localization', (req, res) => {

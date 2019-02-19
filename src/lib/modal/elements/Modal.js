@@ -198,7 +198,7 @@ class Modal extends React.Component {
             <div className={this.state.isOpenWait}  style={this.state.modalStyle}>
               <div className="tap-payments-modal-wrapper">
                 {(this.props.close == 'closeIn' || this.props.close == 'closeInOut')?
-                  <div className="tap-payments-header-close-icon closeIn" onClick={this.handleClose} style={this.state.dir == 'rtl' ? {left: '0',right: 'unset'} : {right: '0',left: 'unset'}}>
+                  <div className="tap-payments-header-close-icon closeIn" onClick={this.handleClose} style={this.state.dir == 'rtl' ? {left: '0'} : {right: '0'}}>
                     <img className="closeIn" src={this.props.closeIcon} width="18" height="18" alt="close"/>
                   </div>
                   : null}

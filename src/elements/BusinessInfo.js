@@ -64,8 +64,7 @@ class BusinessInfo extends Component {
       width: ${this.props.width};
       height: ${this.props.height};
       background: ${!store.uIStore.getIsMobile ? 'rgba(255, 255, 255, 0.6)' : null};
-      -ms-overflow-style: ${store.uIStore.browser === "IE" ? "none" : ""};
-      overflow-y: ${store.uIStore.getIsMobile ? "scroll" : store.uIStore.browser === "IE" ? "scroll" : ""};
+      overflow: ${store.uIStore.getIsMobile ? "scroll" : null};
       `
 
     //${store.uIStore.modal_mode === 'page' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0,0,0,0.30)' }
@@ -211,7 +210,6 @@ class BusinessInfo extends Component {
               {store.merchantStore.desc ?
                 <React.Fragment>
                   <Row
-                    id="gosell-business-info-row"
                     dir={store.uIStore.getDir}
                     style={{'rowContainer': { backgroundColor: 'white', height: 'auto', padding: '16px'}, 'subtitle':{margin: '0'}}}
                     rowTitle={{'secondary': store.merchantStore.desc}}

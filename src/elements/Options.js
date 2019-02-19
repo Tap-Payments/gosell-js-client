@@ -24,7 +24,7 @@ const styles = {
       'iconStyle': {width: '65px', height: '65px'}
     },
     'row2':{
-      'rowContainer': { backgroundColor: 'white', height: '46px',
+      'rowContainer': { backgroundColor: 'white',
       '&:hover': {
       //    boxShadow: 'inset 0px 11px 0px -10px #2ACE00, inset 0px -11px 0px -10px #2ACE00'
       }

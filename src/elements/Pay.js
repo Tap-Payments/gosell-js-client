@@ -132,7 +132,7 @@ class Pay extends Component {
                 </div>
 
                 <div key={3} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>
-                    <SupportedCurrencies theme="inline" bgColor="white" height="100%" dir={store.uIStore.getDir} store={store}/>
+                    <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.getDir} store={store}/>
                 </div>
 
                 <div key={4} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>

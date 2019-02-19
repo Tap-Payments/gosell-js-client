@@ -121,7 +121,7 @@ class NotificationBar extends Component{
               <a className="tap-payments-close" onClick={this.handleClose.bind(this)} title="close">{this.props.children ? "×" : ""}</a>
               }
               </div>
-              <div className={this.props.options?"tap-payments-notification-title":"tap-payments-notification-title tap-payments-notification-title-centered"} style={this.props.options ? { textAlign: this.props.dir == 'rtl' ? 'right' : 'left'} : {}} onClick={this.props.onClick}>
+              <div className={this.props.options?"tap-payments-notification-title":"tap-payments-notification-title tap-payments-notification-title-centered"} style={this.props.options ? {display: 'flex', textAlign: this.props.dir == 'rtl' ? 'right' : 'left'} : {}} onClick={this.props.onClick}>
                 {this.props.children}
               </div>
         </div>
