@@ -53,7 +53,7 @@ class UIStore {
 
     this.modal_bg_img = null;
     // this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';
-    // this.modal_bg_img = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fbt_We8MuRrBLMU-rhczNxpAkivP0RKlxrIS8-k2FkeNsALL';
+    // this.modal_bg_img = 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80';
 
     this.show_order_details = false;
 
@@ -357,7 +357,7 @@ class UIStore {
 
   showMsg(loader_type, title, msg){
     var self = this;
-    self.startLoading('loader', 'Please Wait', null);
+    self.startLoading('loader', this.RootStore.localizationStore.getContent('please_wait_msg', null), null);
 
     setTimeout(function(){
       self.showResult(loader_type, title, msg);
@@ -610,7 +610,6 @@ class UIStore {
 
         if(this.getErrorHandler.msg && el != null){
           el.innerHTML = this.getErrorHandler.msg;
-
         }
 
         return(

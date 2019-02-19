@@ -76,7 +76,7 @@ class Otp extends Component {
   //   });
   //
   //   // setTimeout(function(){
-  //     self.props.store.uIStore.startLoading('loader', 'Please Wait', null);
+  //     self.props.store.uIStore.startLoading('loader', self.props.store.localizationStore.getContent('please_wait_msg', null), null);
   //   // }, 1000);
   //
   //   store.apiStore.authentication(this.props.store.paymentStore.authenticate.type, this.state.value).then(result => {

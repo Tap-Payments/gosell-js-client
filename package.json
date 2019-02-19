@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run start-dev & npm run start-server",
-    "start-dev": "cross-env NODE_ENV=development webpack-dev-server --compress",
-    "start-server": "nodemon  --inspect=127.0.0.1:9228 client/server.js",
+    "start-dev": "cross-env NODE_ENV=development webpack-dev-server --compress --host 192.168.0.7",
+    "start-server": "nodemon  --inspect=127.0.0.1:9228 client/server.js --host 192.168.0.7",
     "build": "cross-env NODE_ENV=production webpack",
     "transpile": "babel src -d dist --copy-files",
     "prepublishOnly": "npm run transpile",
