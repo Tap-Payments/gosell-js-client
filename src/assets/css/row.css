@@ -47,10 +47,10 @@
   display: inline-block;
   position: absolute;
   left: 0;
-  right: 0;
+  right: unset;
 }
 
-[dir="ltr"] .tap-icon{
+[dir="rtl"] .tap-icon{
   right: 0;
   left: unset
 }
