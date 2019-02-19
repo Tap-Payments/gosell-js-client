@@ -18,11 +18,9 @@ class GoSell extends Component {
     GoSell.handleView();
     RootStore.configStore.configure().then(result => {
       if(!GoSell.showTranxResult()){
-        setTimeout(function(){
-          if(RootStore.configStore.legalConfig){
-            RootStore.apiStore.init();
-          }
-        }, 1000);
+        if(RootStore.configStore.legalConfig){
+          RootStore.apiStore.init();
+        }
       }
     });
 
@@ -40,11 +38,9 @@ class GoSell extends Component {
     RootStore.configStore.configure().then(result => {
       console.log('legalllllll', RootStore.configStore.legalConfig);
       if(!GoSell.showTranxResult()){
-        setTimeout(function(){
-          if(RootStore.configStore.legalConfig){
-            RootStore.apiStore.init();
-          }
-        }, 1000);
+        if(RootStore.configStore.legalConfig){
+          RootStore.apiStore.init();
+        }
       }
     });
 
