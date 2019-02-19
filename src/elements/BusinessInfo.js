@@ -64,8 +64,8 @@ class BusinessInfo extends Component {
       width: ${this.props.width};
       height: ${this.props.height};
       background: ${!store.uIStore.getIsMobile ? 'rgba(255, 255, 255, 0.6)' : null};
-       -ms-overflow-style: none;
-      overflow: ${store.uIStore.getIsMobile ? "scroll" : "auto"};
+      -ms-overflow-style: ${store.uIStore.browser === "IE" ? "none" : ""};
+      overflow-y: ${store.uIStore.getIsMobile ? "scroll" : store.uIStore.browser === "IE" ? "scroll" : ""};
       `
 
     //${store.uIStore.modal_mode === 'page' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0,0,0,0.30)' }

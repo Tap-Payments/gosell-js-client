@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run start-dev & npm run start-server",
-    "start-dev": "cross-env NODE_ENV=development webpack-dev-server --compress",
-    "start-server": "nodemon  --inspect=127.0.0.1:9228 client/server.js",
+    "start-dev": "cross-env NODE_ENV=development webpack-dev-server --compress --host 192.168.8.182",
+    "start-server": "nodemon  --inspect client/server.js --host 192.168.8.182",
     "build": "cross-env NODE_ENV=production webpack",
     "transpile": "babel src -d dist --copy-files",
     "prepublishOnly": "npm run transpile",
@@ -47,7 +47,6 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
     "@tap-payments/loader": "^1.0.11",
     "@tap-payments/modal": "^1.1.26",
     "autoprefixer": "^9.4.7",
@@ -60,6 +59,7 @@
     "compression-webpack-plugin": "^2.0.0",
     "cssnano": "^4.1.10",
     "express": "^4.16.4",
+    "express-async-handler": "^1.1.4",
     "js-cookie": "^2.2.0",
     "jwt-js-decode": "^1.3.7",
     "mobx": "^4.9.2",
