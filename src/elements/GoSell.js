@@ -184,6 +184,10 @@ class GoSell extends Component {
       RootStore.uIStore.getErrorHandler.visable = false;
       RootStore.uIStore.startLoading('loader', 'Please Wait');
 
+      RootStore.uIStore.setSubPage(-1);
+      RootStore.uIStore.setPageIndex(0, 'x');
+      RootStore.actionStore.resetSettings();
+      
       var body =  document.body.children;
 
       for(var i=0; i<body.length; i++){
