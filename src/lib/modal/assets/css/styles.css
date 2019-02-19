@@ -422,27 +422,32 @@ body{
 }
 
 .tap-payments-notification-bar{
-  display: none;
+  /* display: none; */
   position: relative;
-}
-
-.tap-payments-notification-true{
+  transition: all 0.7s ease 0s;
+  top: -50px;
   position: fixed;
   width: 100%;
-  /* height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content; */
-  /* height: 40px; */
-  top: 0;
   text-align: center;
   left: 0;
   right: 0;
   z-index: 888888;
-  -webkit-animation-name: slideDown;
+}
+
+.tap-payments-notification-true{
+  top: 0;
+  /* position: fixed;
+  width: 100%;
+  top: 0;
+  text-align: center;
+  left: 0;
+  right: 0;
+  z-index: 888888; */
+  /* -webkit-animation-name: slideDown;
   -webkit-animation-duration: 0.7s;
   animation-name: slideDown;
-  animation-duration: 0.7s;
-  display: block;
+  animation-duration: 0.7s; */
+  /* display: block; */
 }
 
 /* Safari 4.0 - 8.0 */
@@ -491,7 +496,7 @@ a.tap-payments-close:hover {
   display: inline-block;
 }
 
-.tap-payments-notification-title[dir="ltr"] {
+[dir="ltr"] .tap-payments-notification-title {
   float: right;
 }
 
@@ -504,7 +509,8 @@ a.tap-payments-close:hover {
 }
 
 .tap-payments-notification-false {
-  position: fixed;
+  top: -50px;
+  /* position: fixed;
   width: 100%;
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -531,7 +537,7 @@ a.tap-payments-close:hover {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: reverse;
       -ms-flex-direction: row-reverse;
-          flex-direction: row-reverse;
+          flex-direction: row-reverse; */
 }
 
 /* Safari 4.0 - 8.0 */
@@ -552,7 +558,7 @@ a.tap-payments-close:hover {
   float: right;
 }
 
-.tap-payments-options[dir="ltr"]{
+[dir="ltr"] .tap-payments-options{
   float: left;
 }
 
@@ -569,6 +575,10 @@ a.tap-payments-close:hover {
   font-size: 15px;
   vertical-align: top;
   line-height: 41px;
+}
+
+[dir="ltr"] .tap-payments-option{
+  float: right;
 }
 
 .tap-payments-option:hover{

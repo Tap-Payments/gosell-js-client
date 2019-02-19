@@ -7,6 +7,15 @@ class ApiStore{
 
   constructor(RootStore) {
     this.RootStore = RootStore;
+    this.getMerchantDetailsFlag = false;
+    this.setPaymentOptionsFlag  = false;
+  }
+  updateLoader(){
+    if (this.getMerchantDetailsFlag && this.setPaymentOptionsFlag){
+      this.RootStore.uIStore.stopLoading();
+      this.getMerchantDetailsFlag = false;
+      this.setPaymentOptionsFlag  = false;
+    }
   }
 
   async auth(publicKey){
@@ -62,11 +71,13 @@ class ApiStore{
   }
 
   async init(){
+    console.log(
+      "%cinit()",
+      "background: yellow; color: black; display: block;"
+    );
      var self = this;
 
      this.RootStore.uIStore.dir = this.RootStore.configStore.language === 'ar' ? 'rtl' : 'ltr';
-
-     var payment = null, merchant = null;
 
      // console.log('session ', self.RootStore.merchantStore.session);
 
@@ -75,24 +86,18 @@ class ApiStore{
        // console.log('public key', this.RootStore.configStore.gateway.publicKey);
        await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
          console.log('auth response from init ', result);
-           if(result.error || result.errors){
-             self.sendResponse(result);
-           }
+         if(result.error || result.errors){
+           self.sendResponse(result);
+         }  else {
+           self.getMerchantDetails();
+           self.setPaymentOptions();
+         }
 
        });
+     }  else {
+       self.getMerchantDetails();
+       self.setPaymentOptions();
      }
-
-      merchant = await self.getMerchantDetails();
-      payment = await self.setPaymentOptions();
-
-      console.log('**** merchant', merchant);
-      console.log('**** payment', payment);
-
-      if(payment.status == 200 && merchant.status == 200){
-        this.RootStore.uIStore.stopLoading();
-        return await payment;
-      }
-
    }
 
  sendResponse(json) {
@@ -138,6 +143,7 @@ class ApiStore{
 
   async setPaymentOptions(){
     var self = this;
+    self.setPaymentOptionsFlag  = false;
 
     var headers = {
       'session_token':self.RootStore.merchantStore.session
@@ -182,6 +188,7 @@ class ApiStore{
        console.log('**** options API', res);
 
          if(response.status == 200){
+           self.setPaymentOptionsFlag  = true;
 
            if(response.data.error || response.data.errors){
              self.sendResponse(response.data);
@@ -200,12 +207,13 @@ class ApiStore{
     .catch(function (error) {
       console.log("error", error);
     });
-
+    self.updateLoader()
     return await res;
   }
 
   async getMerchantDetails(){
     var self = this;
+    self.getMerchantDetailsFlag = false
 
     var headers = {
       'session_token': self.RootStore.merchantStore.session
@@ -227,6 +235,7 @@ class ApiStore{
       console.log('**** merchant API', res);
 
         if(res.status == 200){
+          self.getMerchantDetailsFlag = true
 
           if(res.data.error || res.data.errors){
             self.sendResponse(res.data);
@@ -246,7 +255,7 @@ class ApiStore{
     .catch(function (error) {
       console.log(error);
     });
-
+    self.updateLoader()
     return await res;
   }
 

@@ -18,11 +18,9 @@ class GoSell extends Component {
     GoSell.handleView();
     RootStore.configStore.configure().then(result => {
       if(!GoSell.showTranxResult()){
-        // setTimeout(function(){
-          if(RootStore.configStore.legalConfig){
-            RootStore.apiStore.init();
-          }
-        // }, 1000);
+        if(RootStore.configStore.legalConfig){
+          RootStore.apiStore.init();
+        }
       }
     });
 
@@ -39,11 +37,9 @@ class GoSell extends Component {
 
     RootStore.configStore.configure().then(result => {
       if(!GoSell.showTranxResult()){
-        // setTimeout(function(){
-          if(RootStore.configStore.legalConfig){
-            RootStore.apiStore.init();
-          }
-        // }, 1000);
+        if(RootStore.configStore.legalConfig){
+          RootStore.apiStore.init();
+        }
       }
     });
 
@@ -192,6 +188,10 @@ class GoSell extends Component {
       RootStore.uIStore.setOpenModal(false);
       RootStore.uIStore.getErrorHandler.visable = false;
       RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null));
+
+      RootStore.uIStore.setSubPage(-1);
+      RootStore.uIStore.setPageIndex(0, 'x');
+      RootStore.actionStore.resetSettings();
 
       var body =  document.body.children;
 
