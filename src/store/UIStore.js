@@ -83,7 +83,7 @@ class UIStore {
 
     this.targetElement = React.createRef();
     this.browser = null;
-
+    this.deviceBrowser;
   }
 
   calcElementsHeight(id){
@@ -702,7 +702,8 @@ decorate(UIStore, {
   modal: observable,
   modalHeight: observable,
   bodyHeight: observable,
-  sliderHeight: observable
+  sliderHeight: observable,
+  browser: observable
 });
 
 export default UIStore;
