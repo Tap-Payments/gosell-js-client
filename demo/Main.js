@@ -17,10 +17,10 @@ class Main extends Component {
                 <Link to="/gateway">Payment Gateway as a Page</Link>
               </li>
               <li>
-                <Link to="/demo">GoSellDemo</Link>
+                <Link to="/demo">GoSellDemo _</Link>
               </li>
               <li>
-                <Link to="/elements-demo">GoSellElementsDemo</Link>
+                <Link to="/elements-demo">GoSellElementsDemo _ </Link>
               </li>
 
             </ul>
