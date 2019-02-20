@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
 import {Modal, Header, NotificationBar} from '../lib/modal/';
 import Paths from '../../webpack/paths';
-import '../assets/css/fonts.css';
 import '../assets/css/style.css';
 import MainView from './MainView';
 import Details from './Details';

@@ -28,6 +28,7 @@ class Details extends Component {
     const Order = styled.div`
       color: #9D9FA4;
       font-size: 12px;
+      padding-top: 10px;
     `
 
     return (

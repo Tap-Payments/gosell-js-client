@@ -82,7 +82,8 @@ class TapButton extends Component {
       pointer-events: ${this.props.active ? 'painted' : 'none'};
     `
     const BtnTitle = styled.p`
-      font-family: 'Roboto-Regular', sans-serif;
+      /* font-family: 'Roboto-Regular', sans-serif; */
+      font-weight: 800;
       font-size: 17px;
       color: #FFFFFF;
       letter-spacing: 0.79px;

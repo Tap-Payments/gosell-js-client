@@ -75,6 +75,9 @@ class ConfigStore {
       this.view = view;
       this.language = value.gateway.language ? value.gateway.language : 'en';
 
+      this.language === 'en' ? require('../assets/css/fontsEn.css') : require('../assets/css/fontsAr.css');
+
+
       this.RootStore.localizationStore.getLocalization().then(result => {
         if(result.status == 200){
           this.labels = {

@@ -88,7 +88,8 @@ class TapLoader extends Component {
     let style = {position:'relative',top:((50-(Math.floor(window.innerHeight/100)%100))+"%")};
 
     const Btn = styled.a`
-    font-family: 'Roboto-Regular',sans-serif;
+    /* font-family: 'Roboto-Regular',sans-serif; */
+    font-weight: 800;
     font-size: 12px;
     color: #FFFFFF;
     background-color: transparent;

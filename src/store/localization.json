@@ -181,7 +181,7 @@
  },
  "supported_currencies_gbp":{
    "en": "GBP",
-   "ar": "جنيه إسترليني"
+   "ar": "ج.أ"
  },
  "supported_currencies_omr":{
    "en": "OMR",
@@ -382,5 +382,9 @@
  "cvv_digit_required":{
    "en": "<digit> digit CVV required",
    "ar": "مطلوب <digit> أرقام CVV"
+ },
+ "close_btn_title":{
+   "en": "Close",
+   "ar": "إغلاق"
  }
 }

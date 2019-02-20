@@ -46,7 +46,8 @@ class Item extends Component {
       width: 40px;
       height: 20px;
       background: #6B6F73;
-      font-family: Roboto-Regular;
+      /* font-family: Roboto-Regular; */
+      font-weight: 800;
       font-size: 13px;
       color: #F0F1F2;
       -webkit-letter-spacing: 0;
@@ -64,7 +65,8 @@ class Item extends Component {
     `
 
     const TotalAmount = styled.div`
-      font-family: Roboto-Regular;
+      /* font-family: Roboto-Regular; */
+      font-weight: 800;
       font-size: 14px;
       color: #4A4F54;
       letter-spacing: -0.11px;

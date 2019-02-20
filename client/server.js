@@ -65,7 +65,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
     "background: maroon; color: white; display: block;"
   );
 
-  console.log(req);
+  // console.log(req);
   var Request = require("request");
 
   var mode = req.body.mode === 'Development' ? 'http://35.194.57.148:8080' : 'https://api.tap.company';
@@ -87,7 +87,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
       }
 
       var parseData = JSON.parse(response.body);
-      console.log('response ..... ', response.body);
+      // console.log('response ..... ', response.body);
       // global.session = JSON.parse(response.body).data.session_token;
       // global.key = JSON.parse(response.body).data.encryption_key;
 
@@ -107,10 +107,10 @@ app.post('/init', asyncHandler(async (req, res,) => {
   app.post('/api', asyncHandler(async (req, res,) => {
 
   // app.post('/api', (req, res) => {
-    console.log(
-      "%c/API REQUEST",
-      "background: maroon; color: white; display: block;"
-    );
+    // console.log(
+    //   "%c/API REQUEST",
+    //   "background: maroon; color: white; display: block;"
+    // );
 
     var Request = require("request");
 
@@ -135,7 +135,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
           "color: green; display: block;"
         );
         // console.log('checkJWTExpiry >>>>>>>>>>>>>>>>>>>>>>>>>> ', checkJWTExpiry());
-        console.log(req);
+        // console.log(req);
         if(req.body.method.toLowerCase() === 'post'){
           console.log(
             "%c/POST  "+ req.body.path,
@@ -152,7 +152,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
                 "%c/response",
                 "background: blue; color: white; display: block;"
               );
-              console.log(response.body);
+              // console.log(response.body);
               res.send(response.body);
             });
           }
@@ -172,7 +172,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
                 "%c/response",
                 "background: blue; color: white; display: block;"
               );
-              console.log(response.body);
+              // console.log(response.body);
                 res.send(response.body);
               });
             }
@@ -194,7 +194,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
                 "%c/response",
                 "background: blue; color: white; display: block;"
               );
-              console.log(response.body);
+              // console.log(response.body);
                 res.send(response.body);
               });
 
@@ -215,7 +215,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
                   "%c/response",
                   "background: blue; color: white; display: block;"
                 );
-                console.log(response.body);
+                // console.log(response.body);
                   res.send(response.body);
                 });
               }
@@ -232,7 +232,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
 
           app.post('/localization', (req, res) => {
 
-            console.log(req);
+            // console.log(req);
             var Request = require("request");
 
             var header = {
