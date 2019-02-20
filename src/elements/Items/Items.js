@@ -7,9 +7,40 @@ class Items extends Component {
 
   constructor(props){
     super(props);
+    this.state = {
+      items: null
+    }
   }
 
-  handleClick(){}
+  componentDidMount(){
+    if(this.props.items){
+      var itemsList = this.props.items.map((item, index) => {
+        console.log('item', item);
+        console.log('item discount', item.discount);
+        if(item){
+          return(
+            <React.Fragment key={index}>
+              <Item
+                key={item.id}
+                icon={null}
+                title={item.name}
+                amount_per_unit={item.amount_per_unit}
+                discount={item.discount ? item.discount.value : null}
+                qty={item.quantity}
+                total={item.total_amount}
+              />
+              <Separator/>
+            </React.Fragment>
+          );
+        }
+
+      });
+
+      this.setState({
+        items: itemsList
+      })
+    }
+  }
 
   render() {
 
@@ -33,27 +64,6 @@ class Items extends Component {
     let itemsList = null;
     let discount = 0;
 
-    if(this.props.items){
-      itemsList = this.props.items.map((item, index) => {
-        console.log('item', item);
-        console.log('item discount', item.discount);
-        return(
-          <React.Fragment key={index}>
-            <Item
-              key={item.id}
-              icon={null}
-              title={item.name}
-              amount_per_unit={item.amount_per_unit}
-              discount={item.discount ? item.discount.value : null}
-              qty={item.quantity}
-              total={item.total_amount}
-            />
-            <Separator/>
-          </React.Fragment>
-        );
-      });
-    }
-
     return (
       <Container>
         {this.props.desc ?
@@ -73,7 +83,7 @@ class Items extends Component {
             <Fieldset>
               {this.props.labels ? this.props.labels.items : null}
             </Fieldset>
-            {itemsList}
+            {this.state.items}
             <Item
               qty={this.props.items.length}
               total={this.props.total}
