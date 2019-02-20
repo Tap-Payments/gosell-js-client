@@ -16,7 +16,9 @@ class GoSell extends Component {
     RootStore.uIStore.modal_mode = 'popup';
 
     GoSell.handleView();
+
     RootStore.configStore.configure().then(result => {
+
       if(!GoSell.showTranxResult()){
         if(RootStore.configStore.legalConfig){
           RootStore.apiStore.init();
@@ -31,11 +33,10 @@ class GoSell extends Component {
 
     RootStore.uIStore.modal_mode = 'page';
 
-    // RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null), null);
-
     GoSell.handleView();
 
     RootStore.configStore.configure().then(result => {
+
       if(!GoSell.showTranxResult()){
         if(RootStore.configStore.legalConfig){
           RootStore.apiStore.init();
@@ -50,43 +51,39 @@ class GoSell extends Component {
 
     GoSell.handleView();
 
-    RootStore.apiStore.createTransaction().then(result => {
-      console.log('transaction response', result);
+    RootStore.configStore.configure().then(result => {
 
-      if(result.status == 200){
-        window.open(result.data.transaction.url, '_self');
-        // GoSell.handleClose();
-      }
-    }).catch(error => {
-      console.log(error);
-    })
+      RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null), null);
+      RootStore.apiStore.createTransaction().then(result => {
+        console.log('transaction response', result);
+
+        if(result.status == 200){
+          window.open(result.data.transaction.url, '_self');
+          // GoSell.handleClose();
+        }
+      }).catch(error => {
+        console.log(error);
+      })
+    });
+
   }
 
   static handleView(){
 
-    RootStore.uIStore.getErrorHandler.visable = false;
-    // RootStore.localizationStore.getLocalization().then(result => {
-    //   if(result.status == 200){
-        // console.log('hey result', result);
+    RootStore.uIStore.setErrorHandler({});
+    RootStore.uIStore.startLoading('loader', null, null);
 
-        // console.log('from handleVIew', RootStore.localizationStore.getContent('please_wait_msg', RootStore.configStore.language));
+    RootStore.uIStore.setOpenModal(true);
 
-        // RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', RootStore.configStore.language), null);
+    var body =  document.body.children;
 
-        RootStore.uIStore.setOpenModal(true);
-
-        var body =  document.body.children;
-
-        for(var i=0; i<body.length; i++){
-          if(body[i].tagName === 'DIV' && !body[i].classList.contains('tap-payments-modal-container')){
-            console.log('body ', body[i].tagName);
-            body[i].classList.add('gosell-tap-payments-modal-blur-bg');
-            break;
-          }
-        }
-      // }
-    // });
-
+    for(var i=0; i<body.length; i++){
+      if(body[i].tagName === 'DIV' && !body[i].classList.contains('tap-payments-modal-container')){
+        console.log('body ', body[i].tagName);
+        body[i].classList.add('gosell-tap-payments-modal-blur-bg');
+        break;
+      }
+    }
   }
 
   static showTranxResult(){

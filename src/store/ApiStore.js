@@ -259,7 +259,7 @@ class ApiStore{
     return await res;
   }
 
-  async createTransaction(){
+  async createTransaction(publicKey){
      var self = this;
 
      var transaction = null;

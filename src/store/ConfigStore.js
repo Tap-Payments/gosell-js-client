@@ -8,6 +8,7 @@ class ConfigStore {
     this.RootStore = RootStore;
 
     this.config = null;
+    this.key = null;
     this.gateway = null;
 
     this.contactInfo = true;
@@ -69,11 +70,15 @@ class ConfigStore {
       console.log('set setConfig');
 
       this.config = value;
+      this.key = value.gateway ? value.gateway.publicKey : null;
+
       this.view = view;
       this.language = value.gateway.language ? value.gateway.language : 'en';
 
       this.RootStore.localizationStore.getLocalization().then(result => {
         if(result.status == 200){
+
+          this.RootStore.uIStore.startLoading('loader', this.RootStore.localizationStore.getContent('please_wait_msg', null), null);
           this.labels = {
               cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
               expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
@@ -432,6 +437,7 @@ function isEmpty(obj){
 
 decorate(ConfigStore, {
   gateway: observable,
+  key: observable,
   language:observable,
   labels:observable,
   btn:observable,
