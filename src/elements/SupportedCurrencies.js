@@ -131,7 +131,8 @@ class SupportedCurrencies extends Component {
           margin-bottom: -4px;
           overflow: hidden;
           border-bottom-right-radius: ${this.props.dir === "rtl" ? "0px" : "8px"};
-          border-bottom-left-radius: ${this.props.dir === "rtl" ? "8px" : "0px"}
+          border-bottom-left-radius: ${this.props.dir === "rtl" ? "8px" : "0px"};
+          -ms-overflow-style: ${this.props.store.uIStore.browser === "IE" ? "none" : ""};
           background: ${bg};
       `
 
