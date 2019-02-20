@@ -18,7 +18,7 @@ class GoSell extends Component {
     GoSell.handleView();
 
     RootStore.configStore.configure().then(result => {
-
+      RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null), null);
       if(!GoSell.showTranxResult()){
         if(RootStore.configStore.legalConfig){
           RootStore.apiStore.init();
@@ -36,7 +36,7 @@ class GoSell extends Component {
     GoSell.handleView();
 
     RootStore.configStore.configure().then(result => {
-
+      RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null), null);
       if(!GoSell.showTranxResult()){
         if(RootStore.configStore.legalConfig){
           RootStore.apiStore.init();

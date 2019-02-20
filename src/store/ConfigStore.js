@@ -77,8 +77,6 @@ class ConfigStore {
 
       this.RootStore.localizationStore.getLocalization().then(result => {
         if(result.status == 200){
-
-          this.RootStore.uIStore.startLoading('loader', this.RootStore.localizationStore.getContent('please_wait_msg', null), null);
           this.labels = {
               cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
               expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
