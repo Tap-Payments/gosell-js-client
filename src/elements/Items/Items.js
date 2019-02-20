@@ -14,7 +14,6 @@ class Items extends Component {
   render() {
 
     const Container = styled.div`
-
     `
     const Fieldset = styled.div`
       display: flex;
