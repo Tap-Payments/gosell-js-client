@@ -36,7 +36,7 @@ class UIStore {
     this.notifications = 'standard';
 
     this.load = true;
-    this.edit_customer_cards = 'Edit';
+    this.edit_customer_cards = null;
     this.modal_mode = 'popup';
 
     this.mainHeight = 0;
@@ -51,10 +51,9 @@ class UIStore {
       this.bodyHeight = 'fit-content';
     }
 
-
     this.modal_bg_img = null;
     // this.modal_bg_img = 'https://ak7.picdn.net/shutterstock/videos/10256567/thumb/1.jpg';
-    // this.modal_bg_img = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5fbt_We8MuRrBLMU-rhczNxpAkivP0RKlxrIS8-k2FkeNsALL';
+    // this.modal_bg_img = 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80';
 
     this.show_order_details = false;
 
@@ -75,7 +74,7 @@ class UIStore {
       },
       headerStyle:{
         'header': {backgroundColor: '#F7F7F7', height: 'auto', marginTop: '50px'},
-        'titleStyle': {cursor: 'pointer'},
+        'titleStyle': {cursor: 'pointer', margin: 'auto'},
         'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
       }
     }
@@ -83,7 +82,8 @@ class UIStore {
     this.closeNotification = this.closeNotification.bind(this);
 
     this.targetElement = React.createRef();
-
+    this.browser = null;
+    this.deviceBrowser;
   }
 
   calcElementsHeight(id){
@@ -99,7 +99,7 @@ class UIStore {
       const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
 
       var self = this;
-      var total = 0;
+      var total = 10;
       allDivs.forEach(function(element) {
         total += element.clientHeight;
       });
@@ -113,12 +113,6 @@ class UIStore {
       else {
         this.setMainHeight(modalBodyHeight);
       }
-      // if(modalBodyHeight >= total){
-      //   this.setMainHeight(total);
-      // }
-      // else {
-      //   this.setMainHeight(modalBodyHeight);
-      // }
 
     }
     else {
@@ -129,23 +123,19 @@ class UIStore {
       const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
 
       var self = this;
-      var total = 0;
+      var total = 10;
       allDivs.forEach(function(element) {
         total += element.clientHeight;
         console.log('height', element.clientHeight);
       });
 
       this.setMainHeight(total);
-
-
     }
-
   }
 
   setMainHeight(value){
 
     this.mainHeight = value;
-    console.log('&& mainHeight', this.mainHeight);
 
     if(this.mainHeight > 0){
 
@@ -180,7 +170,7 @@ class UIStore {
         headerStyle: {
           'header': {backgroundColor: '#F7F7F7', height: '65px'},
           'titleStyle': {cursor: 'pointer'},
-          'iconStyle': {width: '40px', height: '40px', borderRadius:'100%'}
+          'iconStyle': {width: '40px', height: '40px', borderRadius:'100%', margin: '12px'}
         }
       }
     }
@@ -193,7 +183,7 @@ class UIStore {
         },
         headerStyle:{
           'header': {backgroundColor: '#F7F7F7', height: '106px', marginTop: '50px'},
-          'titleStyle': {cursor: 'pointer'},
+          'titleStyle': {cursor: 'pointer', margin: 'auto'},
           'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
         }
       }
@@ -265,6 +255,62 @@ class UIStore {
   }
 
   computed
+  get deviceBrowser() {
+    var browser = null;
+    var isChromium = window.chrome;
+    var uA = navigator.userAgent,
+    isIE = /msie\s|trident\/|edge\//i.test(uA) && !!(document.uniqueID || document.documentMode || window.ActiveXObject || window.MSInputMethodContext),
+    checkVersion = (isIE && +(/(edge\/|rv:|msie\s)([\d.]+)/i.exec(uA)[2])) || NaN;
+    var isOpera = navigator.userAgent.indexOf("OPR") > -1 || navigator.userAgent.indexOf("Opera") > -1;
+    if(!this.isMobile) {
+      if(!!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g)) {
+        browser = "IE";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+        browser = "FireFox";
+      }
+      else if(isChromium !== null && isOpera == true) {
+        browser = "Opera";
+      }
+      else if(navigator.appVersion.indexOf('Edge') > -1) {
+        browser = "Edge"
+      }
+      else if(navigator.userAgent.indexOf("Chrome") != -1) {
+        browser = "Chrome";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
+        browser = "Safari";
+      }
+      this.browser = browser;
+      return browser;
+    }
+    else {
+      var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+      if(typeof InstallTrigger !== 'undefined' || navigator.userAgent.toLowerCase().indexOf('firefox') > -1 || navigator.userAgent.toLowerCase().indexOf('fxios') > -1) {
+        browser = "FireFox";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('edga/') >= 0 || navigator.userAgent.toLowerCase().indexOf('edgios/') >= 0) {
+        browser = "Edge";
+      }
+      else if((!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0 || navigator.userAgent.toLowerCase().indexOf('safari/') <= 0) {
+        browser = "Opera";
+      }
+      else if(!!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime) || navigator.userAgent.indexOf("Chrome") != -1 || navigator.userAgent.toLowerCase().indexOf('crios/') >= 0){
+        browser = "Chrome";
+      }
+      else if(navigator.userAgent.toLowerCase().indexOf('safari/') > -1) {
+        browser = "Safari";
+      }
+      this.browser = browser;
+      return browser;
+      // Blink engine detection
+      // var isBlink = (isChrome || isOpera) && !!window.CSS;
+    }
+  }
+
+
+  computed
   get getDir(){
     return this.dir;
   }
@@ -311,7 +357,7 @@ class UIStore {
 
   showMsg(loader_type, title, msg){
     var self = this;
-    self.startLoading('loader', 'Please Wait', null);
+    self.startLoading('loader', this.RootStore.localizationStore.getContent('please_wait_msg', null), null);
 
     setTimeout(function(){
       self.showResult(loader_type, title, msg);
@@ -386,10 +432,16 @@ class UIStore {
 
     if(dir === 'x'){
       if(this.pageIndex > value){
-        this.pageDir = '-x';
+        this.dir==='ltr'?
+          this.pageDir = '-x'
+          :
+          this.pageDir = 'x'
       }
       else if(this.pageIndex < value){
-        this.pageDir = 'x';
+        this.dir==='ltr'?
+          this.pageDir = 'x'
+          :
+          this.pageDir = '-x'
       }
     }
     else if(dir === 'y'){
@@ -413,7 +465,7 @@ class UIStore {
         break;
       case 1:
         self.goSellBtn({
-          title: "Confirm",
+          title: self.RootStore.localizationStore.getContent('btn_confirm_title', null),
           color: '#007AFF',
           active: true,
           loader: false
@@ -422,7 +474,7 @@ class UIStore {
         break;
       case 2:
         self.goSellBtn({
-          title: "Confirm",
+          title: self.RootStore.localizationStore.getContent('btn_confirm_title', null),
           color: '#007AFF',
           active: false,
           loader: false
@@ -446,7 +498,7 @@ class UIStore {
   setIsActive(value){
     if(value === 'FORM' || value === 'WEB'){
       this.delete_card = null;
-      this.edit_customer_cards = 'Edit';
+      this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_edit', null);
 
       if(this.RootStore.configStore.transaction_mode !== 'get_token' && this.RootStore.configStore.transaction_mode !== 'get_token'){
         this.shakeCards(false);
@@ -470,13 +522,13 @@ class UIStore {
 
     if(!value){
       this.shake_cards = false;
-      this.edit_customer_cards = 'Edit';
+      this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_edit', null);
 
     }
     else {
       this.shake_cards = true;
       this.errorHandler = {};
-      this.edit_customer_cards = 'Cancel';
+      this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_cancel', null);
       if(this.getSubPage === 1 || this.getSubPage === 0){
         this.setSubPage(-1);
       }
@@ -515,8 +567,8 @@ class UIStore {
   goSellBtn(value){
 
     if(!value.active){
+      console.log('!value.active');
       this.btn.active = false;
-      this.btn.loader = false;
       // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
     }
 
@@ -563,16 +615,13 @@ class UIStore {
         console.log('element', el);
 
         if(this.getErrorHandler.msg && el != null){
+          console.log('this is happening');
           el.innerHTML = this.getErrorHandler.msg;
-
         }
+        setTimeout(function(){
+          self.closeNotification();
+        }, 5000);
 
-        return(
-          <NotificationBar
-            mode={null}
-            dir={this.getDir}
-            show={false}>
-          </NotificationBar>);
       }
       else if(this.RootStore.configStore.notifications === 'standard' || this.getErrorHandler.options){
         return(
@@ -606,7 +655,7 @@ class UIStore {
     this.setErrorHandler({
       visable: true,
       code: 'error',
-      msg: "Please wait until the payment process is completed!",
+      msg: this.RootStore.localizationStore.getContent('gosell_payment_process_warning_msg', null),
       type: 'warning'
     });
   }
@@ -656,7 +705,8 @@ decorate(UIStore, {
   modal: observable,
   modalHeight: observable,
   bodyHeight: observable,
-  sliderHeight: observable
+  sliderHeight: observable,
+  browser: observable
 });
 
 export default UIStore;

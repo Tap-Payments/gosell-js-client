@@ -1,43 +1,66 @@
 import React, { Component }  from "react";
-import Store from '../../store/DemoConfigStore';
+// import Store from '../../store/DemoConfigStore';
 import {observer} from 'mobx-react';
 import './app.css';
 import TapBtn from './TapBtn';
 import { GoSell } from "../../../src";
 import { GoSellElements } from "../../../src";
+import Cookies from "js-cookie";
 
 class Demo extends Component {
 
   constructor(props){
     super(props);
-
+    this.Store = props.store
     this.state = {
       showElements: false
     }
   }
 
+  componentDidMount(){
+    // window.addEventListener('change', function(event){
+    //   console.log('goSell event hey!! ', event);
+    // })
+
+  }
+
+  hey(data){
+    console.log(data);
+  }
+
+  setPublicKeyCookie(){
+    if (this.Store.gateway.publicKey) {
+      Cookies.set("goSellDemo_" + "publicKey", this.Store.gateway.publicKey);
+    }
+  }
   handleLightBox(){
+    GoSell.openLightBox(this.hey);
+    // set p-key on start
+    this.setPublicKeyCookie()
     this.setState({
       showElements: false
     });
 
     setTimeout(function(){
-      GoSell.openLightBox();
+      // GoSell.openLightBox();
     }, 500);
 
   }
 
   handleElements(){
+    // set p-key on start
+    this.setPublicKeyCookie()
     this.setState({
       showElements: !this.state.showElements
     });
   }
 
   handleGoSellElements(){
-    Store.btnLoading = true;
+
+    this.Store.btnLoading = true;
 
     GoSellElements.submit().then(result => {
-      Store.btnLoading = false;
+      this.Store.btnLoading = false;
     });
   }
 
@@ -52,9 +75,9 @@ class Demo extends Component {
               <div className='app-row'>
                 <select
                    name="transaction_mode"
-                   value={Store.transaction_mode}
+                   value={this.Store.transaction_mode}
                    style={{ width: '100%', fontSize: '14px' }}
-                   onChange={(value) => Store.updateMode(value)}>
+                   onChange={(value) => this.Store.updateMode(value)}>
                    <option value="charge">Charge Mode</option>
                    <option value="authorize">Authorize Mode</option>
                    <option value="save_card">Save Card Mode</option>
@@ -64,7 +87,7 @@ class Demo extends Component {
             </div>
             <br />
 
-            {Store.transaction_mode == 'authorize' ?
+            {this.Store.transaction_mode == 'authorize' ?
                 <div className='app-container'>
                   Auto:
                   <div className="radio">
@@ -73,8 +96,8 @@ class Demo extends Component {
                         type="radio"
                         name="type"
                         value="VOID"
-                        checked={Store.authorize.type === 'VOID'}
-                        onChange={(value) => Store.updateAuthorize(value)}/>
+                        checked={this.Store.authorize.type === 'VOID'}
+                        onChange={(value) => this.Store.updateAuthorize(value)}/>
                       VOID
                     </label>
                     <label>
@@ -82,8 +105,8 @@ class Demo extends Component {
                         type="radio"
                         name="type"
                         value="CAPTURE"
-                        checked={Store.authorize.type === 'CAPTURE'}
-                        onChange={(value) => Store.updateAuthorize(value)}/>
+                        checked={this.Store.authorize.type === 'CAPTURE'}
+                        onChange={(value) => this.Store.updateAuthorize(value)}/>
                       CAPTURE
                     </label>
                   </div>
@@ -91,13 +114,13 @@ class Demo extends Component {
             : <div></div>}
 
              <GoSell
-                gateway={Store.gateway}
-                customer={Store.customer}
-                order={Store.order}
-                charge={Store.transaction_mode === 'charge' ? Store.transaction : null}
-                authorize={Store.transaction_mode === 'authorize' ? Store.transaction : null}
-                saveCard={Store.transaction_mode === 'save_card'}
-                token={Store.transaction_mode === 'get_token'}/>
+                gateway={this.Store.gateway}
+                customer={this.Store.customer}
+                order={this.Store.order}
+                charge={this.Store.transaction_mode === 'charge' ? this.Store.transaction : null}
+                authorize={this.Store.transaction_mode === 'authorize' ? this.Store.transaction : null}
+                saveCard={this.Store.transaction_mode === 'save_card'}
+                token={this.Store.transaction_mode === 'get_token'}/>
 
              <TapBtn
                id="gosell-lightbox-btn"
@@ -113,14 +136,14 @@ class Demo extends Component {
               width="90%"
               height="44px"
               btnColor={'#007AFF'}
-              active={Store.transaction_mode === 'get_token'}
+              active={this.Store.transaction_mode === 'get_token'}
               animate={false}
               handleClick={this.handleElements.bind(this)}>goSell Elements</TapBtn>
 
 
             { this.state.showElements ?
               <React.Fragment>
-                <GoSellElements gateway={Store.gateway} token={true}/>
+                <GoSellElements gateway={this.Store.gateway} token={true}/>
 
                 <p id="msg-area" style={{color: 'gray'}}>if you want custom notifications add 'msg-area' instead of 'standard'</p>
 
@@ -130,8 +153,8 @@ class Demo extends Component {
                    height="44px"
                    btnColor={'#2ACE00'}
                    active={true}
-                   animate={Store.btnLoading}
-                   handleClick={this.handleGoSellElements.bind(this)}>{Store.gateway.labels.actionButton != null ? Store.gateway.labels.actionButton : "Pay"}</TapBtn>
+                   animate={this.Store.btnLoading}
+                   handleClick={this.handleGoSellElements.bind(this)}>{this.Store.gateway.labels.actionButton != null ? Store.gateway.labels.actionButton : "Pay"}</TapBtn>
               </React.Fragment>
              : null}
 

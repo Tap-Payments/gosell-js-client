@@ -76,7 +76,7 @@ class Otp extends Component {
   //   });
   //
   //   // setTimeout(function(){
-  //     self.props.store.uIStore.startLoading('loader', 'Please Wait', null);
+  //     self.props.store.uIStore.startLoading('loader', self.props.store.localizationStore.getContent('please_wait_msg', null), null);
   //   // }, 1000);
   //
   //   store.apiStore.authentication(this.props.store.paymentStore.authenticate.type, this.state.value).then(result => {
@@ -159,7 +159,7 @@ class Otp extends Component {
     const {count} = this.state;
 
     const props = {
-      className: 'reactCodeInput',
+      className: 'gosell-gateway-react-code-input',
       inputStyle: {
         MozAppearance: 'textfield',
         width: this.props.store.uIStore.getIsMobile ? '40px' : '45px',
@@ -170,7 +170,7 @@ class Otp extends Component {
         border: '1px solid #CECECE',
         textAlign: 'center',
         outlineColor: '#009AFF',
-        margin: this.props.store.uIStore.getIsMobile ? '1%' : '0px',
+        margin: this.props.store.uIStore.getIsMobile ? '1%' : '2%',
         padding: this.props.store.uIStore.getIsMobile ? '0' : '0 12px',
       },
       inputStyleInvalid: {
@@ -184,7 +184,7 @@ class Otp extends Component {
         border: '1px solid #CECECE',
         textAlign: 'center',
         outlineColor: '#009AFF',
-        margin: this.props.store.uIStore.getIsMobile ? '1%' : '0px',
+        margin: this.props.store.uIStore.getIsMobile ? '1%' : '2%',
         padding: this.props.store.uIStore.getIsMobile ? '0' : '0 12px',
       }
     }
@@ -192,7 +192,7 @@ class Otp extends Component {
     return (
       <Confirm index={2} store={this.props.store}>
 
-          <div className={this.state.animate_fields ? "wrong-entry" : null}>
+          <div className={this.state.animate_fields ? "gosell-gateway-wrong-entry" : null}>
             <ReactCodeInput
               ref={this.props.store.uIStore.targetElement}
               autoFocus={false}
@@ -202,17 +202,22 @@ class Otp extends Component {
               fields={6} {...props}/>
           </div>
 
-          <div className="tap-details-wrapper" dir={this.props.dir}>
-            <p className="tap-otp-msg">Please enter the OTP that has been sent to <span className="tap-otp-span">{this.props.store.paymentStore.authenticate ? this.props.store.paymentStore.authenticate.value : null}</span></p>
+          <table className="gosell-gateway-details-wrapper" dir={this.props.dir}>
+          <tbody>
+            <tr>
+              <td className="gosell-gateway-otp-msg-container">
+                <p className="gosell-gateway-otp-msg">{this.props.store.localizationStore.getContent('otp_guide_text', null).replace('%@', '')} <span className="gosell-gateway-otp-span">{this.props.store.paymentStore.authenticate ? this.props.store.paymentStore.authenticate.value : null}</span></p>
+              </td>
 
-            <div className='tap-otp-settings' style={this.props.dir === 'ltr' ? {textAlign: 'right'} : {textAlign: 'left'}}>
-            {this.state.running ?
-             <Timer running={this.state.running} time={count}/> :
-             <div className={!this.state.running ? "tap-otp-resend" : "tap-otp-resend tap-otp-fadeOut"} onClick={this.resendOTP.bind(this)}>RESEND</div>
-            }
-            </div>
-
-          </div>
+              <td className='gosell-gateway-otp-settings' style={this.props.dir === 'ltr' ? {textAlign: 'right'} : {textAlign: 'left'}}>
+                {this.state.running ?
+                 <Timer running={this.state.running} time={count}/> :
+                 <div className={!this.state.running ? "gosell-gateway-otp-resend" : "gosell-gateway-otp-resend gosell-gateway-otp-fadeOut"} onClick={this.resendOTP.bind(this)}>{this.props.store.localizationStore.getContent('btn_resend_title', null)}</div>
+                }
+              </td>
+            </tr>
+            </tbody>
+          </table>
 
         </Confirm>
       );

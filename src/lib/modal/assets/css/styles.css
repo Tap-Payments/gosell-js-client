@@ -4,7 +4,9 @@ body{
 
 .tap-payments-modal-open {
   overflow: hidden !important;
-  position: relative;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 .tap-payments-showModal{
@@ -237,23 +239,22 @@ body{
 .tap-payments-modal-header{
   width: 100%;
   height: 50px;
-  display: flex;
-  /*justify-content: space-between;*/
   align-items: center;
   background-color: #fff;
-  /*align-items: center;*/
   border-radius: 8px 8px 0px 0px;
   margin: 0 auto;
   border: 1px solid #eaeaea;
   border-bottom: none;
   box-shadow: rgba(0, 0, 0, 0.27) 0px 0px 36px 2px;
   border-radius: 8px 8px 0px 0px;
+  position: relative;
+  text-align: center;
 }
 
 .tap-payments-header-icon{
-    display: -webkit-box;
+    /* display: -webkit-box;
     display: -ms-flexbox;
-    display: flex;
+    display: flex; */
   /*  align-items: flex-end;*/
     justify-content: center;
     align-items: center;
@@ -267,22 +268,17 @@ body{
 }
 
 .tap-payments-header-title{
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  /*align-items: flex-start;
-  margin: 16px 16px 0px 0px;*/
+  display: inline-block;
+  vertical-align: top;
 }
 
 .tap-payments-header-close-icon{
-  width: 50px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 9999;
   cursor: pointer;
   position: absolute;
+  right: 0;
+  top: 0;
+  padding: 15px;
 }
 
 /* Safari 4.0 - 8.0 */
@@ -426,38 +422,32 @@ body{
 }
 
 .tap-payments-notification-bar{
-  display: none;
-}
-
-.tap-payments-notification-true{
+  /* display: none; */
+  position: relative;
+  transition: all 0.7s ease 0s;
+  top: -50px;
   position: fixed;
   width: 100%;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  min-height: 40px;
-  top: 0;
   text-align: center;
   left: 0;
   right: 0;
   z-index: 888888;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-animation-name: slideDown;
+}
+
+.tap-payments-notification-true{
+  top: 0;
+  /* position: fixed;
+  width: 100%;
+  top: 0;
+  text-align: center;
+  left: 0;
+  right: 0;
+  z-index: 888888; */
+  /* -webkit-animation-name: slideDown;
   -webkit-animation-duration: 0.7s;
   animation-name: slideDown;
-  animation-duration: 0.7s;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: reverse;
-      -ms-flex-direction: row-reverse;
-          flex-direction: row-reverse;
+  animation-duration: 0.7s; */
+  /* display: block; */
 }
 
 /* Safari 4.0 - 8.0 */
@@ -477,7 +467,7 @@ body{
     float: right;
     font-size: 21px;
     font-weight: 100;
-    line-height: 1;
+    /* line-height: 1; */
     color: #fff;
     /* text-shadow: 0 1px 0 #fff; */
     /* filter: alpha(opacity=20); */
@@ -486,7 +476,7 @@ body{
 a.tap-payments-close {
     text-decoration: none;
     font-size: 30px;
-    line-height: 1.2;
+    /* line-height: 1.2; */
     cursor: pointer;
 }
 
@@ -495,19 +485,36 @@ a.tap-payments-close:hover {
 }
 
 .tap-payments-notification-bar .tap-payments-close {
-  position: absolute;
-  padding: 0px 20px;
-  line-height: 0;
+  /* position: absolute; */
+  /* padding: 0px 20px; */
+  /* line-height: 0; */
 }
 
 .tap-payments-notification-title{
   padding: 10px 50px;
-  margin: 0px;
+  float: left;
+  display: inline-block;
+}
+
+[dir="ltr"] .tap-payments-notification-title {
+  float: left;
+}
+
+[dir="rtl"] .tap-payments-notification-title {
+  float: right;
+}
+
+.tap-payments-notification-title.tap-payments-notification-title-centered{
+  padding: 10px 0px;
+  float: none;
+  position: absolute;
+  left: 0;
   width: 100%;
 }
 
 .tap-payments-notification-false {
-  position: fixed;
+  top: -50px;
+  /* position: fixed;
   width: 100%;
   height: -webkit-fit-content;
   height: -moz-fit-content;
@@ -534,7 +541,7 @@ a.tap-payments-close:hover {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: reverse;
       -ms-flex-direction: row-reverse;
-          flex-direction: row-reverse;
+          flex-direction: row-reverse; */
 }
 
 /* Safari 4.0 - 8.0 */
@@ -550,22 +557,40 @@ a.tap-payments-close:hover {
 }
 
 .tap-payments-options{
-  padding: 0px 50px;
-  display: flex;
-  height: 100%;
+  padding: 0px 51px;
+  /* height: 100%; */
+  float: right;
+}
+
+[dir="ltr"] .tap-payments-options{
+  float: right;
+}
+
+[dir="rtl"] .tap-payments-options{
+  float: left;
+}
+
+.tap-payments-options.tap-payments-options-close-only{
+  padding: 0px 20px;
 }
 
 .tap-payments-option{
-  padding: 0 10px;
-  /* text-decoration: underline; */
+  padding: 0 11px;
   font-weight: bold;
   cursor: pointer;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-width: 20px;
+  /* height: 100%; */
+  display: inline-block;
   font-size: 15px;
+  vertical-align: top;
+  line-height: 41px;
+}
+
+[dir="ltr"] .tap-payments-option{
+  float: left;
+}
+
+[dir="rtl"] .tap-payments-option{
+  float: right;
 }
 
 .tap-payments-option:hover{
@@ -574,16 +599,12 @@ a.tap-payments-close:hover {
   border-right: .5px solid rgba(255,255,255,0.25);
 }
 
-@media(max-width: 440px){
+@media(max-width: 767px){
 
   /* .tap-payments-modal-body{
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
   } */
-
-  .tap-payments-modal-open {
-    position: fixed;
-  }
 
   .tap-payments-modal-container {
     width: 100%;
@@ -610,11 +631,12 @@ a.tap-payments-close:hover {
   }
 
   .tap-payments-header-close-icon{
-    margin: 0px 16px 0px 16px;
+    /* margin: 0px 16px 0px 16px; */
   }
 
   .tap-payments-modal-header{
     width: 90%;
+    text-align: justify;
   }
 
   .tap-payments-modal-body{
@@ -631,7 +653,7 @@ a.tap-payments-close:hover {
   .tap-payments-notification-title{
     padding: 10px 10px;
     margin: 0px;
-    width: 80%;
+    width: 50%;
   }
 
   .tap-payments-options{
@@ -640,6 +662,10 @@ a.tap-payments-close:hover {
 
   .tap-payments-page-bg-img{
     width: auto;
+  }
+
+  .tap-payments-notification-true{
+    /* height: 69px; */
   }
 
 

@@ -74,7 +74,7 @@ class SaveForm extends Component {
           <div
             id="tap-cards-form"
             ref={(node) => this.formRef = node}
-            className={store.uIStore.getIsActive === 'FORM' ? 'tap-card-active tap-form-content' : 'tap-form-content'}
+            className={store.uIStore.getIsActive === 'FORM' ? 'gosell-card-form-active tap-form-content' : 'tap-form-content'}
             style={{ backgroundColor: 'white', display: this.state.hide ? 'none' : 'block'}}>
 
             <CardsForm ref="paymentForm" store={store} />
@@ -82,8 +82,7 @@ class SaveForm extends Component {
             {store.configStore.gateway && store.configStore.gateway.saveCardOption ?
             <SaveCardContainer>
               <SaveCardTitle>
-                  For faster and more secure checkout,
-                  save your card
+                  {store.localizationStore.getContent('save_card_promotion_text', null)}
               </SaveCardTitle>
               <div style={{ width: '25%' }}>
                 <Switcher

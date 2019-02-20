@@ -1,33 +1,31 @@
 .tap-row-container{
-  display: flex;
-  justify-content:center;
   cursor: pointer;
   width: 100%;
+  position: relative;
 }
 
 .tap-row{
   width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-
+  height: 100%;
   pointer-events: none;
+  position: relative;
 }
 
 .tap-arrow{
-  width: 65px;
-  padding: 0 16px 0 16px;
+  width: 40px;
+  height: 100%;
   pointer-events: none;
+  display: inline-block;
+  right: 0 !important;
+  left: auto !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+}
+
+[dir='rtl'] .tap-arrow{
+  left: 0 !important;
+  right: auto !important;
 }
 
 .tap-value{
@@ -45,33 +43,48 @@
 
 .tap-icon{
   height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   pointer-events: none;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-      -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  right: unset;
+}
 
+[dir="rtl"] .tap-icon{
+  right: 0;
+  left: 0
 }
 
 .tap-text-container{
   color: #535353;
   pointer-events: none;
-  margin: 0 16px;
+  display: inline-block;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
 }
 
 .tap-subtitle{
   margin: 0;
   font-size:13px;
-  font-family: 'Roboto-Light', sans-serif;
+  font-weight: 800;
+  /* font-family: 'Roboto-Light', sans-serif; */
 }
 
 .tap-title{
   margin: 0;
   font-size:20px;
-  font-family: 'Roboto-Regular', sans-serif;
+  font-weight: 800;
+  /* font-family: 'Roboto-Regular', sans-serif; */
+  line-height: 65px;
+}
+
+.tap-subtitle.title-subtitle{
+  line-height: 41px;
+}
+
+.tap-title.title-subtitle{
+  line-height: 0px;
 }

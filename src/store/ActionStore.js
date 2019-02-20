@@ -28,7 +28,7 @@ class ActionStore {
           this.slideEnded = true;
         }
         .bind(this),
-        this.sliderAnimationDuration
+        this.sliderAnimationDuration-(this.sliderAnimationDuration/3)
     );
   }
 
@@ -43,6 +43,7 @@ class ActionStore {
     this.RootStore.paymentStore.active_payment_option_fees = 0;
 
     this.RootStore.uIStore.shakeCards(false);
+    this.RootStore.formStore.clearCardForm();
     // this.RootStore.uIStore.goSellBtn({
     //   title: this.RootStore.configStore.btn,
     //   active: false,
@@ -52,7 +53,7 @@ class ActionStore {
   }
 
   handleOrderDetailsClick(){
-      if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
+      if((this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader) || this.RootStore.uIStore.getPageIndex != 0){
         this.RootStore.uIStore.warningHandler();
       }
       else if(this.RootStore.uIStore.delete_card === null){
@@ -61,12 +62,13 @@ class ActionStore {
           if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
             this.RootStore.uIStore.setSubPage(-1);
           }
-          if(this.RootStore.uIStore.getPageIndex == 0){
+
             this.RootStore.uIStore.goSellBtn({
               title: this.RootStore.configStore.btn,
               active: false,
               loader: false
             });
+
             this.resetSettings();
             console.log('index', this.RootStore.uIStore.getPageIndex);
               var paymentOptions = document.getElementById('gosell-gateway-payment-options');
@@ -90,31 +92,28 @@ class ActionStore {
                 console.log('paymentOptions now is ', paymentOptions.style.height);
                 this.RootStore.uIStore.show_order_details = true;
               }
-          }
-          else {
-              this.RootStore.uIStore.warningHandler();
-          }
+
         }
       }
   }
 
   handleBusinessInfoClick(){
 
-    console.log('business info', document.getElementById('gosell-business-info'));
-
-    if(document.getElementById('gosell-business-info') != null){
-      var sideMenu = document.getElementById('gosell-side-menu').clientHeight;
-      var businessInfo = document.getElementById('gosell-business-info').scrollHeight;
-
-      sideMenu < businessInfo ? document.getElementById('gosell-business-info').style.height = 'fit-content' : document.getElementById('gosell-business-info').style.height = '100%';
-    }
+    // console.log('business info', document.getElementById('gosell-business-info'));
 
     if(this.RootStore.configStore.contactInfo && this.RootStore.merchantStore.contact && this.RootStore.merchantStore.contact.length > 0){
 
-      if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
+      if((this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader) || (this.RootStore.uIStore.getPageIndex != 0 && this.RootStore.uIStore.getPageIndex != 3 && this.RootStore.uIStore.getPageIndex != 4)){
         this.RootStore.uIStore.warningHandler();
       }
       else if(this.RootStore.uIStore.delete_card === null){
+
+        if(document.getElementById('gosell-business-info') != null){
+          var sideMenu = document.getElementById('gosell-side-menu').clientHeight;
+          var businessInfo = document.getElementById('gosell-business-info').scrollHeight;
+
+          sideMenu < businessInfo ? document.getElementById('gosell-business-info').style.height = 'fit-content' : document.getElementById('gosell-business-info').style.height = '100%';
+        }
 
         this.resetSettings();
 
@@ -122,10 +121,7 @@ class ActionStore {
           this.handleOrderDetailsClick();
         }
 
-        if(this.RootStore.uIStore.getPageIndex != 3 && this.RootStore.uIStore.getPageIndex != 4 && this.RootStore.uIStore.getPageIndex != 0){
-          this.RootStore.uIStore.warningHandler();
-        }
-        else {
+
           if(this.RootStore.uIStore.getPageIndex === 4 || this.RootStore.uIStore.getSubPage === 1){
             this.RootStore.uIStore.setPageIndex(0, 'x');
             this.RootStore.uIStore.setSubPage(-1);
@@ -138,7 +134,6 @@ class ActionStore {
               this.RootStore.uIStore.setSubPage(1);
             }
           }
-        }
 
         console.log('pageIndex', this.RootStore.uIStore.getPageIndex );
 
@@ -316,7 +311,7 @@ class ActionStore {
           self.RootStore.paymentStore.active_payment_option_total_amount = payment.amount;
           self.RootStore.paymentStore.active_payment_option_fees = 0;
 
-          this.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
+          this.RootStore.uIStore.startLoading('loader', self.RootStore.localizationStore.getContent('please_wait_msg', null), null);
           this.RootStore.apiStore.handleTransaction(payment.source_id, 'WEB', 0.0).then(result => {
             console.log('hi from charge response', result);
           });
@@ -334,7 +329,7 @@ class ActionStore {
 
     console.log('Hey +++++++++++++++++++++++++++++++ ', store.uIStore.getIsActive);
     if(store.uIStore.getIsActive != null && store.uIStore.getIsActive.toUpperCase() !== 'CARD'){
-        store.uIStore.startLoading('loader', 'Please Wait', null);
+        store.uIStore.startLoading('loader', store.localizationStore.getContent('please_wait_msg', null), null);
     }
 
     store.apiStore.handleTransaction(store.paymentStore.source_id,
@@ -360,7 +355,7 @@ class ActionStore {
       updated: false
     });
 
-    store.uIStore.startLoading('loader', 'Please Wait', null);
+    store.uIStore.startLoading('loader', store.localizationStore.getContent('please_wait_msg', null), null);
 
     console.log('otp _____ ', store.uIStore.otp);
     console.log('otp value _____ ', store.uIStore.otp.value);

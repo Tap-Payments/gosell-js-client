@@ -85,9 +85,11 @@ class TapLoader extends Component {
   }
 
   render() {
+    let style = {position:'relative',top:((50-(Math.floor(window.innerHeight/100)%100))+"%")};
 
     const Btn = styled.a`
-    font-family: 'Roboto-Regular',sans-serif;
+    /* font-family: 'Roboto-Regular',sans-serif; */
+    font-weight: 800;
     font-size: 12px;
     color: #FFFFFF;
     background-color: transparent;
@@ -96,7 +98,7 @@ class TapLoader extends Component {
     -ms-letter-spacing: 0.79px;
     letter-spacing: 0.79px;
     text-align: center;
-    margin: 0;
+    margin: 0 auto;
     text-transform: uppercase;
     border: 2px solid #FFF;
     border-radius: 50px;
@@ -114,9 +116,9 @@ class TapLoader extends Component {
     `;
 
     return (
-      <div className="tap-msg" style={{zIndex: '99999999999999'}}>
-          <div className='tap-msg-wrapper'>
-            <div style={{width: '60px', height: '60px', margin: '0px 10px'}}>
+      <div className="tap-msg" style={{position:'relative',zIndex: '99999999999999'}}>
+          <div className='tap-msg-wrapper' style={window.innerWidth >= 440 ? style : {color:''}}>
+            <div style={{width: '60px', height: '60px', margin: 'auto'}}>
               <Loader
                 toggleAnimation={this.state.status}
                 animationData={this.state.loader}
@@ -129,7 +131,7 @@ class TapLoader extends Component {
             <p className='tap-msg-title' style={{color: this.props.color === 'white' ? this.props.color : '#4b4847'}}>{this.props.title}</p>
             <p className="tap-msg-desc" style={{color: this.props.color === 'white' ? '#a4a5a7' : '#797777'}}>{this.props.desc}</p>
             <br/>
-            {this.props.close ? <Btn onClick={this.handleClose.bind(this)}>Close</Btn> : null}
+            {this.props.close ? <Btn onClick={this.handleClose.bind(this)}>{this.props.closeTitle}</Btn> : null}
           </div>
       </div>
     );

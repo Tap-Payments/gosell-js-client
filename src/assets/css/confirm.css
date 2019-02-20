@@ -14,8 +14,15 @@
 .tap-confirm-back{
   width: 100%;
   height: 65px;
-  display: flex;
+  text-align: center;
+  /* display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   cursor: pointer;
+}
+
+.gosell-gateway-confirm-container{
+  text-align: center;
+  height: auto;
+  width: 100%;
 }

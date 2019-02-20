@@ -3,6 +3,7 @@ import styled from "styled-components";
 import '../assets/css/card.css';
 // import checkmark from '../assets/imgs/checkmark.svg';
 // import deleteIcon from '../assets/imgs/delete.svg';
+// import bank from '../assets/nbk.svg';
 import Paths from '../../webpack/paths';
 import {observer} from 'mobx-react';
 import {Loader} from '@tap-payments/loader';
@@ -49,21 +50,24 @@ class Card extends Component {
   }
 
   deleteCard(){
-    this.props.store.uIStore.delete_card = this.props.id;
-    this.props.store.uIStore.shakeCards(false);
+
+    var store = this.props.store;
+
+    store.uIStore.delete_card = this.props.id;
+    store.uIStore.shakeCards(false);
 
     this.setState({
       delete: true,
       shake: false
     });
 
-    this.props.store.uIStore.setErrorHandler({
+    store.uIStore.setErrorHandler({
       visable: true,
       type: 'warning',
       code: 'Delete Card',
-      msg: 'Are you sure you would like to delete card ●●●● ' + this.props.last4digits + '?',
+      msg: store.localizationStore.getContent('alert_delete_card_message', null).replace('%@', '●●●● ' + this.props.last4digits),
       options: [
-        {title: 'Confirm', action: this.confirmDeleteCard.bind(this, this.cardRef.id)},
+        {title: store.localizationStore.getContent('alert_cancel_payment_status_undefined_btn_confirm_title', null), action: this.confirmDeleteCard.bind(this, this.cardRef.id)},
         {title: '×', action: this.cancelDeleteCard.bind(this)},
       ]
     });
@@ -72,6 +76,10 @@ class Card extends Component {
   confirmDeleteCard(card_id){
     var self = this;
 
+    this.props.store.uIStore.getErrorHandler.options = [
+      {title: this.props.store.localizationStore.getContent('alert_cancel_payment_status_undefined_btn_confirm_title', null)},
+      {title: '×'},
+    ];
     this.props.store.uIStore.getErrorHandler.visable = false;
 
 
@@ -98,6 +106,9 @@ class Card extends Component {
                  shake: true,
                  loading: false
              });
+             // calculate the modal again
+             this.props.store.uIStore.calcElementsHeight('gosell-gateway-payment-options');
+
           });
         }
 
@@ -114,6 +125,10 @@ class Card extends Component {
       shake: true
     });
 
+    this.props.store.uIStore.getErrorHandler.options = [
+      {title: this.props.store.localizationStore.getContent('alert_cancel_payment_status_undefined_btn_confirm_title', null)},
+      {title: '×'},
+    ];
     this.props.store.uIStore.getErrorHandler.visable = false;
   }
 
@@ -151,7 +166,7 @@ class Card extends Component {
 
         {this.state.loading ?
         <div className="tap-progressbar-container" style={{opacity: this.state.fade ? 0 : 1}}>
-          <div style={{width: '40px', height: '40px', margin: '0px 10px'}}>
+          <div style={{width: '40px', height: '40px', margin: '30px auto',textAlign:'center'}}>
             <Loader
               toggleAnimation={this.state.delete}
               animationData={oneRingLoader}
@@ -175,9 +190,9 @@ class Card extends Component {
            : null}
 
             <React.Fragment>
-            <div className='tap-contents' style={{opacity: this.state.fade ? 0 : 1}}>{this.props.bank ? <img src={this.props.scheme} width='30'/> : <br style={{lineHeight:'1.5'}}/> }</div>
+            <div className='tap-contents' style={{opacity: this.state.fade ? 0 : 1, paddingTop: this.state.fade? "0px" : "5px"}}>{this.props.bank ? <img src={this.props.scheme} width='30'height='100%'/> : <br style={{lineHeight:'1.5'}}/> }</div>
             <div className='tap-contents' style={this.state.fade ? {opacity: 0, padding:'5px 0px'} : {opacity: 1, padding:'5px 0px'}}>
-              {this.props.bank ? <img src={this.props.bank} width='30'/> : <img src={this.props.scheme} height='27'/>}
+              {this.props.bank ? <img src={this.props.bank} width='30' height='100%'/> : <img src={this.props.scheme} height='27' width='100%'/>}
             </div>
             <div className='tap-contents' style={{opacity: this.state.fade ? 0 : 1}}>
               <div className={store.paymentStore.selected_card === this.props.id && !this.state.shake && !this.state.delete ? "checkbox show" : "checkbox"} ></div>

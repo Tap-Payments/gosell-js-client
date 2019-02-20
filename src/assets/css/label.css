@@ -10,7 +10,8 @@
 }
 
 .tap-label{
-  font-family: 'Roboto-Regular', sans-serif;
+  /* font-family: 'Roboto-Regular', sans-serif; */
+  font-weight: 800;
   font-size: 13px;
   color: #595959;
   text-transform: uppercase;
@@ -19,7 +20,8 @@
 }
 
 .tap-edit{
-  font-family: 'Roboto-Regular', sans-serif;
+  /* font-family: 'Roboto-Regular', sans-serif; */
+  font-weight: 800;
   font-size: 13px;
   color: #595959;
   margin: 0;

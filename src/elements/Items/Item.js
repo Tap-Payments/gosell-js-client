@@ -14,9 +14,6 @@ class Item extends Component {
     var align = this.props.dir === 'ltr' ? 'left' : 'right';
 
     const ItemContainer = styled.div`
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
       margin: 16px;
       height: auto;
       min-height: ${this.props.discount ? '50px' : '30px'};
@@ -25,21 +22,14 @@ class Item extends Component {
     const Icon = styled.div`
       background: #fff;
       border: 1px solid #e9e9e9;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
       width: 40px;
       height: 40px;
       border-radius: 100%;
     `
 
     const ItemDescContainer = styled.div`
-      display: flex;
-      flex-direction: column;
       margin: 0px 10px 0px 10px;
+      text-align: ${this.props.dir === 'rtl' ? 'right' : 'left'};
     `
 
     const Title = styled.div`
@@ -56,7 +46,8 @@ class Item extends Component {
       width: 40px;
       height: 20px;
       background: #6B6F73;
-      font-family: Roboto-Regular;
+      /* font-family: Roboto-Regular; */
+      font-weight: 800;
       font-size: 13px;
       color: #F0F1F2;
       -webkit-letter-spacing: 0;
@@ -65,26 +56,36 @@ class Item extends Component {
       letter-spacing: 0;
       text-align: center;
       border-radius: 40px;
-      margin: 0px 10px 0px 10px;
+      margin: ${this.props.dir === 'rtl' ? '0px 20px 0px 20px' : '0px 10px 0px 10px'};
+      display: inline-block;
+      float: ${this.props.dir === 'rtl' ? 'right' : ''};
+      @media (max-width: 767px){
+        margin: 0;
+      }
     `
 
     const TotalAmount = styled.div`
-      font-family: Roboto-Regular;
+      /* font-family: Roboto-Regular; */
+      font-weight: 800;
       font-size: 14px;
       color: #4A4F54;
       letter-spacing: -0.11px;
       text-align: right;
       margin: 0px 10px 0px 10px;
+      display: inline-block;
       `
+      console.log('----this.props.dir---');
+      console.log(this.props.dir);
 
     const Side1 = styled.div`
-      display: flex;
+      width: 50%;
       float: ${this.props.dir === 'ltr' ? 'left' : 'right'};
     `
     const Side2 = styled.div`
-      display: flex;
+      width: 50%;
       float: ${this.props.dir === 'ltr' ? 'right' : 'left'};
-      align-items: center;
+      text-align: ${this.props.dir === 'ltr' ? 'right' : 'left'};
+      margin: 19px 0px;
     `
 
     return (

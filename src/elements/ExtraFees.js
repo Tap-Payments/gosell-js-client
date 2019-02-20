@@ -22,14 +22,18 @@ class ExtraFees extends Component {
     fees = store.uIStore.formatNumber(fees.toFixed(current.decimal_digit));
 
     let total = store.paymentStore.active_payment_option_total_amount;
-    console.log("total ******** ", total);
+
     total = total > 0 ? store.uIStore.formatNumber(total.toFixed(current.decimal_digit)) : total;
+    let symbol = store.localizationStore.getContent('supported_currencies_symbol_' + current.currency.toLowerCase(), null);
+
+    let total_fees = store.uIStore.getDir === 'rtl' ? (fees + symbol) : (symbol + fees);
+    let total_amount = store.uIStore.getDir === 'rtl' ? (total + symbol) : (symbol+ total);
 
     return (
         <Confirm index={1} store={store}>
             <div dir={this.props.dir} className="tap-extra-fees-container">
-              <p className="tap-extra-fees-title">Confirm Extra Charges</p>
-              <p className="tap-extra-fees-msg">You will be charged an additional fee of {current.symbol + fees} for the type of payment, totalling an amount of {current.symbol+ total}.</p>
+              <p className="tap-extra-fees-title">{store.localizationStore.getContent('alert_extra_charges_title', null)}</p>
+              <p className="tap-extra-fees-msg">{store.localizationStore.getContent('alert_extra_charges_message', null).replace('%@', total_fees).replace('%@', total_amount)}</p>
             </div>
         </Confirm>
       );

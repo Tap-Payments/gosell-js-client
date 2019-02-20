@@ -2,7 +2,6 @@ import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
 import {Modal, Header, NotificationBar} from '../lib/modal/';
 import Paths from '../../webpack/paths';
-import '../assets/css/fonts.css';
 import '../assets/css/style.css';
 import MainView from './MainView';
 import Details from './Details';
@@ -12,18 +11,17 @@ import RootStore from '../store/RootStore.js';
 class GoSell extends Component {
 
   //open Tap gateway as a light box by JS library
-  static openLightBox(e){
+  static openLightBox(){
     RootStore.uIStore.modal_mode = 'popup';
 
     GoSell.handleView();
 
     RootStore.configStore.configure().then(result => {
+      RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null), null);
       if(!GoSell.showTranxResult()){
-        setTimeout(function(){
-          if(RootStore.configStore.legalConfig){
-            RootStore.apiStore.init();
-          }
-        }, 1000);
+        if(RootStore.configStore.legalConfig){
+          RootStore.apiStore.init();
+        }
       }
     });
 
@@ -34,18 +32,14 @@ class GoSell extends Component {
 
     RootStore.uIStore.modal_mode = 'page';
 
-    RootStore.uIStore.startLoading('loader', 'Please Wait', null);
-
     GoSell.handleView();
 
     RootStore.configStore.configure().then(result => {
-      console.log('legalllllll', RootStore.configStore.legalConfig);
+      RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null), null);
       if(!GoSell.showTranxResult()){
-        setTimeout(function(){
-          if(RootStore.configStore.legalConfig){
-            RootStore.apiStore.init();
-          }
-        }, 1000);
+        if(RootStore.configStore.legalConfig){
+          RootStore.apiStore.init();
+        }
       }
     });
 
@@ -56,26 +50,29 @@ class GoSell extends Component {
 
     GoSell.handleView();
 
-    RootStore.apiStore.createTransaction().then(result => {
-      console.log('transaction response', result);
+    RootStore.configStore.configure().then(result => {
 
-      if(result.status == 200){
-        window.open(result.data.transaction.url, '_self');
-        // GoSell.handleClose();
-      }
-    }).catch(error => {
-      console.log(error);
-    })
+      RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null), null);
+      RootStore.apiStore.createTransaction().then(result => {
+        console.log('transaction response', result);
+
+        if(result.status == 200){
+          window.open(result.data.transaction.url, '_self');
+          // GoSell.handleClose();
+        }
+      }).catch(error => {
+        console.log(error);
+      })
+    });
+
   }
 
   static handleView(){
-    RootStore.uIStore.getErrorHandler.visable = false;
 
-    RootStore.uIStore.startLoading('loader', 'Please Wait');
+    RootStore.uIStore.setErrorHandler({});
+    RootStore.uIStore.startLoading('loader', null, null);
 
     RootStore.uIStore.setOpenModal(true);
-
-    // RootStore.configStore.configure();
 
     var body =  document.body.children;
 
@@ -130,7 +127,7 @@ class GoSell extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.handleWindowSizeChange();
-    // console.log('nextProps', nextProps);
+    console.log('nextProps', nextProps);
     this.config(nextProps);
   }
 
@@ -140,7 +137,6 @@ class GoSell extends Component {
   }
 
   componentDidMount() {
-
     GoSell.showTranxResult();
 
     RootStore.uIStore.calcModalHeight();
@@ -187,7 +183,12 @@ class GoSell extends Component {
   static handleClose(){
       RootStore.uIStore.setOpenModal(false);
       RootStore.uIStore.getErrorHandler.visable = false;
-      RootStore.uIStore.startLoading('loader', 'Please Wait');
+      RootStore.uIStore.show_order_details = false;
+      RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null));
+
+      RootStore.uIStore.setSubPage(-1);
+      RootStore.uIStore.setPageIndex(0, 'x');
+      RootStore.actionStore.resetSettings();
 
       var body =  document.body.children;
 
@@ -200,39 +201,8 @@ class GoSell extends Component {
       }
   }
 
-  handleUI(){
-
-    // if(RootStore.uIStore.getIsMobile){
-    //
-    //   RootStore.uIStore.mode = {
-    //     mode: 'simple',
-    //     modalStyle: {
-    //       'modal': {marginTop: '10px'},
-    //       'body': {backgroundColor: '#E9E9E9', height: '90%', maxHeight: '90%'} //overflow: 'scroll',
-    //     },
-    //     headerStyle: {
-    //       'header': {backgroundColor: '#F7F7F7', height: '65px'},
-    //       'titleStyle': {cursor: 'pointer'},
-    //       'iconStyle': {width: '40px', height: '40px', borderRadius:'100%'}
-    //     }
-    //   }
-    //
-    // }
-    // else {
-    //
-    //   RootStore.uIStore.mode = {
-    //     mode: 'advanced',
-    //     modalStyle: {
-    //       'modal': {width:'400px',height: 'fit-content'},
-    //       'body': {backgroundColor: '#E9E9E9', height: 'fit-content', minHeight: '227px'}
-    //     },
-    //     headerStyle: {
-    //       'header': {backgroundColor: '#F7F7F7', height: 'auto', marginTop: '50px'},
-    //       'titleStyle': {cursor: 'pointer'},
-    //       'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
-    //     }
-    //   };
-    // }
+  close(){
+    RootStore.uIStore.getErrorHandler.visable = false;
   }
 
   closeModal(){
@@ -241,7 +211,10 @@ class GoSell extends Component {
     var urlParams = new URLSearchParams(window.location.search);
 
     if(urlParams.has('tap_id')){
-      window.open(RootStore.configStore.redirect_url, '_self');
+      var url = document.location.href;
+      var url = url.split('?');
+
+      window.open(url[0], '_self');
     }
     else {
       // RootStore.uIStore.setOpenModal(false);
@@ -263,6 +236,7 @@ class GoSell extends Component {
                   duration={5}
                   title={RootStore.uIStore.getMsg.title}
                   desc={RootStore.uIStore.getMsg.desc}
+                  closeTitle={RootStore.localizationStore.strings != null ? RootStore.localizationStore.getContent('close_btn_title', null) : 'Close'}
                   close={RootStore.uIStore.modal_mode === 'popup' ? RootStore.uIStore.getMsg.handleClose : null}
                   handleClose={this.closeModal.bind(this)}
                 />}

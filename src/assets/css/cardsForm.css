@@ -10,3 +10,11 @@ form#form-container{
   height: 100%;
   z-index: 999999999999;
 }
+
+.tap-form-content{
+  margin-bottom: 5px;
+}
+
+.gosell-card-form-active{
+  box-shadow: 0px 0px 5px #2ACE00, 0px 0px 5px #2ACE00;
+}

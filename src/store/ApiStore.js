@@ -1,19 +1,28 @@
 import {decorate, observable, computed} from 'mobx';
 import axios from 'axios';
 import Paths from '../../webpack/paths';
+import "@babel/polyfill";
 
 class ApiStore{
 
   constructor(RootStore) {
     this.RootStore = RootStore;
-    this.mode = null;
+    this.getMerchantDetailsFlag = false;
+    this.setPaymentOptionsFlag  = false;
+  }
+  updateLoader(){
+    if (this.getMerchantDetailsFlag && this.setPaymentOptionsFlag){
+      this.RootStore.uIStore.stopLoading();
+      this.getMerchantDetailsFlag = false;
+      this.setPaymentOptionsFlag  = false;
+    }
   }
 
   async auth(publicKey){
      var self = this;
 
      var body = {
-       "mode": "Development",
+       "mode": "Production",
        "headers": {
          "authorization": "Bearer " + publicKey,
        }
@@ -47,13 +56,14 @@ class ApiStore{
 
        }
        else if(response.data.error || response.data.errors){
-           self.showError(response.data);
+           self.sendResponse(response.data);
        }
 
      })
      .catch(function (error) {
-       self.showError(error);
-       console.log(error);
+       self.sendResponse(error);
+       // console.log(error);
+
      });
 
      return await res;
@@ -61,120 +71,79 @@ class ApiStore{
   }
 
   async init(){
+    console.log(
+      "%cinit()",
+      "background: yellow; color: black; display: block;"
+    );
      var self = this;
 
      this.RootStore.uIStore.dir = this.RootStore.configStore.language === 'ar' ? 'rtl' : 'ltr';
 
-     var payment = null, merchant = null;
-
-     console.log('session ', self.RootStore.merchantStore.session);
+     // console.log('session ', self.RootStore.merchantStore.session);
 
      if(self.RootStore.merchantStore.session == null){
 
-       console.log('public key', this.RootStore.configStore.gateway.publicKey);
+       // console.log('public key', this.RootStore.configStore.gateway.publicKey);
        await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
          console.log('auth response from init ', result);
-           if(result.error || result.errors){
-             self.showError(result);
-           }
+         if(result.error || result.errors){
+           self.sendResponse(result);
+         }  else {
+           self.getMerchantDetails();
+           self.setPaymentOptions();
+         }
 
        });
+     }  else {
+       self.getMerchantDetails();
+       self.setPaymentOptions();
      }
-
-      merchant = await self.getMerchantDetails();
-      payment = await self.setPaymentOptions();
-
-      console.log('**** merchant', merchant);
-      console.log('**** payment', payment);
-
-      if(payment.status == 200 && merchant.status == 200){
-        this.RootStore.uIStore.stopLoading();
-        return await payment;
-      }
-
    }
 
- // async init(){
- //    var self = this;
- //
- //    this.RootStore.uIStore.dir = this.RootStore.configStore.language === 'ar' ? 'rtl' : 'ltr';
- //
- //    var body = {
- //      "mode": "Development",
- //      "headers": {
- //        "authorization": "Bearer " + this.RootStore.configStore.gateway.publicKey,
- //      }
- //    }
- //
- //    var res = null, data = null, payment = null, merchant = null;
- //    await axios.post(Paths.serverPath + '/init', body)
- //    .then(async function (response) {
- //
- //      res = response.data;
- //
- //      console.log('init response', res);
- //
- //      if(res.status === 'success'){
- //
- //        data = res.data;
- //        self.mode = data.live_mode;
- //        self.RootStore.merchantStore.merchant = {id: data.merchant_id, name: data.merchant_name};
- //        self.RootStore.merchantStore.pk = self.RootStore.configStore.gateway.publicKey;
- //        self.RootStore.merchantStore.session = data.session_token;
- //
- //        self.RootStore.paymentStore.status_display_duration = data.sdk_settings.status_display_duration;
- //        self.RootStore.paymentStore.otp_resend_interval = data.sdk_settings.otp_resend_interval;
- //        self.RootStore.paymentStore.otp_resend_attempts = data.sdk_settings.otp_resend_attempts;
- //
- //        self.RootStore.paymentStore.card_wallet = data.permission.card_wallet;
- //        self.RootStore.paymentStore.setThreeDSecure(data.permission.threeDSecure);
- //
- //        merchant = await self.getMerchantDetails();
- //
- //        payment = await self.setPaymentOptions();
- //
- //      }
- //      else {
- //        self.RootStore.uIStore.showMsg('warning', res.errors[0].description, res.errors[0].code);
- //      }
- //    })
- //    .catch(function (error) {
- //      console.log(error);
- //    });
- //
- //      if(res.status === 'success' && payment.status == 200 && merchant.status == 200){
- //         this.RootStore.uIStore.stopLoading();
- //         return await res;
- //       }
- //       else {
- //         return await null;
- //       }
- //
- //  }
-
- showError(json) {
+ sendResponse(json) {
     var self = this;
 
     if(json.errors){
-      self.RootStore.uIStore.showMsg('warning', json.errors[0].description, json.errors[0].code);
+      console.log(json.errors);
+      self.RootStore.configStore.callbackFunc(json);
+
+      if(json.errors[0].code == 99999){
+        self.RootStore.uIStore.showMsg('warning', self.RootStore.localizationStore.getContent('session_error_msg', null), null);
+      }
+      else {
+        self.RootStore.uIStore.showMsg('warning', self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null), null);
+      }
     }
     else if(json.error){
-      self.RootStore.uIStore.showMsg('warning', json.error.description, json.error.code);
+      console.log(json.error);
+      self.RootStore.configStore.callbackFunc(json);
+
+      if(json.error.code == 99999){
+        self.RootStore.uIStore.showMsg('warning', self.RootStore.localizationStore.getContent('session_error_msg', null), null);
+      }
+      else {
+        self.RootStore.uIStore.showMsg('warning', self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null), null);
+      }
     }
     else if(json.response){
-      self.RootStore.uIStore.showMsg('error', json.response.message, json.id);
+      console.log(json.response);
+      self.RootStore.configStore.callbackFunc(json);
+      self.RootStore.uIStore.showMsg('warning', self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null), null);
+      // self.RootStore.uIStore.showMsg('error', json.response.message, json.id);
     }
-    else if(json.message){
-      self.RootStore.uIStore.showMsg('warning', json.message, json.code);
-    }
-    else {
-      self.RootStore.uIStore.showMsg('warning', 'Something went wrong!', null);
-    }
-
+    // else if(json.message){
+    //   console.log(json.message);
+    //   self.RootStore.configStore.callbackFunc(json.message);
+    //   // self.RootStore.uIStore.showMsg('warning', json.message, json.code);
+    // }
+    // else {
+    //   self.RootStore.uIStore.showMsg('warning', 'Something went wrong!', null);
+    // }
   }
 
   async setPaymentOptions(){
     var self = this;
+    self.setPaymentOptionsFlag  = false;
 
     var headers = {
       'session_token':self.RootStore.merchantStore.session
@@ -218,38 +187,33 @@ class ApiStore{
        res = response;
        console.log('**** options API', res);
 
-       if(response.data.code != 100){
          if(response.status == 200){
+           self.setPaymentOptionsFlag  = true;
 
            if(response.data.error || response.data.errors){
-             self.showError(response.data);
+             self.sendResponse(response.data);
            }
            else {
-             console.log('****', 'hey Im in else');
              await self.RootStore.paymentStore.getPaymentMethods(response.data, self.RootStore.configStore.order ? self.RootStore.configStore.order.currency : null);
-             console.log('****', 'hey Im in else');
            }
 
          }
          else {
             // self.RootStore.uIStore.showMsg('warning', response.data.errors[0].description, response.data.errors[0].code);
-            self.showError(response.data);
+            self.sendResponse(response.data);
          }
-       }
-       else {
-         self.showError(response.data);
-         // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
-       }
+
     })
     .catch(function (error) {
       console.log("error", error);
     });
-
+    self.updateLoader()
     return await res;
   }
 
   async getMerchantDetails(){
     var self = this;
+    self.getMerchantDetailsFlag = false
 
     var headers = {
       'session_token': self.RootStore.merchantStore.session
@@ -270,36 +234,32 @@ class ApiStore{
       res = response;
       console.log('**** merchant API', res);
 
-      if(response.data.code != 100){
         if(res.status == 200){
+          self.getMerchantDetailsFlag = true
 
-          if(response.data.error || response.data.errors){
-            self.showError(response.data);
+          if(res.data.error || res.data.errors){
+            self.sendResponse(res.data);
           }
           else {
-            await self.RootStore.merchantStore.setDetails(response.data);
+            await self.RootStore.merchantStore.setDetails(res.data);
           }
 
         }
         else {
             // self.RootStore.uIStore.showMsg('warning', response.data.errors[0].description, response.data.errors[0].code);
-            await self.showError(response.data);
+            await self.sendResponse(res.data);
         }
-      }
-      else {
-        self.showError(response.data);
-        // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
-      }
+
 
     })
     .catch(function (error) {
       console.log(error);
     });
-
+    self.updateLoader()
     return await res;
   }
 
-  async createTransaction(){
+  async createTransaction(publicKey){
      var self = this;
 
      var transaction = null;
@@ -320,7 +280,7 @@ class ApiStore{
        }
        else {
          if(result.error || result.errors){
-           self.showError(result);
+           self.sendResponse(result);
          }
        }
 
@@ -337,87 +297,72 @@ class ApiStore{
     switch (this.RootStore.configStore.transaction_mode) {
       case 'charge':
         transaction = this.charge(source, type, fees).then(async chg => {
-
-          if(chg.data.code != 100){
+          console.log('charge', chg.data);
             if(chg.status == 200){
-                if(chg.data.status && chg.data.status.toUpperCase() === 'INITIATED' && type !== 'CARD'){
-                  console.log('INITIATED', chg.data);
-                  window.open(chg.data.transaction.url, '_self');
-                }
-                else if(chg.data.status && chg.data.status.toUpperCase() === 'CAPTURED' && type !== 'CARD'){
-                  console.log('CAPTURED form');
-                  self.RootStore.uIStore.showMsg('success', 'Successful Transaction', chg.data.id);
-                }
-                else if(chg.data.status &&  chg.data.status.toUpperCase() === 'INITIATED' && type === 'CARD'){
-                  console.log('CAPTURED card', chg.data);
-                  self.RootStore.paymentStore.charge = chg.data;
-                  console.log('charge id', chg.data.id);
-                  self.RootStore.paymentStore.authenticate = chg.data.authenticate;
 
-                  if(chg.data.authenticate && chg.data.authenticate.status === 'INITIATED'){
+                if(chg.data.status && chg.data.status.toUpperCase() === 'INITIATED'){
+                  // console.log('chg.data.transaction', chg.data.transaction);
+                  // console.log('chg.data.authenticate', chg.data.authenticate);
 
-                    // self.RootStore.uIStore.getIsMobile ? self.RootStore.uIStore.setSubPage(0) : self.RootStore.uIStore.setSubPage(-1);
-                    self.RootStore.uIStore.setPageIndex(2, 'y');
-                    // self.RootStore.uIStore.confirm = 1;
+                  if(chg.data.transaction && chg.data.transaction.url){
+                      window.open(chg.data.transaction.url, '_self');
+                  } else if(chg.data.authenticate){
+                      self.RootStore.paymentStore.charge = chg.data;
+                      self.RootStore.paymentStore.authenticate = chg.data.authenticate;
+
+                      if(chg.data.authenticate.status === 'INITIATED'){
+                        self.RootStore.uIStore.setPageIndex(2, 'y');
+                        self.RootStore.uIStore.stopBtnLoader();
+                      }
                   }
                 }
+                else if(chg.data.status && chg.data.status.toUpperCase() === 'CAPTURED'){
+                  self.sendResponse(chg.data);
+                  self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), chg.data.id);
+                }
                 else {
-                  self.showError(chg.data);
-                  // self.RootStore.uIStore.showMsg('error', chg.data.response.message, chg.data.id);
-                  // console.log('charge id', chg.data.id);
+                  self.sendResponse(chg.data);
+                  self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), chg.data.id);
                 }
             }
             else {
-                self.showError(chg.data);
+              self.sendResponse(chg.data);
+              self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), null);
             }
-          }
-          else {
-            self.showError(chg.data);
-            // self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
-          }
         });
         break;
       case 'authorize':
         transaction = this.authorize(source, type, fees).then(async auth => {
+          if(auth.status == 200){
 
-          if(auth.data.code != 100){
-            if(auth.status == 200){
+              if(auth.data.status && auth.data.status.toUpperCase() === 'INITIATED'){
+                console.log('auth.data.transaction', auth.data.transaction);
+                console.log('auth.data.authenticate', auth.data.authenticate);
 
-                if(auth.data.status.toUpperCase() === 'INITIATED' && type !== 'CARD'){
-                  console.log('INITIATED', auth.data);
-                  window.open(auth.data.transaction.url, '_self');
-                }
-                else if(auth.data.status.toUpperCase() === 'AUTHORIZED' && type !== 'CARD'){
-                  console.log('AUTHORIZED form');
-                  self.RootStore.uIStore.showMsg('success', 'Authorized Transaction', auth.data.id);
-                }
-                else if(auth.data.status.toUpperCase() === 'CAPTURED' && type !== 'CARD'){
-                  console.log('CAPTURED form');
-                  self.RootStore.uIStore.showMsg('success', 'Captured Transaction', auth.data.id);
-                }
-                else if(auth.data.status.toUpperCase() === 'INITIATED' && type === 'CARD'){
-                  console.log('CAPTURED card', auth.data);
-                  self.RootStore.paymentStore.authorize = auth.data;
-                  console.log('charge id', auth.data.id);
-                  self.RootStore.paymentStore.authenticate = auth.data.authenticate;
+                if(auth.data.transaction && auth.data.transaction.url){
+                    window.open(auth.data.transaction.url, '_self');
+                } else if(auth.data.authenticate){
+                    self.RootStore.paymentStore.charge = auth.data;
+                    self.RootStore.paymentStore.authenticate = auth.data.authenticate;
 
-                  if(auth.data.authenticate && auth.data.authenticate.status === 'INITIATED'){
-                    self.RootStore.uIStore.getIsMobile ? self.RootStore.uIStore.setSubPage(0) : self.RootStore.uIStore.setSubPage(-1);
-                    self.RootStore.uIStore.setPageIndex(2, 'y');
-                  }
+                    if(auth.data.authenticate.status === 'INITIATED'){
+                      self.RootStore.uIStore.setPageIndex(2, 'y');
+                      self.RootStore.uIStore.stopBtnLoader();
+                    }
                 }
-                else {
-                  // self.RootStore.uIStore.showMsg('error', auth.data.response.message, null);
-                  self.showError(auth.data);
-                }
-            }
-            else {
-                self.showError(auth.data);
-            }
+              }
+              else if(auth.data.status && (auth.data.status.toUpperCase() === 'VOID' || auth.data.status.toUpperCase() === 'AUTHORIZED' || auth.data.status.toUpperCase() === 'CAPTURED')){
+                self.sendResponse(auth.data);
+                self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), auth.data.id);
+              }
+              else {
+                self.sendResponse(auth.data);
+                self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), auth.data.id);
+              }
           }
           else {
-            self.showError(auth.data);
-            // self.RootStore.uIStore.showMsg('warning', chg.data.message, chg.data.code);
+            self.sendResponse(auth.data);
+            self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), null);
           }
 
         });
@@ -473,13 +418,14 @@ class ApiStore{
     .then(async function (response) {
       res = response;
       console.log('charge', response);
-
-      console.log('type ==============> ', type);
-
-      if(response.data.code == 100){
-        self.showError(response.data);
-        // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
-      }
+      // self.RootStore.configStore.callbackFunc(response.data);
+      //
+      // console.log('type ==============> ', type);
+      //
+      // if(response.data.code == 100){
+      //   self.sendResponse(response.data);
+      //   // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
+      // }
 
     })
     .catch(function (error) {
@@ -542,10 +488,12 @@ class ApiStore{
       res = response;
       console.log('authorize', res);
 
-      if(response.data.code == 100){
-        self.showError(response.data);
-        // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
-      }
+      // self.RootStore.configStore.callbackFunc(response.data);
+      //
+      // if(response.data.code == 100){
+      //   self.sendResponse(response.data);
+      //   // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
+      // }
 
 
     })
@@ -561,21 +509,16 @@ class ApiStore{
 
      var transaction = null;
 
-     // console.log('session ', self.RootStore.merchantStore.session);
-
      if(self.RootStore.merchantStore.session == null){
        await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
          console.log('auth response from getTransaction', result);
          if(result.status !== 'success'){
-           self.showError(result);
-           // self.RootStore.uIStore.showMsg('warning', result.errors[0].description, result.errors[0].code);
+           self.sendResponse(result);
          }
-
        });
      }
 
      var type = id.substring(0,4);
-     console.log('type ====================> ', type);
 
      switch (type) {
        case 'chg_':
@@ -599,7 +542,7 @@ class ApiStore{
           await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
             console.log('auth response from getTransactionResult', result);
             if(result.status !== 'success'){
-              self.showError(result);
+              self.sendResponse(result);
               // self.RootStore.uIStore.showMsg('warning', result.errors[0].description, result.errors[0].code);
             }
 
@@ -611,69 +554,57 @@ class ApiStore{
         switch (type) {
           case 'chg_':
             await self.getCharge(id).then(async charge => {
+
                 if(charge.status == 200){
                     transaction = charge;
-                    if(charge.data.status && charge.data.status.toUpperCase() === 'CAPTURED'){
+                    if(charge.data.status && charge.data.status.toUpperCase() === 'INITIATED'){
+                        window.open(chg.data.transaction.url, '_self');
+                    }
+                    else if(charge.data.status && charge.data.status.toUpperCase() === 'CAPTURED'){
                       console.log('CAPTURED', charge.data);
 
-                      if(self.RootStore.configStore.gateway.notifications && self.RootStore.configStore.gateway.notifications !== 'standard'){
-                        document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = 'Successful';
-                      }
-                      else {
-                        self.RootStore.uIStore.showMsg('success', "Successful Transaction", charge.data.id);
-                      }
+                      self.RootStore.configStore.callbackFunc(charge.data);
+                      self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), charge.data.id);
                     }
                     else {
-                      if(self.RootStore.configStore.gateway.notifications && self.RootStore.configStore.gateway.notifications !== 'standard'){
-                        document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = charge.data.response.message;
-                      }
-                      else {
-                        self.showError(charge.data);
-                        // self.RootStore.uIStore.showMsg('warning', charge.data.response.message, charge.data.id);
-                      }
-
+                      self.sendResponse(charge.data);
+                      self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), charge.data.id);
                     }
               }
               else {
                 console.log('error', charge);
-                self.showError(charge.data);
-                // self.RootStore.uIStore.showMsg('error', charge.data.errors[0].description, null);
+                self.sendResponse(charge.data);
+                self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), null);
+
               }
             });
             break;
           case 'auth':
             console.log('In auth');
             await self.getAuthorize(id).then(async auth => {
+
               console.log('auth res', auth);
               if(auth.status == 200){
                   transaction = auth;
-                  if(auth.data.status && auth.data.status.toUpperCase() === 'AUTHORIZED'){
-                    console.log('CAPTURED', auth.data);
-                    console.log('uIStore', self.RootStore.uIStore.notifications);
 
-                    if(self.RootStore.configStore.gateway.notifications && self.RootStore.configStore.gateway.notifications !== 'standard'){
-                      document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = 'Successful';
-                    }
-                    else {
-                      self.RootStore.uIStore.showMsg('success', "Successful Transaction", auth.data.id);
-                    }
+                  if(auth.data.status && auth.data.status.toUpperCase() === 'INITIATED'){
+                      window.open(auth.data.transaction.url, '_self');
+                  }
+                  else if(auth.data.status && (auth.data.status.toUpperCase() === 'VOID' || auth.data.status.toUpperCase() === 'CAPTURED' || auth.data.status.toUpperCase() === 'AUTHORIZED')){
+                    console.log(auth.data);
+                    self.RootStore.configStore.callbackFunc(charge.data);
+                    self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), auth.data.id);
                   }
                   else {
-                    if(self.RootStore.configStore.gateway.notifications && self.RootStore.configStore.gateway.notifications !== 'standard'){
-                      document.getElementById(self.RootStore.configStore.gateway.notifications).innerHTML = auth.data.response.message;
-                    }
-                    else {
-                      self.showError(auth.data);
-                      // self.RootStore.uIStore.showMsg('warning', auth.data.response.message, auth.data.id);
-                    }
-
+                    self.sendResponse(auth.data);
+                    self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), charge.data.id);
                   }
 
               }
               else {
                 console.log('error', auth.data);
-                self.showError(auth.data);
-                // self.RootStore.uIStore.showMsg('error', auth.data.errors[0].description, null);
+                self.sendResponse(auth.data);
+                self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), null);
               }
             });
             break;
@@ -768,11 +699,6 @@ class ApiStore{
     .then(async function (response) {
       res = response;
 
-      if(response.data.code == 100){
-        self.showError(response.data);
-          // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
-      }
-
     })
     .catch(function (error) {
       console.log('error', error);
@@ -801,10 +727,6 @@ class ApiStore{
     .then(async function (response) {
       res = response;
 
-      if(response.data.code == 100){
-        self.showError(response.data);
-         // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
-      }
     })
     .catch(function (error) {
       console.log('error', error);
@@ -833,22 +755,16 @@ class ApiStore{
     .then(async function (response) {
       res = response.data;
 
-      if(res.code != 100){
-        if(response.status != 200){
-          console.log('error', res);
-
-          self.RootStore.uIStore.setErrorHandler({
-            visable: true,
-            code: res.status,
-            msg: res.message,
-            type: 'error'
-          });
-
-        }
+      if(response.status == 200 && (res.error || res.errors)){
+          self.sendResponse(response.data);
       }
       else {
-        self.showError(response.data);
-        // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
+        self.RootStore.uIStore.setErrorHandler({
+          visable: true,
+          code: res.status,
+          msg: res.message,
+          type: 'error'
+        });
       }
 
     })
@@ -884,18 +800,27 @@ class ApiStore{
 
        res = response.data;
 
-       if(res.code != 100){
          if(response.status == 200){
            console.log(res);
 
-           setTimeout(function(){
+           if(response.data.error || response.data.errors){
              self.RootStore.uIStore.setErrorHandler({
                visable: true,
-               code: 'success',
-               msg: 'The card has been deleted Successfully!',
-               type: 'success'
+               code: 'error',
+               msg: 'Something went wrong!',
+               type: 'error'
              });
-           }, 200);
+           }
+           else {
+             setTimeout(function(){
+               self.RootStore.uIStore.setErrorHandler({
+                 visable: true,
+                 code: 'success',
+                 msg: 'The card has been deleted Successfully!',
+                 type: 'success'
+               });
+             }, 200);
+           }
 
          }
          else {
@@ -909,11 +834,7 @@ class ApiStore{
            });
 
          }
-       }
-       else {
-         self.showError(response.data);
-         // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
-       }
+
 
     })
     .catch(function (error) {
@@ -923,54 +844,56 @@ class ApiStore{
     return await res;
   }
 
-  async updateCardsList(){
-    var self = this;
-
-    var headers = {
-      'session_token':self.RootStore.merchantStore.session
-    }
-
-    var body = {
-      "mode": "Production",
-      "method": "GET",
-      "path": "/v2/card/"+ this.RootStore.configStore.customer.id,
-      "headers": headers
-    }
-
-    var res = null;
-
-    await axios.post(Paths.serverPath + '/api', body)
-    .then(async function (response) {
-      res = response.data;
-
-      console.log('get cards response', res);
-
-      if(res.code != 100){
-        if(response.status == 200){
-          console.log('cards list', res.data);
-          self.RootStore.paymentStore.setCards(res.data);
-
-        }
-        else {
-          console.log('error', res);
-        }
-      }else{
-        // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
-        self.showError(response.data);
-      }
-
-    })
-    .catch(function (error) {
-      console.log('error', error);
-      // self.RootStore.uIStore.setErrorHandler({
-      //   visable: true,
-      //   code: error.status ? error.status : null,
-      //   msg: error.message ? error.message : null,
-      //   type: 'error'
-      // });
-    });
-    return await res;
-  }
+  // async updateCardsList(){
+  //   var self = this;
+  //
+  //   var headers = {
+  //     'session_token':self.RootStore.merchantStore.session
+  //   }
+  //
+  //   var body = {
+  //     "mode": "Production",
+  //     "method": "GET",
+  //     "path": "/v2/card/"+ this.RootStore.configStore.customer.id,
+  //     "headers": headers
+  //   }
+  //
+  //   var res = null;
+  //
+  //   await axios.post(Paths.serverPath + '/api', body)
+  //   .then(async function (response) {
+  //     res = response.data;
+  //
+  //     console.log('get cards response', res);
+  //
+  //       if(response.status == 200){
+  //         console.log('cards list', res.data);
+  //         if(res.error || res.errors){
+  //           self.sendResponse(response.data);
+  //         }
+  //         else {
+  //           self.RootStore.paymentStore.setCards(res.data);
+  //         }
+  //
+  //       }
+  //       else {
+  //         console.log('error', res);
+  //         self.sendResponse(response.data);
+  //       }
+  //
+  //
+  //   })
+  //   .catch(function (error) {
+  //     console.log('error', error);
+  //     // self.RootStore.uIStore.setErrorHandler({
+  //     //   visable: true,
+  //     //   code: error.status ? error.status : null,
+  //     //   msg: error.message ? error.message : null,
+  //     //   type: 'error'
+  //     // });
+  //   });
+  //   return await res;
+  // }
 
   async getSavedCardToken(card){
     var self = this;
@@ -1000,8 +923,9 @@ class ApiStore{
       res = response;
       console.log('token', res);
 
-      if(response.data.code != 100){
-        if(res.status != 200){
+        if(res.status == 200 && (res.data.error || res.data.errors)){
+          self.sendResponse(res.data);
+        }else{
           var error = res.data;
           console.log('error', error);
 
@@ -1013,11 +937,6 @@ class ApiStore{
           });
 
         }
-      }
-      else {
-        self.showError(response.data);
-        // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
-      }
 
     })
     .catch(function (error) {
@@ -1062,19 +981,21 @@ class ApiStore{
 
       console.log('get customer response', res);
 
-      if(response.data.code != 100){
         if(res.status == 200){
           console.log('customer', res.data);
-          self.RootStore.configStore.customer = res.data;
+
+          if(res.data.error || res.data.errors){
+              self.sendResponse(res.data);
+          }
+          else {
+            self.RootStore.configStore.customer = res.data;
+          }
+
         }
         else {
           console.log('error', res);
+          self.sendResponse(res.data);
         }
-      }
-      else {
-        self.showError(response.data);
-        // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
-      }
 
     })
     .catch(function (error) {
@@ -1095,7 +1016,12 @@ class ApiStore{
     else {
       this.createCustomer().then(result => {
         if(result.status == 200){
-          self.createCard(self.RootStore.configStore.customer.id, token);
+          if(result.error || result.errors){
+              self.sendResponse(res.data);
+          }
+          else {
+            self.createCard(self.RootStore.configStore.customer.id, token);
+          }
         }
       });
     }
@@ -1103,6 +1029,8 @@ class ApiStore{
 
   async createCard(customer_id, token){
     var self = this;
+
+    self.RootStore.uIStore.startLoading('loader', self.RootStore.localizationStore.getContent('please_wait_msg', null), null);
 
     var headers = {
       'session_token':self.RootStore.merchantStore.session
@@ -1125,12 +1053,20 @@ class ApiStore{
 
       res = response.data;
 
+      self.RootStore.configStore.callbackFunc(response.data);
+
       console.log('charge', res);
 
-      if(res.code != 100){
         if(response.status == 200){
           console.log('card', res);
-          self.RootStore.uIStore.showMsg('success', 'The card has been saved!', res.id);
+
+          if(res.error || res.errors){
+              self.sendResponse(res.data);
+          }
+          else {
+            self.RootStore.uIStore.showMsg('success', 'The card has been saved!', res.id);
+          }
+
         }
         else {
           console.log('error', res);
@@ -1138,15 +1074,11 @@ class ApiStore{
           // self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
           //
           // setTimeout(function(){
-          self.showError(response.data);
+          self.sendResponse(response.data);
             // self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
           // }, 1000);
         }
-      }
-      else {
-        self.showError(response.data);
-        // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
-      }
+
 
     })
     .catch(function (error) {
@@ -1189,40 +1121,28 @@ class ApiStore{
     .then(async function (response) {
       res = response.data;
 
-      if(res.code != 100){
         if(response.status == 200){
 
           console.log('otp response', response);
           console.log('otp auth', res);
-          if(res.status === 'INITIATED'){
+          if(res.status === 'INITIATED' && res.transaction.url){
             window.open(res.transaction.url, '_self');
           }
-          else if(res.status === 'CAPTURED'){
-            self.RootStore.uIStore.showMsg('success', 'Captured Transaction', res.id);
-          }
-          else if(res.status === 'AUTHORIZED'){
-            self.RootStore.uIStore.showMsg('success', 'Authorized Transaction', res.id);
+          else if(res.status === 'CAPTURED' || (self.RootStore.configStore.transaction_mode == 'authorize' && (res.status === 'VOID' || res.status === 'AUTHORIZED'))){
+            self.RootStore.configStore.callbackFunc(response.data);
+            self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), res.id);
           }
           else {
-            // if(res.errors){
-            //   self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
-            // }
-            // else {
-            //   self.RootStore.uIStore.showMsg('error', res.response.message, res.id);
-            // }
-
-            self.showError(response.data);
+            self.sendResponse(response.data);
+            self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), res.id);
           }
         }
         else {
           console.log('error', res);
-          self.showError(response.data);
-          // self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
+          self.sendResponse(response.data);
+          self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), res.id);
         }
-      }else {
-        self.showError(response.data);
-        // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
-      }
+
     })
     .catch(function (error) {
       console.log('error', error);
@@ -1262,44 +1182,25 @@ class ApiStore{
       res = response.data;
       console.log('request authentication', res);
 
-      if(res.code != 100){
         if(response.status == 200){
           console.log('res', res);
 
-          if(res.status === 'DECLINED'){
-            self.RootStore.uIStore.setErrorHandler({});
-
-            // self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
-            //
-            // setTimeout(function(){
-              // self.RootStore.uIStore.showMsg('error', res.response.message, res.id);
-              self.showError(response.data);
-            // }, 1000);
-
-          }else {
-            self.RootStore.uIStore.setErrorHandler({
-              visable: true,
-              code: res.response.code,
-              msg: res.response.message,
-              type: 'success'
-            });
-          }
+            if(res.status === 'DECLINED' || (res.error || res.errors)){
+              self.RootStore.uIStore.setErrorHandler({});
+              self.sendResponse(response.data);
+            }else {
+              self.RootStore.uIStore.setErrorHandler({
+                visable: true,
+                code: res.response.code,
+                msg: res.response.message,
+                type: 'success'
+              });
+            }
         }
         else {
-
           self.RootStore.uIStore.setErrorHandler({});
-
-          // self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
-          //
-          // setTimeout(function(){
-          self.showError(response.data);
-            // self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
-          // }, 1000);
+          self.sendResponse(response.data);
         }
-      }else {
-        self.showError(response.data);
-        // self.RootStore.uIStore.showMsg('warning', res.message, res.code);
-      }
 
     })
     .catch(function (error) {
@@ -1311,8 +1212,6 @@ class ApiStore{
 
 }
 
-decorate(ApiStore, {
-  mode: observable
-});
+decorate(ApiStore, {});
 
 export default ApiStore;

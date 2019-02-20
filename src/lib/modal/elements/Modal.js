@@ -85,8 +85,13 @@ class Modal extends React.Component {
     }
 
     if(this.props.style){
+      let modalStyle = this.props.style.modal;
+      if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+      {
+        modalStyle.height?modalStyle.height='':null
+      }
       this.setState({
-        modalStyle: this.props.style.modal,
+        modalStyle: modalStyle,
         bodyStyle: this.props.style.body,
         bodyContainerStyle: this.props.style.bodyContainer
       });
@@ -135,8 +140,13 @@ class Modal extends React.Component {
     }
 
     if(nextProps.style){
+      let modalStyle = nextProps.style.modal;
+      if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) //IF IE > 10
+      {
+        modalStyle.height?modalStyle.height='':null
+      }
       this.setState({
-        modalStyle: nextProps.style.modal,
+        modalStyle: modalStyle,
         bodyStyle: nextProps.style.body,
         bodyContainerStyle: nextProps.style.bodyContainer
       });
@@ -188,7 +198,7 @@ class Modal extends React.Component {
             <div className={this.state.isOpenWait}  style={this.state.modalStyle}>
               <div className="tap-payments-modal-wrapper">
                 {(this.props.close == 'closeIn' || this.props.close == 'closeInOut')?
-                  <div className="tap-payments-header-close-icon closeIn" onClick={this.handleClose} style={this.state.dir == 'rtl' ? {left: '0'} : {right: '0'}}>
+                  <div className="tap-payments-header-close-icon closeIn" onClick={this.handleClose} style={this.state.dir == 'rtl' ? {left: '0',right: 'unset'} : {right: '0',left: 'unset'}}>
                     <img className="closeIn" src={this.props.closeIcon} width="18" height="18" alt="close"/>
                   </div>
                   : null}

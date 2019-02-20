@@ -1,11 +1,14 @@
 .tap-extra-fees-container{
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   justify-content: center;
   justify-items: center;
   align-items: center;
+   text-align: center;
   padding: 20px;
-  height: 100px;
+  height: auto;
+  background-color: rgba(255,255,255, 0.36); */
+  padding: 20px;
   background-color: rgba(255,255,255, 0.36);
 }
 
@@ -13,7 +16,8 @@
   text-align: center;
   margin-top: 0px;
   font-size: 17px;
-  font-family: 'Roboto-Regular', sans-serif;
+  font-weight: 800;
+  /* font-family: 'Roboto-Regular', sans-serif; */
 }
 
 .tap-extra-fees-msg{

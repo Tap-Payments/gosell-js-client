@@ -74,13 +74,7 @@ class Header extends Component{
       `;
 
       var ModalIcon = styled.div`
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: ${this.state.headerStyle.height};
-        height: ${this.state.headerStyle.height};
+        display: inline-block;
       `;
 
       var Title = styled.div`
@@ -100,6 +94,7 @@ class Header extends Component{
       var Title = styled.div`
         line-height: 40px;
         font-weight: 100;
+        margin: auto;
         ${this.state.titleStyle}
       `;
     }
@@ -111,6 +106,7 @@ class Header extends Component{
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+        margin: auto;
         ${this.state.iconStyle}
     `;
 
@@ -120,23 +116,20 @@ class Header extends Component{
           <Header className="tap-payments-modal-header" dir={this.props.dir? this.props.dir : null} style={Object.assign(this.state.separator, this.state.headerStyle)}>
           {this.props.modalIcon?
               <ModalIcon>
-                <Circle>
                   {typeof this.props.modalIcon === 'object' ?
                   this.props.modalIcon :
                   <img src={this.props.modalIcon} width="100%" style={this.state.iconStyle} alt="Modal Icon"/>}
-
-                </Circle>
               </ModalIcon>
            : null}
 
            {this.props.modalTitle ?
                 <Title className="tap-payments-header-title">
-                  <span style={this.state.titleStyle}>{this.props.modalTitle}</span>
+                  <div style={this.state.titleStyle}>{this.props.modalTitle}</div>
                 </Title>
            : null}
 
             {(this.props.close == 'closeIn' || this.props.close == 'closeInOut')?
-              <div className="tap-payments-header-close-icon closeIn" onClick={this.handleClose.bind(this)} style={this.props.dir == 'rtl' ? {left: '0'} : {right: '0'}}>
+              <div className="tap-payments-header-close-icon closeIn" onClick={this.handleClose.bind(this)} style={this.props.dir == 'rtl' ? {left: '0', right: 'unset'} : {right: '0', left: 'unset'}}>
                   <img className="closeIn" src={this.props.closeIcon} width="18" height="18" alt="close"/>
               </div>
             : null}

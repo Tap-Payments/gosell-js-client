@@ -7,7 +7,7 @@ class OpenPaymentPage extends Component {
     super(props);
   }
 
-  componentDidMount(){
+  handleClick(){
     var self = this;
 
     GoSell.openPaymentPage();
@@ -124,6 +124,7 @@ class OpenPaymentPage extends Component {
               post: window.location.href,
             }}
            />
+           <button onClick={this.handleClick.bind(this)}>Open goSell Page</button>
       </div>
     );
   }

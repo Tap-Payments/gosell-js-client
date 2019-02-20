@@ -17,14 +17,18 @@ class OpenLightBox extends Component {
       <div className="App">
         <div className='app-form'>
           <div className='app-columns'>
-            <GatewaySettings />
+            <GatewaySettings
+              store = {DemoConfigStore}/>
           </div>
           <div className='app-columns'>
-            <CustomerSettings />
-            <OrderSettings />
+            <CustomerSettings
+              store = {DemoConfigStore}/>
+            <OrderSettings
+              store = {DemoConfigStore}/>
           </div>
           <div className='app-columns'>
-            <Demo />
+            <Demo
+              store = {DemoConfigStore}/>
           </div>
         </div>
       </div>

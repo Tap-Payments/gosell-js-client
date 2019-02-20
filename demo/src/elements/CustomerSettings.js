@@ -1,5 +1,5 @@
 import React, { Component }  from "react";
-import Store from '../../store/DemoConfigStore';
+// import Store from '../../store/DemoConfigStore';
 import {observer} from 'mobx-react';
 import './app.css';
 
@@ -7,6 +7,7 @@ class CustomerSettings extends Component {
 
   constructor(props){
     super(props);
+    this.Store = props.store
   }
 
   render() {
@@ -21,8 +22,8 @@ class CustomerSettings extends Component {
                      type="text"
                      style={{width: '100%'}}
                      name="id"
-                     value={Store.customer.id}
-                     onChange={(value) => Store.updateCustomerObj(value)}/>
+                     value={this.Store.customer.id}
+                     onChange={(value) => this.Store.updateCustomerObj(value)}/>
                  </div>
                </div>
                <br />
@@ -33,8 +34,8 @@ class CustomerSettings extends Component {
                      type="text"
                      style={{width: '100%'}}
                      name="first_name"
-                     value={Store.customer.first_name}
-                     onChange={(value) => Store.updateCustomerObj(value)}/>
+                     value={this.Store.customer.first_name}
+                     onChange={(value) => this.Store.updateCustomerObj(value)}/>
                  </div>
                </div>
                <br />
@@ -45,8 +46,8 @@ class CustomerSettings extends Component {
                      type="text"
                      style={{width: '100%'}}
                      name="middle_name"
-                     value={Store.customer.middle_name}
-                     onChange={(value) => Store.updateCustomerObj(value)}/>
+                     value={this.Store.customer.middle_name}
+                     onChange={(value) => this.Store.updateCustomerObj(value)}/>
                  </div>
                </div>
                <br />
@@ -57,8 +58,8 @@ class CustomerSettings extends Component {
                      type="text"
                      style={{width: '100%'}}
                      name="last_name"
-                     value={Store.customer.last_name}
-                     onChange={(value) => Store.updateCustomerObj(value)}/>
+                     value={this.Store.customer.last_name}
+                     onChange={(value) => this.Store.updateCustomerObj(value)}/>
                  </div>
                </div>
                <br />
@@ -69,8 +70,8 @@ class CustomerSettings extends Component {
                      type="text"
                      style={{width: '100%'}}
                      name="email"
-                     value={Store.customer.email}
-                     onChange={(value) => Store.updateCustomerObj(value)}/>
+                     value={this.Store.customer.email}
+                     onChange={(value) => this.Store.updateCustomerObj(value)}/>
                  </div>
                </div>
                <br />
@@ -81,8 +82,8 @@ class CustomerSettings extends Component {
                      type="text"
                      style={{width: '100%'}}
                      name="phone"
-                     value={Store.customer.phone.number}
-                     onChange={(value) => Store.updateCustomerObj(value)}/>
+                     value={this.Store.customer.phone.number}
+                     onChange={(value) => this.Store.updateCustomerObj(value)}/>
                  </div>
                </div>
                <br />

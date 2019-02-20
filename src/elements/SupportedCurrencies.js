@@ -70,16 +70,16 @@ class SupportedCurrencies extends Component {
             id={index}
             key={index}
             dir={this.props.dir}
-            style={{'rowContainer': {width: '100%', backgroundColor: 'white', height: '44px'}, 'textStyle': {width: '100%'}}}
-            rowTitle={{'secondary': currency.symbol + ' - ' + currency.name}}
+            style={{'rowContainer': {width: '100%', backgroundColor: 'white', height: '44px'}, 'textStyle': {width: '100%'}, 'subtitle': {lineHeight: '45px', padding: '0 15px'} }}
+            rowTitle={{'secondary': self.props.store.localizationStore.getContent('supported_currencies_'+currency.currency.toLowerCase(), null)  + ' - ' + self.props.store.localizationStore.getContent('supported_currencies_name_'+currency.currency.toLowerCase(), null)}}
             onClick={this.handleClick.bind(this, currency)}
             addArrow={false}
-            value={currency.symbol +' '+ currency.amount}/>
+            value={self.props.store.localizationStore.getContent('supported_currencies_symbol_'+currency.currency.toLowerCase(), null) +' '+ currency.amount}/>
 
             <Separator key={'separator-'+index}/>
         </div>
       );
-
+      console.log('items', this.state.items);
       var lightView = this.state.items.map((currency, index) =>
             <Row
               id={index}
@@ -90,11 +90,12 @@ class SupportedCurrencies extends Component {
                 '&:hover': {
                   backgroundColor: '#fff'
                 }},
+                'subtitle': {textAlign: 'justify',margin:this.props.dir==='rtl'?'0px 62px 0px 0px':'0px 0px 0px 62px', lineHeight: '38px'},
                 'textStyle': {color: '#474747', margin: '0'},
                 'iconStyle': {padding:'0 6px'}
               }}
-              rowTitle={{'secondary': currency.currency}}
-              rowIcon={<img src={currency.flag} width="27"/>}
+              rowTitle={{'secondary': self.props.store.localizationStore.getContent('supported_currencies_'+currency.currency.toLowerCase(), null)}}
+              rowIcon={<img src={currency.flag} width="27" style={{padding: '6px 21px', height:'27px'}}/>}
               onClick={this.handleClick.bind(this, currency)}
               addArrow={false}
               />
@@ -113,7 +114,7 @@ class SupportedCurrencies extends Component {
                 'textStyle': {color: 'white', margin: '0'},
                 'iconStyle': {padding:'0 6px'}
               }}
-              rowTitle={{'secondary': currency.currency}}
+              rowTitle={{'secondary': self.props.store.localizationStore.getContent('supported_currencies_'+currency.currency.toLowerCase(), null)}}
               rowIcon={<img src={currency.flag} width="27"/>}
               onClick={this.handleClick.bind(this, currency)}
               addArrow={false}
@@ -126,9 +127,12 @@ class SupportedCurrencies extends Component {
       // this.props.store.uIStore.modal_mode === 'page' ? bg = 'rgba(255, 255, 255, 0.5)' :  bg = 'rgba(0,0,0,0.30)';
 
       const Currencies = styled.div`
-          height: 100%;
+          height: ${this.props.height};
           margin-bottom: -4px;
           overflow: hidden;
+          border-bottom-right-radius: ${this.props.dir === "rtl" ? "0px" : "8px"};
+          border-bottom-left-radius: ${this.props.dir === "rtl" ? "8px" : "0px"};
+          -ms-overflow-style: ${this.props.store.uIStore.browser === "IE" ? "none" : ""};
           background: ${bg};
       `
 
@@ -150,9 +154,9 @@ class SupportedCurrencies extends Component {
               <Separator />
               <Row
                 dir={this.props.dir}
-                style={{'rowContainer': {height:'48px', backgroundColor: 'white'}, 'iconStyle':{width: '45px'}, 'textStyle': {width: '100%', margin:'0', textAlign: this.props.dir === 'ltr' ? 'left' : 'right'}}}
-                rowIcon={<Img imgSrc={this.props.dir === 'ltr'? Paths.imgsPath + 'leftArrow.svg' : Paths.imgsPath +  'rightArrow.svg' } imgWidth="7"/>}
-                rowTitle={{'secondary': 'Select Currency'}}
+                style={{'rowContainer': {height:'48px', backgroundColor: 'white'}, 'iconStyle':{width: '45px'}, 'textStyle': {width: '100%', margin:'0', textAlign: this.props.dir === 'ltr' ? 'left' : 'right'}, 'subtitle': {lineHeight: '45px', padding: '0 40px'} }}
+                rowIcon={<Img imgSrc={this.props.dir === 'ltr'? Paths.imgsPath + 'leftArrow.svg' : Paths.imgsPath +  'rightArrow.svg' } imgWidth="7" style={{padding: '16px'}}/>}
+                rowTitle={{'secondary': self.props.store.localizationStore.getContent('currency_selection_screen_title', null)}}
                 onClick={this.handleClick.bind(this, this.props.store.paymentStore.current_currency)}/>
               <Separator />
 
@@ -167,7 +171,7 @@ class SupportedCurrencies extends Component {
                     //   dir={this.props.dir}
                     //   style={{'searchContainer': {width: this.props.width, height: '50px'}, 'searchbar': {border:'1px solid #E1E1E1'}}}
                     //   searchIcon={<img src={Paths.imgsPath + 'search.svg'} width="13"/>}
-                    //   searchPlaceholderText={'Search'}
+                    //   searchPlaceholderText={this.props.store.localizationStore.getContent('search_bar_placeholder', null)}
                     //   filterList={this.filter}/>
                   }
 
@@ -181,7 +185,7 @@ class SupportedCurrencies extends Component {
                    //   dir={this.props.dir}
                    //   style={{'searchContainer': {width: this.props.width,padding: '5px'}, 'searchbar': {color: '#474747', border: '1px solid #f7f7f7',backgroundColor: 'rgba(255, 255, 255, 0.2)'}}}
                    //   searchIcon={<img src={Paths.imgsPath + 'search.svg'} width="13"/>}
-                   //   searchPlaceholderText={'Search'}
+                   //   searchPlaceholderText={this.props.store.localizationStore.getContent('search_bar_placeholder', null)}
                    //   filterList={this.filter}/>
                  }
 
@@ -207,7 +211,7 @@ class SupportedCurrencies extends Component {
 //     //   dir={this.props.dir}
 //     //   style={{'searchContainer': {width: this.props.width,padding: '5px'}, 'searchbar': {color: '#474747', border: '1px solid #fff',backgroundColor: 'rgba(255, 255, 255, 0.2)'}}}
 //     //   searchIcon={<img src={Paths.imgsPath + 'search.svg'} width="13"/>}
-//     //   searchPlaceholderText={'Search'}
+//     //   searchPlaceholderText={this.props.store.localizationStore.getContent('search_bar_placeholder', null)}
 //     //   filterList={this.filterList.bind(this)}/>
 //   }
 //
@@ -225,7 +229,7 @@ class SupportedCurrencies extends Component {
 //    //   dir={this.props.dir}
 //    //   style={{'searchContainer': {width: this.props.width,padding: '5px'}, 'searchbar': {color: 'white', border: '1px solid #777578',backgroundColor: 'rgba(0,0,0,0.20)'}}}
 //    //   searchIcon={<img src={Paths.imgsPath + 'search.svg'} width="13"/>}
-//    //   searchPlaceholderText={'Search'}
+//    //   searchPlaceholderText={this.props.store.localizationStore.getContent('search_bar_placeholder', null)}
 //    //   filterList={this.filterList.bind(this)}/>
 //  }
 //    <div className='list-container' style={{direction: this.props.dir}}>

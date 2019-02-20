@@ -1,7 +1,9 @@
 .tap-cards {
   overflow: auto;
-  height: fit-content;
-  display: flex;
+  /* height: -webkit-fit-content;
+  height: -moz-fit-content; */
+  /* height: fit-content;
+  display: flex; */
   padding: 10px 0px 5px 0px;
 }
 
@@ -16,64 +18,103 @@
 }
 
 .tap-cards-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0 15px;
+  /* display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; */
+  /* overflow-x: scroll; */
+  /* -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row; */
+  /* display: inline-block; */
+  /* -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; */
+  height: 110px;
+  margin: 0 15px;
   width: auto;
+}
+
+[dir="rtl"] .tap-card {
+  float: right;
 }
 
 .tap-card {
   height: 100px;
   width: 100px;
+  float: left;
   margin: 0px 5px;
+  /* position: relative; */
+  /* display: inline-block; */
+  /* display: inline-block; */
+  /* display: table-cell; */
   position: relative;
-  /* display: flex; */
-  display: inline-block;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .tap-progressbar-container {
   border-radius: 8px;
   background-color: rgba(0, 0, 0, 0.75);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  /* display: flex;
+  flex-direction: column; */
+  /* display: block; */
+  /* -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; */
   justify-items: center;
-  align-items: center;
+  /* -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; */
   pointer-events: none;
-  height: 100%;
-  width: 100%;
+  height: inherit;
+  width: inherit;
   position: absolute;
 }
 
 .tap-card-container {
   border-radius: 8px;
+  /* display: flex; */
   background-color: rgba(255, 255, 255, 0.75);
-  display: flex;
-  flex-direction: column;
+  position: relative;
+  /* display: block; */
+  /* flex-direction: column; */
   /* justify-content: space-evenly; */
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
+  /* -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; */
+  /* justify-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; */
   cursor: pointer;
   height: 100%;
   width: 100%;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
+          box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
 }
 
 .tap-card-container:hover, .tap-card-container:active {
   background-color: white;
-  box-shadow: 0px 0px 4px #2ACE00;
+  -webkit-box-shadow: 0px 0px 4px #2ACE00;
+          box-shadow: 0px 0px 4px #2ACE00;
 }
 
 .tap-card-active {
   background-color: white;
-  box-shadow: 0px 0px 5px #2ACE00;
+  -webkit-box-shadow: 0px 0px 5px #2ACE00;
+          box-shadow: 0px 0px 5px #2ACE00;
 }
 
 .tap-contents {
+  /* display: table-row; */
+  height: 30px;
+  /* margin-top: 5px; */
+  text-align: center;
   pointer-events: none;
 }
 
@@ -84,7 +125,8 @@
 }
 
 .checkbox {
-  position: relative;
+  position: absolute;
+  left: 15px;
 }
 
 .checkbox:after {
@@ -93,10 +135,14 @@
   width: 0px;
   height: 2px;
   background: #2ACE00;
-  transform: translate(3px, 11px) rotate(-45deg);
-  transform-origin: left;
+  -webkit-transform: translate(3px, 11px) rotate(-45deg);
+          transform: translate(3px, 11px) rotate(-45deg);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-transition: all 150ms;
   transition: all 150ms;
-  transition-delay: 0ms;
+  -webkit-transition-delay: 0ms;
+          transition-delay: 0ms;
 }
 
 .checkbox:before {
@@ -105,34 +151,51 @@
   width: 0px;
   height: 2px;
   background: #2ACE00;
-  transform: translate(0px, 7px) rotate(45deg);
-  transform-origin: left;
+  -webkit-transform: translate(0px, 7px) rotate(45deg);
+          transform: translate(0px, 7px) rotate(45deg);
+  -webkit-transform-origin: left;
+          transform-origin: left;
+  -webkit-transition: all 150ms;
   transition: all 150ms;
-  transition-delay: 150ms;
+  -webkit-transition-delay: 150ms;
+          transition-delay: 150ms;
 }
 
 .show:before {
   width: 6px;
-  transition-delay: 0ms;
+  -webkit-transition-delay: 0ms;
+          transition-delay: 0ms;
 }
 
 .show:after {
   width: 12px;
-  transition-delay: 150ms;
+  -webkit-transition-delay: 150ms;
+          transition-delay: 150ms;
 }
 
 /*shake animation */
 .tap-card-shake {
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.75);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  height: 100%;
+  position: relative;
+  /* display: flex;
+  flex-direction: column; */
+  /* -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; */
+  /* justify-items: center; */
+  /* -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; */
+  /* height: 100%; */
   width: 100%;
-  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
+  -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
+          box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
+  animation-name: wiggle;
+  animation-duration: 0.3s;
+  transform-origin: 50% 50%;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
   -webkit-animation-name: wiggle;
   -webkit-animation-duration: 0.3s;
   -webkit-transform-origin: 50% 50%;
@@ -140,17 +203,37 @@
   -webkit-animation-timing-function: linear;
 }
 
-@keyframes wiggle {
+@-webkit-keyframes wiggle {
   0% {
-    transform: rotate(-3deg);
+    -webkit-transform: rotate(-3deg);
+            transform: rotate(-3deg);
   }
 
   50% {
-    transform: rotate(3deg);
+    -webkit-transform: rotate(3deg);
+            transform: rotate(3deg);
   }
 
   100% {
-    transform: rotate(-3deg);
+    -webkit-transform: rotate(-3deg);
+            transform: rotate(-3deg);
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    -webkit-transform: rotate(-3deg);
+            transform: rotate(-3deg);
+  }
+
+  50% {
+    -webkit-transform: rotate(3deg);
+            transform: rotate(3deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(-3deg);
+            transform: rotate(-3deg);
   }
 }
 
@@ -165,13 +248,19 @@
   border-radius: 8px;
   background-color: rgb(255, 255, 255);
   opacity: 0.50;
+  position: relative;
+  /* display: table; */
   /* margin: 0px 5px; */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  /* display: flex; */
+  /* flex-direction: column; */
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   justify-items: center;
-  align-items: center;
-  height: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  /* height: 100%; */
   width: 100%;
   /* box-shadow: 0px 0px 4px rgba(0,0,0,0.08); */
   pointer-events: none;
@@ -197,6 +286,23 @@
   -webkit-animation-timing-function: linear;
 }
 
+@-webkit-keyframes card-width {
+  0% {
+    width: 100px;
+  }
+
+  90% {
+    width: 0px;
+    opacity: 0;
+  }
+
+  100% {
+    width: 0px;
+    opacity: 0;
+    margin: 0px;
+  }
+}
+
 @keyframes card-width {
   0% {
     width: 100px;
@@ -209,6 +315,23 @@
 
   100% {
     width: 0px;
+    opacity: 0;
+    margin: 0px;
+  }
+}
+
+@-webkit-keyframes card-height {
+  0% {
+    height: 100px;
+  }
+
+  90% {
+    height: 0px;
+    opacity: 0;
+  }
+
+  100% {
+    height: 0px;
     opacity: 0;
     margin: 0px;
   }

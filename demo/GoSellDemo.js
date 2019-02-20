@@ -7,6 +7,10 @@ class GoSellDemo extends Component {
     super(props);
   }
 
+  callbackFunc(response){
+    console.log(response);
+  }
+
   render() {
 
     return (
@@ -25,6 +29,7 @@ class GoSellDemo extends Component {
              saveCardOption:true,
              customerCards: true,
              notifications:'standard',
+             callback: this.callbackFunc.bind(this),
              labels:{
                  cardNumber:"Card Number",
                  expirationDate:"MM/YY",
@@ -51,7 +56,7 @@ class GoSellDemo extends Component {
              }
            }}
            customer={{
-             // id:"cus_m1QB0320181401l1LD1812485",
+             // id:"cus_m1QB0320181401l1LD1812433335",
              first_name: "Hala",
              middle_name: "A.",
              last_name: "Qutmosh",

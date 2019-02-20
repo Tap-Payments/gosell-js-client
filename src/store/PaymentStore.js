@@ -544,11 +544,28 @@ class PaymentStore{
 
     console.log(old_amount, new_amount);
 
-    var title = {'main': old.symbol + ' ' + old_amount};
 
-    if(current.currency !== old.currency){
-        title = {'main': current.symbol + ' ' + new_amount, 'secondary': old.symbol + ' ' + old_amount}
+    var old_symbol = this.RootStore.localizationStore.getContent('supported_currencies_symbol_' + old.currency.toLowerCase(), null);
+    var new_symbol = this.RootStore.localizationStore.getContent('supported_currencies_symbol_' + current.currency.toLowerCase(), null);
+
+    if(this.RootStore.uIStore.getDir === 'rtl'){
+
+      var title = {'main': old_amount + ' ' + old_symbol};
+
+      if(current.currency !== old.currency){
+          title = {'main': new_amount + ' ' + new_symbol, 'secondary': old_amount + ' ' + old_symbol}
+      }
+
     }
+    else {
+      var title = {'main': old_symbol + ' ' + old_amount};
+
+      if(current.currency !== old.currency){
+          title = {'main': new_symbol + ' ' + new_amount, 'secondary': old_symbol + ' ' + old_amount}
+      }
+    }
+
+
 
     console.log('title', title);
 

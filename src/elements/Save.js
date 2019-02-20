@@ -64,8 +64,12 @@ class Save extends Component {
   handleBtnClick(){
 
     var store = this.props.store;
-    store.uIStore.startBtnLoader();
+    store.uIStore.goSellBtn({
+      active: true,
+      loader: true,
+    });
 
+    console.log('hey', store.uIStore.btn);
     if(store.configStore.transaction_mode === 'save_card'){
       store.paymentStore.save_card_active = true;
       store.paymentStore.saveCardOption(true);
@@ -73,14 +77,14 @@ class Save extends Component {
       store.formStore.generateToken().then(result => {
         store.apiStore.saveCustomerCard(store.paymentStore.source_id).then(result =>{
           console.log('create card ......>>>>>>>>> ', result);
-          store.uIStore.stopBtnLoader();
+          // store.uIStore.stopBtnLoader();
         });
       });
     }
     else {
       store.formStore.generateToken().then(result => {
           console.log('token ......>>>>>>>>> ', result);
-          store.uIStore.stopBtnLoader();
+          // store.uIStore.stopBtnLoader();
       });
     }
   }
@@ -107,7 +111,8 @@ class Save extends Component {
                         btnColor={'#2ACE00'}
                         active={store.uIStore.btn.active}
                         animate={this.props.store.uIStore.btn.loader}
-                        handleClick={this.handleBtnClick.bind(this)}>{store.configStore.btn}</TapButton>
+                        handleClick={this.handleBtnClick.bind(this)}
+                        store={store}>{store.configStore.btn}</TapButton>
                   </div>
               </div>
             </div>);

@@ -15,6 +15,10 @@ class Cards extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.store.uIStore.edit_customer_cards = this.props.store.localizationStore.getContent('common_edit', null);
+  }
+
   getRef(){
     return this.cardRef;
   }
@@ -41,6 +45,10 @@ class Cards extends Component {
   //
   // }
 
+  componentDidMount() {
+    this.props.store.uIStore.edit_customer_cards = this.props.store.localizationStore.getContent('common_edit', null);
+  }
+
   editCards(){
 
     if(this.props.store.uIStore.btn.active && this.props.store.uIStore.btn.loader){
@@ -60,6 +68,8 @@ class Cards extends Component {
 
 
   render() {
+
+    // var isIE = !!navigator.userAgent.match(/Trident/g) || !!navigator.userAgent.match(/MSIE/g);
 
     var self = this;
     var cards = null;
@@ -84,13 +94,13 @@ class Cards extends Component {
            last4digits={card.last_four}/>)
        });
     }
-
+    var cardLength = 110*cards.length + 15 + "px";
     if(store.paymentStore.customer_cards_by_currency.length > 0){
       return (
         <React.Fragment>
-            <Label title="Recent" dir={store.uIStore.getDir} edit={store.uIStore.edit_customer_cards} handleClick={store.uIStore.delete_card === null ? this.editCards.bind(this) : null}/>
+            <Label title={store.localizationStore.getContent('payment_options_group_title_recent', null)} dir={store.uIStore.getDir} edit={store.uIStore.edit_customer_cards} handleClick={store.uIStore.delete_card === null ? this.editCards.bind(this) : null}/>
             <div id="cards" className="tap-cards" ref={(node) => this.cardsRef = node} dir={this.props.dir} style={this.props.style ? this.props.style : null}>
-                <div className="tap-cards-container">{cards}</div>
+                <div className="tap-cards-container" style={{width:cardLength}}>{cards}</div>
             </div>
         </React.Fragment>
       );

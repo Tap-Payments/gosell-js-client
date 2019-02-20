@@ -1,4 +1,3 @@
-// import 'babel-polyfill';
 import React, { Component }  from 'react';
 import ReactDOM from 'react-dom';
 import GoSell from './elements/GoSell.js';

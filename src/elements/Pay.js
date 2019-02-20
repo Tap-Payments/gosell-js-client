@@ -51,7 +51,10 @@ class Pay extends Component {
   handlePayBtnClick(){
 
     var store = this.props.store;
-    store.uIStore.startBtnLoader();
+    store.uIStore.goSellBtn({
+      active: true,
+      loader: true,
+    });
 
     switch (store.uIStore.getPageIndex) {
       case 0:
@@ -63,7 +66,7 @@ class Pay extends Component {
                store.uIStore.setPageIndex(1, 'y');
              }
              else {
-               store.uIStore.startLoading('loader', 'Please Wait');
+               store.uIStore.startLoading('loader', store.localizationStore.getContent('please_wait_msg', null));
 
                store.apiStore.handleTransaction(store.paymentStore.source_id, 'FORM', 0.0).then(result =>{
                  console.log(' ......>>>>>>>>> ', result);
@@ -129,7 +132,7 @@ class Pay extends Component {
                 </div>
 
                 <div key={3} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>
-                    <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.getDir} store={store}/>
+                    <SupportedCurrencies theme="inline" bgColor="white" height="100%" dir={store.uIStore.getDir} store={store}/>
                 </div>
 
                 <div key={4} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>
@@ -148,7 +151,8 @@ class Pay extends Component {
                   btnColor={store.uIStore.btn.color}
                   active={store.uIStore.btn.active}
                   animate={store.uIStore.btn.loader}
-                  handleClick={this.handlePayBtnClick.bind(this)}>{store.uIStore.btn.title}</TapButton>
+                  handleClick={this.handlePayBtnClick.bind(this)}
+                  store={store}>{store.uIStore.btn.title}</TapButton>
           </div>
         : null}
 

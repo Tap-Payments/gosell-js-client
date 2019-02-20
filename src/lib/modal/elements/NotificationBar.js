@@ -103,6 +103,7 @@ class NotificationBar extends Component{
   }
 
   render(){
+    var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 
       var options = this.props.options ? this.props.options.map(function(option, index){
         return(<div className="tap-payments-option" key={index} onClick={option.action}>
@@ -113,14 +114,16 @@ class NotificationBar extends Component{
       return(
         <div dir={this.props.dir} className={this.state.show ? 'tap-payments-notification-bar tap-payments-notification-true' : 'tap-payments-notification-bar tap-payments-notification-false'} style={Object.assign({}, this.state.modeStyle, this.props.style)}>
 
-            {this.props.options ? <div className="tap-payments-options" style={this.props.dir == 'rtl' ? {textAlign: 'left', left: '0'} : {textAlign: 'right', right: '0'}}>
-              {options}
+              <div className={this.props.options?"tap-payments-options":"tap-payments-options tap-payments-options-close-only"}>
+              {this.props.options ?
+               options
+              :
+              <a className="tap-payments-close" onClick={this.handleClose.bind(this)} title="close">{this.props.children ? "×" : ""}</a>
+              }
               </div>
-            : <a className="tap-payments-close" onClick={this.handleClose.bind(this)} title="close" style={this.props.dir == 'rtl' ? {left: '0'} : {right: '0'}}>{this.props.children ? "×" : ""}</a>}
-
-            <div className="tap-payments-notification-title" style={this.props.options ? {display: 'flex', textAlign: this.props.dir == 'rtl' ? 'right' : 'left'} : {}} onClick={this.props.onClick}>
-              {this.props.children}
-            </div>
+              <div className={this.props.options?"tap-payments-notification-title":"tap-payments-notification-title tap-payments-notification-title-centered"} style={this.props.options ? { textAlign: this.props.dir == 'rtl' ? 'right' : 'left'} : {}} onClick={this.props.onClick}>
+                {this.props.children}
+              </div>
         </div>
         );
   }

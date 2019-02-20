@@ -2,6 +2,7 @@ const express        = require('express');
 const bodyParser     = require('body-parser');
 const app            = express();
 const jwtJsDecode    = require('jwt-js-decode');
+const asyncHandler = require('express-async-handler')
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -57,16 +58,14 @@ function checkJWTExpiry(session) {
   }
 }
 
-
-app.post('/init', (req, res) => {
+app.post('/init', asyncHandler(async (req, res,) => {
+// app.post('/init', (req, res) => {
   console.log(
     "%c/INIT REQUEST",
     "background: maroon; color: white; display: block;"
   );
 
-  console.log("%cRequest",
-  "background: yellow; color: black; display: block;");
-  console.log(req);
+  // console.log(req);
   var Request = require("request");
 
   var mode = req.body.mode === 'Development' ? 'http://35.194.57.148:8080' : 'https://api.tap.company';
@@ -88,7 +87,7 @@ app.post('/init', (req, res) => {
       }
 
       var parseData = JSON.parse(response.body);
-      console.log('response ..... ', response.body);
+      // console.log('response ..... ', response.body);
       // global.session = JSON.parse(response.body).data.session_token;
       // global.key = JSON.parse(response.body).data.encryption_key;
 
@@ -103,14 +102,15 @@ app.post('/init', (req, res) => {
       });
     });
 
-  });
+  }));
 
+  app.post('/api', asyncHandler(async (req, res,) => {
 
-  app.post('/api', (req, res) => {
-    console.log(
-      "%c/API REQUEST",
-      "background: maroon; color: white; display: block;"
-    );
+  // app.post('/api', (req, res) => {
+    // console.log(
+    //   "%c/API REQUEST",
+    //   "background: maroon; color: white; display: block;"
+    // );
 
     var Request = require("request");
 
@@ -135,7 +135,7 @@ app.post('/init', (req, res) => {
           "color: green; display: block;"
         );
         // console.log('checkJWTExpiry >>>>>>>>>>>>>>>>>>>>>>>>>> ', checkJWTExpiry());
-
+        // console.log(req);
         if(req.body.method.toLowerCase() === 'post'){
           console.log(
             "%c/POST  "+ req.body.path,
@@ -148,10 +148,10 @@ app.post('/init', (req, res) => {
               if(error) {
                 res.send(error);
               }
-              // console.log(
-              //   "%c/response",
-              //   "background: blue; color: white; display: block;"
-              // );
+              console.log(
+                "%c/response",
+                "background: blue; color: white; display: block;"
+              );
               // console.log(response.body);
               res.send(response.body);
             });
@@ -168,10 +168,10 @@ app.post('/init', (req, res) => {
                   res.send(error);
                 }
 
-              // console.log(
-              //   "%c/response",
-              //   "background: blue; color: white; display: block;"
-              // );
+              console.log(
+                "%c/response",
+                "background: blue; color: white; display: block;"
+              );
               // console.log(response.body);
                 res.send(response.body);
               });
@@ -190,10 +190,10 @@ app.post('/init', (req, res) => {
                   res.send(error);
                 }
 
-              // console.log(
-              //   "%c/response",
-              //   "background: blue; color: white; display: block;"
-              // );
+              console.log(
+                "%c/response",
+                "background: blue; color: white; display: block;"
+              );
               // console.log(response.body);
                 res.send(response.body);
               });
@@ -211,10 +211,10 @@ app.post('/init', (req, res) => {
                     res.send(error);
                   }
 
-                // console.log(
-                //   "%c/response",
-                //   "background: blue; color: white; display: block;"
-                // );
+                console.log(
+                  "%c/response",
+                  "background: blue; color: white; display: block;"
+                );
                 // console.log(response.body);
                   res.send(response.body);
                 });
@@ -222,14 +222,40 @@ app.post('/init', (req, res) => {
 
             }
             else {
-              console.log(
-                "%cINVALID SESSION",
-                "background: red; color: white; display: block;"
-              );
-              var error = {'code': 100, 'message': 'Session has been expired!'};
-              res.send(error);
+              var err = {
+                error: {'code': 99999, 'description': 'Session has been expired!'}
+              };
+              res.send(err);
             }
-          });
+          }));
+
+
+          app.post('/localization', (req, res) => {
+
+            // console.log(req);
+            var Request = require("request");
+
+            var header = {
+              'AccessKey': '5ddcfa79-650e-4b9b-af363f771211-6a15-4927',
+              'Content-Type':'application/json',
+              'Accept':'application/json',
+              'ApiKeyAuth':'a8fe32e4-2777-4340-9ea512987b23-b436-4d2c'
+            };
+
+              Request.get({
+                "headers": header,
+                "url":"https://storage.bunnycdn.com/goselljslib/json/localization.json",
+              }, (error, response) => {
+                if(error) {
+                  return console.dir(error);
+                }
+
+                var parseData = JSON.parse(response.body);
+                // console.log('response ..... ', response.body);
+                res.send(parseData);
+              });
+
+            });
 
           /*
           app.get('/api/:mode/:headers', (req, res) => {

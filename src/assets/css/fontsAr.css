@@ -1,0 +1,17 @@
+/* Helvetica */
+@font-face {
+  font-family: "Helvetica-Light";
+  src: url("https://goSellJSLib.b-cdn.net/fonts/helvetica/HelveticaNeueW2045Light1.eot"); /* IE9 Compat Modes */
+  src: url("https://goSellJSLib.b-cdn.net/fonts/helvetica/HelveticaNeueW2045Light1.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("https://goSellJSLib.b-cdn.net/fonts/helvetica/HelveticaNeueW2045Light1.svg") format("svg"), /* Legacy iOS */
+    url("https://goSellJSLib.b-cdn.net/fonts/helvetica/HelveticaNeueW2045Light1.ttf") format("truetype"), /* Safari, Android, iOS */
+    url("https://goSellJSLib.b-cdn.net/fonts/helvetica/HelveticaNeueW2045Light1.woff") format("woff"), /* Modern Browsers */
+    url("https://goSellJSLib.b-cdn.net/fonts/helvetica/HelveticaNeueW2045Light1.woff2") format("woff2"); /* Modern Browsers */
+  font-weight: normal;
+  font-style: normal;
+}
+
+*{
+  font-family: 'Helvetica-Light', sans-serif;
+  line-height: 1.2;
+}

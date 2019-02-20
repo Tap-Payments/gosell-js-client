@@ -20,11 +20,11 @@ const styles = {
         //    boxShadow: 'inset 0px 11px 0px -10px #2ACE00, inset 0px -11px 0px -10px #2ACE00'
         }
     },
-      'textStyle': {width: '100%', textAlign: 'center'},
+      'textStyle': { textAlign: 'center'},
       'iconStyle': {width: '65px', height: '65px'}
     },
     'row2':{
-      'rowContainer': { backgroundColor: 'white',
+      'rowContainer': { backgroundColor: 'white', height: '46px',
       '&:hover': {
       //    boxShadow: 'inset 0px 11px 0px -10px #2ACE00, inset 0px -11px 0px -10px #2ACE00'
       }
@@ -32,7 +32,9 @@ const styles = {
       'iconStyle': {width: '65px', height: '48px'},
       'textStyle': {width: '100%'},
       'subtitle':{
-        fontSize: '15px'
+        fontSize: '15px',
+        lineHeight: '48px',
+        margin: '0px 82px'
       }
     },
     'order_row':{
@@ -98,8 +100,8 @@ class Options extends Component {
               key={payment.id}
               dir={store.uIStore.getDir}
               style={styles.row2}
-              rowIcon={<Img imgSrc={payment.image} imgWidth="30"/>}
-              rowTitle={{'secondary': payment.name}}
+              rowIcon={<Img imgSrc={payment.image} imgWidth="30" imgHeight="34" style={{padding: '6px 20px'}}/>}
+              rowTitle={{'secondary': store.localizationStore.getContent('payment_methods_'+payment.name.toLowerCase(), null)}}
               onClick={this.handleWebClick.bind(this, payment)}
               addArrow={true}/>
 
@@ -116,16 +118,19 @@ class Options extends Component {
         );
     }
 
+    var symbol = store.localizationStore.getContent('supported_currencies_symbol_' + store.configStore.order.currency.toLowerCase(), null);
+    var order_labels = {items: store.localizationStore.getContent('items_list_title', null), desc: store.localizationStore.getContent('tranx_description_title', null)};
 
     return (
-
         <React.Fragment>
             <div id="gosell-gateway-order-details" ref={el => (this.orderDetails = el)} className="gosell-gateway-order-details">
                 <div style={{height: 'fit-content'}}>
                   <Items
+                    dir={store.uIStore.getDir}
                     desc={store.configStore.tranx_description}
                     items={store.configStore.items}
-                    total={store.configStore.order.symbol + store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit))}/>
+                    labels={order_labels}
+                    total={symbol + store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit))}/>
                 </div>
             </div>
             <div
@@ -143,8 +148,8 @@ class Options extends Component {
                 style={styles.row1}
                 rowIcon={<Img imgSrc={Paths.imgsPath + 'bill.svg'} imgWidth="18" style={
                   store.uIStore.getDir === 'ltr' ?
-                  {borderRight: '0.5px solid rgba(0, 0, 0, 0.17)'}
-                   : {borderLeft: '0.5px solid rgba(0, 0, 0, 0.17)'}}/>}
+                  {borderRight: '0.5px solid rgba(0, 0, 0, 0.17)' , padding: '21px 23px'}
+                   : {borderLeft: '0.5px solid rgba(0, 0, 0, 0.17)', padding: '21px 23px'}}/>}
                 rowTitle={this.props.store.paymentStore.getCurrentValue}
                 onClick={this.props.store.actionStore.currenciesHandleClick}
                 addArrow={true}/>
@@ -165,7 +170,7 @@ class Options extends Component {
               : null}
 
               {WebPayments.length > 0 || store.paymentStore.getCardPaymentsByCurrency.length > 0 ?
-                <Label title="Others" dir={store.uIStore.getDir}/>
+                <Label title={store.localizationStore.getContent('payment_options_group_title_others', null)} dir={store.uIStore.getDir}/>
               : <div style={{paddingBottom: '20px'}}></div>}
 
               {WebPayments.length > 0 ?

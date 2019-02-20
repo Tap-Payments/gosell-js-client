@@ -28,6 +28,8 @@ class Details extends Component {
     const Order = styled.div`
       color: #9D9FA4;
       font-size: 12px;
+      padding-top: 5px;
+      line-height: 1.2;
     `
 
     return (
@@ -36,7 +38,7 @@ class Details extends Component {
 
           {store.configStore.tranx_description != null ?
               <Order onClick={store.actionStore.handleOrderDetailsClick}>
-                {store.uIStore.show_order_details ? "Close Order Details" : "View Order Details"}
+                {store.uIStore.show_order_details ? store.localizationStore.getContent('close_order_details', null): store.localizationStore.getContent('view_order_details', null)}
               </Order>
           : null}
       </Container>

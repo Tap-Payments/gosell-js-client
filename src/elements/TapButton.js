@@ -47,6 +47,16 @@ class TapButton extends Component {
     }
   }
 
+  handleOnMouseOver(event){
+    // console.log('im over');
+    if (this.props.store.formStore.submitBtnFlag){
+      // console.log('frame unfocus');
+      document.getElementsByClassName('tap-btn')[0].focus()
+      // set the flag to false so it wont blur again
+      this.props.store.formStore.submitBtnFlag = false
+    }
+  }
+
   render() {
     const Btn = styled.button`
       width: ${this.props.width};
@@ -72,7 +82,8 @@ class TapButton extends Component {
       pointer-events: ${this.props.active ? 'painted' : 'none'};
     `
     const BtnTitle = styled.p`
-      font-family: 'Roboto-Regular', sans-serif;
+      /* font-family: 'Roboto-Regular', sans-serif; */
+      font-weight: 800;
       font-size: 17px;
       color: #FFFFFF;
       letter-spacing: 0.79px;
@@ -85,7 +96,11 @@ class TapButton extends Component {
     `;
 
     return (
-        <Btn id={this.props.id} ref={(node) => this.tapBtn = node} className="tap-btn"  onClick={this.handleClick.bind(this)} onKeyUp={this.handleOnKeyUp.bind(this)}>
+        <Btn id={this.props.id} ref={(node) => this.tapBtn = node} className="tap-btn"
+          onClick={this.handleClick.bind(this)}
+          onKeyUp={this.handleOnKeyUp.bind(this)}
+          onMouseOver={this.handleOnMouseOver.bind(this)}
+          >
               <div style={{width: '30px', height: '30px', margin: '0px 10px', pointerEvents: 'none'}}>
                 <Loader
                   toggleAnimation={this.props.animate}
@@ -94,7 +109,7 @@ class TapButton extends Component {
                 />
               </div>
               <BtnTitle style={this.props.style ? this.props.style.titleStyle : {}}>{this.props.children}</BtnTitle>
-              <div style={{width: '30px', height: '30px', margin: '0px 10px',pointerEvents: 'none'}}><img src={Paths.imgsPath + '3d-security.svg'} width="15"/></div>
+              <div style={{width: '30px', height: '30px', margin: '0px 10px',pointerEvents: 'none'}}><img src={Paths.imgsPath + '3d-security.svg'} style={{width:'15px', height:'28'}}/></div>
         </Btn>
     );
   }

@@ -1,6 +1,5 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
-import '../assets/css/fonts.css';
 import {NotificationBar} from '../lib/modal/';
 import RootStore from '../store/RootStore.js';
 import CardsForm from './CardsForm.js';
@@ -25,7 +24,7 @@ class GoSellElements extends Component {
 
   cardForm(){
     RootStore.formStore.generateCardForm();
-     window.setInterval(RootStore.formStore.checkFocus, 10);
+     // window.setInterval(RootStore.formStore.checkFocus, 10);
   }
 
   componentWillReceiveProps(nextProps) {
