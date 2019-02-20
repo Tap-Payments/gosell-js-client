@@ -14,9 +14,6 @@ class Item extends Component {
     var align = this.props.dir === 'ltr' ? 'left' : 'right';
 
     const ItemContainer = styled.div`
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
       margin: 16px;
       height: auto;
       min-height: ${this.props.discount ? '50px' : '30px'};
@@ -25,21 +22,14 @@ class Item extends Component {
     const Icon = styled.div`
       background: #fff;
       border: 1px solid #e9e9e9;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
       width: 40px;
       height: 40px;
       border-radius: 100%;
     `
 
     const ItemDescContainer = styled.div`
-      display: flex;
-      flex-direction: column;
       margin: 0px 10px 0px 10px;
+      text-align: ${this.props.dir === 'rtl' ? 'right' : 'left'};
     `
 
     const Title = styled.div`
@@ -66,6 +56,7 @@ class Item extends Component {
       text-align: center;
       border-radius: 40px;
       margin: 0px 10px 0px 10px;
+      display: inline-block;
     `
 
     const TotalAmount = styled.div`
@@ -75,16 +66,20 @@ class Item extends Component {
       letter-spacing: -0.11px;
       text-align: right;
       margin: 0px 10px 0px 10px;
+      display: inline-block;
       `
+      console.log('----this.props.dir---');
+      console.log(this.props.dir);
 
     const Side1 = styled.div`
-      display: flex;
+      width: 50%;
       float: ${this.props.dir === 'ltr' ? 'left' : 'right'};
     `
     const Side2 = styled.div`
-      display: flex;
+      width: 50%;
       float: ${this.props.dir === 'ltr' ? 'right' : 'left'};
-      align-items: center;
+      text-align: ${this.props.dir === 'ltr' ? 'right' : 'left'};
+      margin: 19px 0px;
     `
 
     return (

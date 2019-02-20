@@ -16,18 +16,18 @@ class Items extends Component {
     const Container = styled.div`
     `
     const Fieldset = styled.div`
-      display: flex;
-      align-items: center;
       font-size: 12px;
       height: 20px;
       background: #c9c9c9;
       color: white;
       padding: 0px 16px;
+      text-align: ${this.props.dir==='rtl'? 'right' : 'left'};
     `
 
     const OrderDesc = styled.div`
       font-size: 14px;
       margin: 16px;
+      text-align: ${this.props.dir==='rtl'? 'right' : 'left'};
       `
     let itemsList = null;
     let discount = 0;
@@ -39,6 +39,7 @@ class Items extends Component {
         return(
           <React.Fragment key={index}>
             <Item
+              dir={this.props.dir}
               key={item.id}
               icon={null}
               title={item.name}
@@ -74,6 +75,7 @@ class Items extends Component {
             </Fieldset>
             {itemsList}
             <Item
+              dir={this.props.dir}
               qty={this.props.items.length}
               total={this.props.total}
             />

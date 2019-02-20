@@ -15,6 +15,10 @@ class Cards extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.store.uIStore.edit_customer_cards = this.props.store.localizationStore.getContent('common_edit', null);
+  }
+
   getRef(){
     return this.cardRef;
   }

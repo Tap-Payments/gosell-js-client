@@ -126,6 +126,7 @@ class Options extends Component {
             <div id="gosell-gateway-order-details" ref={el => (this.orderDetails = el)} className="gosell-gateway-order-details">
                 <div style={{height: 'fit-content'}}>
                   <Items
+                    dir={store.uIStore.getDir}
                     desc={store.configStore.tranx_description}
                     items={store.configStore.items}
                     labels={order_labels}
