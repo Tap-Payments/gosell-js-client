@@ -101,7 +101,7 @@ class Options extends Component {
               dir={store.uIStore.getDir}
               style={styles.row2}
               rowIcon={<Img imgSrc={payment.image} imgWidth="30" imgHeight="34" style={{padding: '6px 20px'}}/>}
-              rowTitle={{'secondary': payment.name}}
+              rowTitle={{'secondary': store.localizationStore.getContent('payment_methods_'+payment.name.toLowerCase(), null)}}
               onClick={this.handleWebClick.bind(this, payment)}
               addArrow={true}/>
 
@@ -119,15 +119,16 @@ class Options extends Component {
     }
 
     var symbol = store.localizationStore.getContent('supported_currencies_symbol_' + store.configStore.order.currency.toLowerCase(), null);
+    var order_labels = {items: store.localizationStore.getContent('items_list_title', null), desc: store.localizationStore.getContent('tranx_description_title', null)};
 
     return (
-
         <React.Fragment>
             <div id="gosell-gateway-order-details" ref={el => (this.orderDetails = el)} className="gosell-gateway-order-details">
                 <div style={{height: 'fit-content'}}>
                   <Items
                     desc={store.configStore.tranx_description}
                     items={store.configStore.items}
+                    labels={order_labels}
                     total={symbol + store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit))}/>
                 </div>
             </div>

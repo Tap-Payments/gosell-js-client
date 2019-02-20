@@ -1,7 +1,7 @@
 import {decorate, observable, computed} from 'mobx';
 import axios from 'axios';
 import Paths from '../../webpack/paths';
-// import "@babel/polyfill";
+import "@babel/polyfill";
 
 class ApiStore{
 
@@ -22,7 +22,7 @@ class ApiStore{
      var self = this;
 
      var body = {
-       "mode": "Development",
+       "mode": "Production",
        "headers": {
          "authorization": "Bearer " + publicKey,
        }
@@ -108,10 +108,10 @@ class ApiStore{
       self.RootStore.configStore.callbackFunc(json);
 
       if(json.errors[0].code == 99999){
-        self.RootStore.uIStore.showMsg('error', json.errors[0].description, null);
+        self.RootStore.uIStore.showMsg('warning', self.RootStore.localizationStore.getContent('session_error_msg', null), null);
       }
       else {
-        self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null), null);
+        self.RootStore.uIStore.showMsg('warning', self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null), null);
       }
     }
     else if(json.error){
@@ -119,16 +119,16 @@ class ApiStore{
       self.RootStore.configStore.callbackFunc(json);
 
       if(json.error.code == 99999){
-        self.RootStore.uIStore.showMsg('error', json.error.description, null);
+        self.RootStore.uIStore.showMsg('warning', self.RootStore.localizationStore.getContent('session_error_msg', null), null);
       }
       else {
-        self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null), null);
+        self.RootStore.uIStore.showMsg('warning', self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null), null);
       }
     }
     else if(json.response){
       console.log(json.response);
       self.RootStore.configStore.callbackFunc(json);
-      self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null), null);
+      self.RootStore.uIStore.showMsg('warning', self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null), null);
       // self.RootStore.uIStore.showMsg('error', json.response.message, json.id);
     }
     // else if(json.message){
@@ -1030,7 +1030,7 @@ class ApiStore{
   async createCard(customer_id, token){
     var self = this;
 
-    self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
+    self.RootStore.uIStore.startLoading('loader', self.RootStore.localizationStore.getContent('please_wait_msg', null), null);
 
     var headers = {
       'session_token':self.RootStore.merchantStore.session

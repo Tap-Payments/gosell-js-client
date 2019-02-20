@@ -151,6 +151,10 @@
    "en": "Successful Transaction",
    "ar": "عملية ناجحة "
  },
+ "gosell_failed_transaction":{
+   "en": "Failed Transaction",
+   "ar": ""
+ },
  "supported_currencies_kwd":{
    "en": "KWD",
    "ar": "د.ك"
@@ -175,7 +179,7 @@
    "en": "EUR",
    "ar": "اليورو"
  },
- "supported_currencies_ebp":{
+ "supported_currencies_gbp":{
    "en": "GBP",
    "ar": "جنيه إسترليني"
  },
@@ -193,83 +197,83 @@
  },
  "supported_currencies_symbol_kwd":{
    "en": "KD",
-   "ar": ""
+   "ar": "د.ك"
  },
  "supported_currencies_symbol_sar":{
    "en": "SR",
-   "ar": ""
+   "ar": "ر.س"
  },
  "supported_currencies_symbol_bhd":{
    "en": "BD",
-   "ar": ""
+   "ar": "د.ب"
  },
  "supported_currencies_symbol_aed":{
    "en": "AED",
-   "ar": ""
+   "ar": "د.إ"
  },
  "supported_currencies_symbol_egp":{
    "en": "EGP",
-   "ar": ""
+   "ar": "ج.م"
  },
  "supported_currencies_symbol_eur":{
    "en": "EUR",
-   "ar": ""
+   "ar": "يورو"
  },
- "supported_currencies_symbol_ebp":{
-   "en": "EGP",
-   "ar": ""
+ "supported_currencies_symbol_gbp":{
+   "en": "GBP",
+   "ar": "جنيه إسترليني"
  },
  "supported_currencies_symbol_omr":{
    "en": "OR",
-   "ar": ""
+   "ar": "ر.ع"
  },
  "supported_currencies_symbol_qar":{
    "en": "QR",
-   "ar": ""
+   "ar": "ر.ق"
  },
  "supported_currencies_symbol_usd":{
    "en": "USD",
-   "ar": ""
+   "ar": "دولار"
  },
  "supported_currencies_name_kwd":{
    "en": "Kuwaiti Dinar",
-   "ar": ""
+   "ar": "دينار كويتي"
  },
  "supported_currencies_name_sar":{
    "en": "Saudi Riyal",
-   "ar": ""
+   "ar": "ريال سعودي"
  },
  "supported_currencies_name_bhd":{
    "en": "Bahraini Dinar",
-   "ar": ""
+   "ar": "دينار بحريني"
  },
  "supported_currencies_name_aed":{
    "en": "UAE Dirham",
-   "ar": ""
+   "ar": "درهم اماراتي"
  },
  "supported_currencies_name_egp":{
    "en": "Egyptian Pound",
-   "ar": ""
+   "ar": "جنيه مصري"
  },
  "supported_currencies_name_eur":{
    "en": "EURO",
-   "ar": ""
+   "ar": "اليورو"
  },
- "supported_currencies_name_ebp":{
+ "supported_currencies_name_gbp":{
    "en": "British Pound ",
    "ar": ""
  },
  "supported_currencies_name_omr":{
    "en": "Omani Riyal",
-   "ar": ""
+   "ar": "ريال عماني"
  },
  "supported_currencies_name_qar":{
    "en": "Qatari Riyal",
-   "ar": ""
+   "ar": "ريال قطري"
  },
  "supported_currencies_name_usd":{
    "en": "US Dollar",
-   "ar": ""
+   "ar": "دولار أمريكي"
  },
  "btn_save_title":{
    "en": "Save",
@@ -325,10 +329,58 @@
  },
  "gosell_https_configration_msg":{
    "en": "goSell integrations must use HTTPS.",
-   "ar": ""
+   "ar": "... HTTPS."
  },
  "gosell_https_configration_submsg":{
    "en": "You're using live public key, which should be used with ssl certificate.",
-   "ar": ""
+   "ar": " ... HTTPS."
+ },
+ "gosell_payment_process_warning_msg":{
+   "en": "Please wait until the payment process is completed!",
+   "ar": "يرجى انتظار انتهاء عملية الدفع!"
+ },
+ "gosell_something_went_wrong":{
+   "en": "Sorry, something went wrong!",
+   "ar": "نعتذر٫ حدث خطأ"
+ },
+ "payment_methods_knet":{
+   "en": "KNET",
+   "ar": "كي نت"
+ },
+ "payment_methods_benefit":{
+   "en": "Benefit",
+   "ar": "بنفت"
+ },
+ "payment_methods_sadad":{
+   "en": "Sadad",
+   "ar": "سداد"
+ },
+ "view_order_details":{
+   "en": "View Order Details",
+   "ar": "اعرض تفاصيل الطلب"
+ },
+ "close_order_details":{
+   "en": "Close Order Details",
+   "ar": "اغلق تفاصيل الطلب"
+ },
+ "items_list_title":{
+   "en": "Items",
+   "ar": " ..."
+ },
+ "tranx_description_title":{
+   "en": "Description",
+   "ar": "الوصف"
+ },
+ "please_wait_msg":{
+   "en": "Please Wait",
+   "ar": "يرجى الانتظار"
+ },
+ "session_error_msg":{
+   "en": "Session has been expired!",
+   "ar": " ... "
+ },
+ "cvv_digit_required":{
+   "en": "<digit> digit CVV required",
+   "ar": "مطلوب <digit> أرقام CVV"
  }
 }

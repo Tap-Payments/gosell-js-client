@@ -390,13 +390,21 @@ class FormStore{
           // self.RootStore.uIStore.payBtn(false);
 
           console.log('event code 400');
+          console.log('code', event.error_interactive.code);
+
+          if(event.error_interactive.key === "cvv_digit_required"){
+            var msg = self.RootStore.localizationStore.getContent(event.error_interactive.key, null).replace('<digit>', event.error_interactive.digit);
+          }
+          else {
+            var msg = self.RootStore.localizationStore.getContent(event.error_interactive.key, null);
+          }
 
           //console.log('I am in error');
           if(event.error_interactive){
             self.RootStore.uIStore.setErrorHandler({
               visable: true,
               code: event.error_interactive.code,
-              msg: event.error_interactive.message,
+              msg: msg,
               type: 'error'
             });
           }
@@ -406,10 +414,18 @@ class FormStore{
             self.hide = true;
 
             if(event.error.code === 403){
+
+              if(event.error.key === "cvv_digit_required"){
+                var msg = self.RootStore.localizationStore.getContent(event.error.key, null).replace('<digit>', event.error.digit);
+              }
+              else {
+                var msg = self.RootStore.localizationStore.getContent(event.error.key, null);
+              }
+
               self.RootStore.uIStore.setErrorHandler({
                 visable: true,
                 code: event.error.code,
-                msg: event.error.message,
+                msg: msg,
                 type: 'error'
               });
             }
@@ -529,7 +545,7 @@ class FormStore{
             self.RootStore.uIStore.setErrorHandler({
                  visable: true,
                  code: 0,
-                 msg: result.error.message,
+                 msg: self.RootStore.localizationStore.getContent(result.error.key, null),
                  type: 'error'
             });
 

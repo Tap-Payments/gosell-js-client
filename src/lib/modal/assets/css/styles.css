@@ -497,6 +497,10 @@ a.tap-payments-close:hover {
 }
 
 [dir="ltr"] .tap-payments-notification-title {
+  float: left;
+}
+
+[dir="rtl"] .tap-payments-notification-title {
   float: right;
 }
 
@@ -559,6 +563,10 @@ a.tap-payments-close:hover {
 }
 
 [dir="ltr"] .tap-payments-options{
+  float: right;
+}
+
+[dir="rtl"] .tap-payments-options{
   float: left;
 }
 
@@ -578,6 +586,10 @@ a.tap-payments-close:hover {
 }
 
 [dir="ltr"] .tap-payments-option{
+  float: left;
+}
+
+[dir="rtl"] .tap-payments-option{
   float: right;
 }
 

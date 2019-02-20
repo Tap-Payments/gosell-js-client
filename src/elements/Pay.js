@@ -66,7 +66,7 @@ class Pay extends Component {
                store.uIStore.setPageIndex(1, 'y');
              }
              else {
-               store.uIStore.startLoading('loader', 'Please Wait');
+               store.uIStore.startLoading('loader', store.localizationStore.getContent('please_wait_msg', null));
 
                store.apiStore.handleTransaction(store.paymentStore.source_id, 'FORM', 0.0).then(result =>{
                  console.log(' ......>>>>>>>>> ', result);

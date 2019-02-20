@@ -31,12 +31,11 @@ class GoSell extends Component {
 
     RootStore.uIStore.modal_mode = 'page';
 
-    RootStore.uIStore.startLoading('loader', 'Please Wait', null);
+    // RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null), null);
 
     GoSell.handleView();
 
     RootStore.configStore.configure().then(result => {
-      console.log('legalllllll', RootStore.configStore.legalConfig);
       if(!GoSell.showTranxResult()){
         if(RootStore.configStore.legalConfig){
           RootStore.apiStore.init();
@@ -64,23 +63,30 @@ class GoSell extends Component {
   }
 
   static handleView(){
+
     RootStore.uIStore.getErrorHandler.visable = false;
+    // RootStore.localizationStore.getLocalization().then(result => {
+    //   if(result.status == 200){
+        // console.log('hey result', result);
 
-    RootStore.uIStore.startLoading('loader', 'Please Wait');
+        // console.log('from handleVIew', RootStore.localizationStore.getContent('please_wait_msg', RootStore.configStore.language));
 
-    RootStore.uIStore.setOpenModal(true);
+        // RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', RootStore.configStore.language), null);
 
-    // RootStore.configStore.configure();
+        RootStore.uIStore.setOpenModal(true);
 
-    var body =  document.body.children;
+        var body =  document.body.children;
 
-    for(var i=0; i<body.length; i++){
-      if(body[i].tagName === 'DIV' && !body[i].classList.contains('tap-payments-modal-container')){
-        console.log('body ', body[i].tagName);
-        body[i].classList.add('gosell-tap-payments-modal-blur-bg');
-        break;
-      }
-    }
+        for(var i=0; i<body.length; i++){
+          if(body[i].tagName === 'DIV' && !body[i].classList.contains('tap-payments-modal-container')){
+            console.log('body ', body[i].tagName);
+            body[i].classList.add('gosell-tap-payments-modal-blur-bg');
+            break;
+          }
+        }
+      // }
+    // });
+
   }
 
   static showTranxResult(){
@@ -135,7 +141,6 @@ class GoSell extends Component {
   }
 
   componentDidMount() {
-
     GoSell.showTranxResult();
 
     RootStore.uIStore.calcModalHeight();
@@ -182,12 +187,12 @@ class GoSell extends Component {
   static handleClose(){
       RootStore.uIStore.setOpenModal(false);
       RootStore.uIStore.getErrorHandler.visable = false;
-      RootStore.uIStore.startLoading('loader', 'Please Wait');
+      RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null));
 
       RootStore.uIStore.setSubPage(-1);
       RootStore.uIStore.setPageIndex(0, 'x');
       RootStore.actionStore.resetSettings();
-      
+
       var body =  document.body.children;
 
       for(var i=0; i<body.length; i++){
@@ -197,6 +202,10 @@ class GoSell extends Component {
           break;
         }
       }
+  }
+
+  close(){
+    RootStore.uIStore.getErrorHandler.visable = false;
   }
 
   closeModal(){

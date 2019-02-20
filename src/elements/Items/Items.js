@@ -58,7 +58,7 @@ class Items extends Component {
         {this.props.desc ?
             <React.Fragment>
               <Fieldset>
-                Description
+                {this.props.labels ? this.props.labels.desc : null}
               </Fieldset>
 
               <OrderDesc>
@@ -70,7 +70,7 @@ class Items extends Component {
         {this.props.items ?
           <React.Fragment>
             <Fieldset>
-              Items
+              {this.props.labels ? this.props.labels.items : null}
             </Fieldset>
             {itemsList}
             <Item
