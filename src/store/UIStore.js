@@ -592,15 +592,15 @@ class UIStore {
   }
 
   closeNotification(){
-    var self = this;
-
-    if(self.delete_card === null) {
-      this.errorHandler.visable = false;
-      setTimeout(function(){
-        self.errorHandler = {};
-      },
-      500);
-    }
+    // var self = this;
+    // 
+    // if(self.delete_card === null) {
+    //   this.errorHandler.visable = false;
+    //   setTimeout(function(){
+    //     self.errorHandler = {};
+    //   },
+    //   500);
+    // }
   }
 
   computed
