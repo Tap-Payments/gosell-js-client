@@ -184,6 +184,7 @@ class GoSell extends Component {
   static handleClose(){
       RootStore.uIStore.setOpenModal(false);
       RootStore.uIStore.getErrorHandler.visable = false;
+      RootStore.uIStore.show_order_details = false;
       RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null));
 
       RootStore.uIStore.setSubPage(-1);
