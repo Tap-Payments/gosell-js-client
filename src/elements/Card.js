@@ -76,6 +76,10 @@ class Card extends Component {
   confirmDeleteCard(card_id){
     var self = this;
 
+    this.props.store.uIStore.getErrorHandler.options = [
+      {title: this.props.store.localizationStore.getContent('alert_cancel_payment_status_undefined_btn_confirm_title', null)},
+      {title: '×'},
+    ];
     this.props.store.uIStore.getErrorHandler.visable = false;
 
 

@@ -8,6 +8,7 @@ class ConfigStore {
     this.RootStore = RootStore;
 
     this.config = null;
+    this.key = null;
     this.gateway = null;
 
     this.contactInfo = true;
@@ -69,6 +70,8 @@ class ConfigStore {
       console.log('set setConfig');
 
       this.config = value;
+      this.key = value.gateway ? value.gateway.publicKey : null;
+
       this.view = view;
       this.language = value.gateway.language ? value.gateway.language : 'en';
 
@@ -432,6 +435,7 @@ function isEmpty(obj){
 
 decorate(ConfigStore, {
   gateway: observable,
+  key: observable,
   language:observable,
   labels:observable,
   btn:observable,
