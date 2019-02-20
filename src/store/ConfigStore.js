@@ -22,7 +22,7 @@ class ConfigStore {
       base: {
         color: '#535353',
         lineHeight: '18px',
-        fontFamily: 'sans-serif',
+        fontFamily: this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
         fontSmoothing: 'antialiased',
         fontSize: '16px',
         '::placeholder': {
@@ -77,6 +77,7 @@ class ConfigStore {
 
       this.language === 'en' ? require('../assets/css/fontsEn.css') : require('../assets/css/fontsAr.css');
 
+      this.style.base.fontFamily = this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
 
       this.RootStore.localizationStore.getLocalization().then(result => {
         if(result.status == 200){
@@ -176,13 +177,13 @@ class ConfigStore {
               cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
             };
           }
-
+          console.log('font', this.language === 'en' ? "'Roboto-Light', sans-serif" : "'Helvetica-Light', sans-serif");
           if(value.gateway.style && isEmpty(value.gateway.style)){
             this.style = {
               base: value.gateway.style.base && isEmpty(value.gateway.style.base) ? value.gateway.style.base : {
                 color: '#535353',
                 lineHeight: '18px',
-                fontFamily: 'sans-serif',
+                fontFamily: this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
                 fontSmoothing: 'antialiased',
                 fontSize: '16px',
                 '::placeholder': {

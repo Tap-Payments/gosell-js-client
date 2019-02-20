@@ -153,7 +153,7 @@
  },
  "gosell_failed_transaction":{
    "en": "Failed Transaction",
-   "ar": ""
+   "ar": "لقد فشلت العملية"
  },
  "supported_currencies_kwd":{
    "en": "KWD",
@@ -181,7 +181,7 @@
  },
  "supported_currencies_gbp":{
    "en": "GBP",
-   "ar": "ج.أ"
+   "ar": "ج.إ"
  },
  "supported_currencies_omr":{
    "en": "OMR",
@@ -221,7 +221,7 @@
  },
  "supported_currencies_symbol_gbp":{
    "en": "GBP",
-   "ar": "جنيه إسترليني"
+   "ar": "ج.إ"
  },
  "supported_currencies_symbol_omr":{
    "en": "OR",
@@ -261,7 +261,7 @@
  },
  "supported_currencies_name_gbp":{
    "en": "British Pound ",
-   "ar": ""
+   "ar": "جنيه إسترليني"
  },
  "supported_currencies_name_omr":{
    "en": "Omani Riyal",
@@ -329,11 +329,11 @@
  },
  "gosell_https_configration_msg":{
    "en": "goSell integrations must use HTTPS.",
-   "ar": "... HTTPS."
+   "ar": "goSell integrations must use HTTPS."
  },
  "gosell_https_configration_submsg":{
    "en": "You're using live public key, which should be used with ssl certificate.",
-   "ar": " ... HTTPS."
+   "ar": "You're using live public key, which should be used with ssl certificate."
  },
  "gosell_payment_process_warning_msg":{
    "en": "Please wait until the payment process is completed!",
@@ -365,7 +365,7 @@
  },
  "items_list_title":{
    "en": "Items",
-   "ar": " ..."
+   "ar": "ّالمشتريات"
  },
  "tranx_description_title":{
    "en": "Description",
@@ -377,7 +377,7 @@
  },
  "session_error_msg":{
    "en": "Session has been expired!",
-   "ar": " ... "
+   "ar": "Session has been expired!"
  },
  "cvv_digit_required":{
    "en": "<digit> digit CVV required",

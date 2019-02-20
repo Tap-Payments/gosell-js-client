@@ -236,6 +236,7 @@ class GoSell extends Component {
                   duration={5}
                   title={RootStore.uIStore.getMsg.title}
                   desc={RootStore.uIStore.getMsg.desc}
+                  closeTitle={RootStore.localizationStore.strings != null ? RootStore.localizationStore.getContent('close_btn_title', null) : 'Close'}
                   close={RootStore.uIStore.modal_mode === 'popup' ? RootStore.uIStore.getMsg.handleClose : null}
                   handleClose={this.closeModal.bind(this)}
                 />}
