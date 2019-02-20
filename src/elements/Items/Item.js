@@ -55,8 +55,12 @@ class Item extends Component {
       letter-spacing: 0;
       text-align: center;
       border-radius: 40px;
-      margin: 0px 10px 0px 10px;
+      margin: ${this.props.dir === 'rtl' ? '0px 20px 0px 20px' : '0px 10px 0px 10px'};
       display: inline-block;
+      float: ${this.props.dir === 'rtl' ? 'right' : ''};
+      @media (max-width: 767px){
+        margin: 0;
+      }
     `
 
     const TotalAmount = styled.div`
