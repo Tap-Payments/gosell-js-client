@@ -103,18 +103,13 @@ class ConfigStore {
       this.language === 'en' ? require('../assets/css/fontsEn.css') : require('../assets/css/fontsAr.css');
 
       this.style.base.fontFamily = this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
-
-      this.RootStore.localizationStore.getLocalization().then(result => {
-        if(result.status == 200){
-          this.labels = {
-              cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
-              expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
-              cvv:this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
-              cardHolder:this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
-          }
-          this.btn = this.RootStore.localizationStore.getContent('btn_pay_title_generic', null);
-        }
-      });
+      this.labels = {
+          cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+          expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+          cvv:this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+          cardHolder:this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
+      }
+      this.btn = this.RootStore.localizationStore.getContent('btn_pay_title_generic', null);
   }
 
   async configure(){
