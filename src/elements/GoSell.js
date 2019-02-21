@@ -187,8 +187,6 @@ class GoSell extends Component {
         msg: '',
         type: ''
       });
-      // RootStore.uIStore.closeNotification();
-      // console.log('!!!!!!IM CLOSING!!!!!!');
     }
   };
 
