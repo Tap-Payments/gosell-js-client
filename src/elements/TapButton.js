@@ -97,7 +97,7 @@ class TapButton extends Component {
 
     return (
         <Btn id={this.props.id} ref={(node) => this.tapBtn = node} className="tap-btn"
-          onClick={this.handleClick.bind(this)}
+          onClick={this.props.active ? this.handleClick.bind(this) : () => {}}
           onKeyUp={this.handleOnKeyUp.bind(this)}
           onMouseOver={this.handleOnMouseOver.bind(this)}
           >
