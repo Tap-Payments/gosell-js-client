@@ -86,11 +86,11 @@ class ConfigStore {
       // This is required for IE8 and below.
       style.styleSheet.cssText = css;
     } else {
-      style.prepend(document.createTextNode(css));
+      style.append(document.createTextNode(css));
     }
-    head.prepend(style);
+    head.append(style);
   }
-  
+
   setConfig(value, view){
       console.log('set setConfig');
 
