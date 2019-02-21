@@ -424,8 +424,8 @@ body{
 .tap-payments-notification-bar{
   /* display: none; */
   position: relative;
-  transition: all 0.7s ease 0s;
-  top: -50px;
+  transition: top 0.7s ease 0s;
+  top: -100px;
   position: fixed;
   width: 100%;
   text-align: center;
@@ -508,7 +508,7 @@ a.tap-payments-close:hover {
   }
 
 .tap-payments-notification-false {
-  top: -50px;
+  top: -100px;
 }
 
 /* Safari 4.0 - 8.0 */
