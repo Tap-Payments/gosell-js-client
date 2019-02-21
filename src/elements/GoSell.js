@@ -174,7 +174,7 @@ class GoSell extends Component {
       RootStore.uIStore.setErrorHandler({
         visable: true,
         code: 'error',
-        msg: 'For better experiance, turn on your phone! ',
+        msg: RootStore.localizationStore.getContent('device_rotation_msg', null),
         type: 'warning'
       });
     }

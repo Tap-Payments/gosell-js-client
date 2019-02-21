@@ -351,7 +351,9 @@ class FormStore{
       self.RootStore.paymentStore.save_card_active = true;
       self.RootStore.uIStore.setIsActive('FORM');
       console.log('form', self.RootStore.uIStore.getIsActive);
-      var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.current_currency.symbol + self.RootStore.uIStore.formatNumber(self.RootStore.paymentStore.active_payment_option_total_amount.toFixed(self.RootStore.paymentStore.current_currency.decimal_digit)) : '';
+      // var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.current_currency.symbol + self.RootStore.uIStore.formatNumber(self.RootStore.paymentStore.active_payment_option_total_amount.toFixed(self.RootStore.paymentStore.current_currency.decimal_digit)) : '';
+
+      var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.getCurrentAmount : '';
 
       self.RootStore.uIStore.goSellBtn({
         title: self.RootStore.configStore.btn + ' ' + total,

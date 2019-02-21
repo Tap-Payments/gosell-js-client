@@ -406,5 +406,9 @@
  "otp_code_attempts":{
    "en": "You have exceeded the number of attempts",
    "ar": "تم تجاوز عدد المحاولات المسموح بها"
+ },
+ "device_rotation_msg":{
+   "en": "For better experiance, turn on your device! ",
+   "ar": "لتجربة أفضل قم بإعادة الجهاز للوضع الرأسي!"
  }
 }
