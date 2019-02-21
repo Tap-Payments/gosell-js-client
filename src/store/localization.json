@@ -386,5 +386,25 @@
  "close_btn_title":{
    "en": "Close",
    "ar": "إغلاق"
+ },
+ "card_deleted_successfully":{
+   "en": "The card has been deleted successfully!",
+   "ar": "تم حذف البطاقة بنجاح"
+ },
+ "card_deleting_error":{
+   "en": "Can't complete the process!",
+   "ar": "لا يمكنك إتمام العملية!"
+ },
+ "card_has_been_saved":{
+   "en": "The card has been saved!",
+   "ar": "تم حفظ البطاقة بنجاح!"
+ },
+ "otp_code_sent":{
+   "en": "OTP code has been successfully resent!",
+   "ar": "لقد تم اعادة ارسال الرمز بنجاح!"
+ },
+ "otp_code_attempts":{
+   "en": "You have exceeded the number of attempts",
+   "ar": "تم تجاوز عدد المحاولات المسموح بها"
  }
 }
