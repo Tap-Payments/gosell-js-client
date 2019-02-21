@@ -9,6 +9,12 @@ import FormStore from './FormStore.js';
 
 class RootStore {
   constructor() {
+
+    if (! window._babelPolyfill) {
+      require("@babel/polyfill");
+      console.log('after @babel-polyfill');
+    }
+
     console.log('rootStore');
     this.configStore = new ConfigStore(this);
     this.localizationStore = new LocalizationStore(this);
