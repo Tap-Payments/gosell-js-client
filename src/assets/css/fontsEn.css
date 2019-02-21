@@ -1,3 +1,5 @@
+/* all other styles are added in goSell.js  - src/store/ConfigStore.js*/
+
 /* Light */
 @font-face {
   font-family: "Roboto-Light";
@@ -61,8 +63,4 @@
     url("https://goSellJSLib.b-cdn.net/fonts/thin/Roboto-Thin.woff2") format("woff2"); /* Modern Browsers */
   font-weight: normal;
   font-style: normal;
-}
-
-*{
-  font-family: 'Roboto-Light', sans-serif;
 }

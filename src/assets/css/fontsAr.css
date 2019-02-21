@@ -1,3 +1,5 @@
+/* all other styles are added in goSell.js  - src/store/ConfigStore.js*/
+
 /* Helvetica */
 @font-face {
   font-family: "Helvetica-Light";
@@ -9,9 +11,4 @@
     url("https://goSellJSLib.b-cdn.net/fonts/helvetica/HelveticaNeueW2045Light1.woff2") format("woff2"); /* Modern Browsers */
   font-weight: normal;
   font-style: normal;
-}
-
-*{
-  font-family: 'Helvetica-Light', sans-serif;
-  line-height: 1.2;
 }

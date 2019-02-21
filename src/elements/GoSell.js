@@ -83,6 +83,7 @@ class GoSell extends Component {
         break;
       }
     }
+    RootStore.configStore.setGlobalStyle()
   }
 
   static showTranxResult(){
@@ -199,6 +200,7 @@ class GoSell extends Component {
           break;
         }
       }
+      RootStore.configStore.unSetGlobalStyle()
   }
 
   close(){

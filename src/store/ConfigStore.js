@@ -65,7 +65,32 @@ class ConfigStore {
       this.RootStore.configStore.gateway.callback(data);
     }
   }
+  unSetGlobalStyle(){
+    let styleChild = document.getElementsByClassName('goSellJSLibCSS')[0]
+    if (styleChild){
+      styleChild.parentNode.removeChild(styleChild);
+    }
+  }
 
+  setGlobalStyle(){
+    this.unSetGlobalStyle()
+    console.log(head);
+    const arCss = "*{font-family: 'Helvetica-Light', sans-serif; line-height: 1.2;}"
+    const enCss = "*{font-family: 'Roboto-Light', sans-serif;}"
+    const css = this.language.toLowerCase()=='ar'?  arCss : enCss
+    var head = document.head || document.getElementsByTagName('head')[0],
+        style = document.createElement('style');
+    style.type = 'text/css';
+    style.className = 'goSellJSLibCSS'
+    if (style.styleSheet){
+      // This is required for IE8 and below.
+      style.styleSheet.cssText = css;
+    } else {
+      style.prepend(document.createTextNode(css));
+    }
+    head.prepend(style);
+  }
+  
   setConfig(value, view){
       console.log('set setConfig');
 
