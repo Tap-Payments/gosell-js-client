@@ -86,9 +86,9 @@ class ConfigStore {
       // This is required for IE8 and below.
       style.styleSheet.cssText = css;
     } else {
-      style.append(document.createTextNode(css));
+      style.appendChild(document.createTextNode(css));
     }
-    head.append(style);
+    head.appendChild(style);
   }
 
   setConfig(value, view){
