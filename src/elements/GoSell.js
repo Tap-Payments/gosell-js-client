@@ -142,6 +142,7 @@ class GoSell extends Component {
 
     RootStore.uIStore.calcModalHeight();
     window.addEventListener('resize', RootStore.uIStore.calcModalHeight());
+    window.addEventListener('resize', this.handleWindowSizeChange);
   }
 
   handleClick(){

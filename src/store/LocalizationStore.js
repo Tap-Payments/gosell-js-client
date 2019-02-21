@@ -31,24 +31,24 @@ class LocalizationStore {
   }
 
   getContent(key, lang) {
-    const _defaultLang  = this.RootStore.configStore.language ? this.RootStore.configStore.language.toLowerCase() : 'en'
-    const _lang = lang ? lang.toLowerCase() : _defaultLang;
-    // console.log('key',key);
-    // console.log('_lang',_lang);
-    // console.log('lang', this.RootStore.configStore.language);
-
-    if(key){
-      const txt = this.strings[key][_lang];
-      if (txt) {
-        console.log('txt',txt);
-        return txt;
+    if(this.strings!==null){
+      const _defaultLang  = this.RootStore.configStore.language ? this.RootStore.configStore.language.toLowerCase() : 'en'
+      const _lang = lang ? lang.toLowerCase() : _defaultLang;
+      if(key){
+        const txt = this.strings[key][_lang];
+        if (txt) {
+          console.log('txt',txt);
+          return txt;
+        } else {
+          return ' ';
+        }
       } else {
         return ' ';
       }
-    } else {
+    }
+    else{
       return ' ';
     }
-
   }
 
 }
