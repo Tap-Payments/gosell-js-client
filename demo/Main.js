@@ -8,7 +8,7 @@ class Main extends Component {
         <h1>goSell Demos</h1>
         <ul>
           <li>
-            <Link to="/open-light-box-demo">LightBox & Elements</Link>
+            <Link to="/open-light-box-demo">LightBox & Elements Demo</Link>
           </li>
           <li>
             <Link to="/open-page-demo">
@@ -17,13 +17,13 @@ class Main extends Component {
             </Link>
           </li>
           <li>
-            <Link to="/gateway">Payment Gateway as a Page</Link>
+            <Link to="/gateway">Payment Gateway Page</Link>
           </li>
           <li>
-            <Link to="/demo">GoSellDemo</Link>
+            <Link to="/demo">GoSell Demo</Link>
           </li>
           <li>
-            <Link to="/elements-demo">GoSellElementsDemo</Link>
+            <Link to="/elements-demo">GoSell Elements Demo</Link>
           </li>
         </ul>
       </div>
