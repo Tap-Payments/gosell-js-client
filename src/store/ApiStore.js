@@ -685,14 +685,6 @@ class ApiStore{
       if(response.status == 200 && (res.error || res.errors)){
           self.sendResponse(response.data);
       }
-      else {
-        self.RootStore.uIStore.setErrorHandler({
-          visable: true,
-          code: res.status,
-          msg: self.RootStore.localizationStore.getContent('card_deleting_error', null),
-          type: 'error'
-        });
-      }
 
     })
     .catch(function (error) {

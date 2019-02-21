@@ -527,7 +527,7 @@ class UIStore {
     }
     else {
       this.shake_cards = true;
-      this.errorHandler = {};
+      // this.errorHandler = {};
       this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_cancel', null);
       if(this.getSubPage === 1 || this.getSubPage === 0){
         this.setSubPage(-1);
