@@ -606,8 +606,7 @@ class UIStore {
   computed
   get generateCustomNotification(){
 
-   // console.log('notifications >>>>>>>>>>>>', this.RootStore.configStore.notifications);
-
+    var self = this;
     if(this.RootStore.configStore.notifications !== 'standard' && !this.getErrorHandler.options){
         console.log('id', this.RootStore.configStore.notifications);
 
