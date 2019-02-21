@@ -510,6 +510,7 @@ a.tap-payments-close:hover {
   position: absolute;
   left: 0;
   width: 100%;
+  z-index: -1;
 }
 
 [dir="rtl"] .tap-payments-notification-title.tap-payments-notification-title-centered{
