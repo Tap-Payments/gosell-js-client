@@ -172,13 +172,23 @@ class GoSell extends Component {
     }
 
 
-    if(window.innerWidth > 500 && device === 'phone'){
+    if(window.innerHeight < window.innerWidth && device === 'phone'){
       RootStore.uIStore.setErrorHandler({
         visable: true,
         code: 'error',
         msg: RootStore.localizationStore.getContent('device_rotation_msg', null),
         type: 'warning'
       });
+    }
+    else{
+      RootStore.uIStore.setErrorHandler({
+        visable: false,
+        code: '',
+        msg: '',
+        type: ''
+      });
+      // RootStore.uIStore.closeNotification();
+      // console.log('!!!!!!IM CLOSING!!!!!!');
     }
   };
 
