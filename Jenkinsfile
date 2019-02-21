@@ -2,11 +2,18 @@
 node {
 
     currentBuild.result = "SUCCESS"
+    def autoCancelled = false    
+    List validBranches = ["master","prod","stage","feature_devops"]
 
     try {
 
       stage('Clone repository'){
 
+        if(!validBranches.any { it.contains(env.BRANCH_NAME) }){
+          autoCancelled = true
+          println("Invalid branch ${env.BRANCH_NAME}")
+          error('Aborting the build(Invalid branch).')
+        }
         checkout scm        
       }
 
@@ -23,15 +30,15 @@ node {
         sh 'docker -v'                
       } 
 
-      stage('Build image') {
-        if(env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'feature_devops'){
+      stage('Build image') {        
+        if(validBranches.any { it.contains(env.BRANCH_NAME) }){
             sh "bash ./_docker/build.sh ${APP_VERSION}" 
         }
       }
 
       stage('Deploy image') {
         
-        if(env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'feature_devops'){
+        if(validBranches.any { it.contains(env.BRANCH_NAME) }){
             dockerRegistryAction("login")
             sh "bash ./_docker/pushToRepo.sh ${APP_VERSION}"                 
             dockerRegistryAction("logout")
@@ -44,14 +51,22 @@ node {
 
       stage('Notify to remote server'){
       
-        echo 'ssh to web server and tell it to pull new image....'            
-        notifyRemoteServer(env.APP_ENV,env.JENKINS_ENV)      
+        if(validBranches.any { it.contains(env.BRANCH_NAME) }){
+          echo 'ssh to web server and tell it to pull new image....'            
+          notifyRemoteServer(env.APP_ENV,env.JENKINS_ENV)      
 
-        // send build success mail
-        sendBuildSuccessMail()
+          // send build success mail
+          sendBuildSuccessMail()
+        }
       } // Notify to stage server
     } // try
     catch (err) {
+
+        if (autoCancelled) {
+          currentBuild.result = 'SUCCESS'
+          // return here instead of throwing error to keep the build "green"
+          return
+        }
         currentBuild.result = "FAILURE"
 
         // send build faile mail
