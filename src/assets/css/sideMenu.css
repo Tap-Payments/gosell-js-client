@@ -40,6 +40,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   opacity: 0;
+  border-radius: 0;
 }
 
 @media (max-width: 440px){
