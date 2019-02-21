@@ -7,8 +7,8 @@
   },
   "mail": {
     "from": "devops@tap.company",
-    "to1": "devops@tap.company,h.qutmosh@tap.company",
-    "to": "s.kumar@tap.company",
+    "to": "devops@tap.company,h.qutmosh@tap.company",
+    "to1": "s.kumar@tap.company",
     "replyTo": "devops@tap.company"
   }
 }
