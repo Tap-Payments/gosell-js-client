@@ -1,0 +1,14 @@
+{
+  "app": {
+    "name": "go-sell",
+    "version": "1.0.0",
+    "jenkins_env": "prod",
+    "website_url": "http://35.237.168.102/"
+  },
+  "mail": {
+    "from": "devops@tap.company",
+    "to1": "devops@tap.company,h.qutmosh@tap.company",
+    "to": "s.kumar@tap.company",
+    "replyTo": "devops@tap.company"
+  }
+}
