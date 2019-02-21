@@ -270,6 +270,13 @@ body{
 .tap-payments-header-title{
   display: inline-block;
   vertical-align: top;
+  float: left;
+  text-align: left;
+}
+
+[dir='rtl'] .tap-payments-header-title{
+  float: right;
+  text-align: right;
 }
 
 .tap-payments-header-close-icon{

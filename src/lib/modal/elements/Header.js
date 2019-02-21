@@ -75,6 +75,8 @@ class Header extends Component{
 
       var ModalIcon = styled.div`
         display: inline-block;
+        float: left;
+        float: ${this.props.dir==='rtl'?'right':'left'}
       `;
 
       var Title = styled.div`
