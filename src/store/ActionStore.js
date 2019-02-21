@@ -86,7 +86,7 @@ class ActionStore {
                 this.RootStore.uIStore.show_order_details = false;
               }
               else{
-                order.style.height = paymentOptions.clientHeight;
+                order.style.height = paymentOptions.style.height;
                 paymentOptions.style.height = 0;
                 console.log('order now is ', order.style.height);
                 console.log('paymentOptions now is ', paymentOptions.style.height);
