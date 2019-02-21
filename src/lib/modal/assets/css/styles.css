@@ -469,6 +469,11 @@ a.tap-payments-close:hover {
   opacity: 1;
 }
 
+[dir='rtl'] a.tap-payments-close {
+    height: 40px;
+    line-height: 1;
+}
+
 .tap-payments-notification-bar .tap-payments-close {
   /* position: absolute; */
   /* padding: 0px 20px; */
