@@ -69,7 +69,7 @@ class TapBtn extends Component {
                 />
               </div>
               <BtnTitle style={this.props.style ? this.props.style.titleStyle : {}}>{this.props.children}</BtnTitle>
-              <div style={{width: '30px', height: '30px', margin: '0px 10px',pointerEvents: 'none'}}><img src={'https://goselljslib.b-cdn.net/imgs/3d-security.svg'} style={{width:'15px', height:'28'}}/></div>
+              <div style={{width: '30px', height: '30px', margin: '0px 10px',pointerEvents: 'none'}}><img src={'https://goselljslib.b-cdn.net/imgs/3d-security.svg'} style={{width:'15px', height:'28px'}}/></div>
         </Btn>
     );
   }

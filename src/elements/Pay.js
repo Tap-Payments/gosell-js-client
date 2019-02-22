@@ -1,24 +1,14 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
-import Row from './Row';
-import Label from './Label';
-import Img from './Img';
-import Separator from './Separator';
-import Cards from './Cards';
-import SaveForm from './SaveForm';
 import Options from './Options';
 import Paths from '../../webpack/paths';
-// import bill from '../assets/imgs/bill.svg';
 import TapButton from './TapButton';
 import Otp from './Otp';
-// import SwipeableViews from 'react-swipeable-views';
 import ExtraFees from './ExtraFees';
-// import TapSlider from '@tap-payments/tap-react-slider'
 import TapSlider from '../TapSlider2/TapSlider';
 import SupportedCurrencies from './SupportedCurrencies';
 import BusinessInfo from './BusinessInfo';
 import styled from "styled-components";
-
 
 class Pay extends Component {
 

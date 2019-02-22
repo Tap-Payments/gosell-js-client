@@ -92,6 +92,8 @@ class Card extends Component {
 
     self.props.store.apiStore.deleteCard(this.cardRef.id, this.props.index).then(result => {
         console.log('delete card response', result);
+
+
         if(result.deleted){
 
           self.props.store.apiStore.updateCards().then(updatedList => {
@@ -109,6 +111,23 @@ class Card extends Component {
              // calculate the modal again
              this.props.store.uIStore.calcElementsHeight('gosell-gateway-payment-options');
 
+          });
+        }
+        else {
+
+          this.props.store.uIStore.setErrorHandler({
+            visable: true,
+            code: result.status,
+            msg: this.props.store.localizationStore.getContent('card_deleting_error', null),
+            type: 'error'
+          });
+
+          self.props.store.uIStore.delete_card = null;
+          self.props.store.uIStore.shakeCards(true);
+          self.setState({
+              delete: false,
+              shake: true,
+              loading: false
           });
         }
 

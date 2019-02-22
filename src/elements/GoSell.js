@@ -83,6 +83,7 @@ class GoSell extends Component {
         break;
       }
     }
+    RootStore.configStore.setGlobalStyle()
   }
 
   static showTranxResult(){
@@ -121,14 +122,14 @@ class GoSell extends Component {
   }
 
   componentWillMount() {
-    this.handleWindowSizeChange();
     this.config(this.props);
+    this.handleWindowSizeChange();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.handleWindowSizeChange();
     console.log('nextProps', nextProps);
     this.config(nextProps);
+    this.handleWindowSizeChange();
   }
 
   config(props){
@@ -140,7 +141,9 @@ class GoSell extends Component {
     GoSell.showTranxResult();
 
     RootStore.uIStore.calcModalHeight();
-    window.addEventListener('resize', RootStore.uIStore.calcModalHeight());
+    // window.addEventListener('resize', RootStore.uIStore.calcModalHeight());
+    window.addEventListener('resize', this.handleWindowSizeChange);
+    window.addEventListener('resize', this.updateDimensions);
   }
 
   handleClick(){
@@ -151,32 +154,37 @@ class GoSell extends Component {
   // when the component is not mounted anymore
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleWindowSizeChange);
+    window.removeEventListener('resize', this.updateDimensions);
   }
 
-  handleWindowSizeChange = () => {
+  updateDimensions() {
+    RootStore.uIStore.calcElementsHeight('gosell-gateway-payment-options');
+  }
+
+  handleWindowSizeChange(){
     var device = RootStore.uIStore.deviceOS;
 
     if(window.innerWidth <= 823 && device === 'phone'){
       RootStore.uIStore.setIsMobile(true);
       RootStore.uIStore.setSubPage(-1);
-      // this.handleUI();
-      RootStore.uIStore.calcModalHeight();
     }
     else {
       RootStore.uIStore.setIsMobile(false);
       RootStore.uIStore.setPageIndex(0, 'x');
-      // this.handleUI();
-      RootStore.uIStore.calcModalHeight();
     }
 
 
-    if(window.innerWidth > 500 && device === 'phone'){
+    if(window.innerHeight < window.innerWidth && device === 'phone'){
       RootStore.uIStore.setErrorHandler({
         visable: true,
         code: 'error',
-        msg: 'For better experiance, turn on your phone! ',
+        msg: RootStore.localizationStore.getContent('device_rotation_msg', null),
         type: 'warning'
       });
+    }
+    else{
+      RootStore.uIStore.errorHandler.visable = false;
+      RootStore.uIStore.setErrorHandler({});
     }
   };
 
@@ -199,6 +207,7 @@ class GoSell extends Component {
           break;
         }
       }
+      RootStore.configStore.unSetGlobalStyle()
   }
 
   close(){
@@ -255,7 +264,7 @@ class GoSell extends Component {
                   closeIcon={Paths.imgsPath + 'close.svg'}
                   onClose={GoSell.handleClose}
                   style={RootStore.uIStore.modal.headerStyle}
-                  separator={RootStore.uIStore.getIsMobile}></Header>}>
+                  separator={false}></Header>}>
                   {RootStore.uIStore.getOpenModal ?
                       <MainView store={RootStore} /> : null }
                </Modal>

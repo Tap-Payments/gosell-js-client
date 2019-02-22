@@ -88,62 +88,72 @@ class UIStore {
 
   calcElementsHeight(id){
 
-    if(this.getIsMobile){
+    const node = document.getElementById(id);
 
-      this.setMainHeight(0);
+    if(node){
+      if(this.getIsMobile){
 
-      var modalBodyHeight = document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86;
+        this.setMainHeight(0);
 
-      const node = document.getElementById(id);
-      console.log('node', node);
-      const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
+        // var modalBodyHeight = document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86;
 
-      var self = this;
-      var total = 10;
-      allDivs.forEach(function(element) {
-        total += element.clientHeight;
-      });
+        var modalBodyHeight = this.bodyHeight - 86;
 
-      console.log('&& total', total);
-      console.log('&& modalBodyHeight', modalBodyHeight);
+        const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
 
-      if(modalBodyHeight > total || (id === 'form-container' && modalBodyHeight < total)){
-        this.setMainHeight(total);
+        var self = this;
+        var total = 10;
+        allDivs.forEach(function(element) {
+          total += element.clientHeight;
+        });
+
+        if(modalBodyHeight > total || (id === 'form-container' && modalBodyHeight < total)){
+          this.setMainHeight(total);
+          this.bodyHeight = total + 86;
+          this.modalHeight = this.bodyHeight + 65;
+        }
+        else {
+          this.setMainHeight(modalBodyHeight);
+        }
       }
       else {
-        this.setMainHeight(modalBodyHeight);
+        this.setMainHeight(0);
+
+        const node = document.getElementById(id);
+        console.log('node', node);
+        const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
+
+        var self = this;
+        var total = 10;
+        allDivs.forEach(function(element) {
+          total += element.clientHeight;
+          console.log('height', element.clientHeight);
+        });
+
+        this.setMainHeight(total);
       }
-
     }
-    else {
-      this.setMainHeight(0);
 
-      const node = document.getElementById(id);
-      console.log('node', node);
-      const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
+    this.calcModalHeight();
+    this.setSliderHeight();
 
-      var self = this;
-      var total = 10;
-      allDivs.forEach(function(element) {
-        total += element.clientHeight;
-        console.log('height', element.clientHeight);
-      });
-
-      this.setMainHeight(total);
-    }
   }
 
   setMainHeight(value){
 
     this.mainHeight = value;
 
-    if(this.mainHeight > 0){
-
       if(this.getIsMobile){
-        this.bodyHeight = this.mainHeight + 86;
-        console.log('&& bodyHeight', this.bodyHeight);
-        this.modalHeight = this.bodyHeight + 65;
-        console.log('&& modalHeight', this.modalHeight);
+        var w = window,
+            d = document,
+            documentElement = d.documentElement,
+            body = d.getElementsByTagName('body')[0],
+            width = w.innerWidth || documentElement.clientWidth || body.clientWidth,
+            height = w.innerHeight|| documentElement.clientHeight|| body.clientHeight;
+
+        this.modalHeight = height - 50;
+
+        this.bodyHeight = this.modalHeight - 65;
       }
       else {
         this.bodyHeight = this.mainHeight + 86;
@@ -151,10 +161,6 @@ class UIStore {
         this.modalHeight = this.bodyHeight + 156;
         console.log('&& modalHeight', this.modalHeight);
       }
-    }
-
-    this.calcModalHeight();
-    this.setSliderHeight();
 
   }
 
@@ -527,7 +533,7 @@ class UIStore {
     }
     else {
       this.shake_cards = true;
-      this.errorHandler = {};
+      // this.errorHandler = {};
       this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_cancel', null);
       if(this.getSubPage === 1 || this.getSubPage === 0){
         this.setSubPage(-1);
@@ -606,8 +612,7 @@ class UIStore {
   computed
   get generateCustomNotification(){
 
-   // console.log('notifications >>>>>>>>>>>>', this.RootStore.configStore.notifications);
-
+    var self = this;
     if(this.RootStore.configStore.notifications !== 'standard' && !this.getErrorHandler.options){
         console.log('id', this.RootStore.configStore.notifications);
 

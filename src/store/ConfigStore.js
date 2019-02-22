@@ -65,6 +65,31 @@ class ConfigStore {
       this.RootStore.configStore.gateway.callback(data);
     }
   }
+  unSetGlobalStyle(){
+    let styleChild = document.getElementsByClassName('goSellJSLibCSS')[0]
+    if (styleChild){
+      styleChild.parentNode.removeChild(styleChild);
+    }
+  }
+
+  setGlobalStyle(){
+    this.unSetGlobalStyle()
+    console.log(head);
+    const arCss = "*{font-family: 'Helvetica-Light', sans-serif; line-height: 1.2;}"
+    const enCss = "*{font-family: 'Roboto-Light', sans-serif;}"
+    const css = this.language.toLowerCase()=='ar'?  arCss : enCss
+    var head = document.head || document.getElementsByTagName('head')[0],
+        style = document.createElement('style');
+    style.type = 'text/css';
+    style.className = 'goSellJSLibCSS'
+    if (style.styleSheet){
+      // This is required for IE8 and below.
+      style.styleSheet.cssText = css;
+    } else {
+      style.appendChild(document.createTextNode(css));
+    }
+    head.appendChild(style);
+  }
 
   setConfig(value, view){
       console.log('set setConfig');
@@ -75,21 +100,18 @@ class ConfigStore {
       this.view = view;
       this.language = value.gateway.language ? value.gateway.language : 'en';
 
+      this.RootStore.uIStore.dir = this.language === 'ar' ? 'rtl' : 'ltr';
+
       this.language === 'en' ? require('../assets/css/fontsEn.css') : require('../assets/css/fontsAr.css');
 
       this.style.base.fontFamily = this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
-
-      this.RootStore.localizationStore.getLocalization().then(result => {
-        if(result.status == 200){
-          this.labels = {
-              cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
-              expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
-              cvv:this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
-              cardHolder:this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
-          }
-          this.btn = this.RootStore.localizationStore.getContent('btn_pay_title_generic', null);
-        }
-      });
+      this.labels = {
+          cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+          expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+          cvv:this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+          cardHolder:this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
+      }
+      this.btn = this.RootStore.localizationStore.getContent('btn_pay_title_generic', null);
   }
 
   async configure(){
@@ -108,6 +130,8 @@ class ConfigStore {
           this.gateway = value.gateway;
 
           this.language = value.gateway.language ? value.gateway.language : 'en';
+
+          this.RootStore.uIStore.dir = this.language === 'ar' ? 'rtl' : 'ltr';
 
           // console.log('supportedCurrencies', value.gateway.supportedCurrencies);
           // console.log('type', typeof value.gateway.supportedCurrencies);

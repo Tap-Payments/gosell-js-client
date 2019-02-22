@@ -535,41 +535,50 @@ class PaymentStore{
 
   computed
   get getCurrentValue(){
+
     let old = this.RootStore.configStore.order;
-
-    console.log('old', old);
     let current =  this.RootStore.paymentStore.current_currency;
-    let old_amount = this.RootStore.uIStore.formatNumber(old.amount.toFixed(old.decimal_digit));
-    let new_amount = this.RootStore.uIStore.formatNumber(current.amount.toFixed(current.decimal_digit));
+    
+    var title = {'main': this.getMainAmount};
 
-    console.log(old_amount, new_amount);
-
-
-    var old_symbol = this.RootStore.localizationStore.getContent('supported_currencies_symbol_' + old.currency.toLowerCase(), null);
-    var new_symbol = this.RootStore.localizationStore.getContent('supported_currencies_symbol_' + current.currency.toLowerCase(), null);
-
-    if(this.RootStore.uIStore.getDir === 'rtl'){
-
-      var title = {'main': old_amount + ' ' + old_symbol};
-
-      if(current.currency !== old.currency){
-          title = {'main': new_amount + ' ' + new_symbol, 'secondary': old_amount + ' ' + old_symbol}
-      }
-
+    if(current.currency !== old.currency){
+          title = {'main': this.getCurrentAmount, 'secondary': this.getMainAmount}
     }
-    else {
-      var title = {'main': old_symbol + ' ' + old_amount};
-
-      if(current.currency !== old.currency){
-          title = {'main': new_symbol + ' ' + new_amount, 'secondary': old_symbol + ' ' + old_amount}
-      }
-    }
-
-
 
     console.log('title', title);
 
     return title;
+  }
+
+  computed
+  get getMainAmount(){
+    let old = this.RootStore.configStore.order;
+    let old_amount = this.RootStore.uIStore.formatNumber(old.amount.toFixed(old.decimal_digit));
+
+
+    var old_symbol = this.RootStore.localizationStore.getContent('supported_currencies_symbol_' + old.currency.toLowerCase(), null);
+
+    if(this.RootStore.uIStore.getDir === 'rtl'){
+      return old_amount + ' ' + old_symbol;
+    }
+    else {
+      return old_symbol + old_amount;
+    }
+  }
+
+  computed
+  get getCurrentAmount(){
+    let current =  this.RootStore.paymentStore.current_currency;
+    let new_amount = this.RootStore.uIStore.formatNumber(current.amount.toFixed(current.decimal_digit));
+
+    var new_symbol = this.RootStore.localizationStore.getContent('supported_currencies_symbol_' + current.currency.toLowerCase(), null);
+
+    if(this.RootStore.uIStore.getDir === 'rtl'){
+      return new_amount + ' ' + new_symbol;
+    }
+    else {
+      return new_symbol + new_amount;
+    }
 
   }
 

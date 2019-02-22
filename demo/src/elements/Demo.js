@@ -65,6 +65,8 @@ class Demo extends Component {
   }
 
   render() {
+
+    console.log('something wrong here', this.Store.gateway);
     return (
       <div className="demo-settings">
       <fieldset>
@@ -154,7 +156,7 @@ class Demo extends Component {
                    btnColor={'#2ACE00'}
                    active={true}
                    animate={this.Store.btnLoading}
-                   handleClick={this.handleGoSellElements.bind(this)}>{this.Store.gateway.labels.actionButton != null ? Store.gateway.labels.actionButton : "Pay"}</TapBtn>
+                   handleClick={this.handleGoSellElements.bind(this)}>{this.Store.gateway.labels.actionButton != null ? this.Store.gateway.labels.actionButton : "Pay"}</TapBtn>
               </React.Fragment>
              : null}
 

@@ -1,7 +1,6 @@
 import {decorate, observable, computed} from 'mobx';
 import axios from 'axios';
 import Paths from '../../webpack/paths';
-// import "@babel/polyfill";
 
 class ApiStore{
 
@@ -76,8 +75,6 @@ class ApiStore{
       "background: yellow; color: black; display: block;"
     );
      var self = this;
-
-     this.RootStore.uIStore.dir = this.RootStore.configStore.language === 'ar' ? 'rtl' : 'ltr';
 
      // console.log('session ', self.RootStore.merchantStore.session);
 
@@ -320,14 +317,17 @@ class ApiStore{
                   self.sendResponse(chg.data);
                   self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), chg.data.id);
                 }
-                else {
+                else if(chg.data.status && (chg.data.status.toUpperCase() === 'ABANDONED' || chg.data.status.toUpperCase() === 'CANCELLED' || chg.data.status.toUpperCase() === 'FAILED' || chg.data.status.toUpperCase() === 'DECLINED' || chg.data.status.toUpperCase() === 'RESTRICTED' || chg.data.status.toUpperCase() === 'VOID' || chg.data.status.toUpperCase() === 'TIMEDOUT')) {
                   self.sendResponse(chg.data);
                   self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), chg.data.id);
                 }
+                else {
+                  self.sendResponse(chg.data);
+                }
+
             }
             else {
               self.sendResponse(chg.data);
-              self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), null);
             }
         });
         break;
@@ -355,14 +355,16 @@ class ApiStore{
                 self.sendResponse(auth.data);
                 self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), auth.data.id);
               }
-              else {
+              else if(auth.data.status && (auth.data.status.toUpperCase() === 'ABANDONED' || auth.data.status.toUpperCase() === 'CANCELLED' || auth.data.status.toUpperCase() === 'FAILED' || auth.data.status.toUpperCase() === 'DECLINED' || auth.data.status.toUpperCase() === 'RESTRICTED' || auth.data.status.toUpperCase() === 'TIMEDOUT')) {
                 self.sendResponse(auth.data);
                 self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), auth.data.id);
+              }
+              else {
+                self.sendResponse(auth.data);
               }
           }
           else {
             self.sendResponse(auth.data);
-            self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), null);
           }
 
         });
@@ -418,14 +420,6 @@ class ApiStore{
     .then(async function (response) {
       res = response;
       console.log('charge', response);
-      // self.RootStore.configStore.callbackFunc(response.data);
-      //
-      // console.log('type ==============> ', type);
-      //
-      // if(response.data.code == 100){
-      //   self.sendResponse(response.data);
-      //   // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
-      // }
 
     })
     .catch(function (error) {
@@ -487,14 +481,6 @@ class ApiStore{
     .then(async function (response) {
       res = response;
       console.log('authorize', res);
-
-      // self.RootStore.configStore.callbackFunc(response.data);
-      //
-      // if(response.data.code == 100){
-      //   self.sendResponse(response.data);
-      //   // self.RootStore.uIStore.showMsg('warning', response.data.message, response.data.code);
-      // }
-
 
     })
     .catch(function (error) {
@@ -566,16 +552,17 @@ class ApiStore{
                       self.RootStore.configStore.callbackFunc(charge.data);
                       self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), charge.data.id);
                     }
-                    else {
+                    else if(charge.data.status && (charge.data.status.toUpperCase() === 'ABANDONED' || charge.data.status.toUpperCase() === 'CANCELLED' || charge.data.status.toUpperCase() === 'FAILED' || charge.data.status.toUpperCase() === 'DECLINED' || charge.data.status.toUpperCase() === 'RESTRICTED' || charge.data.status.toUpperCase() === 'VOID' || charge.data.status.toUpperCase() === 'TIMEDOUT')) {
                       self.sendResponse(charge.data);
                       self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), charge.data.id);
+                    }
+                    else {
+                      self.sendResponse(charge.data);
                     }
               }
               else {
                 console.log('error', charge);
                 self.sendResponse(charge.data);
-                self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), null);
-
               }
             });
             break;
@@ -595,16 +582,18 @@ class ApiStore{
                     self.RootStore.configStore.callbackFunc(charge.data);
                     self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), auth.data.id);
                   }
+                  else if(auth.data.status && (auth.data.status.toUpperCase() === 'ABANDONED' || auth.data.status.toUpperCase() === 'CANCELLED' || auth.data.status.toUpperCase() === 'FAILED' || auth.data.status.toUpperCase() === 'DECLINED' || auth.data.status.toUpperCase() === 'RESTRICTED' || auth.data.status.toUpperCase() === 'TIMEDOUT')) {
+                    self.sendResponse(auth.data);
+                    self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), auth.data.id);
+                  }
                   else {
                     self.sendResponse(auth.data);
-                    self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), charge.data.id);
                   }
 
               }
               else {
                 console.log('error', auth.data);
                 self.sendResponse(auth.data);
-                self.RootStore.uIStore.showMsg('error', self.RootStore.localizationStore.getContent('gosell_failed_transaction', null), null);
               }
             });
             break;
@@ -614,71 +603,6 @@ class ApiStore{
         return await transaction;
 
       }
-
-  //
-  // async getTransaction(id){
-  //    var self = this;
-  //
-  //    var body = {
-  //      "mode": "Production",
-  //      "headers": {
-  //        "authorization": "Bearer " + this.RootStore.configStore.gateway.publicKey,
-  //      }
-  //    }
-  //
-  //    var res = null, data = null, transaction = null;
-  //    await axios.post(Paths.serverPath +'/init', body)
-  //    .then(async function (response) {
-  //
-  //      res = response.data;
-  //      console.log('key api', res);
-  //
-  //      if(res.status === 'success'){
-  //
-  //        data = res.data;
-  //        self.mode = data.live_mode;
-  //        self.RootStore.merchantStore.merchant = {id: data.merchant_id, name: data.merchant_name};
-  //        self.RootStore.merchantStore.pk = self.RootStore.configStore.gateway.publicKey;
-  //        self.RootStore.merchantStore.session = data.session_token;
-  //
-  //        self.RootStore.paymentStore.status_display_duration = data.sdk_settings.status_display_duration;
-  //        self.RootStore.paymentStore.otp_resend_interval = data.sdk_settings.otp_resend_interval;
-  //        self.RootStore.paymentStore.otp_resend_attempts = data.sdk_settings.otp_resend_attempts;
-  //
-  //        self.RootStore.paymentStore.card_wallet = data.permission.card_wallet;
-  //        self.RootStore.paymentStore.setThreeDSecure(data.permission.threeDSecure);
-  //
-  //        var type = id.substring(0,4);
-  //        console.log('type ====================> ', type);
-  //
-  //        switch (type) {
-  //          case 'chg_':
-  //            transaction = await self.getCharge(id);
-  //            break;
-  //          case 'auth':
-  //            transaction = await self.getAuthorize(id);
-  //            break;
-  //        }
-  //
-  //      }
-  //      else {
-  //        self.RootStore.uIStore.showMsg('warning', res.errors[0].description, res.errors[0].code);
-  //
-  //      }
-  //    })
-  //    .catch(function (error) {
-  //      console.log(error);
-  //    });
-  //
-  //
-  //    if(res.status === 'success' && transaction.status == 200){
-  //      return await res;
-  //    }
-  //    else {
-  //      return await null;
-  //    }
-  //
-  //  }
 
   async getCharge(chg_id){
     var self = this;
@@ -758,14 +682,6 @@ class ApiStore{
       if(response.status == 200 && (res.error || res.errors)){
           self.sendResponse(response.data);
       }
-      else {
-        self.RootStore.uIStore.setErrorHandler({
-          visable: true,
-          code: res.status,
-          msg: res.message,
-          type: 'error'
-        });
-      }
 
     })
     .catch(function (error) {
@@ -807,7 +723,7 @@ class ApiStore{
              self.RootStore.uIStore.setErrorHandler({
                visable: true,
                code: 'error',
-               msg: 'Something went wrong!',
+               msg: self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null),
                type: 'error'
              });
            }
@@ -816,7 +732,7 @@ class ApiStore{
                self.RootStore.uIStore.setErrorHandler({
                  visable: true,
                  code: 'success',
-                 msg: 'The card has been deleted Successfully!',
+                 msg: self.RootStore.localizationStore.getContent('card_deleted_successfully', null),
                  type: 'success'
                });
              }, 200);
@@ -829,7 +745,7 @@ class ApiStore{
            self.RootStore.uIStore.setErrorHandler({
              visable: true,
              code: 'error',
-             msg: 'Something went wrong!',
+             msg: self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null),
              type: 'error'
            });
 
@@ -923,20 +839,21 @@ class ApiStore{
       res = response;
       console.log('token', res);
 
-        if(res.status == 200 && (res.data.error || res.data.errors)){
+        if(res.status != 200 || (res.data.error || res.data.errors) || res.status == 'fail'){
           self.sendResponse(res.data);
-        }else{
-          var error = res.data;
-          console.log('error', error);
-
-          self.RootStore.uIStore.setErrorHandler({
-            visable: true,
-            code: error.status,
-            msg: error.message,
-            type: 'error'
-          });
-
         }
+        // else{
+        //   var error = res.data;
+        //   console.log('error', error);
+        //
+        //   self.RootStore.uIStore.setErrorHandler({
+        //     visable: true,
+        //     code: error.status,
+        //     msg: self.RootStore.localizationStore.getContent('gosell_something_went_wrong', null),
+        //     type: 'error'
+        //   });
+        //
+        // }
 
     })
     .catch(function (error) {
@@ -1064,19 +981,14 @@ class ApiStore{
               self.sendResponse(res.data);
           }
           else {
-            self.RootStore.uIStore.showMsg('success', 'The card has been saved!', res.id);
+
+            self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('card_has_been_saved', null), res.id);
           }
 
         }
         else {
           console.log('error', res);
-
-          // self.RootStore.uIStore.startLoading('loader', 'Please Wait', null);
-          //
-          // setTimeout(function(){
           self.sendResponse(response.data);
-            // self.RootStore.uIStore.showMsg('error', res.errors[0].description, null);
-          // }, 1000);
         }
 
 
@@ -1192,7 +1104,7 @@ class ApiStore{
               self.RootStore.uIStore.setErrorHandler({
                 visable: true,
                 code: res.response.code,
-                msg: res.response.message,
+                msg: self.RootStore.localizationStore.getContent('otp_code_sent', null),
                 type: 'success'
               });
             }

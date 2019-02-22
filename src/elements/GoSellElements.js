@@ -19,21 +19,21 @@ class GoSellElements extends Component {
   }
 
   componentDidMount(){
-    this.cardForm();
-  }
-
-  cardForm(){
     RootStore.formStore.generateCardForm();
-     // window.setInterval(RootStore.formStore.checkFocus, 10);
   }
 
   componentWillReceiveProps(nextProps) {
     this.config(nextProps);
+    console.log('=== nextProps', nextProps);
+
   }
 
   config(props){
     RootStore.configStore.setConfig(props, 'GOSELL_ELEMENTS');
-    RootStore.configStore.configure();
+    RootStore.configStore.configure().then(result => {
+      console.log('config result', result);
+    });
+    console.log('=== dir', RootStore.uIStore.getDir);
   }
 
   closeNotification(){

@@ -63,7 +63,7 @@ class BusinessInfo extends Component {
     const Business = styled.div`
       width: ${this.props.width};
       height: ${this.props.height};
-      background: ${!store.uIStore.getIsMobile ? 'rgba(255, 255, 255, 0.6)' : null};
+      background: ${!store.uIStore.getIsMobile ? 'rgba(255, 255, 255, 0.6)' : '#E9E9E9'};
       -ms-overflow-style: ${store.uIStore.browser === "IE" ? "none" : ""};
       overflow-y: ${store.uIStore.getIsMobile ? "scroll" : store.uIStore.browser === "IE" ? "scroll" : ""};
       `
@@ -205,7 +205,7 @@ class BusinessInfo extends Component {
     }
 
     return (
-      <Business id='gosell-business-info' className={align+"-business-info"}>
+      <Business id='gosell-business-info' className={!store.uIStore.getIsMobile ? align+"-business-info" : null}>
         {store.uIStore.getIsMobile ?
             <React.Fragment>
               {store.merchantStore.desc ?

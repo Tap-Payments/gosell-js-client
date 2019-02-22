@@ -3,7 +3,7 @@
 }
 
 .list-container {
-  top: 10px;
+  /* top: 10px; */
   position: relative;
   width: 100%;
   overflow: auto;
@@ -124,7 +124,7 @@
   }
 
   .list-container {
-    top: 0;
+    /* top: 0; */
     height: 89%;
   }
 

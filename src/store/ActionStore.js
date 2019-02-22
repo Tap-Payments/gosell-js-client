@@ -86,7 +86,7 @@ class ActionStore {
                 this.RootStore.uIStore.show_order_details = false;
               }
               else{
-                order.style.height = paymentOptions.clientHeight;
+                order.style.height = paymentOptions.style.height;
                 paymentOptions.style.height = 0;
                 console.log('order now is ', order.style.height);
                 console.log('paymentOptions now is ', paymentOptions.style.height);
@@ -210,7 +210,8 @@ class ActionStore {
         console.log("Hey I'm here");
         // this.RootStore.uIStore.payBtn(true);
 
-        var total = this.RootStore.paymentStore.active_payment_option_total_amount > 0 ? this.RootStore.paymentStore.current_currency.symbol + this.RootStore.uIStore.formatNumber(this.RootStore.paymentStore.active_payment_option_total_amount.toFixed(this.RootStore.paymentStore.current_currency.decimal_digit)) : '';
+        // var total = this.RootStore.paymentStore.active_payment_option_total_amount > 0 ? this.RootStore.paymentStore.current_currency.symbol + this.RootStore.uIStore.formatNumber(this.RootStore.paymentStore.active_payment_option_total_amount.toFixed(this.RootStore.paymentStore.current_currency.decimal_digit)) : '';
+        var total = this.RootStore.paymentStore.active_payment_option_total_amount > 0 ? this.RootStore.paymentStore.getCurrentAmount : '';
 
         this.RootStore.uIStore.goSellBtn({
           title: this.RootStore.configStore.btn + ' ' + total,
