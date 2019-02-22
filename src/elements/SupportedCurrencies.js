@@ -6,9 +6,6 @@ import Separator from './Separator';
 import Search from './Search';
 import Paths from '../../webpack/paths';
 import styled from "styled-components";
-// import leftArrow from '../assets/imgs/leftArrow.svg';
-// import rightArrow from '../assets/imgs/rightArrow.svg';
-// import searchIcon from '../assets/imgs/search.svg';
 
 class SupportedCurrencies extends Component {
 
@@ -126,13 +123,20 @@ class SupportedCurrencies extends Component {
 
       // this.props.store.uIStore.modal_mode === 'page' ? bg = 'rgba(255, 255, 255, 0.5)' :  bg = 'rgba(0,0,0,0.30)';
 
-      const Currencies = styled.div`
+      const CurrenciesPC = styled.div`
           height: ${this.props.height};
           margin-bottom: -4px;
           overflow: hidden;
           border-bottom-right-radius: ${this.props.dir === "rtl" ? "0px" : "8px"};
           border-bottom-left-radius: ${this.props.dir === "rtl" ? "8px" : "0px"};
           border-top-right-radius: ${this.props.dir === "rtl" ? "0px" : "8px"};
+          -ms-overflow-style: ${this.props.store.uIStore.browser === "IE" ? "none" : ""};
+          background: ${bg};
+      `
+      const CurrenciesMobile = styled.div`
+          height: ${this.props.height};
+          margin-bottom: -4px;
+          overflow: hidden;
           -ms-overflow-style: ${this.props.store.uIStore.browser === "IE" ? "none" : ""};
           background: ${bg};
       `
@@ -148,57 +152,31 @@ class SupportedCurrencies extends Component {
       `
 
       return (
-        <Currencies>
-
-          {this.props.theme === 'inline'?
-              <div>
-              <Separator />
-              <Row
-                dir={this.props.dir}
-                style={{'rowContainer': {height:'48px', backgroundColor: 'white'}, 'iconStyle':{width: '45px'}, 'textStyle': {width: '100%', margin:'0', textAlign: this.props.dir === 'ltr' ? 'left' : 'right'}, 'subtitle': {lineHeight: '45px', padding: '0 40px'} }}
-                rowIcon={<Img imgSrc={this.props.dir === 'ltr'? Paths.imgsPath + 'leftArrow.svg' : Paths.imgsPath +  'rightArrow.svg' } imgWidth="7" style={{padding: '16px'}}/>}
-                rowTitle={{'secondary': self.props.store.localizationStore.getContent('currency_selection_screen_title', null)}}
-                onClick={this.handleClick.bind(this, this.props.store.paymentStore.current_currency)}/>
-              <Separator />
-
-              </div>
-            : null }
-
+        <React.Fragment>
              {this.props.theme === 'inline'?
-                <div>
-                  {
-                    // <Search
-                    //   id="searchbar"
-                    //   dir={this.props.dir}
-                    //   style={{'searchContainer': {width: this.props.width, height: '50px'}, 'searchbar': {border:'1px solid #E1E1E1'}}}
-                    //   searchIcon={<img src={Paths.imgsPath + 'search.svg'} width="13"/>}
-                    //   searchPlaceholderText={this.props.store.localizationStore.getContent('search_bar_placeholder', null)}
-                    //   filterList={this.filter}/>
-                  }
+                <CurrenciesMobile>
+                <Separator />
+                  <Row
+                    dir={this.props.dir}
+                    style={{'rowContainer': {height:'48px', backgroundColor: 'white'}, 'iconStyle':{width: '45px'}, 'textStyle': {width: '100%', margin:'0', textAlign: this.props.dir === 'ltr' ? 'left' : 'right'}, 'subtitle': {lineHeight: '45px', padding: '0 40px'} }}
+                    rowIcon={<Img imgSrc={this.props.dir === 'ltr'? Paths.imgsPath + 'leftArrow.svg' : Paths.imgsPath +  'rightArrow.svg' } imgWidth="7" style={{padding: '16px'}}/>}
+                    rowTitle={{'secondary': self.props.store.localizationStore.getContent('currency_selection_screen_title', null)}}
+                    onClick={this.handleClick.bind(this, this.props.store.paymentStore.current_currency)}/>
+                  <Separator />
 
                   <div className="list-container">{mobileView} </div>
-                </div>
+                </CurrenciesMobile>
              :
-             <div>
-                 {
-                   // <Search
-                   //   id="searchbar"
-                   //   dir={this.props.dir}
-                   //   style={{'searchContainer': {width: this.props.width,padding: '5px'}, 'searchbar': {color: '#474747', border: '1px solid #f7f7f7',backgroundColor: 'rgba(255, 255, 255, 0.2)'}}}
-                   //   searchIcon={<img src={Paths.imgsPath + 'search.svg'} width="13"/>}
-                   //   searchPlaceholderText={this.props.store.localizationStore.getContent('search_bar_placeholder', null)}
-                   //   filterList={this.filter}/>
-                 }
-
-                  <div className='list-container' style={{direction: this.props.dir}}>
+              <CurrenciesPC>
+                  <div className='list-container' style={{direction: this.props.dir, top: '10px'}}>
                     {lightView}
                   </div>
 
                   <Effect />
-              </div>
+              </CurrenciesPC>
 
               }
-        </Currencies>
+        </React.Fragment>
       );
   }
 

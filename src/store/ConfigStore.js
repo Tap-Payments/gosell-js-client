@@ -100,6 +100,8 @@ class ConfigStore {
       this.view = view;
       this.language = value.gateway.language ? value.gateway.language : 'en';
 
+      this.RootStore.uIStore.dir = this.language === 'ar' ? 'rtl' : 'ltr';
+
       this.language === 'en' ? require('../assets/css/fontsEn.css') : require('../assets/css/fontsAr.css');
 
       this.style.base.fontFamily = this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
@@ -128,6 +130,8 @@ class ConfigStore {
           this.gateway = value.gateway;
 
           this.language = value.gateway.language ? value.gateway.language : 'en';
+
+          this.RootStore.uIStore.dir = this.language === 'ar' ? 'rtl' : 'ltr';
 
           // console.log('supportedCurrencies', value.gateway.supportedCurrencies);
           // console.log('type', typeof value.gateway.supportedCurrencies);

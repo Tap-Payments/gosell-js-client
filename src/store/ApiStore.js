@@ -76,8 +76,6 @@ class ApiStore{
     );
      var self = this;
 
-     this.RootStore.uIStore.dir = this.RootStore.configStore.language === 'ar' ? 'rtl' : 'ltr';
-
      // console.log('session ', self.RootStore.merchantStore.session);
 
      if(self.RootStore.merchantStore.session == null){

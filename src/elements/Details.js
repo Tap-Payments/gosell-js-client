@@ -18,8 +18,8 @@ class Details extends Component {
     var align = this.props.store.uIStore.getDir === 'ltr' ? 'left' : 'right';
 
     const Container = styled.div`
-      margin: 10px;
-      line-height: 1.6;
+      margin: ${store.configStore.tranx_description == null ? '22px 0px' : '10px 0px'};
+      line-height: 1.4;
       display: flex;
       flex-direction: column;
       align-items: ${this.props.store.uIStore.getIsMobile ? align : 'center'};

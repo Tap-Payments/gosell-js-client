@@ -19,11 +19,11 @@ class DemoConfigStore {
       notifications:'standard',
       callback: this.callbackFunc.bind(this),
       labels:{
-        cardNumber:"Card Number",
-        expirationDate:"MM/YY",
-        cvv:"CVV",
-        cardHolder:"Name on Card",
-        actionButton:"Pay"
+        // cardNumber:"Card Number",
+        // expirationDate:"MM/YY",
+        // cvv:"CVV",
+        // cardHolder:"Name on Card",
+        // actionButton:"Pay"
       },
       style: {
         base: {
@@ -161,6 +161,8 @@ class DemoConfigStore {
     let gatewayObj = Object.assign({}, this.gateway);
     let key = e.target.name;
 
+    console.log('language ? ', key);
+    console.log('language ? ', e.target.value);
     if(e.target.type == 'checkbox'){
       gatewayObj[key] = e.target.checked;
       console.log(typeof gatewayObj[key], gatewayObj[key]);

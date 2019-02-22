@@ -65,6 +65,8 @@ class Demo extends Component {
   }
 
   render() {
+
+    console.log('something wrong here', this.Store.gateway);
     return (
       <div className="demo-settings">
       <fieldset>

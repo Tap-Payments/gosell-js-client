@@ -35,7 +35,7 @@ class Header extends Component{
      }
 
      this.props.separator ? this.setState({
-         separator: {borderBottom: '1px solid #000'}
+         separator: {borderBottom: '0.5px solid #E1E1E1'}
       }) : this.setState({ separator: {borderBottom: 'none'} })
 
    }
@@ -57,7 +57,7 @@ class Header extends Component{
     }
 
     nextProps.separator ? this.setState({
-        separator: {borderBottom: '1px solid #000'}
+        separator: {borderBottom: '0.5px solid #E1E1E1'}
      }) : this.setState({ separator: {borderBottom: 'none'} })
   }
 
