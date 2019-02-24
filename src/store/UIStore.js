@@ -13,6 +13,7 @@ class UIStore {
     // this.btnLoader = false;
     this.msgLoader = false;
 
+    this.modalID = "gosell";
     // this.pay_btn = false;
 
     //screen width --> switch between mobile / pc views
@@ -711,7 +712,8 @@ decorate(UIStore, {
   modalHeight: observable,
   bodyHeight: observable,
   sliderHeight: observable,
-  browser: observable
+  browser: observable,
+  modalID: observable
 });
 
 export default UIStore;

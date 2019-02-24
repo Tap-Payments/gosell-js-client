@@ -74,8 +74,6 @@ class Item extends Component {
       margin: 0px 10px 0px 10px;
       display: inline-block;
       `
-      console.log('----this.props.dir---');
-      console.log(this.props.dir);
 
     const Side1 = styled.div`
       width: 50%;

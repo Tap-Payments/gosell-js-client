@@ -32,14 +32,13 @@ class Modal extends React.Component {
   static close = (id) => (e) => {
     e.preventDefault();
 
-    //console.log('close', id);
+    console.log('close', id);
 
     let modal = Modal.modals.find(x => x.props.id === id);
     modal.setState({ isOpen: false });
     //modal.forceUpdate();
 
     document.body.classList.remove('tap-payments-modal-open');
-
 
   }
 
@@ -52,6 +51,30 @@ class Modal extends React.Component {
 
   }
 
+  addBlur(){
+    var body =  document.body.children;
+
+    for(var i=0; i<body.length; i++){
+      if(body[i].tagName === 'DIV' && !body[i].classList.contains('tap-payments-modal-container')){
+        console.log('body ', body[i].tagName);
+        body[i].classList.add('gosell-tap-payments-modal-blur-bg');
+        break;
+      }
+    }
+  }
+
+  removeBlur(){
+    var body =  document.body.children;
+
+    for(var i=0; i<body.length; i++){
+      if(body[i].tagName === 'DIV' && body[i].classList.contains('gosell-tap-payments-modal-blur-bg')){
+        console.log('body ', body[i]);
+        body[i].classList.remove('gosell-tap-payments-modal-blur-bg');
+        break;
+      }
+    }
+  }
+
   componentWillMount(){
 
     this.setState({
@@ -60,9 +83,11 @@ class Modal extends React.Component {
 
     if(this.props.open){
       document.body.classList.add('tap-payments-modal-open');
+      this.addBlur();
     }
     else {
       document.body.classList.remove('tap-payments-modal-open');
+      this.removeBlur();
     }
 
 
@@ -70,6 +95,7 @@ class Modal extends React.Component {
       var self = this;
       setTimeout(function(){ self.setState({ isOpenWait: "tap-payments-showModal tap-payments-animateUp", loading: this.props.isLoading }); }, 700);
       document.body.classList.add('tap-payments-modal-open');
+
     }
     // else if(this.props.animate && this.props.isLoading){
     //   console.log('down animation');
@@ -134,9 +160,11 @@ class Modal extends React.Component {
 
     if(nextProps.open){
       document.body.classList.add('tap-payments-modal-open');
+      this.addBlur();
     }
     else {
       document.body.classList.remove('tap-payments-modal-open');
+      this.removeBlur();
     }
 
     if(nextProps.style){
@@ -167,17 +195,19 @@ class Modal extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log('close the modal pls !!', this.props.id);
+
+    this.props.onClose ? this.props.onClose() : null;
+
     // remove this modal instance from modal service
     Modal.modals = Modal.modals.filter(x => x.props.id !== this.props.id);
-  //  console.log('elements', this.element);
-    //this.element.remove();
-
-    this.setState({ isOpen: false, loading: this.props.isLoading, isOpenWait: null, modalStyle: {}, bodyStyle: {}, bodyContainerStyle: {}, dir: 'ltr', width: 400});
-
+    this.setState({ isOpen: false, loading: false, isOpenWait: null, modalStyle: {}, bodyStyle: {}, bodyContainerStyle: {}, dir: 'ltr', width: 400});
+    document.body.classList.remove('tap-payments-modal-open');
+    this.removeBlur();
+    this.modaldialog.remove();
   }
 
   handleClose(e) {
-    //console.log(e.target.className);
     // close modal on background click
     if (e.target.className === 'closeIn' || e.target.className === 'tap-payments-modal-background-color closeOut' || e.target.className === 'tap-payments-modal-background-color closeInOut') {
       Modal.close(this.props.id)(e);
@@ -186,9 +216,7 @@ class Modal extends React.Component {
 
 
   render() {
-    //tap-payments-modal-container
     return (
-
       <div className="tap-payments-modal-container" dir={this.state.dir} style={{display: this.state.isOpen ? '' : 'none'}} onClick={this.handleClose} ref={el => this.modaldialog = el}>
         {this.props.notification}
 
@@ -237,8 +265,6 @@ class Modal extends React.Component {
         );
       }
     }
-
-
 
     Modal.propTypes = propTypes;
 
