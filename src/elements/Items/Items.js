@@ -15,8 +15,8 @@ class Items extends Component {
   componentDidMount(){
     if(this.props.items){
       var itemsList = this.props.items.map((item, index) => {
-        console.log('item', item);
-        console.log('item discount', item.discount);
+        // console.log('item', item);
+        // console.log('item discount', item.discount);
         if(item){
           return(
             <React.Fragment key={index}>

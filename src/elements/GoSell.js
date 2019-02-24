@@ -13,6 +13,7 @@ class GoSell extends Component {
   //open Tap gateway as a light box by JS library
   static openLightBox(){
     RootStore.uIStore.modal_mode = 'popup';
+    RootStore.uIStore.modalID = "gosell-lightbox-payment-gateway";
 
     GoSell.handleView();
 
@@ -31,6 +32,7 @@ class GoSell extends Component {
   static generateTapGateway(){
 
     RootStore.uIStore.modal_mode = 'page';
+    RootStore.uIStore.modalID = "gosell-payment-gateway-page";
 
     GoSell.handleView();
 
@@ -74,16 +76,7 @@ class GoSell extends Component {
 
     RootStore.uIStore.setOpenModal(true);
 
-    var body =  document.body.children;
-
-    for(var i=0; i<body.length; i++){
-      if(body[i].tagName === 'DIV' && !body[i].classList.contains('tap-payments-modal-container')){
-        console.log('body ', body[i].tagName);
-        body[i].classList.add('gosell-tap-payments-modal-blur-bg');
-        break;
-      }
-    }
-    RootStore.configStore.setGlobalStyle()
+    RootStore.configStore.setGlobalStyle();
   }
 
   static showTranxResult(){
@@ -198,16 +191,7 @@ class GoSell extends Component {
       RootStore.uIStore.setPageIndex(0, 'x');
       RootStore.actionStore.resetSettings();
 
-      var body =  document.body.children;
-
-      for(var i=0; i<body.length; i++){
-        if(body[i].tagName === 'DIV' && body[i].classList.contains('gosell-tap-payments-modal-blur-bg')){
-          console.log('body ', body[i]);
-          body[i].classList.remove('gosell-tap-payments-modal-blur-bg');
-          break;
-        }
-      }
-      RootStore.configStore.unSetGlobalStyle()
+      RootStore.configStore.unSetGlobalStyle();
   }
 
   close(){
@@ -235,8 +219,9 @@ class GoSell extends Component {
 
     return(
         <React.Fragment>
-            <Modal id="gosell-payment-gateway"
+            <Modal id={RootStore.uIStore.modalID}
                 open={RootStore.uIStore.getOpenModal}
+                onClose={GoSell.handleClose}
                 isLoading={RootStore.uIStore.getLoadingStatus}
                 loader={<TapLoader
                   type={RootStore.uIStore.getMsg.type}

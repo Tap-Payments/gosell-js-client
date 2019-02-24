@@ -32,7 +32,7 @@ class LocalizationStore {
       if(key){
         const txt = this.strings[key][_lang];
         if (txt) {
-          console.log('txt',txt);
+          // console.log('txt',txt);
           return txt;
         } else {
           return ' ';
