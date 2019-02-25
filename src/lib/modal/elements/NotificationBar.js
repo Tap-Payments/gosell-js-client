@@ -131,14 +131,17 @@ class NotificationBar extends Component{
           style={Object.assign({}, this.state.modeStyle, this.props.style)}>
             <tbody>
               <tr>
-                <td className={this.props.options?"tap-payments-options":"tap-payments-options tap-payments-options-close-only"}>
-                  {this.props.options ? options :
-                    <a className="tap-payments-close" onClick={this.handleClose.bind(this)} title="close">{this.props.children ? "×" : ""}</a>}
-                </td>
                 <td
+                  align={this.props.dir == 'rtl' ? 'right' : 'left'}
                   className="tap-payments-notification-title"
                   onClick={this.props.onClick}>
                   <div style={{ textAlign: this.props.dir == 'rtl' ? 'right' : 'left'}}>{this.props.children}</div>
+                </td>
+                <td
+                align={this.props.dir == 'rtl' ? 'left' : 'right'}
+                className={this.props.options?"tap-payments-options":"tap-payments-options tap-payments-options-close-only"}>
+                  {this.props.options ? options :
+                    <a className="tap-payments-close" onClick={this.handleClose.bind(this)} title="close">{this.props.children ? "×" : ""}</a>}
                 </td>
               </tr>
             </tbody>
