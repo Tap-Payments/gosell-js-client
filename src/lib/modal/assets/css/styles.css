@@ -561,11 +561,11 @@ a.tap-payments-close:hover {
 }
 
 [dir="ltr"] .tap-payments-option{
-  float: left;
+  float: none;
 }
 
 [dir="rtl"] .tap-payments-option{
-  float: right;
+  float: none;
 }
 
 .tap-payments-option:hover{
