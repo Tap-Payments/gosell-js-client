@@ -452,7 +452,7 @@ body{
 
 
 .tap-payments-close {
-    float: right;
+    /* float: right; */
     font-size: 21px;
     font-weight: 100;
     color: #fff;

@@ -133,7 +133,7 @@ class NotificationBar extends Component{
               <tr>
                 <td
                   align={this.props.dir == 'rtl' ? 'right' : 'left'}
-                  className="tap-payments-notification-title"
+                  className={this.props.options?"tap-payments-notification-title":"tap-payments-notification-title tap-payments-notification-title-centered"}
                   onClick={this.props.onClick}>
                   <div style={{ textAlign: this.props.dir == 'rtl' ? 'right' : 'left'}}>{this.props.children}</div>
                 </td>
