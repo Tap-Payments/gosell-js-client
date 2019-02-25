@@ -5,7 +5,7 @@ import Paths from '../../webpack/paths';
 import TapButton from './TapButton';
 import Otp from './Otp';
 import ExtraFees from './ExtraFees';
-import TapSlider from '../TapSlider2/TapSlider';
+import TapSlider from '../lib/tapSlider/TapSlider';
 import SupportedCurrencies from './SupportedCurrencies';
 import BusinessInfo from './BusinessInfo';
 import styled from "styled-components";
