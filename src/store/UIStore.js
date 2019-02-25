@@ -652,9 +652,9 @@ class UIStore {
     var self = this;
     this.errorHandler = value;
 
-      // setTimeout(function(){
-      //   self.closeNotification();
-      // }, 5000);
+      setTimeout(function(){
+        self.closeNotification();
+      }, 5000);
   }
 
   warningHandler(){
