@@ -104,6 +104,8 @@ class ReactCodeInput extends Component {
   }
 
   handleChange(e) {
+    // console.log("ReactCodeInput handleChange");
+    var id = e.target.id;
     const { filterChars } = this.props;
 
     let value = String(e.target.value);
@@ -118,8 +120,11 @@ class ReactCodeInput extends Component {
 
 
     if(this.state.type === "otpCode") {
+      // console.log("otpCode value before ",value);
       value = this.containsArabicNumber(value) ? this.convert(value) :  value;
+      // console.log("otpCode value after ",value);
       value = value.replace(/[^\d]/g, '');
+      // console.log("otpCode value final ",value);
     }
 
 
@@ -133,13 +138,13 @@ class ReactCodeInput extends Component {
 
       if (value.length > 1) {
         value.split('').map((chart, i) => {
-          if (Number(e.target.dataset.id) + i < this.props.fields) {
-            input[Number(e.target.dataset.id) + i] = chart;
+          if (Number(id.substring(id.length - 1)) + i < this.props.fields) {
+            input[Number(id.substring(id.length - 1)) + i] = chart;
           }
           return false;
         });
       } else {
-        input[Number(e.target.dataset.id)] = value;
+        input[Number(id.substring(id.length - 1))] = value;
       }
 
       input.map((s, i) => {
@@ -149,9 +154,9 @@ class ReactCodeInput extends Component {
         return false;
       });
 
-      const newTarget = this.textInput[e.target.dataset.id < input.length
-        ? Number(e.target.dataset.id) + 1
-        : e.target.dataset.id];
+      const newTarget = this.textInput[id.substring(id.length - 1) < input.length
+        ? Number(id.substring(id.length - 1)) + 1
+        : id.substring(id.length - 1)];
 
       if (newTarget) {
         newTarget.focus();
@@ -171,7 +176,9 @@ class ReactCodeInput extends Component {
   }
 
   handleKeyDown(e) {
-    const target = Number(e.target.dataset.id),
+    var id = e.target.id;
+    // console.log("ReactCodeInput handleKeyDown",id.substring(id.length - 1));
+    const target = Number(id.substring(id.length - 1)),
       nextTarget = this.textInput[target + 1],
       prevTarget = this.textInput[target - 1];
 
