@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
-import {Modal, Header, NotificationBar} from '../lib/modal/';
+import {Modal, Header, NotificationBar} from '@tap-payments/modal-fix';
 import Paths from '../../webpack/paths';
 import '../assets/css/style.css';
 import MainView from './MainView';
@@ -183,15 +183,20 @@ class GoSell extends Component {
 
   static handleClose(){
       RootStore.uIStore.setOpenModal(false);
+      // RootStore.uIStore.stopLoading();
+
+      RootStore.uIStore.mainHeight = 0;
+
       RootStore.uIStore.getErrorHandler.visable = false;
       RootStore.uIStore.show_order_details = false;
-      RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null));
+      // RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null));
 
       RootStore.uIStore.setSubPage(-1);
       RootStore.uIStore.setPageIndex(0, 'x');
       RootStore.actionStore.resetSettings();
 
       RootStore.configStore.unSetGlobalStyle();
+
   }
 
   close(){
@@ -222,6 +227,7 @@ class GoSell extends Component {
             <Modal id={RootStore.uIStore.modalID}
                 open={RootStore.uIStore.getOpenModal}
                 onClose={GoSell.handleClose}
+                blur={true}
                 isLoading={RootStore.uIStore.getLoadingStatus}
                 loader={<TapLoader
                   type={RootStore.uIStore.getMsg.type}
@@ -250,8 +256,7 @@ class GoSell extends Component {
                   onClose={GoSell.handleClose}
                   style={RootStore.uIStore.modal.headerStyle}
                   separator={false}></Header>}>
-                  {RootStore.uIStore.getOpenModal ?
-                      <MainView store={RootStore} /> : null }
+                       <MainView store={RootStore} />
                </Modal>
           </React.Fragment>
       );
@@ -260,3 +265,5 @@ class GoSell extends Component {
 }
 
 export default observer(GoSell);
+// {RootStore.uIStore.getOpenModal ?
+//: null }
