@@ -11,24 +11,6 @@ class MainView extends Component {
       let store = this.props.store;
       console.log('sub pages +++++++++++++++++++++++++ ', store.uIStore.getSubPage);
       console.log('page dir >>>>>>>>>>>>>>>>>>>>>>>>>>>>', store.uIStore.pageDir);
-      // let height;
-      // switch (store.configStore.transaction_mode) {
-      //   case 'charge':
-      //     height = "100%";
-      //     break;
-      //   case 'authorize':
-      //     height = "100%";
-      //     break;
-      //   case 'save_card':
-      //     height = "auto";
-      //     break;
-      //   case 'get_token':
-      //     height = "auto";
-      //     break;
-      //   default:
-      //     height = "100%";
-      //     break;
-      // }
 
       return (
           <React.Fragment>

@@ -17,7 +17,11 @@ class TapSliderItem extends Component {
     //
     //   this.props.store.setInitialHeight(this.tapAwesomeItem.clientHeight);
     // }
-    this.props.store.setInitialWidth(document.getElementById('tapAwesomeSlider').clientWidth);
+
+    if(document.getElementById('tapAwesomeSlider').clientWidth > 0){
+      this.props.store.setInitialWidth(document.getElementById('tapAwesomeSlider').clientWidth);
+    }
+
     if(this.props.store.currentItemKey == 0){
         // console.log('height from did update : ', this.tapAwesomeItem.clientHeight);
 

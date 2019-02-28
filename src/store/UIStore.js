@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import {decorate, observable, computed} from 'mobx';
-import {NotificationBar} from '../lib/modal/';
+import {NotificationBar} from '@tap-payments/modal-fix';
 
 class UIStore {
 
@@ -13,7 +13,7 @@ class UIStore {
     // this.btnLoader = false;
     this.msgLoader = false;
 
-    this.modalID = "gosell";
+    this.modalID = "gosell-lightbox-payment-gateway";
     // this.pay_btn = false;
 
     //screen width --> switch between mobile / pc views
@@ -121,14 +121,14 @@ class UIStore {
         this.setMainHeight(0);
 
         const node = document.getElementById(id);
-        console.log('node', node);
+        //console.log('node', node);
         const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
 
         var self = this;
         var total = 10;
         allDivs.forEach(function(element) {
           total += element.clientHeight;
-          console.log('height', element.clientHeight);
+          //console.log('height', element.clientHeight);
         });
 
         this.setMainHeight(total);
@@ -158,9 +158,9 @@ class UIStore {
       }
       else {
         this.bodyHeight = this.mainHeight + 86;
-        console.log('&& bodyHeight', this.bodyHeight);
+        //console.log('&& bodyHeight', this.bodyHeight);
         this.modalHeight = this.bodyHeight + 156;
-        console.log('&& modalHeight', this.modalHeight);
+        //console.log('&& modalHeight', this.modalHeight);
       }
 
   }
@@ -337,7 +337,7 @@ class UIStore {
   }
 
   startLoading(loader_type, title, msg){
-    console.log('loader_type', loader_type + ' ' + true);
+    //console.log('loader_type', loader_type + ' ' + true);
 
     this.RootStore.uIStore.setMsg({
       type: loader_type,
@@ -556,9 +556,9 @@ class UIStore {
   //       this.shakeCards(true);
   //     }
   //
-  //     console.log('delete card', this.delete_card);
-  //     console.log('shake card', this.shake_cards);
-  //     console.log('pay_btn card', this.pay_btn);
+  //     //console.log('delete card', this.delete_card);
+  //     //console.log('shake card', this.shake_cards);
+  //     //console.log('pay_btn card', this.pay_btn);
   //   }
   // }
 
@@ -574,7 +574,7 @@ class UIStore {
   goSellBtn(value){
 
     if(!value.active){
-      console.log('!value.active');
+      //console.log('!value.active');
       this.btn.active = false;
       // this.RootStore.paymentStore.active_payment_option_total_amount = 0;
     }
@@ -586,7 +586,7 @@ class UIStore {
       loader: value.loader ? value.loader : this.btn.loader,
     }
 
-    // console.log('btn is active? ', this.btn.active);
+    // //console.log('btn is active? ', this.btn.active);
   }
 
   goSellOtp(value){
@@ -615,13 +615,13 @@ class UIStore {
 
     var self = this;
     if(this.RootStore.configStore.notifications !== 'standard' && !this.getErrorHandler.options){
-        console.log('id', this.RootStore.configStore.notifications);
+        //console.log('id', this.RootStore.configStore.notifications);
 
         var el = document.getElementById(this.RootStore.configStore.notifications);
-        console.log('element', el);
+        //console.log('element', el);
 
         if(this.getErrorHandler.msg && el != null){
-          console.log('this is happening');
+          //console.log('this is happening');
           el.innerHTML = this.getErrorHandler.msg;
         }
         setTimeout(function(){

@@ -24,7 +24,10 @@ class TapSlider extends Component {
   }
 
   resetDimintions() {
-    store.setInitialWidth(document.getElementById('tapAwesomeSlider').parentNode.clientWidth);
+    if(document.getElementById('tapAwesomeSlider').parentNode.clientWidth > 0){
+      store.setInitialWidth(document.getElementById('tapAwesomeSlider').parentNode.clientWidth);
+    }
+
     // store.setInitialHeight( document.getElementById('tapAwesomeSlider').clientHeight);
   }
 

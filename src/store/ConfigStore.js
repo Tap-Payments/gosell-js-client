@@ -65,15 +65,19 @@ class ConfigStore {
       this.RootStore.configStore.gateway.callback(data);
     }
   }
+
   unSetGlobalStyle(){
     let styleChild = document.getElementsByClassName('goSellJSLibCSS')[0]
     if (styleChild){
-      styleChild.parentNode.removeChild(styleChild);
+      setTimeout(function(){
+        styleChild.parentNode.removeChild(styleChild);
+      }, 1000);
+
     }
   }
 
   setGlobalStyle(){
-    this.unSetGlobalStyle()
+    this.unSetGlobalStyle();
     console.log(head);
     const arCss = "*{font-family: 'Helvetica-Light', sans-serif; line-height: 1.2;}"
     const enCss = "*{font-family: 'Roboto-Light', sans-serif;}"
