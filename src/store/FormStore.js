@@ -56,7 +56,7 @@ class FormStore{
     rawFile.send(null);
   }
 
-
+  // get ip address pass it to iframe
   detect_details(){
       return new Promise(function(resolve, reject) {
          var xhttp = new XMLHttpRequest();
@@ -291,6 +291,8 @@ class FormStore{
     var self = this;
 
     this.tap = this.generateForm(this.RootStore.configStore.gateway.publicKey);
+
+    // this.tap = Tapjsli(this.RootStore.configStore.gateway.publicKey);
 
     var elements = this.tap.elements({});
 

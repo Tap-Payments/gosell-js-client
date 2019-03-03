@@ -1,5 +1,6 @@
 import {decorate, observable, computed} from 'mobx';
 import axios from 'axios';
+import Paths from '../../webpack/paths';
 
 //include all the
 class ConfigStore {
@@ -19,18 +20,19 @@ class ConfigStore {
     this.btn = null;
 
     this.style = {
-      base: {
+      base:{
         color: '#535353',
         lineHeight: '18px',
         fontFamily: this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
+        fontUrl: this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
         fontSmoothing: 'antialiased',
-        fontSize: '16px',
+        fontSize:this.language === 'en' ? '15px' : '10px',
         '::placeholder': {
           color: 'rgba(0, 0, 0, 0.26)',
-          fontSize:'15px'
+          fontSize:this.language === 'en' ? '15px' : '10px'
         }
       },
-      invalid: {
+      invalid:{
         color: 'red',
         iconColor: '#fa755a '
       }
@@ -72,7 +74,6 @@ class ConfigStore {
       setTimeout(function(){
         styleChild.parentNode.removeChild(styleChild);
       }, 1000);
-
     }
   }
 
@@ -108,7 +109,10 @@ class ConfigStore {
 
       this.language === 'en' ? require('../assets/css/fontsEn.css') : require('../assets/css/fontsAr.css');
 
-      this.style.base.fontFamily = this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
+      this.style.base.fontSize = this.language === 'en' ? '15px' : '10px';
+      this.style.base.fontFamily = this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light';
+      this.style.base.fontUrl = this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css';
+
       this.labels = {
           cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
           expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
@@ -205,18 +209,19 @@ class ConfigStore {
               cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
             };
           }
-          console.log('font', this.language === 'en' ? "'Roboto-Light', sans-serif" : "'Helvetica-Light', sans-serif");
+          // console.log('font', this.language === 'en' ? "'Roboto-Light', sans-serif" : "'Helvetica-Light', sans-serif");
           if(value.gateway.style && isEmpty(value.gateway.style)){
             this.style = {
               base: value.gateway.style.base && isEmpty(value.gateway.style.base) ? value.gateway.style.base : {
                 color: '#535353',
                 lineHeight: '18px',
                 fontFamily: this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
+                fontUrl: this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
                 fontSmoothing: 'antialiased',
-                fontSize: '16px',
+                fontSize: this.language === 'en' ? '15px' : '10px',
                 '::placeholder': {
                   color: 'rgba(0, 0, 0, 0.26)',
-                  fontSize:'15px'
+                  fontSize:this.language === 'en' ? '15px' : '10px'
                 }
               },
               invalid: value.gateway.style.invalid && isEmpty(value.gateway.style.invalid) ? value.gateway.style.invalid : {
@@ -247,9 +252,9 @@ class ConfigStore {
     this.legalConfig = false;
   }
 
-    console.log('transaction_mode', this.transaction_mode);
+  // console.log('transaction_mode', this.transaction_mode);
+  // console.log('legal finally!!!', this.legalConfig);
 
-    console.log('legal finally!!!', this.legalConfig);
   }
 
   async tranxConfig(value){
@@ -325,8 +330,7 @@ class ConfigStore {
     var self = this;
 
     if(value.charge.id){
-      console.log(value.charge.id);
-
+      // console.log(value.charge.id);
       await this.RootStore.apiStore.getTransaction(value.charge.id).then(async result => {
         console.log('get charge transaction response', result);
         self.redirect_url = result.data.redirect.url;
@@ -346,7 +350,7 @@ class ConfigStore {
           post:  result.data.post.url
         };
 
-        console.log("order is: ", this.order);
+        // console.log("order is: ", this.order);
 
         self.tranx_description = self.charge.description;
 
@@ -379,7 +383,6 @@ class ConfigStore {
 
         this.legalConfig = true;
         return await this.legalConfig;
-
       }
       else {
         this.legalConfig = false;
@@ -387,9 +390,7 @@ class ConfigStore {
 
         return await this.legalConfig;
       }
-
     }
-
   }
 
   async authorizeDetails(value){
