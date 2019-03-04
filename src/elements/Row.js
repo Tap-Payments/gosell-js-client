@@ -52,8 +52,7 @@ class Row extends Component {
     const Text = styled.div`
       ${this.props.style.textStyle};
     `
-    console.log('ooooooooooo');
-    console.log(this.props.dir);
+    
     const arrowImg = this.props.style.arrowImg? this.props.style.arrowImg : this.props.dir === 'ltr' ? Paths.imgsPath + 'rightArrow.svg' : Paths.imgsPath + 'leftArrow.svg';
     if(this.props.rowTitle && this.props.rowTitle.main && this.props.rowTitle.secondary){
       var title = ( <Text className="tap-text-container">
