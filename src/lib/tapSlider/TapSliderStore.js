@@ -95,10 +95,10 @@ class TapSliderStore {
       document.getElementById('tapAwesomeDynamicSlides').appendChild(z)
     }
     this.targetElement = document.getElementById(id);
-    ReactDOM.render(
-      React.createElement(TapSliderItem, {store:this, child: this.children[key], style:{width:this.sliderInitialWidth, height:this.sliderInitialHeight}}),
-      document.getElementById(id)
-    );
+    // ReactDOM.render(
+    //   React.createElement(TapSliderItem, {store:this, child: this.children[key], style:{width:this.sliderInitialWidth, height:this.sliderInitialHeight}}),
+    //   document.getElementById(id)
+    // );
   }
 
   //  this function is to pass the higher props the are stopped by the native div
