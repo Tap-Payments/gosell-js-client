@@ -26,7 +26,7 @@ class ConfigStore {
         fontFamily: this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
         fontUrl: this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
         fontSmoothing: 'antialiased',
-        fontSize:this.language === 'en' ? '15px' : '10px',
+        fontSize:'15px',
         '::placeholder': {
           color: 'rgba(0, 0, 0, 0.26)',
           fontSize:this.language === 'en' ? '15px' : '10px'
@@ -72,7 +72,9 @@ class ConfigStore {
     let styleChild = document.getElementsByClassName('goSellJSLibCSS')[0]
     if (styleChild){
       setTimeout(function(){
-        styleChild.parentNode.removeChild(styleChild);
+        if(styleChild){
+          styleChild.parentNode.removeChild(styleChild);
+        }
       }, 1000);
     }
   }
@@ -109,7 +111,7 @@ class ConfigStore {
 
       this.language === 'en' ? require('../assets/css/fontsEn.css') : require('../assets/css/fontsAr.css');
 
-      this.style.base.fontSize = this.language === 'en' ? '15px' : '10px';
+      // this.style.base.fontSize = this.language === 'en' ? '15px' : '10px';
       this.style.base.fontFamily = this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light';
       this.style.base.fontUrl = this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css';
 
@@ -218,7 +220,7 @@ class ConfigStore {
                 fontFamily: this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
                 fontUrl: this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
                 fontSmoothing: 'antialiased',
-                fontSize: this.language === 'en' ? '15px' : '10px',
+                fontSize: '15px',
                 '::placeholder': {
                   color: 'rgba(0, 0, 0, 0.26)',
                   fontSize:this.language === 'en' ? '15px' : '10px'

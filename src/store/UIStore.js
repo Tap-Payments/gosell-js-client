@@ -329,12 +329,6 @@ class UIStore {
 
   setOpenModal(value){
     this.openModal = value;
-
-    if(value){
-      Modal.open(this.modalID);
-    }else {
-      Modal.close(this.modalID);
-    }
   }
 
   computed

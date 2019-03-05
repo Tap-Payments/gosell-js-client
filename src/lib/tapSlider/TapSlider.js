@@ -71,7 +71,7 @@ class TapSlider extends Component {
     else {
       // Same component updated props
       store.setChildren(this.props.children);
-      // store.updateItem(this.props.componentKey);
+      store.updateItem(this.props.componentKey);
     }
   }
 

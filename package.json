@@ -48,8 +48,7 @@
   },
   "dependencies": {
     "@tap-payments/loader": "^1.0.11",
-    "@tap-payments/modal": "^1.1.26",
-    "@tap-payments/modal-fix": "^1.1.55",
+    "@tap-payments/modal-fix": "^1.1.56",
     "autoprefixer": "^9.4.7",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
