@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import {decorate, observable, computed} from 'mobx';
-import {NotificationBar} from '@tap-payments/modal-fix';
+import {NotificationBar, Modal} from '@tap-payments/modal-fix';
 
 class UIStore {
 
@@ -329,6 +329,12 @@ class UIStore {
 
   setOpenModal(value){
     this.openModal = value;
+
+    if(value){
+      Modal.open(this.modalID);
+    }else {
+      Modal.close(this.modalID);
+    }
   }
 
   computed

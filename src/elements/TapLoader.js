@@ -26,6 +26,8 @@ class TapLoader extends Component {
       second: true,
       duration: this.props.duration,
     }
+
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentWillMount(){
@@ -131,7 +133,7 @@ class TapLoader extends Component {
             <p className='tap-msg-title' style={{color: this.props.color === 'white' ? this.props.color : '#4b4847'}}>{this.props.title}</p>
             <p className="tap-msg-desc" style={{color: this.props.color === 'white' ? '#a4a5a7' : '#797777'}}>{this.props.desc}</p>
             <br/>
-            {this.props.close ? <Btn onClick={this.handleClose.bind(this)}>{this.props.closeTitle}</Btn> : null}
+            {this.props.close ? <Btn onClick={this.handleClose}>{this.props.closeTitle}</Btn> : null}
           </div>
       </div>
     );

@@ -225,7 +225,7 @@ class GoSell extends Component {
     return(
         <React.Fragment>
             <Modal id={RootStore.uIStore.modalID}
-                open={RootStore.uIStore.getOpenModal}
+                // open={RootStore.uIStore.getOpenModal}
                 onClose={GoSell.handleClose}
                 blur={true}
                 isLoading={RootStore.uIStore.getLoadingStatus}
