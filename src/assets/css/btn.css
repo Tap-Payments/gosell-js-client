@@ -1,12 +1,11 @@
 .gosell-payments-btn-conteiner{
   width: 30px;
   height: 30px;
-  margin: 0px 10px;
   pointer-events: none;
   position: absolute;
   top: 0;
   bottom: 0;
-  margin: auto 16px;
+  margin: auto 10px;
 }
 
 /* .gosell-payments-btn-security-conteiner{
