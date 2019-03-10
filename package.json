@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run start-dev & npm run start-server",
-    "start-dev": "cross-env NODE_ENV=development webpack-dev-server --compress",
+    "start": "npm run start-dev & npm run start-server --host 192.168.8.164",
+    "start-dev": "cross-env NODE_ENV=development webpack-dev-server --compress --host 192.168.8.164",
     "start-server": "nodemon  --inspect client/server.js",
     "build": "cross-env NODE_ENV=production webpack",
     "transpile": "babel src -d dist --copy-files",
