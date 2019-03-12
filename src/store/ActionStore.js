@@ -108,11 +108,11 @@ class ActionStore {
       }
       else if(this.RootStore.uIStore.delete_card === null){
 
-        if(document.getElementById('gosell-business-info') != null){
-          var sideMenu = document.getElementById('gosell-side-menu').clientHeight;
-          var businessInfo = document.getElementById('gosell-business-info').scrollHeight;
+        if(document.getElementById('gosell-gateway--business-info') != null){
+          var sideMenu = document.getElementById('gosell-gateway-side-menu').clientHeight;
+          var businessInfo = document.getElementById('gosell-gateway--business-info').scrollHeight;
 
-          sideMenu < businessInfo ? document.getElementById('gosell-business-info').style.height = 'fit-content' : document.getElementById('gosell-business-info').style.height = '100%';
+          sideMenu < businessInfo ? document.getElementById('gosell-gateway--business-info').style.height = 'fit-content' : document.getElementById('gosell-gateway--business-info').style.height = '100%';
         }
 
         this.resetSettings();

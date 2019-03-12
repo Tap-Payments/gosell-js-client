@@ -81,10 +81,10 @@
   line-height: 65px;
 }
 
-.gosell-gateway-row-subtitle{
+.gosell-gateway-row-subtitle.gosell-gateway-title-subtitle{
   line-height: 41px;
 }
 
-/* .gosell-gateway-row-title{
+.gosell-gateway-row-title.gosell-gateway-title-subtitle{
   line-height: 0px;
-} */
+}

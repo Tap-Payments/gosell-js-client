@@ -52,12 +52,12 @@ class Row extends Component {
     const Text = styled.div`
       ${this.props.style.textStyle};
     `
-    
+
     const arrowImg = this.props.style.arrowImg? this.props.style.arrowImg : this.props.dir === 'ltr' ? Paths.imgsPath + 'rightArrow.svg' : Paths.imgsPath + 'leftArrow.svg';
     if(this.props.rowTitle && this.props.rowTitle.main && this.props.rowTitle.secondary){
       var title = ( <Text className="gosell-gateway-row-text-container">
-          <p className="gosell-gateway-row-subtitle title-subtitle" style={this.props.style.subtitle}>{this.props.rowTitle.secondary}</p>
-          <p className="gosell-gateway-row-title title-subtitle" style={this.props.style.title}>{this.props.rowTitle.main}</p>
+          <p className="gosell-gateway-row-subtitle gosell-gateway-title-subtitle" style={this.props.style.subtitle}>{this.props.rowTitle.secondary}</p>
+          <p className="gosell-gateway-row-title gosell-gateway-title-subtitle" style={this.props.style.title}>{this.props.rowTitle.main}</p>
         </Text>);
     }
     else if(this.props.rowTitle &&  this.props.rowTitle.main){

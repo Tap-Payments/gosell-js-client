@@ -205,7 +205,7 @@ class BusinessInfo extends Component {
     }
 
     return (
-      <Business id='gosell-business-info' className={!store.uIStore.getIsMobile ? "gosell-gateway-"+align+"-business-info" : null}>
+      <Business id='gosell-gateway-business-info' className={!store.uIStore.getIsMobile ? "gosell-gateway-"+align+"-business-info" : null}>
         {store.uIStore.getIsMobile ?
             <React.Fragment>
               <Separator />
