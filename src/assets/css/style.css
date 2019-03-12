@@ -1,8 +1,8 @@
-.tap-payments-modal-header {
+/* .tap-payments-modal-header {
   height: fit-content;
-}
+} */
 
-.list-container {
+.gosell-gateway-list-container {
   /* top: 10px; */
   position: relative;
   width: 100%;
@@ -30,7 +30,7 @@
   width: 100%;
 }
 
-.tap-wait {
+.gosell-gateway-wait-msg {
   height: 100%;
   justify-content: center;
   align-items: center;
@@ -48,7 +48,7 @@
   opacity: 1;
   visibility: visible;
 } */
-.tap-hidden-section {
+/* .tap-hidden-section {
   height: 100%;
   visibility: hidden;
   opacity: 0;
@@ -58,7 +58,7 @@
 .tap-visible-section {
   opacity: 1;
   visibility: visible;
-}
+} */
 
 .gosell-gateway-order-details {
   position: relative;
@@ -117,13 +117,13 @@
     top: 10px;
   }
 
-  .supported_currencies {
+  .gosell-gateway-supported-currencies {
     height: 100%;
     margin-bottom: -4px;
     overflow: hidden;
   }
 
-  .list-container {
+  .gosell-gateway-list-container {
     /* top: 0; */
     height: 89%;
   }

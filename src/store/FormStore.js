@@ -465,7 +465,7 @@ class FormStore{
 
       if(self.RootStore.configStore.transaction_mode === 'get_token' || self.RootStore.configStore.transaction_mode === 'save_card'){
         //console.log('&& update the element height');
-        self.RootStore.uIStore.calcElementsHeight('form-container');
+        self.RootStore.uIStore.calcElementsHeight('gosell-gateway-form-container');
       }
       else {
         self.RootStore.uIStore.calcElementsHeight('gosell-gateway-payment-options');

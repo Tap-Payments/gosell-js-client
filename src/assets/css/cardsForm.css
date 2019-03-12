@@ -1,9 +1,9 @@
-form#form-container{
+form#gosell-gateway-form-container{
   margin: 0px;
   width: 100%;
 }
 
-.gosell-disable-items{
+.gosell-gateway-disable-items{
   position: absolute;
   background: rgba(255,255,255, 0.3);
   width: 100%;
@@ -11,10 +11,10 @@ form#form-container{
   z-index: 999999999999;
 }
 
-.tap-form-content{
+.gosell-gateway-form-content{
   padding-bottom: 5px;
 }
 
-.gosell-card-form-active{
+.gosell-gateway-card-form-active{
   box-shadow: 0px 0px 5px #2ACE00, 0px 0px 5px #2ACE00;
 }

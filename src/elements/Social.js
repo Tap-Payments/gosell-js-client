@@ -43,17 +43,17 @@ class Social extends Component {
 
     return (
       <SocialContainer
-      className="tap-social"
+      className="gosell-gateway-social"
       dir={this.props.dir}
       onClick={this.onClickHandler}>
 
         {this.props.icon ?
-          <Icon className={align+"-social-icon"}>
-              <div className={align+"-social-icon-container"}>{this.props.icon}</div>
+          <Icon className={"gosell-gateway-"+align+"-social-icon"}>
+              <div className={"gosell-gateway-"+align+"-social-icon-container"}>{this.props.icon}</div>
               {this.props.expand ?
                 <React.Fragment>
-                  <div className="tap-social-empty"></div>
-                  <div className="tap-social-info">
+                  <div className="gosell-gateway-social-empty"></div>
+                  <div className="gosell-gateway-social-info">
                       {this.props.info}
                   </div>
                 </React.Fragment>

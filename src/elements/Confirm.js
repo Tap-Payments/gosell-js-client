@@ -78,9 +78,9 @@ class Confirm extends Component {
     var height = this.props.store.uIStore.mainHeight;
 
     return (
-        <div className={this.props.store.uIStore.getPageIndex == this.props.index ? "tap-confirm tap-confirm-fadeIn" : "tap-confirm"}>
+        <div className={this.props.store.uIStore.getPageIndex == this.props.index ? "gosell-gateway-confirm gosell-gateway-confirm-fadeIn" : "gosell-gateway-confirm"}>
           <div style={{height: height + 'px'}}>
-            <div className="tap-confirm-back" onClick={this.handleBackClick.bind(this)}>
+            <div className="gosell-gateway-confirm-back" onClick={this.handleBackClick.bind(this)}>
               <img src={Paths.imgsPath + 'back-arrow.svg'} width="43" style={{margin: '27px'}}/>
             </div>
 
@@ -97,7 +97,7 @@ class Confirm extends Component {
 
 // <div style={{height: '86px', position:'relative'}}>
 //   <TapButton
-//     id="tap-confirm-btn"
+//     id="gosell-gateway-confirm-btn"
 //     width="90%" height="44px"
 //     btnColor='#007AFF'
 //     animate={this.state.animate}

@@ -164,11 +164,11 @@ class SupportedCurrencies extends Component {
                     onClick={this.handleClick.bind(this, this.props.store.paymentStore.current_currency)}/>
                   <Separator />
 
-                  <div className="list-container">{mobileView} </div>
+                  <div className="gosell-gateway-list-container">{mobileView} </div>
                 </CurrenciesMobile>
              :
               <CurrenciesPC>
-                  <div className='list-container' style={{direction: this.props.dir, top: '10px'}}>
+                  <div className='gosell-gateway-list-container' style={{direction: this.props.dir, top: '10px'}}>
                     {lightView}
                   </div>
 
@@ -194,7 +194,7 @@ class SupportedCurrencies extends Component {
 //     //   filterList={this.filterList.bind(this)}/>
 //   }
 //
-//     <div className='list-container' style={{direction: this.props.dir}}>
+//     <div className='gosell-gateway-list-container' style={{direction: this.props.dir}}>
 //        {lightView}
 //        </div>
 //    </div>
@@ -211,7 +211,7 @@ class SupportedCurrencies extends Component {
 //    //   searchPlaceholderText={this.props.store.localizationStore.getContent('search_bar_placeholder', null)}
 //    //   filterList={this.filterList.bind(this)}/>
 //  }
-//    <div className='list-container' style={{direction: this.props.dir}}>
+//    <div className='gosell-gateway-list-container' style={{direction: this.props.dir}}>
 //       {lightView}
 //       </div>
 //   </div>

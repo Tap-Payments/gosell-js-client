@@ -15,7 +15,7 @@ class Timer extends React.Component {
     const {time} = this.props;
     return (
       <div className="displayedTime">
-        <div className={this.props.running ? "tap-otp-timer" : "tap-otp-timer tap-otp-fadeOut"}>{this.format(time)}</div>
+        <div className={this.props.running ? "gosell-gateway-otp-timer" : "gosell-gateway-otp-timer gosell-gateway-otp-fade-out"}>{this.format(time)}</div>
       </div>
     )
   }

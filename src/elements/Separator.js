@@ -11,7 +11,7 @@ class Separator extends Component {
 
   render() {
     return (
-      <div className="tap-separator" style={this.props.style ? this.props.style : null}></div>
+      <div className="gosell-gateway-separator" style={this.props.style ? this.props.style : null}></div>
     );
   }
 }

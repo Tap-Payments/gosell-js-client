@@ -118,8 +118,8 @@ class TapLoader extends Component {
     `;
 
     return (
-      <div className="tap-msg" style={{position:'relative',zIndex: '99999999999999'}}>
-          <div className='tap-msg-wrapper' style={window.innerWidth >= 440 ? style : {color:''}}>
+      <div className="gosell-gateway-msg" style={{position:'relative',zIndex: '99999999999999'}}>
+          <div className='gosell-gateway-msg-wrapper' style={window.innerWidth >= 440 ? style : {color:''}}>
             <div style={{width: '60px', height: '60px', margin: 'auto'}}>
               <Loader
                 toggleAnimation={this.state.status}
@@ -130,8 +130,8 @@ class TapLoader extends Component {
               //  completeIndicator={this.closeModal.bind(this)}
               />
             </div>
-            <p className='tap-msg-title' style={{color: this.props.color === 'white' ? this.props.color : '#4b4847'}}>{this.props.title}</p>
-            <p className="tap-msg-desc" style={{color: this.props.color === 'white' ? '#a4a5a7' : '#797777'}}>{this.props.desc}</p>
+            <p className='gosell-gateway-msg-title' style={{color: this.props.color === 'white' ? this.props.color : '#4b4847'}}>{this.props.title}</p>
+            <p className="gosell-gateway-msg-desc" style={{color: this.props.color === 'white' ? '#a4a5a7' : '#797777'}}>{this.props.desc}</p>
             <br/>
             {this.props.close ? <Btn onClick={this.handleClose}>{this.props.closeTitle}</Btn> : null}
           </div>

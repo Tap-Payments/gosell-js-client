@@ -1,4 +1,4 @@
-.tap-extra-fees-container{
+.gosell-gateway-extra-fees-container{
   /* display: flex;
   flex-direction: column;
   justify-content: center;
@@ -12,7 +12,7 @@
   background-color: rgba(255,255,255, 0.36);
 }
 
-.tap-extra-fees-title{
+.gosell-gateway-extra-fees-title{
   text-align: center;
   margin-top: 0px;
   font-size: 17px;
@@ -20,7 +20,7 @@
   /* font-family: 'Roboto-Regular', sans-serif; */
 }
 
-.tap-extra-fees-msg{
+.gosell-gateway-extra-fees-msg{
   font-size: 15px;
   text-align: center;
   margin: 0;

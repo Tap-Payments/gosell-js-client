@@ -108,7 +108,7 @@ class UIStore {
           total += element.clientHeight;
         });
 
-        if(modalBodyHeight > total || (id === 'form-container' && modalBodyHeight < total)){
+        if(modalBodyHeight > total || (id === 'gosell-gateway-form-container' && modalBodyHeight < total)){
           this.setMainHeight(total);
           this.bodyHeight = total + 86;
           this.modalHeight = this.bodyHeight + 65;

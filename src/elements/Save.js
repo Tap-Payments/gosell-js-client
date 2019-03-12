@@ -49,7 +49,7 @@ class Save extends Component {
   componentDidUpdate(nextProps){
 
     if(this.props.store.uIStore.mainHeight == 0){
-      this.props.store.uIStore.calcElementsHeight('form-container');
+      this.props.store.uIStore.calcElementsHeight('gosell-gateway-form-container');
       // console.log('content loaded? ', this.props.store.formStore.content_loaded);
       // console.log('Height didupdate', this.props.store.uIStore.mainHeight);
     }
@@ -58,7 +58,7 @@ class Save extends Component {
 
   componentDidMount(){
     this.props.store.uIStore.setPageIndex(0, 'y');
-    this.props.store.uIStore.calcElementsHeight('form-container');
+    this.props.store.uIStore.calcElementsHeight('gosell-gateway-form-container');
   }
 
   handleBtnClick(){

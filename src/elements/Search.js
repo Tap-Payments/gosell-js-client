@@ -22,16 +22,16 @@ class Search extends Component {
   render() {
 
     return (
-      <div className="tap-search-container" dir={this.props.dir} style={this.props.style ? this.props.style.searchContainer : null}>
+      <div className="gosell-gateway-search-container" dir={this.props.dir} style={this.props.style ? this.props.style.searchContainer : null}>
               <input
                 type="text"
                 id={this.props.id}
-                className="tap-searchbar"
+                className="gosell-gateway-search-bar"
                 placeholder={this.props.searchPlaceholderText}
                 style={this.props.style ? this.props.style.searchbar : null}
                 onKeyUp={this.filterHandler.bind(this)}
               />
-              <span className={"tap-input-icon"}>{this.props.searchIcon} </span>
+              <span className={"gosell-gateway-input-icon"}>{this.props.searchIcon} </span>
       </div>
     );
   }

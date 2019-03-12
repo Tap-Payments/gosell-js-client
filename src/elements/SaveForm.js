@@ -74,7 +74,7 @@ class SaveForm extends Component {
           <div
             id="tap-cards-form"
             ref={(node) => this.formRef = node}
-            className={store.uIStore.getIsActive === 'FORM' ? 'gosell-card-form-active tap-form-content' : 'tap-form-content'}
+            className={store.uIStore.getIsActive === 'FORM' ? 'gosell-gateway-card-form-active gosell-gateway-form-content' : 'gosell-gateway-form-content'}
             style={{ backgroundColor: 'white', display: this.state.hide ? 'none' : 'block'}}>
 
             <CardsForm ref="paymentForm" store={store} />

@@ -1,4 +1,4 @@
-.tap-otp-timer{
+.gosell-gateway-otp-timer{
   width: 100%;
   color: #007AFF;
   opacity: 1;
@@ -9,6 +9,6 @@
   transition: opacity 0.5s ease-out;
 }
 
-.tap-otp-fadeOut{
+.gosell-gateway-otp-fade-out{
   opacity: 0;
 }

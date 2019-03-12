@@ -521,9 +521,6 @@ class PaymentStore{
 
   saveCardOption(value){
 
-    console.log('save_card_active', this.save_card_active);
-    console.log('card_wallet',this.card_wallet);
-
     if(this.save_card_active && this.card_wallet){
       this.save_card_option = value;
       console.log('save_card_option',this.save_card_option);
@@ -531,6 +528,11 @@ class PaymentStore{
     else {
       this.save_card_option = false;
     }
+
+    console.log('save_card_active', this.save_card_active);
+    console.log('card_wallet',this.card_wallet);
+    console.log('save_card_option', this.save_card_option);
+
   }
 
   computed
@@ -538,7 +540,7 @@ class PaymentStore{
 
     let old = this.RootStore.configStore.order;
     let current =  this.RootStore.paymentStore.current_currency;
-    
+
     var title = {'main': this.getMainAmount};
 
     if(current.currency !== old.currency){

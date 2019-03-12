@@ -129,7 +129,7 @@
   left: 15px;
 }
 
-.gosell-gateway-checkbox:after {
+.gosell-gateway-checkbox::after {
   content: "";
   position: absolute;
   width: 0px;
@@ -145,7 +145,7 @@
           transition-delay: 0ms;
 }
 
-.gosell-gateway-checkbox:before {
+.gosell-gateway-checkbox::before {
   content: "";
   position: absolute;
   width: 0px;

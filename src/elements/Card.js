@@ -214,7 +214,7 @@ class Card extends Component {
               {this.props.bank ? <img src={this.props.bank} width='30' height='100%'/> : <img src={this.props.scheme} height='27' width='100%'/>}
             </div>
             <div className='gosell-gateway-card-contents' style={{opacity: this.state.fade ? 0 : 1}}>
-              <div className={store.paymentStore.selected_card === this.props.id && !this.state.shake && !this.state.delete ? "gosell-gateway-checkbox show" : "gosell-gateway-checkbox"} ></div>
+              <div className={store.paymentStore.selected_card === this.props.id && !this.state.shake && !this.state.delete ? "gosell-gateway-checkbox gosell-gateway-show" : "gosell-gateway-checkbox"} ></div>
               <div className="gosell-gateway-last-4-digits">&nbsp;&nbsp;&#9679;&#9679;&#9679;&#9679; {this.props.last4digits}</div>
             </div>
             </React.Fragment>
