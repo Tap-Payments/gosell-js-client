@@ -1,4 +1,4 @@
-.tap-cards {
+.gosell-gateway-cards {
   overflow: auto;
   /* height: -webkit-fit-content;
   height: -moz-fit-content; */
@@ -7,17 +7,17 @@
   padding: 10px 0px 5px 0px;
 }
 
-.tap-cards {
+.gosell-gateway-cards {
   /* -ms-overflow-style: none;
   overflow: -moz-scrollbars-none; */
   overflow: auto;
 }
 
-.tap-cards::-webkit-scrollbar {
+.gosell-gateway-cards::-webkit-scrollbar {
   display: none;
 }
 
-.tap-cards-container {
+.gosell-gateway-cards-container {
   /* display: -webkit-box;
   display: -ms-flexbox;
   display: flex; */
@@ -35,11 +35,11 @@
   width: auto;
 }
 
-[dir="rtl"] .tap-card {
+[dir="rtl"] .gosell-gateway-card {
   float: right;
 }
 
-.tap-card {
+.gosell-gateway-card {
   height: 100px;
   width: 100px;
   float: left;
@@ -57,7 +57,7 @@
           align-items: center;
 }
 
-.tap-progressbar-container {
+.gosell-gateway-progressbar-container {
   border-radius: 8px;
   background-color: rgba(0, 0, 0, 0.75);
   /* display: flex;
@@ -76,7 +76,7 @@
   position: absolute;
 }
 
-.tap-card-container {
+.gosell-gateway-card-container {
   border-radius: 8px;
   /* display: flex; */
   background-color: rgba(255, 255, 255, 0.75);
@@ -98,19 +98,19 @@
           box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.08);
 }
 
-.tap-card-container:hover, .tap-card-container:active {
+.gosell-gateway-card-container:hover, .gosell-gateway-card-container:active {
   background-color: white;
   -webkit-box-shadow: 0px 0px 4px #2ACE00;
           box-shadow: 0px 0px 4px #2ACE00;
 }
 
-.tap-card-active {
+.gosell-gateway-card-active {
   background-color: white;
   -webkit-box-shadow: 0px 0px 5px #2ACE00;
           box-shadow: 0px 0px 5px #2ACE00;
 }
 
-.tap-contents {
+.gosell-gateway-card-contents {
   /* display: table-row; */
   height: 30px;
   /* margin-top: 5px; */
@@ -118,18 +118,18 @@
   pointer-events: none;
 }
 
-.last4digits {
+.gosell-gateway-last-4-digits {
   font-size: 13px;
   color: #474747;
   margin-left: 10px;
 }
 
-.checkbox {
+.gosell-gateway-checkbox {
   position: absolute;
   left: 15px;
 }
 
-.checkbox:after {
+.gosell-gateway-checkbox:after {
   content: "";
   position: absolute;
   width: 0px;
@@ -145,7 +145,7 @@
           transition-delay: 0ms;
 }
 
-.checkbox:before {
+.gosell-gateway-checkbox:before {
   content: "";
   position: absolute;
   width: 0px;
@@ -161,20 +161,20 @@
           transition-delay: 150ms;
 }
 
-.show:before {
+.gosell-gateway-show:before {
   width: 6px;
   -webkit-transition-delay: 0ms;
           transition-delay: 0ms;
 }
 
-.show:after {
+.gosell-gateway-show:after {
   width: 12px;
   -webkit-transition-delay: 150ms;
           transition-delay: 150ms;
 }
 
 /*shake animation */
-.tap-card-shake {
+.gosell-gateway-card-shake {
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.75);
   position: relative;
@@ -237,14 +237,14 @@
   }
 }
 
-.tap-remove-card {
+.gosell-gateway-remove-card {
   position: absolute;
   left: 90px;
   top: -7px;
   cursor: pointer;
 }
 
-.tap-card-disabled {
+.gosell-gateway-card-disabled {
   border-radius: 8px;
   background-color: rgb(255, 255, 255);
   opacity: 0.50;
@@ -268,7 +268,7 @@
   filter: grayscale(100%);
 }
 
-.tap-card.delete-card-width {
+.gosell-gateway-card.gosell-gateway-delete-card-width {
   width: 0;
   opacity: 0;
   margin: 0px;
@@ -277,7 +277,7 @@
   -webkit-animation-timing-function: linear;
 }
 
-.tap-card.delete-card-height {
+.gosell-gateway-card.gosell-gateway-delete-card-height {
   height: 0;
   opacity: 0;
   margin: 0px;

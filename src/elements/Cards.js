@@ -99,8 +99,8 @@ class Cards extends Component {
       return (
         <React.Fragment>
             <Label title={store.localizationStore.getContent('payment_options_group_title_recent', null)} dir={store.uIStore.getDir} edit={store.uIStore.edit_customer_cards} handleClick={store.uIStore.delete_card === null ? this.editCards.bind(this) : null}/>
-            <div id="cards" className="tap-cards" ref={(node) => this.cardsRef = node} dir={this.props.dir} style={this.props.style ? this.props.style : null}>
-                <div className="tap-cards-container" style={{width:cardLength}}>{cards}</div>
+            <div id="cards" className="gosell-gateway-cards" ref={(node) => this.cardsRef = node} dir={this.props.dir} style={this.props.style ? this.props.style : null}>
+                <div className="gosell-gateway-cards-container" style={{width:cardLength}}>{cards}</div>
             </div>
         </React.Fragment>
       );

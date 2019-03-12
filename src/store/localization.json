@@ -410,5 +410,21 @@
     "device_rotation_msg":{
     "en": "For better experiance, turn on your device!",
     "ar": "لتجربة أفضل قم بإعادة الجهاز للوضع الرأسي!"
+  },
+  "merchant_contact_info_title":{
+    "en": "Contact Info",
+    "ar": "معلومات الإتصال"
+  },
+  "merchant_social_media_title":{
+    "en": "Social Media",
+    "ar": "مواقع التواصل الإجتماعي"
+  },
+  "credit_card_title":{
+    "en": "Credit Card",
+    "ar": "بطاقة الائتمان"
+  },
+  "credit_card_subtitle":{
+    "en": "Enter Credit Card",
+    "ar": "أدخل بطاقة الائتمان"
   }
 }

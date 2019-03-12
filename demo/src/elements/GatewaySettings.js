@@ -62,7 +62,7 @@ class GatewaySettings extends Component {
             <div>
               Contact Info:
               <input
-                type="checkbox"
+                type="gosell-gateway-checkbox"
                 name="contactInfo"
                 checked={this.Store.gateway.contactInfo == true}
                 onChange={(value) => this.Store.updateGatewayObj(value)}/>
@@ -104,7 +104,7 @@ class GatewaySettings extends Component {
             <div>
               Save Card Option:
               <input
-                type="checkbox"
+                type="gosell-gateway-checkbox"
                 name="saveCardOption"
                 checked={this.Store.gateway.saveCardOption == true}
                 onChange={(value) => this.Store.updateGatewayObj(value)}/>
@@ -114,7 +114,7 @@ class GatewaySettings extends Component {
             <div>
               Customer Cards:
               <input
-                type="checkbox"
+                type="gosell-gateway-checkbox"
                 name="customerCards"
                 checked={this.Store.gateway.customerCards == true}
                 onChange={(value) => this.Store.updateGatewayObj(value)}/>

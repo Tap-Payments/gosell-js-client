@@ -1,4 +1,4 @@
-.right-business-info{
+.gosell-gateway-right-business-info{
   float: left;
   width: 100%;
   height: 100%;
@@ -8,7 +8,7 @@
   border-bottom-right-radius: 8px;
 }
 
-.left-business-info{
+.gosell-gateway-left-business-info{
   float: right;
   width: 100%;
   height: 100%;
@@ -17,7 +17,7 @@
   border-bottom-left-radius: 8px;
 }
 
-.tap-social-btn{
+.gosell-gateway-social-btn{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,14 +25,14 @@
   border-radius: 8px;
 }
 
-.tap-social-btns-container{
+.gosell-gateway-social-btns-container{
   display: flex;
   flex-direction: row;
   justify-content: start;
   padding: 5px 10px 5px 10px;
 }
 
-.tap-contact-btn-container{
+.gosell-gateway-contact-btn-container{
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,11 +42,11 @@
   padding: 16px;
 }
 
-.tap-contact-btn-container:hover{
+.gosell-gateway-contact-btn-container:hover{
   border: 1px solid #afafaf;
 }
 
-.tap-more-content{
+.gosell-gateway-more-content{
   padding: 0 18px;
   max-height: 0;
   overflow: hidden;
@@ -54,7 +54,7 @@
   background-color: #f1f1f1;
 }
 
-.tap-social-btn-container{
+.gosell-gateway-social-btn-container{
   display: flex;
   margin: 0px 16px 20px 16px;
 }

@@ -177,7 +177,7 @@ class UIStore {
         headerStyle: {
           'header': {backgroundColor: '#F7F7F7', height: '65px'},
           'titleStyle': {cursor: 'pointer'},
-          'iconStyle': {width: '40px', height: '40px', borderRadius:'100%', margin: '12px'}
+          'iconStyle': {width: '50px', height: '50px', borderRadius:'100%', margin: '12px'}
         }
       }
     }

@@ -162,15 +162,15 @@ class Card extends Component {
   render() {
     var store = this.props.store;
 
-    var classname = 'tap-card-container';
+    var classname = 'gosell-gateway-card-container';
     if(store.uIStore.getIsActive === 'CARD' && store.paymentStore.selected_card === this.props.id && !this.props.shake){
-      classname  = 'tap-card-container tap-card-active';
+      classname  = 'gosell-gateway-card-container gosell-gateway-card-active';
     }
     else if(this.state.shake){
-      classname  = 'tap-card-shake';
+      classname  = 'gosell-gateway-card-shake';
     }
     else if(store.uIStore.delete_card === this.props.id){
-      classname  = 'tap-card-disabled';
+      classname  = 'gosell-gateway-card-disabled';
     }
 
     const RemoveCard = styled.div`
@@ -181,10 +181,10 @@ class Card extends Component {
       cursor: pointer;
     `
     return (
-      <div className={'tap-card ' + this.state.delete_card}>
+      <div className={'gosell-gateway-card ' + this.state.delete_card}>
 
         {this.state.loading ?
-        <div className="tap-progressbar-container" style={{opacity: this.state.fade ? 0 : 1}}>
+        <div className="gosell-gateway-progressbar-container" style={{opacity: this.state.fade ? 0 : 1}}>
           <div style={{width: '40px', height: '40px', margin: '30px auto',textAlign:'center'}}>
             <Loader
               toggleAnimation={this.state.delete}
@@ -209,13 +209,13 @@ class Card extends Component {
            : null}
 
             <React.Fragment>
-            <div className='tap-contents' style={{opacity: this.state.fade ? 0 : 1, paddingTop: this.state.fade? "0px" : "5px"}}>{this.props.bank ? <img src={this.props.scheme} width='30'height='100%'/> : <br style={{lineHeight:'1.5'}}/> }</div>
-            <div className='tap-contents' style={this.state.fade ? {opacity: 0, padding:'5px 0px'} : {opacity: 1, padding:'5px 0px'}}>
+            <div className='gosell-gateway-card-contents' style={{opacity: this.state.fade ? 0 : 1, paddingTop: this.state.fade? "0px" : "5px"}}>{this.props.bank ? <img src={this.props.scheme} width='30'height='100%'/> : <br style={{lineHeight:'1.5'}}/> }</div>
+            <div className='gosell-gateway-card-contents' style={this.state.fade ? {opacity: 0, padding:'5px 0px'} : {opacity: 1, padding:'5px 0px'}}>
               {this.props.bank ? <img src={this.props.bank} width='30' height='100%'/> : <img src={this.props.scheme} height='27' width='100%'/>}
             </div>
-            <div className='tap-contents' style={{opacity: this.state.fade ? 0 : 1}}>
-              <div className={store.paymentStore.selected_card === this.props.id && !this.state.shake && !this.state.delete ? "checkbox show" : "checkbox"} ></div>
-              <div className="last4digits">&nbsp;&nbsp;&#9679;&#9679;&#9679;&#9679; {this.props.last4digits}</div>
+            <div className='gosell-gateway-card-contents' style={{opacity: this.state.fade ? 0 : 1}}>
+              <div className={store.paymentStore.selected_card === this.props.id && !this.state.shake && !this.state.delete ? "gosell-gateway-checkbox show" : "gosell-gateway-checkbox"} ></div>
+              <div className="gosell-gateway-last-4-digits">&nbsp;&nbsp;&#9679;&#9679;&#9679;&#9679; {this.props.last4digits}</div>
             </div>
             </React.Fragment>
           </div>

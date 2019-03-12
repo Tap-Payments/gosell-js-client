@@ -163,7 +163,7 @@ class DemoConfigStore {
 
     console.log('language ? ', key);
     console.log('language ? ', e.target.value);
-    if(e.target.type == 'checkbox'){
+    if(e.target.type == 'gosell-gateway-checkbox'){
       gatewayObj[key] = e.target.checked;
       console.log(typeof gatewayObj[key], gatewayObj[key]);
     }
@@ -222,7 +222,7 @@ class DemoConfigStore {
     let tranxObj = Object.assign({}, this.transaction);
     let key = e.target.name;
 
-    if(e.target.type == 'checkbox'){
+    if(e.target.type == 'gosell-gateway-checkbox'){
       tranxObj[key] = e.target.checked;
       console.log(typeof tranxObj[key], tranxObj[key]);
     }

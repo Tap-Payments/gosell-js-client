@@ -49,7 +49,7 @@ class Switcher extends Component {
   render() {
     return (
       <label className="form-switch" style={this.props.style}>
-        <input ref="check" type="checkbox" onChange={() => this.check()}/>
+        <input ref="check" type="gosell-gateway-checkbox" onChange={() => this.check()}/>
         <i></i>
       </label>
     );

@@ -87,7 +87,7 @@ class BusinessInfo extends Component {
     store.merchantStore.contact.map((contact, index) => {
         if(contact.type !== 'social'){
           contactIcons.push(
-            <div className="tap-contact-btn-container" key={'div-'+index} onClick={this.handleClick.bind(this, contact)}>
+            <div className="gosell-gateway-contact-btn-container" key={'div-'+index} onClick={this.handleClick.bind(this, contact)}>
               <SocialIcon
                 key={'contact-'+index}
                 mode={'self'}
@@ -205,9 +205,10 @@ class BusinessInfo extends Component {
     }
 
     return (
-      <Business id='gosell-business-info' className={!store.uIStore.getIsMobile ? align+"-business-info" : null}>
+      <Business id='gosell-business-info' className={!store.uIStore.getIsMobile ? "gosell-gateway-"+align+"-business-info" : null}>
         {store.uIStore.getIsMobile ?
             <React.Fragment>
+              <Separator />
               {store.merchantStore.desc ?
                 <React.Fragment>
                   <Row
@@ -222,16 +223,15 @@ class BusinessInfo extends Component {
 
               {contactIcons.length > 0 ?
                 <React.Fragment>
-                  <Label title="Contact Info" dir={store.uIStore.getDir}></Label>
+                  <Label title={store.localizationStore.getContent('merchant_contact_info_title', null)} dir={store.uIStore.getDir}></Label>
                   {contactIcons}
                 </React.Fragment>
-
               : null}
 
               {socialIcons.length > 0 ?
                 <React.Fragment>
-                  <Label title="Social Media" dir={store.uIStore.getDir}></Label>
-                  <div className="tap-social-btn-container">
+                  <Label title={store.localizationStore.getContent('merchant_social_media_title', null)} dir={store.uIStore.getDir}></Label>
+                  <div className="gosell-gateway-social-btn-container">
                     {socialIcons}
                   </div>
                 </React.Fragment> : null}
