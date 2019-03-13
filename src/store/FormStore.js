@@ -303,34 +303,38 @@ class FormStore{
     //console.log('current currency', this.RootStore.paymentStore.current_currency);
 
     if(self.RootStore.configStore.view === 'GOSELL_ELEMENTS'){
-      paymentOptions = {
-       currencyCode: this.RootStore.paymentStore.currencies,
-       labels : this.RootStore.configStore.labels,
-       paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
-       TextDirection: this.RootStore.uIStore.getDir
-     }
-     //console.log('&& gosell elements', this.RootStore.paymentStore.currencies);
+        paymentOptions = {
+         currencyCode: this.RootStore.paymentStore.currencies,
+         labels : this.RootStore.configStore.labels,
+         paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
+         TextDirection: this.RootStore.uIStore.getDir
+       }
+
+       console.log('&& gosell elements', this.RootStore.paymentStore.currencies);
+       console.log('&& gosell elements methods', this.RootStore.paymentStore.supported_payment_methods.slice());
     }
     else {
       if(this.RootStore.configStore.transaction_mode === 'get_token' || this.RootStore.configStore.transaction_mode === 'save_card'){
           paymentOptions = {
            currencyCode: this.RootStore.paymentStore.currencies,
            labels : this.RootStore.configStore.labels,
-           paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
+           paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
            TextDirection: this.RootStore.uIStore.getDir
          }
 
-         //console.log('&& save card', this.RootStore.paymentStore.currencies);
+         console.log('&& save card', this.RootStore.paymentStore.currencies);
+         console.log('&& save card methods', this.RootStore.paymentStore.supported_payment_methods.slice());
       }
       else {
          paymentOptions = {
           currencyCode: [this.RootStore.paymentStore.current_currency.currency],
           labels : this.RootStore.configStore.labels,
-          paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods,
+          paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
           TextDirection: this.RootStore.uIStore.getDir
         }
 
-        //console.log('&& else', [this.RootStore.paymentStore.current_currency.currency]);
+        console.log('&& else', [this.RootStore.paymentStore.current_currency.currency]);
+        console.log('&& else methods', this.RootStore.paymentStore.supported_payment_methods.slice());
       }
     }
 
@@ -352,7 +356,7 @@ class FormStore{
     if(event.code == 200){
       self.RootStore.paymentStore.save_card_active = true;
       self.RootStore.uIStore.setIsActive('FORM');
-      console.log('form', self.RootStore.uIStore.getIsActive);
+      // console.log('form', self.RootStore.uIStore.getIsActive);
       // var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.current_currency.symbol + self.RootStore.uIStore.formatNumber(self.RootStore.paymentStore.active_payment_option_total_amount.toFixed(self.RootStore.paymentStore.current_currency.decimal_digit)) : '';
 
       var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.getCurrentAmount : '';

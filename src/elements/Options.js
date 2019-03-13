@@ -109,7 +109,6 @@ class Options extends Component {
         </div>
     );
 
-
     if(store.paymentStore.customer_cards_by_currency){
         const CardsList = store.paymentStore.customer_cards_by_currency.map((payment, index) =>
             <div key={'div-'+index}>

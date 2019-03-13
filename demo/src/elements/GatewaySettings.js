@@ -92,7 +92,7 @@ class GatewaySettings extends Component {
                   type="text"
                   style={{width: '100%'}}
                   name="supportedPaymentMethods"
-                  placeholder="all | ['KNET','VISA','MASTERCARD','MADA']"
+                  placeholder="all | KNET,VISA,MASTERCARD,MADA"
                   value={this.Store.gateway.supportedPaymentMethods}
                   onChange={(value) => this.Store.updateGatewayObj(value)}/>
               </div>

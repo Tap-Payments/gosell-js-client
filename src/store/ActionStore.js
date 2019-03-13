@@ -99,7 +99,7 @@ class ActionStore {
 
   handleBusinessInfoClick(){
 
-    // console.log('business info', document.getElementById('gosell-business-info'));
+    console.log('contactInfo', this.RootStore.configStore.contactInfo);
 
     if(this.RootStore.configStore.contactInfo && this.RootStore.merchantStore.contact && this.RootStore.merchantStore.contact.length > 0){
 

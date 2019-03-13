@@ -490,7 +490,6 @@ class UIStore {
         break;
       default:
         self.mainHeight = '100%';
-        self.goSellBtn({});
     }
 
     this.pageIndex = value;
