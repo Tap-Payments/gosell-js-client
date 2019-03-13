@@ -52,46 +52,46 @@ class Row extends Component {
     const Text = styled.div`
       ${this.props.style.textStyle};
     `
-    
+
     const arrowImg = this.props.style.arrowImg? this.props.style.arrowImg : this.props.dir === 'ltr' ? Paths.imgsPath + 'rightArrow.svg' : Paths.imgsPath + 'leftArrow.svg';
     if(this.props.rowTitle && this.props.rowTitle.main && this.props.rowTitle.secondary){
-      var title = ( <Text className="tap-text-container">
-          <p className="tap-subtitle title-subtitle" style={this.props.style.subtitle}>{this.props.rowTitle.secondary}</p>
-          <p className="tap-title title-subtitle" style={this.props.style.title}>{this.props.rowTitle.main}</p>
+      var title = ( <Text className="gosell-gateway-row-text-container">
+          <p className="gosell-gateway-row-subtitle gosell-gateway-title-subtitle" style={this.props.style.subtitle}>{this.props.rowTitle.secondary}</p>
+          <p className="gosell-gateway-row-title gosell-gateway-title-subtitle" style={this.props.style.title}>{this.props.rowTitle.main}</p>
         </Text>);
     }
     else if(this.props.rowTitle &&  this.props.rowTitle.main){
-      var title = ( <Text className="tap-text-container">
-          <p className="tap-title" style={this.props.style.title}>{this.props.rowTitle.main}</p>
+      var title = ( <Text className="gosell-gateway-row-text-container">
+          <p className="gosell-gateway-row-title" style={this.props.style.title}>{this.props.rowTitle.main}</p>
         </Text>);
     }
     else if(this.props.rowTitle &&  this.props.rowTitle.secondary){
-      var title = ( <Text className="tap-text-container">
-          <p className="tap-subtitle" style={this.props.style.subtitle}>{this.props.rowTitle.secondary}</p>
+      var title = ( <Text className="gosell-gateway-row-text-container">
+          <p className="gosell-gateway-row-subtitle" style={this.props.style.subtitle}>{this.props.rowTitle.secondary}</p>
         </Text>);
     }
 
 
     return (
       <RowContainer
-      className='tap-row-container'
+      className='gosell-gateway-row-container'
       dir={this.props.dir}
       id={this.props.id}
       ref={(node) => this.rowRef = node}
       onClick={this.onClickHandler}>
 
-        <div className="tap-row">
+        <div className="gosell-gateway-row">
         {this.props.rowIcon ?
-           <Icon className="tap-icon">
+           <Icon className="gosell-gateway-row-icon">
               {this.props.rowIcon}
            </Icon>
-         : <Icon className="tap-icon"></Icon>
+         : <Icon className="gosell-gateway-row-icon"></Icon>
         }
 
          {title}
 
          {(this.props.value) ?
-             <div className={this.state.isMouseOver ? "tap-value" : "tap-value hidden-value"}
+             <div className={this.state.isMouseOver ? "gosell-gateway-value" : "gosell-gateway-value gosell-gateway-hidden-value"}
                 style={this.props.dir === 'ltr'? {textAlign: 'right'} : {textAlign:'left'}}>
                 {this.props.value}
              </div>
@@ -99,7 +99,7 @@ class Row extends Component {
          }
 
          {(this.props.addArrow ||  this.props.addArrow === true) ?
-           <div className="tap-arrow" style={{ backgroundImage: 'url('+ arrowImg +')', height: this.getRowHeight()}}>
+           <div className="gosell-gateway-arrow" style={{ backgroundImage: 'url('+ arrowImg +')', height: this.getRowHeight()}}>
           </div>
         : null}
 

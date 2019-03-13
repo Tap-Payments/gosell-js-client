@@ -31,9 +31,9 @@ class ExtraFees extends Component {
 
     return (
         <Confirm index={1} store={store}>
-            <div dir={this.props.dir} className="tap-extra-fees-container">
-              <p className="tap-extra-fees-title">{store.localizationStore.getContent('alert_extra_charges_title', null)}</p>
-              <p className="tap-extra-fees-msg">{store.localizationStore.getContent('alert_extra_charges_message', null).replace('%@', total_fees).replace('%@', total_amount)}</p>
+            <div dir={this.props.dir} className="gosell-gateway-extra-fees-container">
+              <p className="gosell-gateway-extra-fees-title">{store.localizationStore.getContent('alert_extra_charges_title', null)}</p>
+              <p className="gosell-gateway-extra-fees-msg">{store.localizationStore.getContent('alert_extra_charges_message', null).replace('%@', total_fees).replace('%@', total_amount)}</p>
             </div>
         </Confirm>
       );

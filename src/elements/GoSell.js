@@ -56,7 +56,7 @@ class GoSell extends Component {
 
       RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null), null);
       RootStore.apiStore.createTransaction().then(result => {
-        console.log('transaction response', result);
+        // console.log('transaction response', result);
 
         if(result.status == 200){
           window.open(result.data.transaction.url, '_self');
@@ -90,9 +90,9 @@ class GoSell extends Component {
       RootStore.configStore.configure().then(result => {
         GoSell.handleView();
         tap_id = urlParams.get('tap_id');
-        console.log('tap_id', tap_id);
+        // console.log('tap_id', tap_id);
         RootStore.apiStore.getTransactionResult(tap_id).then(result => {
-          console.log('init response', result);
+          // console.log('init response', result);
           console.log('url', RootStore.configStore.redirect_url);
         });
       });
@@ -120,13 +120,13 @@ class GoSell extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps', nextProps);
+    // console.log('nextProps', nextProps);
     this.config(nextProps);
     this.handleWindowSizeChange();
   }
 
   config(props){
-    console.log('props', props);
+    // console.log('props', props);
     RootStore.configStore.setConfig(props, 'GOSELL');
   }
 

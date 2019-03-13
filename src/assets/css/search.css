@@ -1,4 +1,4 @@
-.tap-search-container{
+.gosell-gateway-search-container{
   position: absolute;
   width: 100%;
   height: 40px;
@@ -13,7 +13,7 @@
           align-items: center;
 }
 
-.tap-searchbar{
+.gosell-gateway-search-bar{
   width:100%;
   height: 28px;
   border: none;
@@ -25,28 +25,28 @@
   text-indent:25px;
 }
 
-.tap-searchbar:focus{
+.gosell-gateway-search-bar:focus{
    outline:none;
  }
 
-.tap-searchbar::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+.gosell-gateway-search-bar::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #8E8E93;
 }
- .tap-searchbar::-moz-placeholder { /* Firefox 19+ */
+ .gosell-gateway-search-bar::-moz-placeholder { /* Firefox 19+ */
   color: #8E8E93;
 }
- .tap-searchbar:-ms-input-placeholder { /* IE 10+ */
+ .gosell-gateway-search-bar:-ms-input-placeholder { /* IE 10+ */
   color: #8E8E93;
 }
- .tap-searchbar:-moz-placeholder { /* Firefox 18- */
+ .gosell-gateway-search-bar:-moz-placeholder { /* Firefox 18- */
   color: #8E8E93;
 }
 
-.tap-input-icon{
+.gosell-gateway-input-icon{
   position: absolute;
   margin: 0 15px;
 }
 
-.tap-input-title{
+.gosell-gateway-input-title{
   margin: 0px 10px;
 }

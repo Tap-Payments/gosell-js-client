@@ -1,4 +1,4 @@
-.tap-msg{
+.gosell-gateway-msg{
   height: 100%;
   width: 100%;
   /* display: flex;
@@ -7,7 +7,7 @@
   align-items: center;
 }
 
-.tap-msg-wrapper{
+.gosell-gateway-msg-wrapper{
     /* background-color: red; */
   /* display: flex;
   flex-direction: column; */
@@ -34,7 +34,7 @@
   100% {opacity:1;}
 }
 
-.tap-msg-title{
+.gosell-gateway-msg-title{
   margin-top: 20px;
   margin-bottom: 10px;
   font-size: 17px;
@@ -43,7 +43,7 @@
   text-align: center;
 }
 
-.tap-msg-desc{
+.gosell-gateway-msg-desc{
   margin: 0 20px;
   font-size: 13px;
   color: #9D9FA4;
@@ -52,12 +52,12 @@
 }
 
 @media(max-width: 440px){
-  .tap-msg-wrapper {
+  .gosell-gateway-msg-wrapper {
     display: flex;
     position: unset;
     flex-direction: column;
   }
-  .tap-msg {
+  .gosell-gateway-msg {
     display: flex;
     flex-direction: row;
   }

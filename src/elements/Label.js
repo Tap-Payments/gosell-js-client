@@ -12,9 +12,9 @@ class Label extends Component {
   render() {
 
     return (
-      <div className="tap-label-container" dir={this.props.dir} style={this.props.style ? this.props.style.labelContainer : null}>
-          <p className="tap-label" style={this.props.style ? this.props.style.labelText : null}>{this.props.title}</p>
-          {this.props.edit ? <div className="tap-edit" style={{textAlign: this.props.dir === 'ltr' ? 'right' : 'left'}}>
+      <div className="gosell-gateway-label-container" dir={this.props.dir} style={this.props.style ? this.props.style.labelContainer : null}>
+          <p className="gosell-gateway-label" style={this.props.style ? this.props.style.labelText : null}>{this.props.title}</p>
+          {this.props.edit ? <div className="gosell-gateway-edit" style={{textAlign: this.props.dir === 'ltr' ? 'right' : 'left'}}>
             <div onClick={this.props.handleClick}>{this.props.edit}</div>
             </div>
           : null}

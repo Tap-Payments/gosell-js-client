@@ -1,5 +1,4 @@
 import React, { Component }  from 'react';
-import '../assets/css/img.css';
 
 class Img extends Component {
 

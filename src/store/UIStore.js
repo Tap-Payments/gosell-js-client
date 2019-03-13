@@ -108,7 +108,7 @@ class UIStore {
           total += element.clientHeight;
         });
 
-        if(modalBodyHeight > total || (id === 'form-container' && modalBodyHeight < total)){
+        if(modalBodyHeight > total || (id === 'gosell-gateway-form-container' && modalBodyHeight < total)){
           this.setMainHeight(total);
           this.bodyHeight = total + 86;
           this.modalHeight = this.bodyHeight + 65;
@@ -177,7 +177,7 @@ class UIStore {
         headerStyle: {
           'header': {backgroundColor: '#F7F7F7', height: '65px'},
           'titleStyle': {cursor: 'pointer'},
-          'iconStyle': {width: '40px', height: '40px', borderRadius:'100%', margin: '12px'}
+          'iconStyle': {width: '50px', height: '50px', borderRadius:'100%', margin: '12px'}
         }
       }
     }
@@ -490,7 +490,6 @@ class UIStore {
         break;
       default:
         self.mainHeight = '100%';
-        self.goSellBtn({});
     }
 
     this.pageIndex = value;

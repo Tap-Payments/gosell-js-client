@@ -13,7 +13,7 @@ class DemoConfigStore {
       language:"en",
       contactInfo:true,
       supportedCurrencies: 'all', // all | gcc | ["KWD", "SAR"]
-      supportedPaymentMethods: "all", // all | ["KNET","VISA","MASTERCARD","MADA"]
+      supportedPaymentMethods:'all', // all | ["KNET","VISA","MASTERCARD","MADA"]
       saveCardOption:true,
       customerCards: true,
       notifications:'standard',
@@ -161,8 +161,8 @@ class DemoConfigStore {
     let gatewayObj = Object.assign({}, this.gateway);
     let key = e.target.name;
 
-    console.log('language ? ', key);
-    console.log('language ? ', e.target.value);
+    // console.log('language ? ', key);
+    // console.log('language ? ', e.target.value);
     if(e.target.type == 'checkbox'){
       gatewayObj[key] = e.target.checked;
       console.log(typeof gatewayObj[key], gatewayObj[key]);
@@ -173,14 +173,14 @@ class DemoConfigStore {
     else if((e.target.name === 'supportedCurrencies' || e.target.name === 'supportedPaymentMethods')){
 
       if(e.target.value === 'all' || e.target.value === 'gcc'){
-        // console.log('value', e.target.value);
+        // console.log('++ value', e.target.value);
         gatewayObj[key] = e.target.value;
       }
       else if(e.target.value !== 'all' && e.target.value !== 'gcc'){
-        // console.log('value', e.target.value);
+        // console.log('++ value', e.target.value);
         var value =  e.target.value;
         var val = value.split(",");
-        // console.log('nanananananana', val);
+        // console.log('++', val);
         gatewayObj[key] = val;
       }
 
@@ -190,8 +190,8 @@ class DemoConfigStore {
     }
 
     this.gateway= gatewayObj;
-
-    console.log('updated: ',this.gateway);
+    // console.log('updated gatewayObj: ',gatewayObj);
+    // console.log('updated: ',this.gateway.supportedPaymentMethods);
   }
 
   updateCustomerObj(e){

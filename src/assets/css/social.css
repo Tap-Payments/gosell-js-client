@@ -1,6 +1,6 @@
-.right-social-icon-container {
+.gosell-gateway-right-social-icon-container {
     /* display: flex;
-    justify-content: center;
+    justify-gosell-gateway-social-content: center;
     align-items: center;
     width: 70px;
     height: 70px; */
@@ -9,9 +9,9 @@
     position: absolute;
 }
 
-.left-social-icon-container {
+.gosell-gateway-left-social-icon-container {
     /* display: flex;
-    justify-content: center;
+    justify-gosell-gateway-social-content: center;
     align-items: center;
     width: 70px;
     height: 70px; */
@@ -20,9 +20,9 @@
     position: absolute;
 }
 
-.social-icon-container{
+.gosell-gateway-social-icon-container{
     display: flex;
-    justify-content: center;
+    justify-gosell-gateway-social-content: center;
     align-items: center;
     width: 70px;
     height: 70px;
@@ -30,22 +30,22 @@
     position: absolute;
 }
 
-.right-social-icon,.left-social-icon{
+.gosell-gateway-right-social-icon,.gosell-gateway-left-social-icon{
   position: relative;
 }
 
-.tap-social .left-social-icon:hover .tap-social-info, .tap-social .right-social-icon:hover .tap-social-info{
+.gosell-gateway-social .gosell-gateway-left-social-icon:hover .gosell-gateway-social-info, .gosell-gateway-social .gosell-gateway-right-social-icon:hover .gosell-gateway-social-info{
   visibility: visible;
   opacity: 1;
 }
 
-.tap-social-empty{
+.gosell-gateway-social-empty{
   width: 70px;
   height: 70px;
 }
 
-.tap-social-info{
-  width: fit-content;
+.gosell-gateway-social-info{
+  width: fit-gosell-gateway-social-content;
   height: 100%;
   float: left;
   text-align: center;
@@ -53,7 +53,7 @@
   border-radius: 5px;
   transition: width 0.5s ease, opacity 1s ease 0.5ms;
   display: flex;
-  justify-content: center;
+  justify-gosell-gateway-social-content: center;
   justify-items: center;
   align-items: center;
   font-size: 15px;
@@ -103,7 +103,7 @@
 }
 
 
-.content {
+.gosell-gateway-social-content {
   padding: 0 18px;
   max-height: 0;
   overflow: hidden;
@@ -112,8 +112,8 @@
 }
 
 /*
-.tap-social-info:after{
-  content: '';
+.gosell-gateway-social-info:after{
+  gosell-gateway-social-content: '';
     display: block;
     width: 0;
     height: 0;

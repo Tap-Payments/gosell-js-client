@@ -46,7 +46,7 @@ class GoSellElements extends Component {
         <React.Fragment>
             {RootStore.uIStore.generateCustomNotification}
 
-            <form id="form-container" method="post" ref={(node) => this.cardElementsRef = node}>
+            <form id="gosell-gateway-form-container" method="post" ref={(node) => this.cardElementsRef = node}>
                 <div id="element-container"></div>
             </form>
 

@@ -4,7 +4,7 @@
   transition: opacity 0.5s ease-in;
 }
 
-.fadeIn{
+.gosell-gateway-fade-in{
   opacity: 1;
   visibility: visible;
 }
@@ -49,7 +49,7 @@
   margin: 0;
 }
 
-.tap-back{
+.gosell-gateway-back{
   width: 100%;
   height: 65px;
   /* display: flex;

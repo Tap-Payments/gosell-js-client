@@ -48,7 +48,7 @@ class Switcher extends Component {
 
   render() {
     return (
-      <label className="form-switch" style={this.props.style}>
+      <label className="gosell-gateway-form-switch" style={this.props.style}>
         <input ref="check" type="checkbox" onChange={() => this.check()}/>
         <i></i>
       </label>

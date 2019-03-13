@@ -64,6 +64,8 @@ class PaymentStore{
 
     this.charge = null;
 
+    this.supported_payment_methods = null;
+
   }
 
   setThreeDSecure(value){
@@ -85,7 +87,7 @@ class PaymentStore{
   }
 
   setCards(value){
-    console.log('customer card', this.RootStore.configStore.gateway.customerCards);
+    // console.log('customer card', this.RootStore.configStore.gateway.customerCards);
     if(this.RootStore.configStore.gateway.customerCards){
       this.customer_cards = value;
       this.customer_cards_by_currency = this.savedCardsByCurrency;
@@ -93,21 +95,9 @@ class PaymentStore{
 
   }
 
-  // getCardFees(value){
-  //   var self = this;
-  //   var active = self.payment_methods.filter(function(payment){
-  //     if(value.indexOf(payment.name) >= 0){
-  //       self.active_payment_option_fees = payment.extra_fees ? payment.extra_fees[0].value : 0;
-  //       return payment;
-  //     }
-  //   });
-  //
-  //   self.active_payment_option = active[0];
-  // }
-
   getFees(value){
     var self = this;
-    console.log('99 payment methods in getFee', self.payment_methods);
+    // console.log('99 payment methods in getFee', self.payment_methods);
     var active = self.payment_methods.filter(function(payment){
         // console.log('99 '+ value, payment.name);
         // console.log('99 payment', payment);
@@ -133,9 +123,9 @@ class PaymentStore{
     });
 
     self.active_payment_option = active[0];
-    console.log('99 self.active_payment_option', self.active_payment_option);
-    console.log('99 active_payment_option_fees', self.active_payment_option_fees);
-    console.log('99 active_payment_option_total_amount', self.active_payment_option_total_amount);
+    // console.log('99 self.active_payment_option', self.active_payment_option);
+    // console.log('99 active_payment_option_fees', self.active_payment_option_fees);
+    // console.log('99 active_payment_option_total_amount', self.active_payment_option_total_amount);
   }
 
   calcExtraFees(fees){
@@ -145,24 +135,24 @@ class PaymentStore{
     fees.forEach(function(fee){
       var extra_fee = 0;
 
-      console.log('fee object', fee);
+      // console.log('fee object', fee);
       if(fee.type.toUpperCase() === "P"){
-        console.log('it is p');
+        // console.log('it is p');
         extra_fee +=  self.current_currency.amount * fee.value / 100;
-        console.log('fee', extra_fee);
+        // console.log('fee', extra_fee);
       }
       else {
         if(self.settlement_currency.currency == self.current_currency.currency){
-          console.log('it is f 1');
+          // console.log('it is f 1');
           extra_fee += fee.value;
         }
         else {
-          console.log('it is f 2');
+          // console.log('it is f 2');
           var rate = self.settlement_currency.amount / self.current_currency.amount;
-          console.log('rate', rate);
+          // console.log('rate', rate);
           //convert the amount first
           extra_fee +=  fee.value * rate;
-          console.log('fee', extra_fee);
+          // console.log('fee', extra_fee);
         }
       }
 
@@ -180,9 +170,9 @@ class PaymentStore{
       this.setPaymentMethods(data.payment_methods);
       this.setSupportedCurrencies(data.supported_currencies);
 
-      console.log('customerCards: ', this.RootStore.configStore.gateway.customerCards);
+      // console.log('customerCards: ', this.RootStore.configStore.gateway.customerCards);
       if(this.RootStore.configStore.gateway.customerCards){
-        console.log('set cards', data.cards);
+        // console.log('set cards', data.cards);
         this.setCards(data.cards);
       }
 
@@ -194,29 +184,52 @@ class PaymentStore{
 
       var self = this;
 
-      console.log('array ???????????? ',Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0);
-      console.log('supported', this.supported_currencies);
+      var methods_currencies = this.supported_currencies_based_on_methods;
+      // console.log('methods', methods_currencies);
+
       if(this.supported_currencies && Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0){
-        self.supported_currencies.forEach(function(cur){
+        // console.log('hey', self.supported_currencies.slice().length);
 
-          if(cur.currency === currency){
-            //self.current_currency = cur;
-            self.setCurrentCurrency(cur);
-            self.current_amount = cur.amount;
-            self.customer_cards_by_currency = self.savedCardsByCurrency;
-            self.RootStore.configStore.order = cur;
+        if(methods_currencies.length <= 1){
+          self.setCurrentCurrency(self.supported_currencies[0]);
+          self.current_amount = self.supported_currencies[0].amount;
+          self.customer_cards_by_currency = self.savedCardsByCurrency;
+          self.RootStore.configStore.order = self.supported_currencies[0];
+
+          if(self.supported_currencies[0].currency == data.settlement_currency){
+            self.settlement_currency = self.supported_currencies[0];
           }
 
-          if(cur.currency == data.settlement_currency){
-            self.settlement_currency = cur;
-          }
-        });
+          self.isLoading = false;
+        }
+        else if(methods_currencies.length > 1){
+          self.supported_currencies.forEach(function(cur){
 
-        this.isLoading = false;
+            if(cur.currency === currency){
+                self.setCurrentCurrency(cur);
+                self.current_amount = cur.amount;
+                self.customer_cards_by_currency = self.savedCardsByCurrency;
+                self.RootStore.configStore.order = cur;
+
+                self.isLoading = false;
+            }
+
+            if(cur.currency == data.settlement_currency){
+              self.settlement_currency = cur;
+            }
+
+          });
+        }
+        else {
+          this.isLoading = true;
+          this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
+        }
+
+
       }
       else {
         this.isLoading = true;
-        this.RootStore.uIStore.showResult('warning', "Something went wrong! Please check the goSell configuration", null);
+        this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
       }
     }
   }
@@ -225,20 +238,21 @@ class PaymentStore{
     var self = this;
 
     this.payment_methods = {};
-    var config_payment_methods = this.RootStore.configStore.gateway.supportedPaymentMethods;
-    console.log('config_payment_methods', config_payment_methods);
+    this.supported_payment_methods = this.RootStore.configStore.gateway.supportedPaymentMethods;
 
-    if(typeof config_payment_methods === 'object' || Array.isArray(config_payment_methods.slice())){
+    if(typeof this.supported_payment_methods === 'object' || Array.isArray(this.supported_payment_methods.slice())){
+
       self.payment_methods = value.filter(function(el){
-        return config_payment_methods.indexOf(el.name) >= 0;
+        return self.supported_payment_methods.indexOf(el.name) >= 0;
       });
-
     }
-    else {
+    else if(this.supported_payment_methods == 'all'){
       self.payment_methods = value;
     }
-
-    console.log('value filter issue', value);
+    else {
+      self.isLoading = true;
+      self.RootStore.uIStore.showMsg('warning', self.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
+    }
 
     self.payment_methods.filter(function(el){
       el.supported_currencies.forEach(function(cur){
@@ -293,28 +307,6 @@ class PaymentStore{
     }
   }
 
-  // savedCardsByCurrency(){
-  //   var self = this;
-  //   console.log('currency', self.current_currency);
-  //   if(this.customer_cards.length > 0){
-  //     var arr = [];
-  //     self.customer_cards.forEach(function(card){
-  //
-  //       var curs = card.supported_currencies;
-  //
-  //       for(var i = 0; i < curs.length; i++){
-  //         if(curs[i] === self.current_currency.currency){
-  //           arr.push(card);
-  //           console.log('hey ', arr);
-  //         }
-  //       }
-  //
-  //     });
-  //
-  //   }
-  //
-  // }
-
   computed
   get savedCardsByCurrency(){
     var self = this;
@@ -324,12 +316,25 @@ class PaymentStore{
       var arr = [];
       this.customer_cards.forEach(function(card){
         var curs = card.supported_currencies;
+        // console.log('card', card.brand);
+
         for(var i = 0; i < curs.length; i++){
           if(curs[i] === self.current_currency.currency){
-            arr.push(card);
+            if(Array.isArray(self.supported_payment_methods.slice())){
+              for(var j = 0; j < self.supported_payment_methods.slice().length; j++){
+                if(card.brand === self.supported_payment_methods[j]){
+                  arr.push(card);
+                }
+              }
+
+            }
+            else {
+              arr.push(card);
+            }
           }
         }
       });
+
       return arr;
     }
     else {
@@ -355,9 +360,9 @@ class PaymentStore{
 
 
   setCurrentCurrency(value){
-    console.log("+ current currency", value.currency);
-    console.log('+ current currency', this.current_currency.currency);
-    console.log('+ value.currency', value.currency);
+    // console.log("+ current currency", value.currency);
+    // console.log('+ current currency', this.current_currency.currency);
+    // console.log('+ value.currency', value.currency);
 
     if(this.current_currency.currency != undefined){
       this.old_currency = this.current_currency.currency;
@@ -384,15 +389,12 @@ class PaymentStore{
     this.supported_currencies = {};
     var config_currencies = this.RootStore.configStore.gateway.supportedCurrencies;
 
-    console.log('config ******* ', config_currencies);
-    if(typeof config_currencies == 'object'){
+    if(typeof config_currencies == 'object' && Array.isArray(config_currencies.slice())){
       self.currencies = config_currencies;
       self.supported_currencies = value.filter(function(el){
-
           return config_currencies.indexOf(el.currency) >= 0;
       });
 
-      console.log('inside the object', self.supported_currencies);
     }
     else {
       switch (config_currencies){
@@ -412,23 +414,21 @@ class PaymentStore{
       }
     }
 
-    console.log('config ******* ', self.supported_currencies);
+    // console.log('config ******* ', self.supported_currencies);
 
     var methods_currencies = this.supported_currencies_based_on_methods;
+
     value = self.supported_currencies;
-    console.log('supported_currencies', this.supported_currencies);
-    console.log('methods_currencies', methods_currencies);
+
     self.supported_currencies = value.filter(function(el){
         return methods_currencies.indexOf(el.currency) >= 0;
     });
-
-    console.log('config ******* ', self.supported_currencies_based_on_methods);
 
   }
 
   //supported currencies based on cards list (saveCard & token modes only)
   setFormSupportedCurrencies(value){
-    console.log('this.cardPayments', this.cardPayments);
+    // console.log('this.cardPayments', this.cardPayments);
     var self = this;
 
     if(Array.isArray(this.cardPayments.slice())){
@@ -521,16 +521,18 @@ class PaymentStore{
 
   saveCardOption(value){
 
-    console.log('save_card_active', this.save_card_active);
-    console.log('card_wallet',this.card_wallet);
-
     if(this.save_card_active && this.card_wallet){
       this.save_card_option = value;
-      console.log('save_card_option',this.save_card_option);
+      // console.log('save_card_option',this.save_card_option);
     }
     else {
       this.save_card_option = false;
     }
+
+    // console.log('save_card_active', this.save_card_active);
+    // console.log('card_wallet',this.card_wallet);
+    // console.log('save_card_option', this.save_card_option);
+
   }
 
   computed
@@ -538,14 +540,14 @@ class PaymentStore{
 
     let old = this.RootStore.configStore.order;
     let current =  this.RootStore.paymentStore.current_currency;
-    
+
     var title = {'main': this.getMainAmount};
 
     if(current.currency !== old.currency){
           title = {'main': this.getCurrentAmount, 'secondary': this.getMainAmount}
     }
 
-    console.log('title', title);
+    // console.log('title', title);
 
     return title;
   }
@@ -626,7 +628,8 @@ decorate(PaymentStore, {
   authenticate: observable,
   authorize: observable,
   charge:observable,
-  old_currency: observable
+  old_currency: observable,
+  supported_payment_methods: observable
 });
 
 
