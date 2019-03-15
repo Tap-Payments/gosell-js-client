@@ -374,6 +374,8 @@ class FormStore{
       }
     }
     else if(event.code == 100 && event.focus == 'in'){
+      self.RootStore.uIStore.keyboard = true;
+      console.log('in keyboard from formStore', self.RootStore.uIStore.keyboard);
       self.cardFormHandleClick();
       // set the flag true every time the frame is focused
       this.submitBtnFlag  = true
@@ -447,6 +449,8 @@ class FormStore{
     }
     else if(event.code == 101 && event.code != 200){
       console.log("it's out");
+      self.RootStore.uIStore.keyboard = false;
+      console.log('out keyboard from formStore', self.RootStore.uIStore.keyboard);
     }
 
 

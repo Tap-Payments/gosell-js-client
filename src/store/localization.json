@@ -426,5 +426,9 @@
   "credit_card_subtitle":{
     "en": "Enter Credit Card",
     "ar": "أدخل بطاقة الائتمان"
+  },
+  "otp_validation_msg":{
+    "en": "Invalid OTP code given!",
+    "ar": "الرمز المدخل غير صحيح!"
   }
 }

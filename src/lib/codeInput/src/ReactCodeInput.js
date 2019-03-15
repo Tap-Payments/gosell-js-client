@@ -16,6 +16,24 @@ const DOWN_ARROW_KEY = 40;
 const E_KEY = 69;
 
 class ReactCodeInput extends Component {
+  static codeInputs = [];
+
+  static reset(){
+
+    let code = ReactCodeInput.codeInputs[0];
+    console.log('code', code);
+
+    var inputs = [];
+
+    for(var i=0; i < code.state.fields; i++){
+      inputs.push('')
+    }
+
+    code.setState({
+      input: inputs,
+      updated: false
+    });
+  }
 
   constructor(props) {
     super(props);
@@ -63,6 +81,9 @@ class ReactCodeInput extends Component {
     this.uuid = uuidv4();
   }
 
+  componentDidMount() {
+    ReactCodeInput.codeInputs.push(this);
+  }
 
 
   componentWillReceiveProps(nextProps) {
@@ -71,20 +92,24 @@ class ReactCodeInput extends Component {
           isValid:  nextProps.isValid,
           value:    nextProps.value,
           disabled: nextProps.disabled,
-          updated: nextProps.updated
+          // updated: nextProps.updated
     });
 
-     if(nextProps.updated){
-       var inputs = [];
+    // console.log('updated',  nextProps.updated);
 
-       for(var i=0; i < this.state.fields; i++){
-         inputs.push('')
-       }
-
-       this.setState({
-         input: inputs
-       });
-     }
+     //
+     // if(this.state.updated){
+     //   var inputs = [];
+     //
+     //   for(var i=0; i < this.state.fields; i++){
+     //     inputs.push('')
+     //   }
+     //
+     //   this.setState({
+     //     input: inputs,
+     //     updated: false
+     //   });
+     // }
   }
 
   handleBlur(e) {
@@ -115,17 +140,17 @@ class ReactCodeInput extends Component {
     }
 
     if (this.state.type === 'number') {
-      value = value.replace(/[^\d]/g, '');
+        value = value.replace(/[^\d]/g, '');
     }
 
-
-    if(this.state.type === "otpCode") {
-      // console.log("otpCode value before ",value);
-      value = this.containsArabicNumber(value) ? this.convert(value) :  value;
-      // console.log("otpCode value after ",value);
-      value = value.replace(/[^\d]/g, '');
-      // console.log("otpCode value final ",value);
-    }
+    // if(this.state.type === "otpCode") {
+    //   console.log("otpCode value before ",value);
+    //   console.log('otpCode test', this.containsArabicNumber(value));
+    //   value = this.containsArabicNumber(value) ? this.convert(value) :  value;
+    //   console.log("otpCode value after ",value);
+    //   value = value.replace(/[^\d]/g, '');
+    //   console.log("otpCode value final ",value);
+    // }
 
 
     /** Filter Chars */
@@ -133,8 +158,12 @@ class ReactCodeInput extends Component {
 
     let fullValue = value;
 
+    console.log('full Value', fullValue);
+
     if (value !== '') {
       const input = this.state.input.slice();
+
+      console.log('input slice', input);
 
       if (value.length > 1) {
         value.split('').map((chart, i) => {
@@ -196,8 +225,8 @@ class ReactCodeInput extends Component {
 
     switch (e.keyCode) {
       case BACKSPACE_KEY:
-        e.preventDefault();
-        this.textInput[target].value = '';
+        // e.preventDefault();
+        // this.textInput[target].value = '';
         input = this.state.input.slice();
         input[target] = '';
         value = input.join('');
@@ -249,25 +278,42 @@ class ReactCodeInput extends Component {
     }
 
     this.handleTouch(value);
+
   }
 
-  containsArabicNumber(text){
-    var reg = /[٠١٢٣٤٥٦٧٨٩]/;
-    return reg.test(text);
-  }
+  handleKeyPress(e){
+    var id = e.target.id;
+    const target = Number(id.substring(id.length - 1)),
+      nextTarget = this.textInput[target + 1],
+      prevTarget = this.textInput[target - 1];
 
-  convert(input){
-    let unicode = ['٠','٩','٨','٧','٦','٥','٤','٣','٢','١'];
-    let english = ['0','9', '8', '7', '6', '5', '4', '3', '2', '1'];
-    let string;
+      var value = parseInt(e.key);
+      console.log('val', value);
 
-    for(let i=0; i<unicode.length; i++) {
-      if(input.includes(unicode[i])) {
-        input = input.replace(unicode[i],english[i]);
-        // TODO:console.log(input+"replaceAt");
+      if(isNaN(value)){
+        e.preventDefault();
+        this.textInput[target].value = '';
+
+
       }
-    }
-    return input;
+
+      if(this.props.onKeyUp){
+        this.props.onKeyUp(e);
+      }
+
+      // var key = e.charCode || e.keyCode || 0;
+      // // // allow backspace, tab, delete, enter, arrows, numbers and keypad numbers ONLY
+      // // // home, end, period, and numpad decimal
+      // if(key == 0 || !(key == 8 || key == 9 || key == 13 || key == 46 || key == 110 || key == 190 ||
+      //     (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))){
+      //       e.preventDefault();
+      //       this.textInput[target].value = '';
+      //   }
+
+    // if(e.keyCode == 0 || !(e.keyCode >= 48 && e.keyCode <=57)){
+    //   e.preventDefault();
+    //   this.textInput[target].value = '';
+    // }
   }
 
   render() {
@@ -320,6 +366,7 @@ class ReactCodeInput extends Component {
                 this.textInput[i] = ref;
               }}
               id={`${this.uuid}-${i}`}
+              lang="en"
               data-id={i}
               autoFocus={autoFocus && (i === 0) ? 'autoFocus' : ''}
               value={value}
@@ -334,6 +381,7 @@ class ReactCodeInput extends Component {
               onBlur={(e) => this.handleBlur(e)}
               onChange={(e) => this.handleChange(e)}
               onKeyDown={(e) => this.handleKeyDown(e)}
+              onKeyUp={(e) => this.handleKeyPress(e)}
               disabled={disabled}
               data-valid={isValid}
               pattern={pattern}
