@@ -16,6 +16,7 @@ class Otp extends Component {
       animate_btn: false,
       animate_fields:false,
       active: false,
+      clicked: false
       // updated: false,
       // value: null
     }
@@ -54,7 +55,8 @@ class Otp extends Component {
     if(this.timer) {
       clearInterval(this.timer);
       this.setState({
-        running:false
+        running:false,
+        clicked:false
       });
     }
   }
@@ -156,9 +158,9 @@ class Otp extends Component {
         value: null,
       });
 
-     // this.setState({
-     //   active:false,
-     // });
+     this.setState({
+       clicked: true
+     });
 
      this.props.store.apiStore.requestAuthentication().then(result => {
         // console.log('result', result);
@@ -243,7 +245,7 @@ class Otp extends Component {
               <td className='gosell-gateway-otp-settings' style={this.props.dir === 'ltr' ? {textAlign: 'right'} : {textAlign: 'left'}}>
                 {this.state.running ?
                  <Timer running={this.state.running} time={count}/> :
-                 <div className={!this.state.running ? "gosell-gateway-otp-resend" : "gosell-gateway-otp-resend gosell-gateway-otp-fadeOut"} onClick={this.resendOTP.bind(this)}>{this.props.store.localizationStore.getContent('btn_resend_title', null)}</div>
+                 <div className={!this.state.running ? (this.state.clicked ? "gosell-gateway-otp-resend-disabled" : "gosell-gateway-otp-resend") : "gosell-gateway-otp-resend gosell-gateway-otp-fadeOut"} onClick={this.resendOTP.bind(this)}>{this.props.store.localizationStore.getContent('btn_resend_title', null)}</div>
                 }
               </td>
             </tr>
