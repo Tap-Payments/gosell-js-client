@@ -92,4 +92,13 @@
   cursor: pointer;
   margin: 0px;
   transition: opacity 0.5s ease-out;
+  pointer-events: auto;
+}
+
+.gosell-gateway-otp-resend-disabled{
+  cursor: none;
+  margin: 0px;
+  transition: opacity 0.5s ease-out;
+  color: gray;
+  pointer-events: none;
 }
