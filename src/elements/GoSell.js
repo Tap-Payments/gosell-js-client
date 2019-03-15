@@ -151,7 +151,7 @@ class GoSell extends Component {
   }
 
   updateDimensions() {
-    RootStore.uIStore.calcElementsHeight('gosell-gateway-payment-options');
+      RootStore.uIStore.calcElementsHeight('gosell-gateway-payment-options');
   }
 
   handleWindowSizeChange(){

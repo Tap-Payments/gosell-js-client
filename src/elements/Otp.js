@@ -88,8 +88,18 @@ class Otp extends Component {
   //   });
   // }
 
+  handleKeyUpEvent(e){
+    if(e.keyCode == 0 || !(e.keyCode >= 48 && e.keyCode <=57)){
+      this.props.store.uIStore.setErrorHandler({
+        visable: true,
+        code: null,
+        msg: this.props.store.localizationStore.getContent('switch_keyboard_language', null),
+        type: 'warning'
+      });
+    }
+  }
+
   handleChange(event){
-    // this.setState({  updated: false, animate: false, value: event});
     var store = this.props.store;
 
     store.uIStore.goSellBtn({
@@ -197,8 +207,9 @@ class Otp extends Component {
               ref={this.props.store.uIStore.targetElement}
               autoFocus={false}
               updated={this.props.store.uIStore.otp.updated}
-              type='otpCode'
+              type='number'
               onChange={this.handleChange.bind(this)}
+              onKeyUp={this.handleKeyUpEvent.bind(this)}
               fields={6} {...props}/>
           </div>
 

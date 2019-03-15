@@ -426,5 +426,9 @@
   "credit_card_subtitle":{
     "en": "Enter Credit Card",
     "ar": "أدخل بطاقة الائتمان"
+  },
+  "switch_keyboard_language":{
+    "en": "Please switch your Keyboard's language to English!",
+    "ar": "يرجى تغيير لغة لوحة المفاتيح للغة الإنجليزية!"
   }
 }

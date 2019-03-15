@@ -115,17 +115,17 @@ class ReactCodeInput extends Component {
     }
 
     if (this.state.type === 'number') {
-      value = value.replace(/[^\d]/g, '');
+        value = value.replace(/[^\d]/g, '');
     }
 
-
-    if(this.state.type === "otpCode") {
-      // console.log("otpCode value before ",value);
-      value = this.containsArabicNumber(value) ? this.convert(value) :  value;
-      // console.log("otpCode value after ",value);
-      value = value.replace(/[^\d]/g, '');
-      // console.log("otpCode value final ",value);
-    }
+    // if(this.state.type === "otpCode") {
+    //   console.log("otpCode value before ",value);
+    //   console.log('otpCode test', this.containsArabicNumber(value));
+    //   value = this.containsArabicNumber(value) ? this.convert(value) :  value;
+    //   console.log("otpCode value after ",value);
+    //   value = value.replace(/[^\d]/g, '');
+    //   console.log("otpCode value final ",value);
+    // }
 
 
     /** Filter Chars */
@@ -194,7 +194,12 @@ class ReactCodeInput extends Component {
       });
     }
 
+
     switch (e.keyCode) {
+      case 0:
+        e.preventDefault();
+        this.textInput[target].value = '';
+        break;
       case BACKSPACE_KEY:
         e.preventDefault();
         this.textInput[target].value = '';
@@ -248,7 +253,30 @@ class ReactCodeInput extends Component {
         break;
     }
 
+    if(!(e.keyCode >= 48 && e.keyCode <=57)) {
+      // entered key is not a number
+      e.preventDefault();
+      this.textInput[target].value = '';
+    }
+
     this.handleTouch(value);
+
+  }
+
+  handleKeyPress(e){
+    var id = e.target.id;
+    const target = Number(id.substring(id.length - 1)),
+      nextTarget = this.textInput[target + 1],
+      prevTarget = this.textInput[target - 1];
+
+    if(e.keyCode == 0 || !(e.keyCode >= 48 && e.keyCode <=57)){
+      e.preventDefault();
+      this.textInput[target].value = '';
+    }
+
+    if(this.props.onKeyUp){
+      this.props.onKeyUp(e);
+    }
   }
 
   containsArabicNumber(text){
@@ -320,6 +348,7 @@ class ReactCodeInput extends Component {
                 this.textInput[i] = ref;
               }}
               id={`${this.uuid}-${i}`}
+              lang="en"
               data-id={i}
               autoFocus={autoFocus && (i === 0) ? 'autoFocus' : ''}
               value={value}
@@ -334,6 +363,7 @@ class ReactCodeInput extends Component {
               onBlur={(e) => this.handleBlur(e)}
               onChange={(e) => this.handleChange(e)}
               onKeyDown={(e) => this.handleKeyDown(e)}
+              onKeyUp={(e) => this.handleKeyPress(e)}
               disabled={disabled}
               data-valid={isValid}
               pattern={pattern}

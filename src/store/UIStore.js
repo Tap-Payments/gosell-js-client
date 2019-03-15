@@ -85,6 +85,8 @@ class UIStore {
     this.targetElement = React.createRef();
     this.browser = null;
     this.deviceBrowser;
+
+    this.keyboard = false;
   }
 
   calcElementsHeight(id){
@@ -93,29 +95,40 @@ class UIStore {
 
     if(node){
       if(this.getIsMobile){
+        if(!this.keyboard){
+          console.log('keyboard is not active');
 
-        this.setMainHeight(0);
+          this.setMainHeight(0);
 
-        // var modalBodyHeight = document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86;
+          // var modalBodyHeight = document.getElementsByClassName("tap-payments-modal-body")[0].clientHeight - 86;
 
-        var modalBodyHeight = this.bodyHeight - 86;
+          var modalBodyHeight = this.bodyHeight - 86;
 
-        const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
+          const allDivs = Array.from(node.querySelectorAll("#"+id+" > div"));
 
-        var self = this;
-        var total = 10;
-        allDivs.forEach(function(element) {
-          total += element.clientHeight;
-        });
+          var self = this;
+          var total = 10;
+          allDivs.forEach(function(element) {
+            total += element.clientHeight;
+          });
 
-        if(modalBodyHeight > total || (id === 'gosell-gateway-form-container' && modalBodyHeight < total)){
-          this.setMainHeight(total);
-          this.bodyHeight = total + 86;
-          this.modalHeight = this.bodyHeight + 65;
+          if(modalBodyHeight > total || (id === 'gosell-gateway-form-container' && modalBodyHeight < total)){
+            this.setMainHeight(total);
+            this.bodyHeight = total + 86;
+            this.modalHeight = this.bodyHeight + 65;
+          }
+          else {
+            this.setMainHeight(modalBodyHeight);
+          }
+
+          this.calcModalHeight();
+          this.setSliderHeight();
+
         }
         else {
-          this.setMainHeight(modalBodyHeight);
+          console.log('keyboard is active');
         }
+
       }
       else {
         this.setMainHeight(0);
@@ -132,11 +145,11 @@ class UIStore {
         });
 
         this.setMainHeight(total);
+
+        this.calcModalHeight();
+        this.setSliderHeight();
       }
     }
-
-    this.calcModalHeight();
-    this.setSliderHeight();
 
   }
 
@@ -651,9 +664,13 @@ class UIStore {
     var self = this;
     this.errorHandler = value;
 
-      setTimeout(function(){
+    if(value.visable){
+      window.scroll(0, 0);
+    }
+
+    setTimeout(function(){
         self.closeNotification();
-      }, 5000);
+    }, 5000);
   }
 
   warningHandler(){
@@ -712,7 +729,8 @@ decorate(UIStore, {
   bodyHeight: observable,
   sliderHeight: observable,
   browser: observable,
-  modalID: observable
+  modalID: observable,
+  keyboard: observable
 });
 
 export default UIStore;
