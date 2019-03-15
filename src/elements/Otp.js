@@ -89,17 +89,41 @@ class Otp extends Component {
   // }
 
   handleKeyUpEvent(e){
-    if(e.keyCode == 0 || !(e.keyCode >= 48 && e.keyCode <=57)){
+
+    // console.log('handle key press event', e);
+    // console.log('key', e.key);
+    // console.log('keyCode', e.keyCode);
+
+    var value = parseInt(e.key);
+    // console.log('val', value);
+
+    if(isNaN(value)){
       this.props.store.uIStore.setErrorHandler({
         visable: true,
         code: null,
-        msg: this.props.store.localizationStore.getContent('switch_keyboard_language', null),
+        msg: this.props.store.localizationStore.getContent('otp_validation_msg', null),
         type: 'warning'
       });
     }
+
+    // var key = e.charCode || e.keyCode || 0;
+    // // // allow backspace, tab, delete, enter, arrows, numbers and keypad numbers ONLY
+    // // // home, end, period, and numpad decimal
+    // if(key == 0  || !(key == 8 || key == 9 || key == 13 || key == 46 || key == 110 || key == 190 ||
+    //   (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))){
+    //   this.props.store.uIStore.setErrorHandler({
+    //     visable: true,
+    //     code: null,
+    //     msg: this.props.store.localizationStore.getContent('otp_validation_msg', null),
+    //     type: 'warning'
+    //   });
+    // }
+
+
   }
 
   handleChange(event){
+    // console.log('handle event change', event);
     var store = this.props.store;
 
     store.uIStore.goSellBtn({
@@ -116,46 +140,41 @@ class Otp extends Component {
         active: true,
       });
 
-      // this.setState({
-      //   active: true
-      // });
     }
     else {
       store.uIStore.goSellBtn({
         active: false
       });
-
-      // this.setState({
-      //   active: false
-      // });
     }
   }
 
   resendOTP(){
 
-    this.props.store.uIStore.goSellBtn({
-      active: false,
-      loader: false,
-    });
+    var self = this;
 
     this.props.store.uIStore.goSellOtp({
-        updated: true,
-        value: event,
+        value: null,
       });
 
-     this.setState({
-       // animate_btn:false,
-       // animate_fields:true,
-       active:false,
-       // updated:true,
-     });
+     // this.setState({
+     //   active:false,
+     // });
 
      this.props.store.apiStore.requestAuthentication().then(result => {
+        // console.log('result', result);
          this.setState({
            count: this.props.store.paymentStore.otp_resend_interval,
            running: this.props.store.paymentStore.authenticate ? (this.props.store.paymentStore.authenticate.status === 'INITIATED' ? true : false)  : null
          });
-     })
+
+         this.props.store.uIStore.goSellBtn({
+           active: false,
+           loader: false,
+         });
+
+         ReactCodeInput.reset();
+
+     });
 
   }
 
@@ -204,6 +223,7 @@ class Otp extends Component {
 
           <div className={this.state.animate_fields ? "gosell-gateway-wrong-entry" : null}>
             <ReactCodeInput
+              id="otpCodes"
               ref={this.props.store.uIStore.targetElement}
               autoFocus={false}
               updated={this.props.store.uIStore.otp.updated}

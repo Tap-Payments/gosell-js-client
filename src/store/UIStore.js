@@ -602,7 +602,6 @@ class UIStore {
   }
 
   goSellOtp(value){
-
     this.otp = {
       updated: value.updated ? value.updated : this.otp.updated,
       value:value.value ? value.value : this.otp.value

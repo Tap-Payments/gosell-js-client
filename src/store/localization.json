@@ -427,8 +427,8 @@
     "en": "Enter Credit Card",
     "ar": "أدخل بطاقة الائتمان"
   },
-  "switch_keyboard_language":{
-    "en": "Please switch your Keyboard's language to English!",
-    "ar": "يرجى تغيير لغة لوحة المفاتيح للغة الإنجليزية!"
+  "otp_validation_msg":{
+    "en": "Invalid OTP code given!",
+    "ar": "الرمز المدخل غير صحيح!"
   }
 }
