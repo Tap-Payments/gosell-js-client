@@ -19,9 +19,9 @@ const styles = {
         '&:hover': {
         //    boxShadow: 'inset 0px 11px 0px -10px #2ACE00, inset 0px -11px 0px -10px #2ACE00'
         }
-    },
+      },
       'textStyle': { textAlign: 'center'},
-      'iconStyle': {width: '65px', height: '65px'}
+      'iconStyle': {width: '65px', height: '65px', zIndex: '9999'}
     },
     'row2':{
       'rowContainer': { backgroundColor: 'white', height: '46px',
@@ -151,6 +151,7 @@ class Options extends Component {
                    : {borderLeft: '0.5px solid rgba(0, 0, 0, 0.17)', padding: '21px 23px'}}/>}
                 rowTitle={this.props.store.paymentStore.getCurrentValue}
                 onClick={this.props.store.actionStore.currenciesHandleClick}
+                onIconClick={this.props.store.actionStore.handleOrderDetailsClick}
                 addArrow={true}/>
               :
               <Row
@@ -160,6 +161,7 @@ class Options extends Component {
                 style={styles.row1}
                 rowTitle={this.props.store.paymentStore.getCurrentValue}
                 onClick={this.props.store.actionStore.currenciesHandleClick}
+                onIconClick={this.props.store.actionStore.handleOrderDetailsClick}
                 addArrow={false}/>
               }
               <Separator />

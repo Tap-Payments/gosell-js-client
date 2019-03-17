@@ -38,6 +38,31 @@ class Pay extends Component {
     });
   }
 
+  handlePayAction(){
+    var store = this.props.store;
+
+    if(store.uIStore.getIsActive === 'FORM'){
+      //get card token
+      store.formStore.generateToken().then(result => {
+
+         if(store.paymentStore.active_payment_option_fees > 0){
+           store.uIStore.setPageIndex(1, 'y');
+         }
+         else {
+           store.uIStore.startLoading('loader', store.localizationStore.getContent('please_wait_msg', null));
+
+           store.apiStore.handleTransaction(store.paymentStore.source_id, 'FORM', 0.0).then(result =>{
+             console.log(' ......>>>>>>>>> ', result);
+             // store.uIStore.stopBtnLoader();
+           });
+         }
+       });
+    }
+    else {
+      store.actionStore.onPayBtnClick();
+    }
+  }
+
   handlePayBtnClick(){
 
     var store = this.props.store;
@@ -48,26 +73,7 @@ class Pay extends Component {
 
     switch (store.uIStore.getPageIndex) {
       case 0:
-        if(store.uIStore.getIsActive === 'FORM'){
-          //get card token
-          store.formStore.generateToken().then(result => {
-
-             if(store.paymentStore.active_payment_option_fees > 0){
-               store.uIStore.setPageIndex(1, 'y');
-             }
-             else {
-               store.uIStore.startLoading('loader', store.localizationStore.getContent('please_wait_msg', null));
-
-               store.apiStore.handleTransaction(store.paymentStore.source_id, 'FORM', 0.0).then(result =>{
-                 console.log(' ......>>>>>>>>> ', result);
-                 // store.uIStore.stopBtnLoader();
-               });
-             }
-           });
-        }
-        else {
-          store.actionStore.onPayBtnClick();
-        }
+        this.handlePayAction();
         break;
        case 1:
         store.actionStore.handleExtraFeesClick();

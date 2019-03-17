@@ -155,7 +155,7 @@ class UIStore {
 
   setMainHeight(value){
 
-    this.mainHeight = value;
+    this.mainHeight = value + 2;
 
       if(this.getIsMobile){
         var w = window,
@@ -203,7 +203,7 @@ class UIStore {
         },
         headerStyle:{
           'header': {backgroundColor: '#F7F7F7', height: '106px', marginTop: '50px'},
-          'titleStyle': {cursor: 'pointer', margin: 'auto'},
+          'titleStyle': {cursor: 'pointer', margin: 'auto 0'},
           'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
         }
       }
@@ -662,14 +662,14 @@ class UIStore {
   setErrorHandler(value){
     var self = this;
     this.errorHandler = value;
-
-    if(value.visable){
-      window.scroll(0, 0);
-    }
-
-    setTimeout(function(){
-        self.closeNotification();
-    }, 5000);
+    
+    // if(value.visable){
+    //   window.scroll(0, 0);
+    // }
+    //
+    // setTimeout(function(){
+    //     self.closeNotification();
+    // }, 5000);
   }
 
   warningHandler(){

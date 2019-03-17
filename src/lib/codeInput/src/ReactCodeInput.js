@@ -290,11 +290,9 @@ class ReactCodeInput extends Component {
       var value = parseInt(e.key);
       console.log('val', value);
 
-      if(isNaN(value)){
+      if(e.keyCode != 8 && isNaN(value)){
         e.preventDefault();
         this.textInput[target].value = '';
-
-
       }
 
       if(this.props.onKeyUp){

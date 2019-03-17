@@ -14,7 +14,7 @@ class Row extends Component {
       active: false,
     }
 
-    this.onClickHandler = this.onClickHandler.bind(this);
+    // this.onClickHandler = this.onClickHandler.bind(this);
 
   }
 
@@ -23,9 +23,9 @@ class Row extends Component {
     return document.getElementById(this.props.id)?document.getElementById(this.props.id).clientHeight:null
   }
 
-  onClickHandler(e){
-    this.props.onClick(e);
-  }
+  // onClickHandler(e){
+  //   this.props.onClick(e);
+  // }
 
   overHandler(){
     this.setState({
@@ -77,33 +77,34 @@ class Row extends Component {
       className='gosell-gateway-row-container'
       dir={this.props.dir}
       id={this.props.id}
-      ref={(node) => this.rowRef = node}
-      onClick={this.onClickHandler}>
+      ref={(node) => this.rowRef = node}>
 
         <div className="gosell-gateway-row">
-        {this.props.rowIcon ?
-           <Icon className="gosell-gateway-row-icon">
-              {this.props.rowIcon}
-           </Icon>
-         : <Icon className="gosell-gateway-row-icon"></Icon>
-        }
+          {this.props.rowIcon ?
+             <Icon className="gosell-gateway-row-icon" onClick={(e) => this.props.onIconClick ? this.props.onIconClick(e) :null}>
+                {this.props.rowIcon}
+             </Icon>
+           : <Icon className="gosell-gateway-row-icon"></Icon>
+          }
 
-         {title}
+          <div style={{left: '65px'}} onClick={(e) => this.props.onClick ? this.props.onClick(e) : null}>
+           {title}
 
-         {(this.props.value) ?
-             <div className={this.state.isMouseOver ? "gosell-gateway-value" : "gosell-gateway-value gosell-gateway-hidden-value"}
-                style={this.props.dir === 'ltr'? {textAlign: 'right'} : {textAlign:'left'}}>
-                {this.props.value}
-             </div>
-          : null
-         }
+           {(this.props.value) ?
+               <div className={this.state.isMouseOver ? "gosell-gateway-value" : "gosell-gateway-value gosell-gateway-hidden-value"}
+                  style={this.props.dir === 'ltr'? {textAlign: 'right'} : {textAlign:'left'}}>
+                  {this.props.value}
+               </div>
+            : null
+           }
 
-         {(this.props.addArrow ||  this.props.addArrow === true) ?
-           <div className="gosell-gateway-arrow" style={{ backgroundImage: 'url('+ arrowImg +')', height: this.getRowHeight()}}>
+           {(this.props.addArrow ||  this.props.addArrow === true) ?
+             <div className="gosell-gateway-arrow" style={{ backgroundImage: 'url('+ arrowImg +')', height: this.getRowHeight()}}>
+            </div>
+          : null}
+
           </div>
-        : null}
-
-          </div>
+        </div>
 
       </RowContainer>
 

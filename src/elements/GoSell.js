@@ -222,6 +222,26 @@ class GoSell extends Component {
 
   render() {
 
+    var style = {
+      width: '50px',
+      height: '50px',
+      position: 'fixed',
+      borderRadius: '50%',
+      backgroundColor: 'black',
+      opacity: '0.4',
+      margin: '12px'
+    }
+
+    var img = RootStore.uIStore.getDir == 'ltr' ? Paths.imgsPath + 'arrow.svg' : Paths.imgsPath + 'arrowReverse.svg';
+    var imgStyle = {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      margin: 'auto'
+    }
+
     return(
         <React.Fragment>
             <Modal id={RootStore.uIStore.modalID}
@@ -249,7 +269,10 @@ class GoSell extends Component {
                 header={<Header
                   dir={RootStore.uIStore.getDir}
                   mode={RootStore.uIStore.modal.mode}
-                  modalIcon={RootStore.merchantStore.logo}
+                  modalIcon={RootStore.uIStore.getIsMobile ? <div onClick={(e) => (RootStore.uIStore.getPageIndex != 0 || RootStore.uIStore.show_order_details) ? RootStore.actionStore.goBack() : null}>
+                      {RootStore.uIStore.getPageIndex != 0 || RootStore.uIStore.show_order_details ? <div style={style}><img src={img} height="25" style={imgStyle}/></div> : null}
+                      <img src={RootStore.merchantStore.logo} width="50" height="50" style={{margin: '12px',borderRadius: '50%'}}/>
+                    </div> : RootStore.merchantStore.logo}
                   modalTitle={<Details store={RootStore}/>}
                   close={RootStore.uIStore.modal_mode === 'popup' && RootStore.uIStore.delete_card == null && !RootStore.uIStore.btn.loader ? "closeIn" : "none"}
                   closeIcon={Paths.imgsPath + 'close.svg'}

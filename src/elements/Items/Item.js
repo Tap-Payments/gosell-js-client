@@ -14,7 +14,7 @@ class Item extends Component {
     var align = this.props.dir === 'ltr' ? 'left' : 'right';
 
     const ItemContainer = styled.div`
-      margin: 16px;
+      margin: 16px 2%;
       height: auto;
       min-height: ${this.props.discount ? '50px' : '30px'};
     `
@@ -43,7 +43,7 @@ class Item extends Component {
     `
 
     const Badge = styled.div`
-      width: 40px;
+      width: 35px;
       height: 20px;
       background: #6B6F73;
       /* font-family: Roboto-Regular; */

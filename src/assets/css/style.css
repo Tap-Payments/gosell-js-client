@@ -73,11 +73,11 @@
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-   scroll-behavior: smooth;
+  scroll-behavior: smooth;
   transition: all .5s linear;
   height: 0;
   -ms-overflow-style: -ms-autohiding-scrollbar;
-   -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
 }
 
 
@@ -126,7 +126,7 @@
 
   .gosell-gateway-list-container {
     /* top: 0; */
-    height: 89%;
+    height: 98%;
   }
 
   .gosell-gateway-order-details {
