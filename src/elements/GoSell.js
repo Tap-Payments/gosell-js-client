@@ -7,12 +7,13 @@ import MainView from './MainView';
 import Details from './Details';
 import TapLoader from './TapLoader';
 import RootStore from '../store/RootStore.js';
+import BackBtn from './BackBtn';
 
 class GoSell extends Component {
 
   //open Tap gateway as a light box by JS library
   static openLightBox(){
-    RootStore.uIStore.modal_mode = 'popup';
+    RootStore.uIStore.modalMode = 'popup';
     RootStore.uIStore.modalID = "gosell-lightbox-payment-gateway";
 
     GoSell.handleView();
@@ -31,7 +32,7 @@ class GoSell extends Component {
   //function will be used on tap server to generate the UI of the payment gateway
   static generateTapGateway(){
 
-    RootStore.uIStore.modal_mode = 'page';
+    RootStore.uIStore.modalMode = 'page';
     RootStore.uIStore.modalID = "gosell-payment-gateway-page";
 
     GoSell.handleView();
@@ -222,59 +223,47 @@ class GoSell extends Component {
 
   render() {
 
-    var style = {
-      width: '50px',
-      height: '50px',
-      position: 'fixed',
-      borderRadius: '50%',
-      backgroundColor: 'black',
-      opacity: '0.4',
-      margin: '12px'
-    }
-
-    var img = RootStore.uIStore.getDir == 'ltr' ? Paths.imgsPath + 'arrow.svg' : Paths.imgsPath + 'arrowReverse.svg';
-    var imgStyle = {
-      position: 'absolute',
-      top: 0,
-      bottom: 0,
-      left: 0,
-      right: 0,
-      margin: 'auto'
-    }
+    var condition = RootStore.uIStore.isMobile && (RootStore.uIStore.pageIndex != 0 || RootStore.uIStore.show_order_details);
 
     return(
         <React.Fragment>
             <Modal id={RootStore.uIStore.modalID}
-                open={RootStore.uIStore.getOpenModal}
+                open={RootStore.uIStore.openModal}
                 onClose={GoSell.handleClose}
                 blur={true}
-                isLoading={RootStore.uIStore.getLoadingStatus}
+                isLoading={RootStore.uIStore.isLoading}
                 loader={<TapLoader
-                  type={RootStore.uIStore.getMsg.type}
+                  type={RootStore.uIStore.msg.type}
                   status={RootStore.uIStore.load}
-                  color={RootStore.uIStore.modal_mode === 'popup' ? 'white' : 'black'}
+                  color={RootStore.uIStore.modalMode === 'popup' ? 'white' : 'black'}
                   duration={5}
-                  title={RootStore.uIStore.getMsg.title}
-                  desc={RootStore.uIStore.getMsg.desc}
+                  title={RootStore.uIStore.msg.title}
+                  desc={RootStore.uIStore.msg.desc}
                   closeTitle={RootStore.localizationStore.strings != null ? RootStore.localizationStore.getContent('close_btn_title', null) : 'Close'}
-                  close={RootStore.uIStore.modal_mode === 'popup' ? RootStore.uIStore.getMsg.handleClose : null}
+                  close={RootStore.uIStore.modalMode === 'popup' ? RootStore.uIStore.msg.handleClose : null}
                   handleClose={this.closeModal.bind(this)}
                 />}
                 animate={true}
                 style={RootStore.uIStore.modal.modalStyle}
-                mode={RootStore.uIStore.modal_mode}
-                pageBgImg={RootStore.uIStore.modal_mode === 'page'? RootStore.uIStore.modal_bg_img : null}
-                pageBgColor={RootStore.uIStore.modal_mode === 'page'? '#F0F1F2' : null}
+                mode={RootStore.uIStore.modalMode}
+                pageBgImg={RootStore.uIStore.modalMode === 'page'? RootStore.uIStore.modal_bg_img : null}
+                pageBgColor={RootStore.uIStore.modalMode === 'page'? '#F0F1F2' : null}
                 notification={RootStore.uIStore.generateCustomNotification}
                 header={<Header
-                  dir={RootStore.uIStore.getDir}
+                  dir={RootStore.uIStore.dir}
                   mode={RootStore.uIStore.modal.mode}
-                  modalIcon={RootStore.uIStore.getIsMobile ? <div onClick={(e) => (RootStore.uIStore.getPageIndex != 0 || RootStore.uIStore.show_order_details) ? RootStore.actionStore.goBack() : null}>
-                      {RootStore.uIStore.getPageIndex != 0 || RootStore.uIStore.show_order_details ? <div style={style}><img src={img} height="25" style={imgStyle}/></div> : null}
-                      <img src={RootStore.merchantStore.logo} width="50" height="50" style={{margin: '12px',borderRadius: '50%'}}/>
-                    </div> : RootStore.merchantStore.logo}
+                  modalIcon={<BackBtn
+                    logo={RootStore.merchantStore.logo}
+                    dir={RootStore.uIStore.dir}
+                    width={RootStore.uIStore.modal.headerStyle.iconStyle.width}
+                    height={RootStore.uIStore.modal.headerStyle.iconStyle.height}
+                    back={condition}
+                    mobile={RootStore.uIStore.isMobile}
+                    goBack={RootStore.actionStore.goBack}
+                    style={RootStore.uIStore.isMobile ? {margin: '12px',borderRadius: '50%'} : {borderRadius: '50%'}}
+                    />}
                   modalTitle={<Details store={RootStore}/>}
-                  close={RootStore.uIStore.modal_mode === 'popup' && RootStore.uIStore.delete_card == null && !RootStore.uIStore.btn.loader ? "closeIn" : "none"}
+                  close={RootStore.uIStore.modalMode === 'popup' && RootStore.uIStore.delete_card == null && !RootStore.uIStore.btn.loader ? "closeIn" : "none"}
                   closeIcon={Paths.imgsPath + 'close.svg'}
                   onClose={GoSell.handleClose}
                   style={RootStore.uIStore.modal.headerStyle}

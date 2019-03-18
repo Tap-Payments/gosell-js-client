@@ -36,7 +36,7 @@ class SupportedCurrencies extends Component {
       this.props.store.paymentStore.setCurrentCurrency(current);
       this.props.store.uIStore.mainHeight = 0;
 
-      // if(this.props.store.uIStore.getIsMobile){
+      // if(this.props.store.uIStore.isMobile){
       //    this.props.store.uIStore.setPageIndex(0, 'x');
       // }
       // else {
@@ -121,9 +121,9 @@ class SupportedCurrencies extends Component {
         );
 
 
-      var bg = this.props.store.uIStore.getIsMobile ? 'transparent' : 'rgba(255, 255, 255, 0.6)';
+      var bg = this.props.store.uIStore.isMobile ? 'transparent' : 'rgba(255, 255, 255, 0.6)';
 
-      // this.props.store.uIStore.modal_mode === 'page' ? bg = 'rgba(255, 255, 255, 0.5)' :  bg = 'rgba(0,0,0,0.30)';
+      // this.props.store.uIStore.modalMode === 'page' ? bg = 'rgba(255, 255, 255, 0.5)' :  bg = 'rgba(0,0,0,0.30)';
 
       const CurrenciesPC = styled.div`
           height: ${this.props.height};
@@ -186,7 +186,7 @@ class SupportedCurrencies extends Component {
 //     onClick={this.handleClick.bind(this, this.props.store.paymentStore.current_currency)}/>
 
 
-// this.props.store.uIStore.modal_mode === 'page' ?
+// this.props.store.uIStore.modalMode === 'page' ?
 //   <div>
 //   {
 //     // <Search

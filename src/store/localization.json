@@ -430,5 +430,17 @@
   "otp_validation_msg":{
     "en": "Invalid OTP code given!",
     "ar": "الرمز المدخل غير صحيح!"
+  },
+  "error_invalid_card_characters":{
+    "en": "Invalid card number given!",
+    "ar": "القيمة المدخلة غير صحيحة"
+  },
+  "error_invalid_expiry_characters":{
+    "en": "Invalid expiry date given!",
+    "ar": "القيمة المدخلة غير صحيحة"
+  },
+  "error_invalid_cvv_characters":{
+    "en": "Invalid CVV number given!",
+    "ar": "القيمة المدخلة غير صحيحة"
   }
 }

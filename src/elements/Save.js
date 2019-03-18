@@ -105,7 +105,7 @@ class Save extends Component {
                   <div style={{height: '86px', position:'relative'}}>
                       <TapButton
                         id="tap-save-btn"
-                        dir={store.uIStore.getDir}
+                        dir={store.uIStore.dir}
                         width="90%"
                         height="44px"
                         btnColor={'#2ACE00'}

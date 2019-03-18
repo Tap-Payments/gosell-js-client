@@ -15,14 +15,14 @@ class Details extends Component {
   render() {
     var store = this.props.store;
 
-    var align = this.props.store.uIStore.getDir === 'ltr' ? 'left' : 'right';
+    var align = this.props.store.uIStore.dir === 'ltr' ? 'left' : 'right';
 
     const Container = styled.div`
       margin: ${store.configStore.tranx_description == null ? '22px 0px' : '10px 0px'};
       line-height: 1.4;
       display: flex;
       flex-direction: column;
-      align-items: ${this.props.store.uIStore.getIsMobile ? align : 'center'};
+      align-items: ${this.props.store.uIStore.isMobile ? align : 'center'};
     `
 
     const Order = styled.div`

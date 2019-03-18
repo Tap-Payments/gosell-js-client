@@ -52,6 +52,7 @@ decorate(MerchantStore, {
   sk: observable,
   pk: observable,
   session: observable,
+  logo: observable,
   name: observable,
   description: observable,
   contact: observable,

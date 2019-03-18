@@ -379,7 +379,7 @@ class PaymentStore{
 
     if(this.RootStore.formStore.card != null){
       this.RootStore.formStore.switchCurrency(value);
-      this.RootStore.formStore.clearCardForm();
+      // this.RootStore.formStore.clearCardForm();
       this.RootStore.uIStore.setErrorHandler({});
     }
   }
@@ -560,7 +560,7 @@ class PaymentStore{
 
     var old_symbol = this.RootStore.localizationStore.getContent('supported_currencies_symbol_' + old.currency.toLowerCase(), null);
 
-    if(this.RootStore.uIStore.getDir === 'rtl'){
+    if(this.RootStore.uIStore.dir === 'rtl'){
       return old_amount + ' ' + old_symbol;
     }
     else {
@@ -575,7 +575,7 @@ class PaymentStore{
 
     var new_symbol = this.RootStore.localizationStore.getContent('supported_currencies_symbol_' + current.currency.toLowerCase(), null);
 
-    if(this.RootStore.uIStore.getDir === 'rtl'){
+    if(this.RootStore.uIStore.dir === 'rtl'){
       return new_amount + ' ' + new_symbol;
     }
     else {

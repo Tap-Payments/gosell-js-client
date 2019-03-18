@@ -41,7 +41,7 @@ class SaveForm extends Component {
         //    boxShadow: 'inset 0px 11px 0px -10px #2ACE00, inset 0px -11px 0px -10px #2ACE00'
         }
       },
-      'iconStyle': {width: '100%', height: '48px', display: 'flex', flexDirection: 'row', justifyContent: store.uIStore.getDir === 'ltr' ? 'left' : 'right'},
+      'iconStyle': {width: '100%', height: '48px', display: 'flex', flexDirection: 'row', justifyContent: store.uIStore.dir === 'ltr' ? 'left' : 'right'},
       'textStyle': {width: '100%'},
       'subtitle':{
         fontSize: '15px'
@@ -54,9 +54,9 @@ class SaveForm extends Component {
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      direction: ${store.uIStore.getDir};
-      margin-left: ${store.uIStore.getDir === 'ltr' ? '20%' : '16px'};
-      margin-right: ${store.uIStore.getDir === 'rtl' ? '20%' : '16px'};
+      direction: ${store.uIStore.dir};
+      margin-left: ${store.uIStore.dir === 'ltr' ? '20%' : '16px'};
+      margin-right: ${store.uIStore.dir === 'rtl' ? '20%' : '16px'};
     `
 
     const SaveCardTitle = styled.div`
@@ -65,8 +65,8 @@ class SaveForm extends Component {
       letter-spacing: -0.36px;
       text-align: left;
       width: 70%;
-      direction: ${store.uIStore.getDir};
-      text-align: ${store.uIStore.getDir === 'ltr' ? 'left': 'right'}
+      direction: ${store.uIStore.dir};
+      text-align: ${store.uIStore.dir === 'ltr' ? 'left': 'right'}
     `
 
     return(
@@ -87,7 +87,7 @@ class SaveForm extends Component {
               <div style={{ width: '25%' }}>
                 <Switcher
                   store={store}
-                  style={{ float: store.uIStore.getDir === 'ltr' ? 'right' : 'left'}} />
+                  style={{ float: store.uIStore.dir === 'ltr' ? 'right' : 'left'}} />
               </div>
               </SaveCardContainer>
             : null}

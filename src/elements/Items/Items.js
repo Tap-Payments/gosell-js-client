@@ -46,6 +46,8 @@ class Items extends Component {
   render() {
 
     const Container = styled.div`
+      height: 100%;
+      overflow: auto;
     `
     const Fieldset = styled.div`
       font-size: 12px;

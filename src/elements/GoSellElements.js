@@ -33,7 +33,7 @@ class GoSellElements extends Component {
     RootStore.configStore.configure().then(result => {
       console.log('config result', result);
     });
-    console.log('=== dir', RootStore.uIStore.getDir);
+    console.log('=== dir', RootStore.uIStore.dir);
   }
 
   closeNotification(){

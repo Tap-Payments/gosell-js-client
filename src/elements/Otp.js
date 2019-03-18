@@ -193,7 +193,7 @@ class Otp extends Component {
       className: 'gosell-gateway-react-code-input',
       inputStyle: {
         MozAppearance: 'textfield',
-        width: this.props.store.uIStore.getIsMobile ? '40px' : '45px',
+        width: this.props.store.uIStore.isMobile ? '40px' : '45px',
         borderRadius: '8px',
         fontSize: '24px',
         height: '52px',
@@ -201,13 +201,13 @@ class Otp extends Component {
         border: '1px solid #CECECE',
         textAlign: 'center',
         outlineColor: '#009AFF',
-        margin: this.props.store.uIStore.getIsMobile ? '1%' : '2%',
-        padding: this.props.store.uIStore.getIsMobile ? '0' : '0 12px',
+        margin: this.props.store.uIStore.isMobile ? '1%' : '2%',
+        padding: this.props.store.uIStore.isMobile ? '0' : '0 12px',
       },
       inputStyleInvalid: {
         margin:  '40%',
         MozAppearance: 'textfield',
-        width: this.props.store.uIStore.getIsMobile ? '40px' : '45px',
+        width: this.props.store.uIStore.isMobile ? '40px' : '45px',
         borderRadius: '8px',
         fontSize: '24px',
         height: '52px',
@@ -215,8 +215,8 @@ class Otp extends Component {
         border: '1px solid #CECECE',
         textAlign: 'center',
         outlineColor: '#009AFF',
-        margin: this.props.store.uIStore.getIsMobile ? '1%' : '2%',
-        padding: this.props.store.uIStore.getIsMobile ? '0' : '0 12px',
+        margin: this.props.store.uIStore.isMobile ? '1%' : '2%',
+        padding: this.props.store.uIStore.isMobile ? '0' : '0 12px',
       }
     }
 

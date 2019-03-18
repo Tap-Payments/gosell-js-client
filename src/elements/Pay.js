@@ -8,6 +8,7 @@ import ExtraFees from './ExtraFees';
 import TapSlider from '../lib/tapSlider/TapSlider';
 import SupportedCurrencies from './SupportedCurrencies';
 import BusinessInfo from './BusinessInfo';
+import Items from './Items/Items';
 import styled from "styled-components";
 
 class Pay extends Component {
@@ -105,6 +106,10 @@ class Pay extends Component {
 
     // console.log('btn btn ', store.uIStore.btn);
 
+    var symbol = store.localizationStore.getContent('supported_currencies_symbol_' + store.configStore.order.currency.toLowerCase(), null);
+    var order_labels = {items: store.localizationStore.getContent('items_list_title', null), desc: store.localizationStore.getContent('tranx_description_title', null)};
+
+
      return (
        <React.Fragment>
        <TapSlider
@@ -112,7 +117,7 @@ class Pay extends Component {
            axis={store.uIStore.pageDir}
            animationDuration={store.actionStore.sliderAnimationDuration}
            style={{ height: store.uIStore.sliderHeight + "px", width:'100%'}}
-           direction={store.uIStore.getDir}
+           direction={store.uIStore.dir}
            animationStatus = {this.animationStatusHandler.bind(this)}>
 
                 <div key={0} id="gosell-gateway-main-container" style={{width: '100%', height: (store.uIStore.mainHeight + 86) + 'px', position:'relative'}}>
@@ -120,19 +125,28 @@ class Pay extends Component {
                </div>
 
                 <div key={1} style={{width: '100%', height: '100%', position:'relative'}}>
-                    <ExtraFees dir={store.uIStore.getDir} store={store}/>
+                    <ExtraFees dir={store.uIStore.dir} store={store}/>
                 </div>
 
                 <div key={2} style={{width: '100%', height: '100%', position:'relative'}}>
-                    <Otp dir={store.uIStore.getDir} store={store} />
+                    <Otp dir={store.uIStore.dir} store={store} />
                 </div>
 
                 <div key={3} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>
-                    <SupportedCurrencies theme="inline" bgColor="white" height="100%" dir={store.uIStore.getDir} store={store}/>
+                    <SupportedCurrencies theme="inline" bgColor="white" height="100%" dir={store.uIStore.dir} store={store}/>
                 </div>
 
                 <div key={4} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>
                      <BusinessInfo store={store} width="100%" height="100%"/>
+                </div>
+
+                <div key={5} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative', overflow: 'auto'}}>
+                        <Items
+                          dir={store.uIStore.dir}
+                          desc={store.configStore.tranx_description}
+                          items={store.configStore.items}
+                          labels={order_labels}
+                          total={symbol + store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit))}/>
                 </div>
 
         </TapSlider>
@@ -141,7 +155,7 @@ class Pay extends Component {
           <div style={{height: '86px', position: 'relative', width: '100%'}}>
                 <TapButton
                   id="gosell-gateway-btn"
-                  dir={store.uIStore.getDir}
+                  dir={store.uIStore.dir}
                   width="90%"
                   height="44px"
                   btnColor={store.uIStore.btn.color}

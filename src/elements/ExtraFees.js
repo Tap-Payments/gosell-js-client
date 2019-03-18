@@ -26,8 +26,8 @@ class ExtraFees extends Component {
     total = total > 0 ? store.uIStore.formatNumber(total.toFixed(current.decimal_digit)) : total;
     let symbol = store.localizationStore.getContent('supported_currencies_symbol_' + current.currency.toLowerCase(), null);
 
-    let total_fees = store.uIStore.getDir === 'rtl' ? (fees + symbol) : (symbol + fees);
-    let total_amount = store.uIStore.getDir === 'rtl' ? (total + symbol) : (symbol+ total);
+    let total_fees = store.uIStore.dir === 'rtl' ? (fees + symbol) : (symbol + fees);
+    let total_amount = store.uIStore.dir === 'rtl' ? (total + symbol) : (symbol+ total);
 
     return (
         <Confirm index={1} store={store}>
