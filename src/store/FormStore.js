@@ -389,7 +389,7 @@ class FormStore{
         loader: false
       });
     }
-    else if(event.error && event.error.message != null){
+    else if(event.error){
       self.RootStore.uIStore.setErrorHandler({
         visable: true,
         code: event.error.code,
