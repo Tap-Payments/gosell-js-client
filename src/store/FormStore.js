@@ -405,7 +405,6 @@ class FormStore{
         else {
           self.RootStore.paymentStore.save_card_active = false;
           self.RootStore.paymentStore.saveCardOption(false);
-          // self.RootStore.uIStore.payBtn(false);
 
           console.log('event code 400');
           console.log('code', event.error_interactive.code);
@@ -417,7 +416,6 @@ class FormStore{
             var msg = self.RootStore.localizationStore.getContent(event.error_interactive.key, null);
           }
 
-          //console.log('I am in error');
           if(event.error_interactive){
             self.RootStore.uIStore.setErrorHandler({
               visable: true,
