@@ -38,12 +38,12 @@ class UIStore {
 
     this.load = true;
     this.edit_customer_cards = null;
-    this.modal_mode = 'popup';
+    this.modalMode = 'popup';
 
     this.mainHeight = 0;
     this.sliderHeight = 0;
 
-    if(this.getIsMobile){
+    if(this.isMobile){
       this.modalHeight = '90%';
       this.bodyHeight = '90%';
     }
@@ -94,7 +94,7 @@ class UIStore {
     const node = document.getElementById(id);
 
     if(node){
-      if(this.getIsMobile){
+      if(this.isMobile){
         if(!this.keyboard){
           console.log('keyboard is not active');
 
@@ -155,9 +155,9 @@ class UIStore {
 
   setMainHeight(value){
 
-    this.mainHeight = value;
+    this.mainHeight = value + 2;
 
-      if(this.getIsMobile){
+      if(this.isMobile){
         var w = window,
             d = document,
             documentElement = d.documentElement,
@@ -180,7 +180,7 @@ class UIStore {
 
   calcModalHeight(){
 
-    if(this.getIsMobile){
+    if(this.isMobile){
       this.modal = {
         mode: 'simple',
         modalStyle: {
@@ -203,7 +203,7 @@ class UIStore {
         },
         headerStyle:{
           'header': {backgroundColor: '#F7F7F7', height: '106px', marginTop: '50px'},
-          'titleStyle': {cursor: 'pointer', margin: 'auto'},
+          'titleStyle': {cursor: 'pointer', margin: 'auto 0'},
           'iconStyle': {width: '85px', height: '85px', borderRadius:'100%'}
         }
       }
@@ -330,24 +330,24 @@ class UIStore {
   }
 
 
-  computed
-  get getDir(){
-    return this.dir;
-  }
+  // computed
+  // get dir(){
+  //   return this.dir;
+  // }
 
-  computed
-  get getOpenModal(){
-    return this.openModal;
-  }
+  // computed
+  // get getOpenModal(){
+  //   return this.openModal;
+  // }
 
   setOpenModal(value){
     this.openModal = value;
   }
 
-  computed
-  get getLoadingStatus(){
-    return this.isLoading;
-  }
+  // computed
+  // get getLoadingStatus(){
+  //   return this.isLoading;
+  // }
 
   startLoading(loader_type, title, msg){
     //console.log('loader_type', loader_type + ' ' + true);
@@ -415,10 +415,10 @@ class UIStore {
     this.msgLoader = false;
   }
 
-  computed
-  get getIsMobile(){
-    return this.isMobile;
-  }
+  // computed
+  // get getIsMobile(){
+  //   return this.isMobile;
+  // }
 
   setIsMobile(value){
     this.isMobile = value;
@@ -644,7 +644,7 @@ class UIStore {
         return(
           <NotificationBar
             mode={this.getErrorHandler.type}
-            dir={this.getDir}
+            dir={this.dir}
             close={this.closeNotification}
             show={this.getErrorHandler.visable}
             options={this.getErrorHandler.options}>
@@ -715,7 +715,7 @@ decorate(UIStore, {
   edit_customer_cards: observable,
   errorHandler: observable,
   msg: observable,
-  modal_mode:observable,
+  modalMode:observable,
   modal_bg_img:observable,
   pageDir: observable,
   show_order_details: observable,

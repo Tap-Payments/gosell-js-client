@@ -305,7 +305,7 @@ class FormStore{
          currencyCode: this.RootStore.paymentStore.currencies,
          labels : this.RootStore.configStore.labels,
          paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
-         TextDirection: this.RootStore.uIStore.getDir
+         TextDirection: this.RootStore.uIStore.dir
        }
 
        console.log('&& gosell elements', this.RootStore.paymentStore.currencies);
@@ -317,7 +317,7 @@ class FormStore{
            currencyCode: this.RootStore.paymentStore.currencies,
            labels : this.RootStore.configStore.labels,
            paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
-           TextDirection: this.RootStore.uIStore.getDir
+           TextDirection: this.RootStore.uIStore.dir
          }
 
          console.log('&& save card', this.RootStore.paymentStore.currencies);
@@ -328,7 +328,7 @@ class FormStore{
           currencyCode: [this.RootStore.paymentStore.current_currency.currency],
           labels : this.RootStore.configStore.labels,
           paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
-          TextDirection: this.RootStore.uIStore.getDir
+          TextDirection: this.RootStore.uIStore.dir
         }
 
         console.log('&& else', [this.RootStore.paymentStore.current_currency.currency]);
@@ -375,7 +375,7 @@ class FormStore{
     }
     else if(event.code == 100 && event.focus == 'in'){
       self.RootStore.uIStore.keyboard = true;
-      console.log('in keyboard from formStore', self.RootStore.uIStore.keyboard);
+
       self.cardFormHandleClick();
       // set the flag true every time the frame is focused
       this.submitBtnFlag  = true
@@ -385,6 +385,14 @@ class FormStore{
         title: self.RootStore.configStore.btn,
         active: false,
         loader: false
+      });
+    }
+    else if(event.error){
+      self.RootStore.uIStore.setErrorHandler({
+        visable: true,
+        code: event.error.code,
+        msg: self.RootStore.localizationStore.getContent(event.error.key, null),
+        type: 'warning'
       });
     }
     else if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
@@ -433,8 +441,8 @@ class FormStore{
               self.RootStore.uIStore.setErrorHandler({
                 visable: true,
                 code: event.error.code,
-                msg: msg,
-                type: 'error'
+                msg: event.error.message,
+                type: 'warning'
               });
             }
           }
@@ -518,7 +526,7 @@ class FormStore{
 
        //clear open menus
        // this.RootStore.uIStore.setPageIndex(0);
-       // this.RootStore.uIStore.getIsMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
+       // this.RootStore.uIStore.isMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
 
        if(this.RootStore.uIStore.getIsActive !== 'FORM'){
          this.RootStore.paymentStore.active_payment_option_total_amount = 0;

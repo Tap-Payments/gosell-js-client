@@ -15,13 +15,13 @@ class MainView extends Component {
       return (
           <React.Fragment>
             <PaymentOptions store={store} />
-            {!store.getIsMobile ?
+            {!store.isMobile ?
               <React.Fragment>
-                <SideMenu key={0} id='currencies' dir={store.uIStore.getDir}  animationDuration={'300ms'}  expand={store.uIStore.getSubPage === 0 ? true : false} width={110}>
-                    <SupportedCurrencies dir={store.uIStore.getDir} store={store} width='105px' height={store.uIStore.browser === "IE" ? store.uIStore.mainHeight + 192 + 'px' : "100%"} />
+                <SideMenu key={0} id='currencies' dir={store.uIStore.dir}  animationDuration={'300ms'}  expand={store.uIStore.getSubPage === 0 ? true : false} width={110}>
+                    <SupportedCurrencies dir={store.uIStore.dir} store={store} width='105px' height={store.uIStore.browser === "IE" ? store.uIStore.mainHeight + 192 + 'px' : "100%"} />
                 </SideMenu>
 
-                <SideMenu key={1} id='business-info' dir={store.uIStore.getDir}  animationDuration={'600ms'} expand={store.uIStore.getSubPage === 1 ? true : false} width={200}>
+                <SideMenu key={1} id='business-info' dir={store.uIStore.dir}  animationDuration={'600ms'} expand={store.uIStore.getSubPage === 1 ? true : false} width={200}>
                     {store.configStore.contactInfo && store.merchantStore.contact && store.merchantStore.contact.length > 0 ?
                       <BusinessInfo store={store} width="65px" height={store.uIStore.browser === "IE" ? store.uIStore.mainHeight + 192 + 'px' : "auto"} style={{overflow: 'auto'}}/>
                     : null}

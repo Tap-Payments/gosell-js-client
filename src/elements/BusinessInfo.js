@@ -27,10 +27,10 @@ class BusinessInfo extends Component {
       }
     }
   }
-  //
+  
   // componentDidMount(){
   //   this.setState({
-  //     height: this.props.store.uIStore.getIsMobile ? '100%' : 'auto',
+  //     height: this.props.store.uIStore.isMobile ? '100%' : 'auto',
   //   });
   // }
 
@@ -63,12 +63,12 @@ class BusinessInfo extends Component {
     const Business = styled.div`
       width: ${this.props.width};
       height: ${this.props.height};
-      background: ${!store.uIStore.getIsMobile ? 'rgba(255, 255, 255, 0.6)' : '#E9E9E9'};
+      background: ${!store.uIStore.isMobile ? 'rgba(255, 255, 255, 0.6)' : '#E9E9E9'};
       -ms-overflow-style: ${store.uIStore.browser === "IE" ? "none" : ""};
-      overflow-y: ${store.uIStore.getIsMobile ? "scroll" : store.uIStore.browser === "IE" ? "scroll" : ""};
+      overflow-y: ${store.uIStore.isMobile ? "scroll" : store.uIStore.browser === "IE" ? "scroll" : ""};
       `
 
-    //${store.uIStore.modal_mode === 'page' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0,0,0,0.30)' }
+    //${store.uIStore.modalMode === 'page' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0,0,0,0.30)' }
 
     const Effect = styled.div`
         height: 100%;
@@ -126,14 +126,14 @@ class BusinessInfo extends Component {
       console.log('social icons', socialIcons);
 
       var styles = {};
-      var align = store.uIStore.getDir === 'ltr' ? 'right' : 'left';
+      var align = store.uIStore.dir === 'ltr' ? 'right' : 'left';
 
       darkView = store.merchantStore.contact.map((contact, index) =>
           <div key={'social-dark-'+index}>
             <Social
               id={index}
               key={'contact-'+index}
-              dir={store.uIStore.getDir}
+              dir={store.uIStore.dir}
               style={{
                 'iconStyle':{
                   width: '65px',
@@ -170,7 +170,7 @@ class BusinessInfo extends Component {
             <Social
               id={index}
               key={'contact-'+index}
-              dir={store.uIStore.getDir}
+              dir={store.uIStore.dir}
               style={{
                 'iconStyle':{
                   width: '65px',
@@ -205,15 +205,15 @@ class BusinessInfo extends Component {
     }
 
     return (
-      <Business id='gosell-gateway-business-info' className={!store.uIStore.getIsMobile ? "gosell-gateway-"+align+"-business-info" : null}>
-        {store.uIStore.getIsMobile ?
+      <Business id='gosell-gateway-business-info' className={!store.uIStore.isMobile ? "gosell-gateway-"+align+"-business-info" : null}>
+        {store.uIStore.isMobile ?
             <React.Fragment>
               <Separator />
               {store.merchantStore.desc ?
                 <React.Fragment>
                   <Row
                     id="gosell-business-info-row"
-                    dir={store.uIStore.getDir}
+                    dir={store.uIStore.dir}
                     style={{'rowContainer': { backgroundColor: 'white', height: 'auto', padding: '16px'}, 'subtitle':{margin: '0'}}}
                     rowTitle={{'secondary': store.merchantStore.desc}}
                     addArrow={false}/>
@@ -223,14 +223,14 @@ class BusinessInfo extends Component {
 
               {contactIcons.length > 0 ?
                 <React.Fragment>
-                  <Label title={store.localizationStore.getContent('merchant_contact_info_title', null)} dir={store.uIStore.getDir}></Label>
+                  <Label title={store.localizationStore.getContent('merchant_contact_info_title', null)} dir={store.uIStore.dir}></Label>
                   {contactIcons}
                 </React.Fragment>
               : null}
 
               {socialIcons.length > 0 ?
                 <React.Fragment>
-                  <Label title={store.localizationStore.getContent('merchant_social_media_title', null)} dir={store.uIStore.getDir}></Label>
+                  <Label title={store.localizationStore.getContent('merchant_social_media_title', null)} dir={store.uIStore.dir}></Label>
                   <div className="gosell-gateway-social-btn-container">
                     {socialIcons}
                   </div>

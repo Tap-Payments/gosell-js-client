@@ -36,12 +36,14 @@ class SupportedCurrencies extends Component {
       this.props.store.paymentStore.setCurrentCurrency(current);
       this.props.store.uIStore.mainHeight = 0;
 
-      if(this.props.store.uIStore.getIsMobile){
-         this.props.store.uIStore.setPageIndex(0, 'x');
-      }
-      else {
-        this.props.store.uIStore.setSubPage(-1);
-      }
+      // if(this.props.store.uIStore.isMobile){
+      //    this.props.store.uIStore.setPageIndex(0, 'x');
+      // }
+      // else {
+      //   this.props.store.uIStore.setSubPage(-1);
+      // }
+
+      this.props.store.actionStore.goBack();
   }
 
   filter(event){
@@ -119,9 +121,9 @@ class SupportedCurrencies extends Component {
         );
 
 
-      var bg = this.props.store.uIStore.getIsMobile ? 'transparent' : 'rgba(255, 255, 255, 0.6)';
+      var bg = this.props.store.uIStore.isMobile ? 'transparent' : 'rgba(255, 255, 255, 0.6)';
 
-      // this.props.store.uIStore.modal_mode === 'page' ? bg = 'rgba(255, 255, 255, 0.5)' :  bg = 'rgba(0,0,0,0.30)';
+      // this.props.store.uIStore.modalMode === 'page' ? bg = 'rgba(255, 255, 255, 0.5)' :  bg = 'rgba(0,0,0,0.30)';
 
       const CurrenciesPC = styled.div`
           height: ${this.props.height};
@@ -155,13 +157,6 @@ class SupportedCurrencies extends Component {
         <React.Fragment>
              {this.props.theme === 'inline'?
                 <CurrenciesMobile>
-                <Separator />
-                  <Row
-                    dir={this.props.dir}
-                    style={{'rowContainer': {height:'48px', backgroundColor: 'white'}, 'iconStyle':{width: '45px'}, 'textStyle': {width: '100%', margin:'0', textAlign: this.props.dir === 'ltr' ? 'left' : 'right'}, 'subtitle': {lineHeight: '45px', padding: '0 40px'} }}
-                    rowIcon={<Img imgSrc={this.props.dir === 'ltr'? Paths.imgsPath + 'leftArrow.svg' : Paths.imgsPath +  'rightArrow.svg' } imgWidth="7" style={{padding: '16px'}}/>}
-                    rowTitle={{'secondary': self.props.store.localizationStore.getContent('currency_selection_screen_title', null)}}
-                    onClick={this.handleClick.bind(this, this.props.store.paymentStore.current_currency)}/>
                   <Separator />
 
                   <div className="gosell-gateway-list-container">{mobileView} </div>
@@ -182,7 +177,16 @@ class SupportedCurrencies extends Component {
 
 }
 
-// this.props.store.uIStore.modal_mode === 'page' ?
+// <Separator />
+//   <Row
+//     dir={this.props.dir}
+//     style={{'rowContainer': {height:'48px', backgroundColor: 'white'}, 'iconStyle':{width: '45px'}, 'textStyle': {width: '100%', margin:'0', textAlign: this.props.dir === 'ltr' ? 'left' : 'right'}, 'subtitle': {lineHeight: '45px', padding: '0 40px'} }}
+//     rowIcon={<Img imgSrc={this.props.dir === 'ltr'? Paths.imgsPath + 'leftArrow.svg' : Paths.imgsPath +  'rightArrow.svg' } imgWidth="7" style={{padding: '16px'}}/>}
+//     rowTitle={{'secondary': self.props.store.localizationStore.getContent('currency_selection_screen_title', null)}}
+//     onClick={this.handleClick.bind(this, this.props.store.paymentStore.current_currency)}/>
+
+
+// this.props.store.uIStore.modalMode === 'page' ?
 //   <div>
 //   {
 //     // <Search

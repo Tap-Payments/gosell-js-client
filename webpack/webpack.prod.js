@@ -11,7 +11,8 @@ module.exports = {
 		path:  commonPaths.outputPath,
 		library: 'goSell',
 		globalObject: 'this',
-		libraryTarget: 'umd'
+		libraryTarget: 'umd',
+		publicPath: '/'
 	},
 	module: {
 		rules: [
@@ -25,6 +26,9 @@ module.exports = {
       }
 		]
 	},
+	devServer: {
+	 historyApiFallback: true,
+ },
 	plugins: [
 		new CleanWebpackPlugin([commonPaths.outputPath.split("/").pop()], {
 			root: commonPaths.root

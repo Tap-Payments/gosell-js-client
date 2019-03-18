@@ -7,14 +7,14 @@
 .gosell-gateway-row{
   width: 100%;
   height: 100%;
-  pointer-events: none;
+  /* pointer-events: none; */
   position: relative;
 }
 
 .gosell-gateway-arrow{
   width: 40px;
   height: 100%;
-  pointer-events: none;
+  /* pointer-events: none; */
   display: inline-block;
   right: 0 !important;
   left: auto !important;
@@ -33,8 +33,7 @@
   padding: 0 16px 0 16px;
   font-size: 13px;
   color: rgba(0,0,0,0.26);
-  pointer-events: none;
-  pointer-events: none;
+  /* pointer-events: none; */
 }
 
 .gosell-gateway-hidden-value{
@@ -43,7 +42,7 @@
 
 .gosell-gateway-row-icon{
   height: 100%;
-  pointer-events: none;
+  /* pointer-events: none; */
   display: inline-block;
   position: absolute;
   left: 0;
@@ -57,7 +56,7 @@
 
 .gosell-gateway-row-text-container{
   color: #535353;
-  pointer-events: none;
+  /* pointer-events: none; */
   display: inline-block;
   width: 100%;
   position: absolute;

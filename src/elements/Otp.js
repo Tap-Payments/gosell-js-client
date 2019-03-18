@@ -99,7 +99,7 @@ class Otp extends Component {
     var value = parseInt(e.key);
     // console.log('val', value);
 
-    if(isNaN(value)){
+    if(e.keyCode != 8 && (isNaN(value) && !(e.keyCode >= 48 && e.keyCode <= 57))){
       this.props.store.uIStore.setErrorHandler({
         visable: true,
         code: null,
@@ -193,7 +193,7 @@ class Otp extends Component {
       className: 'gosell-gateway-react-code-input',
       inputStyle: {
         MozAppearance: 'textfield',
-        width: this.props.store.uIStore.getIsMobile ? '40px' : '45px',
+        width: this.props.store.uIStore.isMobile ? '40px' : '45px',
         borderRadius: '8px',
         fontSize: '24px',
         height: '52px',
@@ -201,13 +201,13 @@ class Otp extends Component {
         border: '1px solid #CECECE',
         textAlign: 'center',
         outlineColor: '#009AFF',
-        margin: this.props.store.uIStore.getIsMobile ? '1%' : '2%',
-        padding: this.props.store.uIStore.getIsMobile ? '0' : '0 12px',
+        margin: this.props.store.uIStore.isMobile ? '1%' : '2%',
+        padding: this.props.store.uIStore.isMobile ? '0' : '0 12px',
       },
       inputStyleInvalid: {
         margin:  '40%',
         MozAppearance: 'textfield',
-        width: this.props.store.uIStore.getIsMobile ? '40px' : '45px',
+        width: this.props.store.uIStore.isMobile ? '40px' : '45px',
         borderRadius: '8px',
         fontSize: '24px',
         height: '52px',
@@ -215,8 +215,8 @@ class Otp extends Component {
         border: '1px solid #CECECE',
         textAlign: 'center',
         outlineColor: '#009AFF',
-        margin: this.props.store.uIStore.getIsMobile ? '1%' : '2%',
-        padding: this.props.store.uIStore.getIsMobile ? '0' : '0 12px',
+        margin: this.props.store.uIStore.isMobile ? '1%' : '2%',
+        padding: this.props.store.uIStore.isMobile ? '0' : '0 12px',
       }
     }
 
@@ -232,7 +232,8 @@ class Otp extends Component {
               type='number'
               onChange={this.handleChange.bind(this)}
               onKeyUp={this.handleKeyUpEvent.bind(this)}
-              fields={6} {...props}/>
+              fields={6} {...props}
+              pattern="[0-9]*"/>
           </div>
 
           <table className="gosell-gateway-details-wrapper" dir={this.props.dir}>

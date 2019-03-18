@@ -19,11 +19,11 @@ import Otp from './Otp';
 //           axis={store.uIStore.activePageDir}
 //           animationDuration={1000}
 //           style={{ height:'100%',width:'100%'}}
-//           direction={store.uIStore.getDir}>
+//           direction={store.uIStore.dir}>
 //
 //           <Pay store={store}/>
 //
-//           <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.getDir} store={store}/>
+//           <SupportedCurrencies theme="inline" bgColor="white" dir={store.uIStore.dir} store={store}/>
 //           <BusinessInfo store={store} width="100%"/>
 //         </TapSlider>
 //     );
