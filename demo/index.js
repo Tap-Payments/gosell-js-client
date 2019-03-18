@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { HashRouter, Route, Link } from "react-router-dom";
 import GoSellPaymentGateway from './GoSellPaymentGateway';
 import OpenLightBox from './OpenLightBox';
 import OpenPaymentPage from './OpenPaymentPage';
@@ -9,7 +9,7 @@ import GoSellElementsDemo from './GoSellElementsDemo';
 import Main from './Main';
 
 ReactDOM.render(
-  <Router>
+  <HashRouter>
     <div>
       <Route exact path="/" component={Main} />
       <Route path="/open-light-box-demo" component={OpenLightBox} />
@@ -18,4 +18,4 @@ ReactDOM.render(
       <Route path="/demo" component={GoSellDemo} />
       <Route path="/elements-demo" component={GoSellElementsDemo} />
     </div>
-  </Router>, document.getElementById('root'));
+  </HashRouter>, document.getElementById('root'));

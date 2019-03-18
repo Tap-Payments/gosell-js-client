@@ -8,7 +8,8 @@ module.exports = {
 		chunkFilename: '[id].[chunkhash].js',
 		library: 'goSell',
 		globalObject: 'this',
-		libraryTarget: 'umd'
+		libraryTarget: 'umd',
+		publicPath: '/'
 	},
 	module: {
 		rules: [
