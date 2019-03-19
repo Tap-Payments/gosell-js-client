@@ -25,6 +25,16 @@ class BackBtn extends Component {
       img: this.props.logo,
     });
   }
+  
+  shouldComponentUpdate(nextProps, nextState) {
+    //  checks for logo changes, and if the next logo is null
+    if ((nextProps.logo  ==  this.props.logo) || !nextProps.logo ){
+      return false
+    } else {
+      return true
+    }
+  }
+
 
   render() {
     // var store = this.props.store;
