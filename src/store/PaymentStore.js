@@ -388,7 +388,7 @@ class PaymentStore{
     var self = this;
     this.supported_currencies = {};
     var config_currencies = this.RootStore.configStore.gateway.supportedCurrencies;
-
+    console.log('ccc', config_currencies);
     if(typeof config_currencies == 'object' && Array.isArray(config_currencies.slice())){
       self.currencies = config_currencies;
       self.supported_currencies = value.filter(function(el){
@@ -409,9 +409,13 @@ class PaymentStore{
           });
           break;
         default:
+          self.currencies = value;
           self.supported_currencies = value;
           break;
       }
+
+      console.log('cccc', self.currencies);
+
     }
 
     // console.log('config ******* ', self.supported_currencies);

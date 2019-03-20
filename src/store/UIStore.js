@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
 import {decorate, observable, computed} from 'mobx';
-import {NotificationBar, Modal} from '@tap-payments/modal-fix';
+// import {NotificationBar, Modal} from '@tap-payments/modal-fix';
+import {Modal, NotificationBar} from '../lib/modal';
 
 class UIStore {
 
@@ -96,7 +97,7 @@ class UIStore {
     if(node){
       if(this.isMobile){
         if(!this.keyboard){
-          console.log('keyboard is not active');
+          // console.log('keyboard is not active');
 
           this.setMainHeight(0);
 
@@ -121,13 +122,10 @@ class UIStore {
             this.setMainHeight(modalBodyHeight);
           }
 
-          this.calcModalHeight();
-          this.setSliderHeight();
-
         }
-        else {
-          console.log('keyboard is active');
-        }
+        // else {
+        //   console.log('keyboard is active');
+        // }
 
       }
       else {
@@ -146,9 +144,11 @@ class UIStore {
 
         this.setMainHeight(total);
 
-        this.calcModalHeight();
-        this.setSliderHeight();
+
       }
+
+      this.calcModalHeight();
+      this.setSliderHeight();
     }
 
   }
@@ -168,12 +168,18 @@ class UIStore {
         this.modalHeight = height - 50;
 
         this.bodyHeight = this.modalHeight - 65;
+
+        // console.log('// mainHeight', this.mainHeight);
+        // console.log('// bodyHeight', this.bodyHeight);
+        // console.log('// modalHeight', this.modalHeight);
       }
       else {
+        // console.log('// mainHeight', this.mainHeight);
+
         this.bodyHeight = this.mainHeight + 86;
-        //console.log('&& bodyHeight', this.bodyHeight);
+        // console.log('// bodyHeight', this.bodyHeight);
         this.modalHeight = this.bodyHeight + 156;
-        //console.log('&& modalHeight', this.modalHeight);
+        // console.log('// modalHeight', this.modalHeight);
       }
 
   }

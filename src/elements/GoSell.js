@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
-import {Modal, Header, NotificationBar} from '@tap-payments/modal-fix';
+// import {Modal, Header, NotificationBar} from '@tap-payments/modal-fix';
+import {Modal, Header, NotificationBar} from '../lib/modal';
 import Paths from '../../webpack/paths';
 import '../assets/css/style.css';
 import MainView from './MainView';
@@ -84,14 +85,18 @@ class GoSell extends Component {
     var URLSearchParams = require('url-search-params');
 
     var urlParams = new URLSearchParams(window.location.search);
+
+    console.log('hey', window.location.query);
     var tap_id = null;
 
+    console.log('urlParams', urlParams);
     if(urlParams.has('tap_id')){
 
       RootStore.configStore.configure().then(result => {
         GoSell.handleView();
         tap_id = urlParams.get('tap_id');
-        // console.log('tap_id', tap_id);
+
+        console.log('tap_id', tap_id);
         RootStore.apiStore.getTransactionResult(tap_id).then(result => {
           // console.log('init response', result);
           console.log('url', RootStore.configStore.redirect_url);
@@ -137,7 +142,7 @@ class GoSell extends Component {
     RootStore.uIStore.calcModalHeight();
     // window.addEventListener('resize', RootStore.uIStore.calcModalHeight());
     window.addEventListener('resize', this.handleWindowSizeChange);
-    window.addEventListener('resize', this.updateDimensions);
+    // window.addEventListener('resize', this.updateDimensions);
   }
 
   handleClick(){
@@ -148,10 +153,11 @@ class GoSell extends Component {
   // when the component is not mounted anymore
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleWindowSizeChange);
-    window.removeEventListener('resize', this.updateDimensions);
+    // window.removeEventListener('resize', this.updateDimensions);
   }
 
   updateDimensions() {
+      // console.log('// update dimentions');
       RootStore.uIStore.calcElementsHeight('gosell-gateway-payment-options');
   }
 
@@ -167,8 +173,8 @@ class GoSell extends Component {
       RootStore.uIStore.setPageIndex(0, 'x');
     }
 
-
     if(window.innerHeight < window.innerWidth && device === 'phone'){
+      // this.updateDimensions();
       RootStore.uIStore.setErrorHandler({
         visable: true,
         code: 'error',
@@ -177,6 +183,7 @@ class GoSell extends Component {
       });
     }
     else{
+      // this.updateDimensions();
       RootStore.uIStore.errorHandler.visable = false;
       RootStore.uIStore.setErrorHandler({});
     }
@@ -223,8 +230,6 @@ class GoSell extends Component {
 
   render() {
 
-    var condition = RootStore.uIStore.isMobile && (RootStore.uIStore.pageIndex != 0 || RootStore.uIStore.show_order_details);
-
     return(
         <React.Fragment>
             <Modal id={RootStore.uIStore.modalID}
@@ -252,16 +257,7 @@ class GoSell extends Component {
                 header={<Header
                   dir={RootStore.uIStore.dir}
                   mode={RootStore.uIStore.modal.mode}
-                  modalIcon={<BackBtn
-                    logo={RootStore.merchantStore.logo}
-                    dir={RootStore.uIStore.dir}
-                    width={RootStore.uIStore.modal.headerStyle.iconStyle.width}
-                    height={RootStore.uIStore.modal.headerStyle.iconStyle.height}
-                    back={condition}
-                    mobile={RootStore.uIStore.isMobile}
-                    goBack={RootStore.actionStore.goBack}
-                    style={RootStore.uIStore.isMobile ? {margin: '12px',borderRadius: '50%'} : {borderRadius: '50%'}}
-                    />}
+                  modalIcon={<BackBtn store={RootStore} />}
                   modalTitle={<Details store={RootStore}/>}
                   close={RootStore.uIStore.modalMode === 'popup' && RootStore.uIStore.delete_card == null && !RootStore.uIStore.btn.loader ? "closeIn" : "none"}
                   closeIcon={Paths.imgsPath + 'close.svg'}
@@ -277,5 +273,3 @@ class GoSell extends Component {
 }
 
 export default observer(GoSell);
-// {RootStore.uIStore.getOpenModal ?
-//: null }

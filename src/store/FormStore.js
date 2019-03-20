@@ -296,7 +296,7 @@ class FormStore{
       return this;
   }
 
-  generateCardForm(){
+  generateCardForm(id){
     var self = this;
 
     this.tap = this.generateForm(this.RootStore.configStore.gateway.publicKey);
@@ -311,25 +311,25 @@ class FormStore{
 
     if(self.RootStore.configStore.view === 'GOSELL_ELEMENTS'){
         paymentOptions = {
-         currencyCode: this.RootStore.paymentStore.currencies,
+         currencyCode: this.RootStore.configStore.gateway.supportedCurrencies.slice(),
          labels : this.RootStore.configStore.labels,
-         paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
+         paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods.slice(),
          TextDirection: this.RootStore.uIStore.dir
        }
 
-       console.log('&& gosell elements', this.RootStore.paymentStore.currencies);
-       console.log('&& gosell elements methods', this.RootStore.paymentStore.supported_payment_methods.slice());
+       // console.log('&& gosell elements', this.RootStore.paymentStore.currencies);
+       // console.log('&& gosell elements methods', this.RootStore.paymentStore.supported_payment_methods);
     }
     else {
       if(this.RootStore.configStore.transaction_mode === 'get_token' || this.RootStore.configStore.transaction_mode === 'save_card'){
           paymentOptions = {
-           currencyCode: this.RootStore.paymentStore.currencies,
+           currencyCode: this.RootStore.paymentStore.currencies.slice(),
            labels : this.RootStore.configStore.labels,
            paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
            TextDirection: this.RootStore.uIStore.dir
          }
 
-         console.log('&& save card', this.RootStore.paymentStore.currencies);
+         console.log('&& save card', this.RootStore.paymentStore.currencies.slice());
          console.log('&& save card methods', this.RootStore.paymentStore.supported_payment_methods.slice());
       }
       else {
@@ -346,7 +346,7 @@ class FormStore{
     }
 
     this.card = elements.create('card', {style: style}, paymentOptions);
-    this.card.mount('#element-container');
+    this.card.mount('#' + id);
 
     this.card.addEventListener('change', function(event) {
       console.log('change event', event);
@@ -396,7 +396,7 @@ class FormStore{
         loader: false
       });
     }
-    else if(event.error && event.error.message != null){
+    else if(event.error && event.error.code == 400){
       self.RootStore.uIStore.setErrorHandler({
         visable: true,
         code: event.error.code,

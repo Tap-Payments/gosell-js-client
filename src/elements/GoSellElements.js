@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
-import {NotificationBar} from '@tap-payments/modal-fix';
+// import {NotificationBar} from '@tap-payments/modal-fix';
+import {NotificationBar} from '../lib/modal';
 import RootStore from '../store/RootStore.js';
 import CardsForm from './CardsForm.js';
 
@@ -19,7 +20,7 @@ class GoSellElements extends Component {
   }
 
   componentDidMount(){
-    RootStore.formStore.generateCardForm();
+    RootStore.formStore.generateCardForm('gosell-gateway-element-container');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,7 +34,7 @@ class GoSellElements extends Component {
     RootStore.configStore.configure().then(result => {
       console.log('config result', result);
     });
-    console.log('=== dir', RootStore.uIStore.dir);
+    // console.log('=== dir', RootStore.uIStore.dir);
   }
 
   closeNotification(){
@@ -47,7 +48,7 @@ class GoSellElements extends Component {
             {RootStore.uIStore.generateCustomNotification}
 
             <form id="gosell-gateway-form-container" method="post" ref={(node) => this.cardElementsRef = node}>
-                <div id="element-container"></div>
+                <div id="gosell-gateway-element-container"></div>
             </form>
 
           </React.Fragment>
