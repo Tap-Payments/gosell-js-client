@@ -23,9 +23,8 @@ class CardsForm extends Component {
   render() {
     let store = this.props.store;
     return(
-      <div style={{margin: '0px'}} onClick={store.actionStore.cardFormHandleClick}>
+      <div style={{margin: '0px'}}>
             <form id="gosell-gateway-form-container" method="post" ref={(node) => this.cardFormRef = node} >
-                {store.uIStore.btn.active&&store.uIStore.btn.loader?null:null}
                 <div id="gosell-gateway-card-form-container"
                     style={{pointerEvents:(store.uIStore.btn.active&&store.uIStore.btn.loader)||store.uIStore.delete_card !== null?'none':'auto',
                             opacity: (store.uIStore.btn.active && store.uIStore.btn.loader) || store.uIStore.delete_card != null ?'0.6':'1',

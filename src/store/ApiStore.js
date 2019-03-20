@@ -9,12 +9,15 @@ class ApiStore{
     this.getMerchantDetailsFlag = false;
     this.setPaymentOptionsFlag  = false;
   }
+
   updateLoader(){
-    if (this.getMerchantDetailsFlag && this.setPaymentOptionsFlag){
-      this.RootStore.uIStore.stopLoading();
-      this.getMerchantDetailsFlag = false;
-      this.setPaymentOptionsFlag  = false;
-    }
+
+      if (this.getMerchantDetailsFlag && this.setPaymentOptionsFlag){
+        this.RootStore.uIStore.stopLoading();
+        this.getMerchantDetailsFlag = false;
+        this.setPaymentOptionsFlag  = false;
+      }
+
   }
 
   async auth(publicKey){
@@ -87,13 +90,13 @@ class ApiStore{
            self.sendResponse(result);
          }  else {
            self.getMerchantDetails();
-           self.setPaymentOptions();
+          self.setPaymentOptions();
          }
 
        });
      }  else {
        self.getMerchantDetails();
-       self.setPaymentOptions();
+      self.setPaymentOptions();
      }
    }
 
@@ -168,12 +171,12 @@ class ApiStore{
       "headers": headers,
       "reqBody": {
          "transaction_mode": mode,
-         "items": this.RootStore.configStore.items,
-         "shipping": this.RootStore.configStore.shipping,
-         "taxes": this.RootStore.configStore.taxes,
+         "items": this.RootStore.configStore.items ?  this.RootStore.configStore.items : null,
+         "shipping": this.RootStore.configStore.shipping ? this.RootStore.configStore.shipping : null,
+         "taxes": this.RootStore.configStore.taxes ? this.RootStore.configStore.taxes : null,
          "customer": customer,
-         "currency" :  this.RootStore.configStore.order.currency,
-         "total_amount": this.RootStore.configStore.order.amount
+         "currency" :  mode != null ? this.RootStore.configStore.order.currency : null,
+         "total_amount": mode != null ? this.RootStore.configStore.order.amount : null
       }
     }
 
