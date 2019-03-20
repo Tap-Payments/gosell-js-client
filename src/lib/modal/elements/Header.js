@@ -7,17 +7,31 @@ class Header extends Component{
   constructor(props) {
       super(props);
 
-      this.state = {
-         modalHeaderStyle: null,
-         modalIconStyle: null,
-         separator: null,
-         avatarContainerStyle: null,
-         avatarIconStyle: null,
-         avatarTitleStyle: null
-      }
+      // this.state = {
+      //    modalHeaderStyle: null,
+      //    modalIconStyle: null,
+      //    separator: null,
+      //    avatarContainerStyle: null,
+      //    avatarIconStyle: null,
+      //    avatarTitleStyle: null
+      // }
+  }
+
+  state = {
+     mode: null,
+     modalHeaderStyle: null,
+     modalIconStyle: null,
+     separator: null,
+     avatarContainerStyle: null,
+     avatarIconStyle: null,
+     avatarTitleStyle: null
   }
 
    componentWillMount(){
+
+     this.props.mode ? this.setState({
+        mode: this.props.mode
+     }) :  null
 
      if(this.props.style){
 
@@ -41,18 +55,23 @@ class Header extends Component{
    }
 
    shouldComponentUpdate(nextProps, nextState) {
-       if(nextProps.back  ==  this.props.back){
+       if(nextProps.mode  ==  this.props.mode){
          return false;
        }
        else {
-         console.log('== nextProps.back', nextProps.back);
-         console.log('== this.props.back',this.props.back);
+         console.log('== nextProps.mode', nextProps.mode);
+         console.log('== this.props.mode',this.props.mode);
 
          return true;
        }
    }
 
   componentWillReceiveProps(nextProps){
+
+    nextProps.mode ? this.setState({
+       mode: nextProps.mode
+    }) :  null
+
     if(nextProps.style){
 
       nextProps.style.header ? this.setState({
@@ -79,7 +98,7 @@ class Header extends Component{
 
   render(){
 
-    if(this.props.mode === 'simple'){
+    if(this.state.mode === 'simple'){
 
       var Header = styled.div`
         flex-direction: row;

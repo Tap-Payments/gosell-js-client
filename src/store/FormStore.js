@@ -296,7 +296,7 @@ class FormStore{
       return this;
   }
 
-  generateCardForm(){
+  generateCardForm(id){
     var self = this;
 
     this.tap = this.generateForm(this.RootStore.configStore.gateway.publicKey);
@@ -348,7 +348,7 @@ class FormStore{
     }
 
     this.card = elements.create('card', {style: style}, paymentOptions);
-    this.card.mount('#element-container');
+    this.card.mount('#' + id);
 
     this.card.addEventListener('change', function(event) {
       console.log('change event', event);
@@ -398,7 +398,7 @@ class FormStore{
         loader: false
       });
     }
-    else if(event.error){
+    else if(event.error && event.error.code == 400){
       self.RootStore.uIStore.setErrorHandler({
         visable: true,
         code: event.error.code,

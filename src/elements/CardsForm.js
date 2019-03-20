@@ -16,7 +16,7 @@ class CardsForm extends Component {
 
   cardForm(){
     var store = this.props.store;
-    store.formStore.generateCardForm();
+    store.formStore.generateCardForm('gosell-gateway-card-form-container');
      // window.setInterval(store.formStore.checkFocus, 10);
   }
 
@@ -26,7 +26,7 @@ class CardsForm extends Component {
       <div style={{margin: '0px'}} onClick={store.actionStore.cardFormHandleClick}>
             <form id="gosell-gateway-form-container" method="post" ref={(node) => this.cardFormRef = node} >
                 {store.uIStore.btn.active&&store.uIStore.btn.loader?null:null}
-                <div id="element-container"
+                <div id="gosell-gateway-card-form-container"
                     style={{pointerEvents:(store.uIStore.btn.active&&store.uIStore.btn.loader)||store.uIStore.delete_card !== null?'none':'auto',
                             opacity: (store.uIStore.btn.active && store.uIStore.btn.loader) || store.uIStore.delete_card != null ?'0.6':'1',
                             transition: 'opacity 0.3s',

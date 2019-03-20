@@ -239,42 +239,16 @@ class Modal extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-      if(nextProps.open  ==  this.props.open){
-        // console.log('& shouldComponentUpdate false');
-        if(nextProps.isLoading == this.props.isLoading){
-
-          // return false;
-          if(nextProps.style == this.props.style){
-
-            if(nextProps.children == this.props.children){
-              return false;
-            }
-            else {
-              // console.log('== nextProps.children', nextProps.children);
-              // console.log('== this.props.children',this.props.children);
-              return true
-            }
-
-            // return false;
-          }
-          else {
-            console.log('== nextProps.style', nextProps.style);
-            console.log('== this.props.style',this.props.style);
-
-            return true
-          }
-        }
-        else {
-          console.log('== nextProps.isLoading', nextProps.isLoading);
-          console.log('== this.props.isLoading',this.props.isLoading);
-          return true;
-        }
-
+      if(nextProps.open  ==  this.props.open
+        && nextProps.isLoading == this.props.isLoading
+        && nextProps.style == this.props.style
+        && nextProps.children == this.props.children
+        && nextProps.header == this.props.header){
+          console.log('false');
+        return false;
       }
       else {
-        console.log('== nextProps.open', nextProps.open);
-        console.log('== this.props.open',this.props.open);
-
+        console.log('true');
         return true;
       }
   }
