@@ -1,5 +1,6 @@
 .gosell-gateway-cards {
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   /* height: -webkit-fit-content;
   height: -moz-fit-content; */
   /* height: fit-content;
@@ -11,6 +12,7 @@
   /* -ms-overflow-style: none;
   overflow: -moz-scrollbars-none; */
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .gosell-gateway-cards::-webkit-scrollbar {

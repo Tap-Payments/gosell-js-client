@@ -48,6 +48,7 @@ class Items extends Component {
     const Container = styled.div`
       height: 100%;
       overflow: auto;
+      -webkit-overflow-scrolling: touch;
     `
     const Fieldset = styled.div`
       font-size: 12px;

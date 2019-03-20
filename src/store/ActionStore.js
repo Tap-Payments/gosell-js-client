@@ -55,10 +55,10 @@ class ActionStore {
   }
 
   goBack(){
-    if(this.RootStore.uIStore.getPageIndex == 3){
-      // this.RootStore.paymentStore.setCurrentCurrency(current);
-      this.RootStore.uIStore.mainHeight = 0;
-    }
+    // if(this.RootStore.uIStore.getPageIndex == 3){
+    //   // this.RootStore.paymentStore.setCurrentCurrency(current);
+    //   this.RootStore.uIStore.mainHeight = 0;
+    // }
 
     if(this.RootStore.uIStore.isMobile){
        this.RootStore.uIStore.setPageIndex(0, 'x');
@@ -81,23 +81,23 @@ class ActionStore {
       }
       else if(this.RootStore.uIStore.delete_card === null){
 
-        if(this.RootStore.uIStore.isMobile){
-          if(this.RootStore.uIStore.show_order_details){
-            this.RootStore.uIStore.show_order_details = false;
-            this.RootStore.uIStore.setPageIndex(0, 'x');
-          }
-          else{
-            this.RootStore.uIStore.show_order_details = true;
-            this.RootStore.uIStore.setPageIndex(5, 'x');
-          }
-        }
-        else {
-          if(this.RootStore.uIStore.getPageIndex != 0){
-            this.RootStore.uIStore.setPageIndex(0, 'x');
-          }
+        if(this.slideEnded){
+            this.waitTillSlideEndes();
 
-          if(this.slideEnded){
-                this.waitTillSlideEndes();
+            if(this.RootStore.uIStore.isMobile){
+              if(this.RootStore.uIStore.show_order_details){
+                this.RootStore.uIStore.show_order_details = false;
+                this.RootStore.uIStore.setPageIndex(0, 'x');
+              }
+              else{
+                this.RootStore.uIStore.show_order_details = true;
+                this.RootStore.uIStore.setPageIndex(5, 'x');
+              }
+            }
+            else {
+              if(this.RootStore.uIStore.getPageIndex != 0){
+                this.RootStore.uIStore.setPageIndex(0, 'x');
+              }
 
                 if(this.RootStore.uIStore.getSubPage === 1 || this.RootStore.uIStore.getSubPage === 0){
                   this.RootStore.uIStore.setSubPage(-1);
@@ -140,9 +140,10 @@ class ActionStore {
                   }
 
                 }, 500);
-          }
-        }
 
+            }
+
+        }
 
      }
   }

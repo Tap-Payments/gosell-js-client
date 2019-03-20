@@ -389,7 +389,7 @@ class UIStore {
   }
 
   stopLoading(){
-    if(!this.RootStore.paymentStore.isLoading && !this.RootStore.merchantStore.isLoading){
+    if(!this.RootStore.paymentStore.isLoading && !this.RootStore.merchantStore.isLoading && !this.RootStore.localizationStore.isLoading){
       this.isLoading = false;
     }
   }

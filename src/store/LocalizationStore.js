@@ -10,6 +10,7 @@ class LocalizationStore {
     // this.strings = require('./local.json');
 
     this.strings = null;
+    this.isLoading = true;
     this.getLocalization()
   }
 
@@ -19,6 +20,7 @@ class LocalizationStore {
     .then( function (response) {
       console.log('localization', response);
       self.strings =  response.data;
+      self.isLoading = false;
     })
     .catch(function (error) {
       console.log("error", error);
@@ -48,8 +50,8 @@ class LocalizationStore {
 
 }
 
-// decorate(LocalizationStore, {
-//
-// });
+decorate(LocalizationStore, {
+  isLoading: observable
+});
 
 export default LocalizationStore;

@@ -19,6 +19,7 @@
   right: 0;
   direction: ltr;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
   opacity: 0;
 
@@ -38,6 +39,7 @@
   left: 0;
   direction: rtl;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   overflow-x: hidden;
   opacity: 0;
   border-radius: 0;

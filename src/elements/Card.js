@@ -97,9 +97,9 @@ class Card extends Component {
         if(result.deleted){
 
           self.props.store.apiStore.updateCards().then(updatedList => {
-            console.log('updated cards: ', updatedList.cards);
+            // console.log('updated cards: ', updatedList.cards);
             self.props.store.paymentStore.setCards(updatedList.cards);
-            console.log('done?????????? ', self.props.store.paymentStore.customer_cards);
+            // console.log('done?????????? ', self.props.store.paymentStore.customer_cards);
             self.props.store.uIStore.delete_card = null;
             self.props.store.uIStore.shakeCards(true);
 
