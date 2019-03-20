@@ -195,6 +195,15 @@ class FormStore{
 
               });
           }
+          self.elements.card.blurForm= function(){
+              return new Promise(function(resolve, reject) {
+                      if(document.getElementById("myFrame")!=null){
+                          var iframeWin = document.getElementById("myFrame").contentWindow;
+                          iframeWin.postMessage({'action':'blurForm','key':self._apiKey}, window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui");
+                      }
+
+              });
+          }
           self.elements.card.mount= function(id){
               var s = document.querySelector(id);
               if(s){
@@ -594,6 +603,7 @@ class FormStore{
    clearCardForm(){
      if(this.card != null){
        this.card.clearForm();
+       this.card.blurForm();
        // this.RootStore.uIStore.payBtn(false);
        this.RootStore.uIStore.goSellBtn({
          title: this.RootStore.configStore.btn,
