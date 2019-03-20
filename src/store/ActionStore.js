@@ -154,7 +154,7 @@ class ActionStore {
 
     if(this.RootStore.configStore.contactInfo && this.RootStore.merchantStore.contact && this.RootStore.merchantStore.contact.length > 0){
 
-      if((this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader) || (this.RootStore.uIStore.getPageIndex != 0 && this.RootStore.uIStore.getPageIndex != 3 && this.RootStore.uIStore.getPageIndex != 4)){
+      if((this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader)){
         this.RootStore.uIStore.warningHandler();
       }
       else if(this.RootStore.uIStore.delete_card === null){

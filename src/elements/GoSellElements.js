@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
-import {NotificationBar} from '@tap-payments/modal-fix';
+// import {NotificationBar} from '@tap-payments/modal-fix';
+import {NotificationBar} from '../lib/modal';
 import RootStore from '../store/RootStore.js';
 import CardsForm from './CardsForm.js';
 

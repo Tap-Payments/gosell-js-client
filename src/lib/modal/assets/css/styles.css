@@ -1,0 +1,643 @@
+.tap-payments-modal-open {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.tap-payments-show-modal{
+  z-index: 1000;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin: auto;
+  position: relative;
+  opacity: 0;
+}
+
+.tap-payments-hide-modal{
+  z-index: 1000;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin: auto;
+  position: relative;
+  opacity: 1;
+}
+
+.tap-payments-modal{
+  z-index: 1000;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  margin: auto;
+  position: relative;
+  opacity: 1;
+}
+
+.tap-payments-animate-up{
+  transform: translateY(0%);
+  visibility: visible;
+  -webkit-animation-name: modalSlideUp;
+  -webkit-animation-duration: 1s;
+  animation-name: modalSlideUp;
+  animation-duration: 1s;
+/*  animation-delay: 0.5s;*/
+  opacity: 1;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes modalSlideUp {
+  0%   {opacity: 0; visibility: visible; transform: translateY(50%)}
+  75% {transform: translateY(-10px)}
+  100% {opacity: 1; visibility: visible; transform: translateY(0%)}
+}
+
+/* Standard syntax */
+@keyframes modalSlideUp {
+  0%   {opacity: 0; visibility: visible; transform: translateY(50%)}
+  75% { transform: translateY(-10px)}
+  100% {opacity: 1; visibility: visible; transform: translateY(0%)}
+}
+
+.tap-payments-animate-down{
+  transform: translateY(50%);
+  visibility: visible;
+  -webkit-animation-name: modalSlideDown;
+  -webkit-animation-duration: 1s;
+  animation-name: modalSlideDown;
+  animation-duration: 1s;
+/*  animation-delay: 0.5s;*/
+  opacity: 0;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes modalSlideDown {
+  0%   {opacity: 1; visibility: visible; transform: translateY(0%)}
+  /* 75% {transform: translateY(10px)} */
+  100% {opacity: 0; transform: translateY(50%); visibility: hidden;}
+}
+
+/* Standard syntax */
+@keyframes modalSlideDown {
+  0%   {opacity: 1; visibility: visible; transform: translateY(0%)}
+/*  75% {transform: translateY(10px)}*/
+  100% {opacity: 0; transform: translateY(50%); visibility: hidden;}
+}
+
+
+.tap-payments-modal-container{
+  width: 100%;
+  /*padding: 2px;*/
+  overflow-y: scroll; /* has to be scroll, not auto */
+  scroll-behavior: smooth;
+  /* -webkit-overflow-scrolling: touch; */
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  margin: 0 auto;
+  -webkit-animation-name: fadeIn;
+  -webkit-animation-duration: 0.1s;
+  animation-name: fadeIn;
+  animation-duration: 0.1s;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100%;
+  -webkit-box-pack: stretch;
+      -ms-flex-pack: stretch;
+          justify-content: stretch;
+  justify-items: stretch;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+}
+
+/* .tap-payments-body-container{
+  scroll-behavior: smooth;
+  z-index: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+} */
+
+
+.tap-payments-modal-wrapper{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes fadeIn {
+    0%   {opacity: 0}
+    50%   {opacity: 0.4}
+    75%   {opacity: 0.8}
+    100% {opacity: 1}
+}
+
+/* Standard syntax */
+@keyframes fadeIn {
+  0%   {opacity: 0}
+  50%   {opacity: 0.4}
+  75%   {opacity: 0.8}
+  100% {opacity: 1}
+}
+
+.tap-payments-modal-body {
+    margin: 0 auto;
+    /*background-color: #fff;*/
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background: #fff;
+    height: 100%;
+    color: #463F3E;
+    /*margin-bottom: 10px;*/
+    width: 100%;
+    border: 1px solid #eaeaea;
+    border-top: none;
+    /*box-shadow: 0px 5px 7px #eee;*/
+    /* box-shadow: rgba(0, 0, 0, 0.27) 0px 25px 36px 2px; */
+    border-radius: 0px 0px 8px 8px;
+}
+
+.tap-payments-modal-background-color {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    /* semi-transparent black  */
+    background-color: rgba(0,0,0,0.60);
+    /* opacity: 0.55; */
+
+    /* z-index must be below .modal and above everything else  */
+    z-index: 900;
+
+    -webkit-animation-name: bgFadeIn; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 0.3s;/* Safari 4.0 - 8.0 */
+    animation-name: bgFadeIn;
+    animation-duration: 0.3s;
+    /*filter:blur(3px);*/
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+
+  }
+
+.tap-payments-modal-blur-bg{
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes bgFadeIn {
+    0%   {opacity: 0.1}
+    100% {opacity: 0.75; -webkit-transform: scale(1.1); transform: scale(1.1); filter:blur(2px);}
+}
+
+/* Standard syntax */
+@keyframes bgFadeIn {
+    0%   {opacity: 0.1}
+    100% {opacity: 0.75; -webkit-transform: scale(1.1); transform: scale(1.1); filter:blur(2px);}
+}
+
+.tap-payments-page {
+    /* modal background fixed across whole screen */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    /* z-index must be below .modal and above everything else  */
+    z-index: 900;
+
+}
+
+.tap-payments-page-bg-img{
+  width: 100%;
+  height: 100%;
+  opacity: 0.35;
+}
+
+.tap-payments-modal-header{
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 8px 8px 0px 0px;
+  margin: 0 auto;
+  border: 1px solid #eaeaea;
+  border-bottom: none;
+  display: flex;
+  /* box-shadow: rgba(0, 0, 0, 0.27) 0px 0px 36px 2px; */
+  border-radius: 8px 8px 0px 0px;
+  position: relative;
+  text-align: center;
+}
+
+.tap-payments-header-icon{
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+
+}
+
+.tap-payments-header-icon img{
+  /* margin: 16px 16px 0px 16px;*/
+}
+
+.tap-payments-header-title{
+  display: inline-block;
+  vertical-align: top;
+  margin: 0px 10px;
+}
+
+.tap-payments-header-close-icon{
+  z-index: 9999;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 15px;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes bgFadeOut {
+    0%   {opacity: 0.75}
+    100% {opacity: 0.1; -webkit-filter:blur(3px); filter:blur(3px); -webkit-transform: scale(1.1); transform: scale(1.1);}
+}
+
+/* Standard syntax */
+@keyframes bgFadeOut {
+    0%   {opacity: 0.75}
+    100% {opacity: 0.1; -webkit-filter:blur(3px); filter:blur(3px); -webkit-transform: scale(1.1); transform: scale(1.1);}
+}
+
+.tap-payments-header-close-icon img{
+  /*margin: 16px 16px 0px 16px;*/
+}
+
+.tap-payments-btn-part{
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    background: #1185FF;
+    color: #fff;
+    height: 40px;
+    width: 100%;
+    border-radius: 100px;
+    /*box-shadow: 4px 4px 15px -5px #000;*/
+    font-size: 17px;
+    border: none;
+    margin: 8px auto;
+    outline: none;
+}
+
+.tap-payments-btn-part:hover{
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.tap-payments-avatar-container{
+  margin: auto;
+}
+
+.tap-payments-avatar{
+  background-color: #4b4847;
+  color: white;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  margin: inherit;
+}
+
+.tap-payments-text{
+  z-index: 999;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 90px;
+}
+
+.tap-payments-circle-icon-wrapper{
+    display: -webkit-box;
+
+    display: -ms-flexbox;
+
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    /*position: absolute;
+     margin-top: -45px; */
+    left: 0;
+    right: 0;
+    margin: auto;
+    margin-top: -45px;
+    /* top: -28px; */
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+
+}
+
+.tap-payments-circle-icon{
+    /*border-radius: 100%;
+    background: #fff;
+    border: 1px solid white;
+    width: 85px;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .4s ease-out;
+    overflow: hidden;*/
+    border-radius: 100%;
+    background: #fff;
+    border: 1px solid white;
+    width: 85px;
+    height: 85px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.tap-payments-avatar-title{
+  /*  display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .4s ease-out;
+    overflow: hidden;
+    line-height: 40px;
+    font-size: 25px;
+    font-weight: 100;*/
+
+    line-height: 40px;
+    font-size: 25px;
+    font-weight: 100;
+}
+
+.tap-payments-circle-icon img{
+    width: 100%;
+}
+
+.tap-payments-notification-bar{
+  position: relative;
+  transition: top 0.7s linear 0s;
+  top: -100px;
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  left: 0;
+  right: 0;
+  z-index: 888888;
+  padding: 0px 20px;
+  border-collapse: inherit;
+}
+
+.tap-payments-notification-true{
+  top: 0;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes slideDown {
+  0%   {top:-50px;}
+  100% {top:0px;}
+}
+
+/* Standard syntax */
+@keyframes slideDown {
+    0%   {top:-50px;}
+    100% {top:0px;}
+}
+
+
+.tap-payments-close {
+    /* float: right; */
+    font-size: 21px;
+    font-weight: 100;
+    color: #fff;
+    opacity: .9;
+}
+a.tap-payments-close {
+    text-decoration: none;
+    font-size: 30px;
+    /* line-height: 1.2; */
+    cursor: pointer;
+}
+
+a.tap-payments-close:hover {
+  opacity: 1;
+}
+
+[dir='rtl'] a.tap-payments-close {
+      height: 40px;
+      line-height: 1;
+}
+
+.tap-payments-notification-bar .tap-payments-close {
+  /* position: absolute; */
+  /* padding: 0px 20px; */
+  /* line-height: 0; */
+}
+
+.tap-payments-notification-title{
+  /* transition: opacity 0.7s ease 0.5s; */
+  position: relative;
+  /* padding: 10px 50px; */
+  float: left;
+  display: inline-block;
+  /* opacity: 1; */
+  padding: 10px 0px;
+}
+
+[dir="ltr"] .tap-payments-notification-title {
+  float: left;
+}
+
+[dir="rtl"] .tap-payments-notification-title {
+  float: right;
+}
+
+.tap-payments-notification-title{
+  /* padding: 10px 0px; */
+  float: none;
+  /* position: absolute; */
+  left: 0;
+  width: 100%;
+  /* z-index: -1; */
+}
+
+[dir="rtl"] .tap-payments-notification-title{
+    margin-top: -4px;
+  }
+
+.tap-payments-notification-false {
+  top: -100px;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes slideUp {
+  0%   {top:0px;}
+  100% {top:-50px;}
+}
+
+/* Standard syntax */
+@keyframes slideUp {
+    0%   {top:0px;}
+    100% {top:-50px;}
+}
+
+.tap-payments-options{
+  /* padding: 0px 51px; */
+  float: right;
+}
+
+[dir="ltr"] .tap-payments-options{
+  float: right;
+}
+
+[dir="rtl"] .tap-payments-options{
+  float: left;
+}
+
+.tap-payments-options.tap-payments-options-close-only{
+  /* margin: 0px 20px; */
+}
+
+[dir="rtl"] .tap-payments-options.tap-payments-options-close-only{
+  /* margin: 6px 20px; */
+  margin-top: -10px;
+}
+
+.tap-payments-option{
+  padding: 0 11px;
+  font-weight: bold;
+  cursor: pointer;
+  /* height: 100%; */
+  display: inline-block;
+  font-size: 15px;
+  vertical-align: top;
+  line-height: 41px;
+}
+
+[dir="ltr"] .tap-payments-option{
+  float: none;
+}
+
+[dir="rtl"] .tap-payments-option{
+  float: none;
+}
+
+.tap-payments-option:hover{
+  background-color: rgba(255,255,255,0.20);
+  border-left: .5px solid rgba(255,255,255,0.25);
+  border-right: .5px solid rgba(255,255,255,0.25);
+}
+
+.tap-payments-notification-title{
+  /* padding: 10px 10px; */
+  margin: 0px;
+  width: 50%;
+}
+
+.tap-payments-notification-title.tap-payments-notification-title-centered{
+  width: 90%;
+}
+
+.tap-payments-options.tap-payments-options-close-only{
+  width: 9%;
+}
+
+
+@media(max-width: 500px){
+
+  .tap-payments-header-title{
+    float: left;
+    text-align: left;
+  }
+
+  [dir='rtl'] .tap-payments-header-title{
+    float: right;
+    text-align: right;
+  }
+
+  .tap-payments-modal-container {
+    width: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+
+
+  .tap-payments-show-modal, .tap-payments-modal{
+    width: 90% !important;
+    /* height: 90%; */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  .tap-payments-hide-modal, .tap-payments-modal{
+    width: 100% !important;
+  }
+
+  .tap-payments-header-close-icon{
+    /* margin: 0px 16px 0px 16px; */
+  }
+
+  .tap-payments-modal-header{
+    width: 100%;
+    text-align: justify;
+  }
+
+  .tap-payments-modal-body{
+    width: 100%;
+    height: auto;
+  }
+
+  .tap-payments-btn-part{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+  }
+
+  .tap-payments-options{
+    padding: 0px 0px;
+  }
+
+  .tap-payments-page-bg-img{
+    width: auto;
+  }
+
+  .tap-payments-notification-true{
+    /* height: 69px; */
+  }
+
+}

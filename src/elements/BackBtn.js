@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import styled from "styled-components";
-// import {observer} from 'mobx-react';
+import {observer} from 'mobx-react';
 import Paths from '../../webpack/paths';
 
 class BackBtn extends Component {
@@ -8,11 +8,19 @@ class BackBtn extends Component {
   constructor(props){
     super(props);
 
-    this.state = {
-      width: 'auto',
-      height: 'auto',
-      img: null,
-    }
+    // this.state = {
+    //   width: 'auto',
+    //   height: 'auto',
+    //   img: null,
+    //   back: false
+    // }
+  }
+
+  state = {
+    width: 'auto',
+    height: 'auto',
+    img: null,
+    back: false
   }
 
   componentWillMount(){
@@ -23,36 +31,50 @@ class BackBtn extends Component {
       width: this.props.width,
       height: this.props.height,
       img: this.props.logo,
+      back: this.props.back
     });
   }
-  
-  shouldComponentUpdate(nextProps, nextState) {
-    //  checks for logo changes, and if the next logo is null
-    if ((nextProps.logo  ==  this.props.logo) || !nextProps.logo ){
-      return false
-    } else {
-      return true
-    }
+
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      width: nextProps.width,
+      height: nextProps.height,
+      img: nextProps.logo,
+      back: nextProps.back
+    });
   }
 
+  // shouldComponentUpdate(nextProps, nextState) {
+  //
+  //   console.log('== back 1', nextProps.back);
+  //   console.log('== back 2', this.props.back);
+  //   //  checks for logo changes, and if the next logo is null
+  //   if ((nextProps.back  ==  this.props.back) || !nextProps.back ){
+  //     return false
+  //   } else {
+  //     return true
+  //   }
+  //
+  //
+  // }
+
+  componentWillUnMount(){
+    console.log('== it is unmount');
+  }
 
   render() {
-    // var store = this.props.store;
-
-    // let condition = store.uIStore.isMobile && (store.uIStore.getPageIndex != 0 || store.uIStore.show_order_details);
 
     const BackLayer = styled.div`
-      width: ${this.state.width};
-      height: ${this.state.height};
+      width: ${this.props.store.uIStore.modal.headerStyle.iconStyle.width};
+      height: ${this.props.store.uIStore.modal.headerStyle.iconStyle.height};
       position: fixed;
       border-radius: 50%;
       background-color: black;
-      opacity: ${this.props.back ? '0.4' : '0'};
-      margin: ${this.props.mobile ? '12px' : '0px'};
+      margin: ${this.props.store.uIStore.isMobile ? '12px' : '0px'};
       transition: 5s ease-in-out;
     `
 
-    var img = this.props.dir == 'ltr' ? Paths.imgsPath + 'arrow.svg' : Paths.imgsPath + 'arrowReverse.svg';
+    var img = this.props.store.uIStore.dir == 'ltr' ? Paths.imgsPath + 'arrow.svg' : Paths.imgsPath + 'arrowReverse.svg';
 
     const Img = styled.img`
       position: absolute;
@@ -61,19 +83,26 @@ class BackBtn extends Component {
       left: 0;
       right: 0;
       margin: auto;
-      opacity: 1;`
+    `
+
+
+    var condition = ((this.props.store.uIStore.pageIndex != 0 && this.props.store.uIStore.pageIndex != 1 && this.props.store.uIStore.pageIndex != 2) || this.props.store.uIStore.show_order_details) && this.props.store.uIStore.isMobile;
 
     return (
       <React.Fragment>
-        <BackLayer onClick={(e) => this.props.back ? this.props.goBack() : null}>
-          {this.props.back ?
-            <Img src={img} height="25"></Img>
-          : null}
+        <BackLayer
+          style={{opacity: condition ? '0.4' : '0'}}
+          onClick={(e) => condition ? this.props.store.actionStore.goBack() : null}>
+            <Img src={img} style={{opacity: condition ? '1' : '0'}} height="25"></Img>
         </BackLayer>
-        <img src={this.state.img} width={this.state.width} height={this.state.height} style={this.props.style}/>
+        <img
+          src={this.props.store.merchantStore.logo}
+          width={this.props.store.uIStore.modal.headerStyle.iconStyle.width}
+          height={this.props.store.uIStore.modal.headerStyle.iconStyle.height}
+          style={this.props.store.uIStore.isMobile ? {margin: '12px',borderRadius: '50%'} : {borderRadius: '50%'}}/>
       </React.Fragment>
     );
   }
 }
 
-export default BackBtn;
+export default observer(BackBtn);
