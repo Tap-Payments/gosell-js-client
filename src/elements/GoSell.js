@@ -142,7 +142,7 @@ class GoSell extends Component {
     RootStore.uIStore.calcModalHeight();
     // window.addEventListener('resize', RootStore.uIStore.calcModalHeight());
     window.addEventListener('resize', this.handleWindowSizeChange);
-    // window.addEventListener('resize', this.updateDimensions);
+    window.addEventListener('resize', this.updateDimensions);
   }
 
   handleClick(){
@@ -153,7 +153,7 @@ class GoSell extends Component {
   // when the component is not mounted anymore
   componentWillUnmount() {
     window.removeEventListener('resize', this.handleWindowSizeChange);
-    // window.removeEventListener('resize', this.updateDimensions);
+    window.removeEventListener('resize', this.updateDimensions);
   }
 
   updateDimensions() {

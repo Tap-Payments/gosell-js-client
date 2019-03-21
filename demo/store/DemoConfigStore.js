@@ -79,8 +79,8 @@ class DemoConfigStore {
         email: false,
         sms: true
       },
-      redirect: "http://localhost:3000/open-light-box-demo",
-      post: "http://localhost:3000/open-light-box-demo"
+      redirect:  window.location.href,
+      post:  window.location.href
     };
 
     this.order = {
