@@ -89,7 +89,7 @@ class ConfigStore {
 
   setGlobalStyle(){
     this.unSetGlobalStyle();
-    console.log(head);
+    // console.log(head);
     const arCss = "*{font-family: 'Helvetica-Light', sans-serif; line-height: 1.2;}"
     const enCss = "*{font-family: 'Roboto-Light', sans-serif;}"
     const css = this.language.toLowerCase()=='ar'?  arCss : enCss
@@ -107,7 +107,7 @@ class ConfigStore {
   }
 
   setConfig(value, view){
-      console.log('set setConfig');
+      // console.log('set setConfig');
 
       this.config = value;
       this.key = value.gateway ? value.gateway.publicKey : null;
@@ -128,10 +128,11 @@ class ConfigStore {
   async configure(){
     var self = this;
     var value = this.config;
+    // console.log('value', value);
 
-    if(value.gateway){
+    if(value.gateway != null && value.gateway){
       if(window.location.protocol=='http:' && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0){
-        console.log('error setConfig');
+        // console.log('error setConfig');
         this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_https_configration_msg', null), this.RootStore.localizationStore.getContent('gosell_https_configration_submsg', null));
         this.legalConfig = false;
       }
@@ -139,8 +140,8 @@ class ConfigStore {
 
         if(value.gateway != null &&  value.gateway.publicKey){
           this.gateway = value.gateway;
-          
-          console.log('gateway', value.gateway);
+
+          // console.log('gateway', value.gateway);
 
           this.contactInfo = !(value.gateway.contactInfo) ? value.gateway.contactInfo : this.contactInfo;
 
@@ -351,7 +352,7 @@ class ConfigStore {
     if(value.charge.id){
       // console.log(value.charge.id);
       await this.RootStore.apiStore.getTransaction(value.charge.id).then(async result => {
-        console.log('get charge transaction response', result);
+        // console.log('get charge transaction response', result);
         self.redirect_url = result.data.redirect.url;
 
         self.order = {currency: result.data.currency, amount: result.data.amount};
@@ -417,14 +418,14 @@ class ConfigStore {
     var self = this;
 
     if(value.authorize.id){
-      console.log(value.authorize.id);
+      // console.log(value.authorize.id);
 
       await this.RootStore.apiStore.getTransaction(value.authorize.id).then(async result => {
-        console.log('get authorize transaction response', result);
+        // console.log('get authorize transaction response', result);
         self.redirect_url = result.data.redirect.url;
 
         self.order = {currency: result.data.currency, amount: result.data.amount};
-        console.log('order ++++++ ', self.order);
+        // console.log('order ++++++ ', self.order);
         self.customer = result.data.customer;
 
         self.authorize = {
@@ -453,7 +454,7 @@ class ConfigStore {
       this.authorize = value.authorize;
 
       self.tranx_description = self.authorize.description;
-      console.log('authorize', this.authorize);
+      // console.log('authorize', this.authorize);
       this.redirect_url = value.authorize.redirect;
 
       if(value.customer || value.customer != null){
