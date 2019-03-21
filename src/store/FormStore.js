@@ -196,6 +196,13 @@ class FormStore{
               });
           }
           self.elements.card.blurForm= function(){
+              var input = document.createElement("input");
+              input.setAttribute('type', 'text');
+              var parent = document.body;
+              parent.appendChild(input);
+              input.focus()
+              input.blur()
+              input.parentNode.removeChild(input);
               return new Promise(function(resolve, reject) {
                       if(document.getElementById("myFrame")!=null){
                           var iframeWin = document.getElementById("myFrame").contentWindow;
