@@ -15,13 +15,13 @@ class Modal extends React.Component {
 
   static open = id => {
     let modal = Modal.modals.find(x => x.props.id === id);
-    console.log('modal', modal);
+    // console.log('modal', modal);
 
     modal.setState({ isOpen: true, isOpenWait: "tap-payments-show-modal" });
 
     modal.props.blur ?  modal.addBlur() : null;
 
-    console.log("open");
+    // console.log("open");
 
     if(modal.props.animate){
       setTimeout(function(){
@@ -40,7 +40,7 @@ class Modal extends React.Component {
   static close = id => {
 
     let modal = Modal.modals.find(x => x.props.id === id);
-    console.log('modal props', modal.props);
+    // console.log('modal props', modal.props);
     if(modal.props.animate){
 
       setTimeout(function() {
@@ -93,7 +93,6 @@ class Modal extends React.Component {
   state = {
     isOpen: false,
     loading: true,
-    style: {},
     isOpenWait: "tap-payments-show-modal",
     modalStyle: {},
     bodyStyle: {},
@@ -108,7 +107,7 @@ class Modal extends React.Component {
 
     for(var i=0; i<body.length; i++){
       if(body[i].tagName === 'DIV' && !body[i].classList.contains('tap-payments-modal-container')){
-        console.log('body ', body[i].tagName);
+        // console.log('body ', body[i].tagName);
         body[i].classList.add('tap-payments-modal-blur-bg');
         break;
       }
@@ -120,7 +119,7 @@ class Modal extends React.Component {
 
     for(var i=0; i<body.length; i++){
       if(body[i].tagName === 'DIV' && body[i].classList.contains('tap-payments-modal-blur-bg')){
-        console.log('body ', body[i]);
+        // console.log('body ', body[i]);
         body[i].classList.remove('tap-payments-modal-blur-bg');
         break;
       }
@@ -130,7 +129,7 @@ class Modal extends React.Component {
 
   componentWillMount() {
 
-    console.log('& will mount');
+    // console.log('& will mount');
     if (window && document.body) {
       //search for scroller size
       this.scrollerSize = window.innerWidth - document.body.clientWidth;
@@ -239,16 +238,15 @@ class Modal extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+
       if(nextProps.open  ==  this.props.open
         && nextProps.isLoading == this.props.isLoading
-        && nextProps.style == this.props.style
         && nextProps.children == this.props.children
         && nextProps.header == this.props.header){
-          console.log('false');
+          // console.log('000 false');
         return false;
       }
       else {
-        console.log('true');
         return true;
       }
   }
@@ -258,7 +256,6 @@ class Modal extends React.Component {
       this.setState({
         isOpen: nextProps.open,
         loading: nextProps.isLoading,
-        // isBack: nextProps.back
       });
 
       if(nextProps.open){
@@ -302,7 +299,7 @@ class Modal extends React.Component {
     if (e.target.className === "closeIn" ||
       e.target.className === "tap-payments-modal-background-color closeOut" ||
       e.target.className === "tap-payments-modal-background-color closeInOut") {
-        console.log('close it from close in');
+        // console.log('close it from close in');
         Modal.close(this.props.id);
     }
   }

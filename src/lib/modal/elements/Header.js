@@ -59,9 +59,8 @@ class Header extends Component{
          return false;
        }
        else {
-         console.log('== nextProps.mode', nextProps.mode);
-         console.log('== this.props.mode',this.props.mode);
-
+         // console.log('== nextProps.style', nextProps.style);
+         // console.log('== this.props.style',this.props.style);
          return true;
        }
    }
