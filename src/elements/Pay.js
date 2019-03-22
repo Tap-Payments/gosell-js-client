@@ -88,8 +88,8 @@ class Pay extends Component {
 
   animationStatusHandler(){
 
-    console.log("animationStatusHandler");
-    console.log(this.props.store.uIStore.targetElement.current);
+    // console.log("animationStatusHandler");
+    // console.log(this.props.store.uIStore.targetElement.current);
 
     if(this.props.store.uIStore.targetElement.current !== null) {
       this.props.store.uIStore.targetElement.current.textInput[0].focus();
@@ -118,7 +118,7 @@ class Pay extends Component {
            animationDuration={store.actionStore.sliderAnimationDuration}
            style={{ height: store.uIStore.sliderHeight + "px", width:'100%'}}
            direction={store.uIStore.dir}
-           animationStatus = {this.animationStatusHandler.bind(this)}>
+           animationStatus={this.animationStatusHandler.bind(this)}>
 
                 <div key={0} id="gosell-gateway-main-container" style={{width: '100%', height: (store.uIStore.mainHeight + 86) + 'px', position:'relative'}}>
                   <Options store={store}/>
@@ -132,15 +132,15 @@ class Pay extends Component {
                     <Otp dir={store.uIStore.dir} store={store} />
                 </div>
 
-                <div key={3} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>
+                <div key={3} style={{width: '100%', height: '100%', position:'relative'}}>
                     <SupportedCurrencies theme="inline" bgColor="white" height="100%" dir={store.uIStore.dir} store={store}/>
                 </div>
 
-                <div key={4} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative'}}>
+                <div key={4} style={{width: '100%', height: '100%', position:'relative'}}>
                      <BusinessInfo store={store} width="100%" height="100%"/>
                 </div>
 
-                <div key={5} style={{width: '100%', height: store.uIStore.mainHeight + 'px', position:'relative', overflow: 'auto'}}>
+                <div key={5} style={{width: '100%', height: '100%', position:'relative', overflow: 'auto'}}>
                         <Items
                           dir={store.uIStore.dir}
                           desc={store.configStore.tranx_description}
