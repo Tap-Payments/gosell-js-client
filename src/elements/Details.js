@@ -20,7 +20,7 @@ class Details extends Component {
     var align = this.props.store.uIStore.dir === 'ltr' ? 'left' : 'right';
 
     const Container = styled.div`
-      margin: ${store.configStore.tranx_description == null ? '22px 0px' : '10px 0px'};
+      margin: ${store.configStore.items == null && store.configStore.tranx_description == null ? '22px 0px' : '10px 0px'};
       line-height: 1.4;
       display: flex;
       flex-direction: column;
@@ -38,7 +38,7 @@ class Details extends Component {
       <Container className="details-container">
           <div onClick={this.handleClick.bind(this)}>{store.merchantStore.name}</div>
 
-          {store.configStore.tranx_description != null ?
+          {(store.configStore.items != null && store.configStore.items.slice().length > 0) || store.configStore.tranx_description != null ?
               <Order onClick={store.actionStore.handleOrderDetailsClick}>
                 {store.uIStore.show_order_details ? store.localizationStore.getContent('close_order_details', null): store.localizationStore.getContent('view_order_details', null)}
               </Order>
