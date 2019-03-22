@@ -220,24 +220,29 @@ class UIStore {
   setSliderHeight(){
 
     var self = this;
+    // this.RootStore.formStore.blurCardForm();
+    console.log('setSliderHeight index', this.getPageIndex);
+    console.log('setSliderHeight height', this.sliderHeight);
+    // setTimeout(function(){
+      switch (this.getPageIndex) {
+        case 0:
+          self.sliderHeight = self.mainHeight;
+          break;
+        case 1:
+          self.sliderHeight = self.mainHeight;
+          break;
+        case 2:
+          self.sliderHeight = self.mainHeight;
+          break;
+        case 3:
+          self.sliderHeight = self.bodyHeight;
+          break;
+        case 4:
+          self.sliderHeight = self.bodyHeight;
+          break;
+      }
+    // }, 1000);
 
-    switch (this.getPageIndex) {
-      case 0:
-        self.sliderHeight = self.mainHeight;
-        break;
-      case 1:
-        self.sliderHeight = self.mainHeight;
-        break;
-      case 2:
-        self.sliderHeight = self.mainHeight;
-        break;
-      case 3:
-        self.sliderHeight = self.bodyHeight;
-        break;
-      case 4:
-        self.sliderHeight = self.bodyHeight;
-        break;
-    }
 
     // this.calcModalHeight();
   }
@@ -487,7 +492,6 @@ class UIStore {
           active: false,
           loader: false
         });
-        // self.sliderHeight = self.mainHeight;
         break;
       case 1:
         self.goSellBtn({
@@ -496,7 +500,6 @@ class UIStore {
           active: true,
           loader: false
         });
-        // self.sliderHeight = self.mainHeight;
         break;
       case 2:
         self.goSellBtn({
@@ -505,10 +508,7 @@ class UIStore {
           active: false,
           loader: false
         });
-        // self.sliderHeight = self.mainHeight;
         break;
-      default:
-        self.mainHeight = '100%';
     }
 
     this.pageIndex = value;
