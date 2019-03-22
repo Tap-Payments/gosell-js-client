@@ -35,7 +35,7 @@ module.exports = {
   submit:function(){
     module.exports.GoSellElements.submit();
   },
-  GenerateGoSellPaymentGateway:function(){
+  generateGoSellPaymentGateway:function(){
     module.exports.GoSell.generateTapGateway();
   }
 };
