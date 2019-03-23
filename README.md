@@ -16,7 +16,7 @@
 
 ## Brief Description
 
-goSell Payment Gateway accepts online payments and now you can integrate with it in a different way based on your app's specifications.
+goSell Payment Gateway accepts online payments. You can integrate with it in a different way based on your app's specifications.
 
 The new version of goSell Payment Gateway provides:
 
@@ -24,9 +24,9 @@ The new version of goSell Payment Gateway provides:
 
 goSell Checkout includes two different integrations based on your preferences:
 
-- goSell LightBox: provides a light box / modal dialog inside your store.
+- goSell LightBox: open a light box / modal dialog inside your store.
 
-- goSell Payment Page: let you to open goSell payment gateway in a new page directly without server side code or making any REST API Requests.
+- goSell Payment Page: open goSell payment gateway directly without server side code or making any REST API Requests.
 
 **goSell Elements**: two-step process, with a client-side and a server-side actions. goSell securely will collect your customer’s payment information and returns a card token, then your server-side code can make an API request from the available REST APIs on https://tap.company/developers to complete the process based on your needs  (by create a charge / authorize or saving the customer card).
 
@@ -40,7 +40,7 @@ You can integrate with goSell by:
 - JavaScript Library, which allows front end developers to setup the payment gateway on their stores easily by adding a very basic snippet of JavaScript using the following script tag:
 
 ```
-<script type="text/javascript" src="https://payments.tap.company/js/gosell.js"></script>
+<script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.0/js/gosell.js"></script>
 ```
 
 >  Use the JavaScript Library in server side environment, otherwise the credit card section will not work.
@@ -164,11 +164,12 @@ Transaction mode of the example: 'charge'
 <head>
     <title>goSell Demo</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://payments.tap.company/css/gosell.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <link rel="shortcut icon" href="https://goSellJSLib.b-cdn.net/v1.0/imgs/tap-favicon.ico" />
+    <link href="https://goSellJSLib.b-cdn.net/v1.0/css/gosell.css" rel="stylesheet" />
 </head>
 <body>
-    <script type="text/javascript" src="https://payments.tap.company/js/gosell.js"></script>
+    <script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.0/js/gosell.js"></script>
 
     <div id="root"></div>
     <button id="openLightBox" onclick="goSell.openLightBox()">open goSell LightBox</button>
@@ -226,7 +227,42 @@ Transaction mode of the example: 'charge'
       order:{
         amount: 100,
         currency:"KWD",
-        items:null,
+        items:[{
+          id:1,
+          name:'item1',
+          description: 'item1 desc',
+          quantity:'x1',
+          amount_per_unit:'KD00.000',
+          discount: {
+            type: 'P',
+            value: '10%'
+          },
+          total_amount: 'KD000.000'
+        },
+        {
+          id:2,
+          name:'item2',
+          description: 'item2 desc',
+          quantity:'x2',
+          amount_per_unit:'KD00.000',
+          discount: {
+            type: 'P',
+            value: '10%'
+          },
+          total_amount: 'KD000.000'
+        },
+        {
+          id:3,
+          name:'item3',
+          description: 'item3 desc',
+          quantity:'x1',
+          amount_per_unit:'KD00.000',
+          discount: {
+            type: 'P',
+            value: '10%'
+          },
+          total_amount: 'KD000.000'
+        }],
         shipping:null,
         taxes: null
       },
@@ -329,7 +365,42 @@ class GoSellDemo extends Component {
            order={{
              amount: 100,
              currency:"KWD",
-             items:null,
+             items:[{
+               id:1,
+               name:'item1',
+               description: 'item1 desc',
+               quantity:'x1',
+               amount_per_unit:'KD00.000',
+               discount: {
+                 type: 'P',
+                 value: '10%'
+               },
+               total_amount: 'KD000.000'
+             },
+             {
+               id:2,
+               name:'item2',
+               description: 'item2 desc',
+               quantity:'x2',
+               amount_per_unit:'KD00.000',
+               discount: {
+                 type: 'P',
+                 value: '10%'
+               },
+               total_amount: 'KD000.000'
+             },
+             {
+               id:3,
+               name:'item3',
+               description: 'item3 desc',
+               quantity:'x1',
+               amount_per_unit:'KD00.000',
+               discount: {
+                 type: 'P',
+                 value: '10%'
+               },
+               total_amount: 'KD000.000'
+             }],
              shipping:null,
              taxes: null
            }}
@@ -370,7 +441,7 @@ You can integrate with goSellElements by:
 - JavaScript Library, which allows front end developers to setup the payment gateway on their stores easily by adding a very basic snippet of JavaScript using the following script tag:
 
 ```
-<script type="text/javascript" src="https://payments.tap.company/js/gosell.js"></script>
+<script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.0/js/gosell.js"></script>
 ```
 
 >  Use the goSellElements in server side environment, otherwise the credit card section will not work.
@@ -425,11 +496,12 @@ Used to generate card token.
    <head>
       <title>goSell Elements Demo</title>
       <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <link href="https://payments.tap.company/css/gosell.css" rel="stylesheet" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+      <link rel="shortcut icon" href="https://goSellJSLib.b-cdn.net/v1.0/imgs/tap-favicon.ico" />
+      <link href="https://goSellJSLib.b-cdn.net/v1.0/css/gosell.css" rel="stylesheet" />
    </head>
    <body>
-      <script type="text/javascript" src="https://payments.tap.company/js/gosell.js"></script>
+      <script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.0/js/gosell.js"></script>
       <div id="root"></div>
       <p id="msg"></p>
       <button id="submit-elements" onclick="goSell.submit()">Submit</button>

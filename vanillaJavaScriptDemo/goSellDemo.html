@@ -1,20 +1,23 @@
 <html>
 <head>
-    <title>goSell Elements Demo</title>
+    <title>goSell Demo</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="build/tapLogo.png" />
-    <link href="css/gosell.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+    <link rel="shortcut icon" href="https://goSellJSLib.b-cdn.net/v1.0/imgs/tap-favicon.ico" />
+    <link href="https://goSellJSLib.b-cdn.net/v1.0/css/gosell.css" rel="stylesheet" />
 
 </head>
 <body>
 
-    <script type="text/javascript" src="js/gosell.js"></script>
-
+    <script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.0/js/gosell.js"></script>
 
     <div id="root"></div>
     <button id="openLightBox" onclick="goSell.openLightBox()">open goSell LightBox</button>
     <button id="openPage" onclick="goSell.openPaymentPage()">open goSell Page</button>
+
+    <!-- goSell.generateGoSellPaymentGateway() function is only available to host the payment gateway on Tap's server!  -->
+    <button id="openPage" onclick="goSell.generateGoSellPaymentGateway()">Generate goSell Gateway</button>
 
     <script>
 
@@ -24,9 +27,9 @@
         publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
         language:"en",
         contactInfo:true,
-        supportedCurrencies:"all",
-        supportedPaymentMethods: "all",
-        saveCardOption:false,
+        supportedCurrencies:'gcc',
+        supportedPaymentMethods:['VISA', 'AMEX', 'MADA', 'KNET'],
+        saveCardOption:true,
         customerCards: true,
         notifications:'standard',
         labels:{
@@ -54,41 +57,74 @@
             }
         }
       },
-      customer:{
-        id:"cus_m1QB0320181401l1LD1812485",
-        first_name: "First Name",
-        middle_name: "Middle Name",
-        last_name: "Last Name",
-        email: "demo@email.com",
-        phone: {
-            country_code: "965",
-            number: "99999999"
-        }
-      },
       order:{
         amount: 100,
         currency:"KWD",
-        items:null,
-        shipping:null,
-        taxes: null
+        items:[{
+          id:1,
+          name:'item1',
+          description: 'item1 desc',
+          quantity:'x1',
+          amount_per_unit:'KD00.000',
+          discount: {
+            type: 'P',
+            value: '10%'
+          },
+          total_amount: 'KD000.000'
+        },
+        {
+          id:2,
+          name:'item2',
+          description: 'item2 desc',
+          quantity:'x2',
+          amount_per_unit:'KD00.000',
+          discount: {
+            type: 'P',
+            value: '10%'
+          },
+          total_amount: 'KD000.000'
+        },
+        {
+          id:3,
+          name:'item3',
+          description: 'item3 desc',
+          quantity:'x1',
+          amount_per_unit:'KD00.000',
+          discount: {
+            type: 'P',
+            value: '10%'
+          },
+          total_amount: 'KD000.000'
+        }]
       },
-     charge:{
-        saveCard: false,
-        threeDSecure: true,
-        description: "Test Description",
-        statement_descriptor: "Sample",
-        reference:{
-          transaction: "txn_0001",
-          order: "ord_0001"
-        },
-        metadata:{},
-        receipt:{
-          email: false,
-          sms: true
-        },
-        redirect: window.location.href,
-        post: window.location.href,
-      }
+      customer:{
+        id: "cus_k2D15820191258y4H21302372", // if you didn't added it, the customer card section will not be available event it's true in gateway settings
+        first_name: "Ali",
+        middle_name: "-",
+        last_name: "Malik",
+        email: "a.malik@tap.company",
+        phone: {
+          country_code: "973",
+          number: "39389898"
+        }
+      },
+      charge:{
+         saveCard: true,
+         threeDSecure: true,
+         // description: "Test Description",
+         statement_descriptor: "Sample",
+         reference:{
+           transaction: "txn_0001",
+           order: "ord_0001"
+         },
+         metadata:{},
+         receipt:{
+           email: false,
+           sms: true
+         },
+         redirect: window.location.href,
+         post: window.location.href,
+       }
     });
 
     </script>
