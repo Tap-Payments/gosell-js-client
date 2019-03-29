@@ -1138,12 +1138,12 @@ class ApiStore{
   async getIP(){
     var self = this;
 
-    var body = {
-      "method": "GET",
+    var header = {
+      'Content-Type':'application/json'
     }
 
     var res = null;
-    await axios.post(Paths.serverPath +'/ip', body)
+    await axios.get('https://api.ipify.org?format=jsonp&callback=', header)
     .then(async function(response) {
       console.log('ip', response);
       if(response.status == 200){
