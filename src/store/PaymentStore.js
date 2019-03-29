@@ -168,7 +168,6 @@ class PaymentStore{
 
       console.log('v customer_currency', customer_cur);
 
-
       // data = JSON.parse(data);
       this.setPaymentMethods(data.payment_methods);
       this.setSupportedCurrencies(data.supported_currencies);
