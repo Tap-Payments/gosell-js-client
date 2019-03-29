@@ -89,14 +89,22 @@ class ApiStore{
          if(result.error || result.errors){
            self.sendResponse(result);
          }  else {
+           self.getCurrentCountry().then(result => {
+            // console.log('rrr result', result);
+             self.setPaymentOptions(result);
+           });
+
            self.getMerchantDetails();
-          self.setPaymentOptions();
          }
 
        });
      }  else {
+       self.getCurrentCountry().then(result => {
+         // console.log('rrr result', result);
+         self.setPaymentOptions(result);
+       });
+
        self.getMerchantDetails();
-      self.setPaymentOptions();
      }
    }
 
@@ -141,7 +149,7 @@ class ApiStore{
     // }
   }
 
-  async setPaymentOptions(){
+  async setPaymentOptions(customer_currency){
     var self = this;
     self.setPaymentOptionsFlag  = false;
 
@@ -194,7 +202,7 @@ class ApiStore{
              self.sendResponse(response.data);
            }
            else {
-             await self.RootStore.paymentStore.getPaymentMethods(response.data, self.RootStore.configStore.order ? self.RootStore.configStore.order.currency : null);
+             await self.RootStore.paymentStore.getPaymentMethods(response.data, self.RootStore.configStore.order ? self.RootStore.configStore.order.currency : null, customer_currency);
            }
 
          }
@@ -202,6 +210,8 @@ class ApiStore{
             // self.RootStore.uIStore.showMsg('warning', response.data.errors[0].description, response.data.errors[0].code);
             self.sendResponse(response.data);
          }
+
+
 
     })
     .catch(function (error) {
@@ -1120,6 +1130,33 @@ class ApiStore{
     })
     .catch(function (error) {
       console.log('error', error);
+    });
+
+    return await res;
+  }
+
+  async getCurrentCountry(){
+    var self = this;
+
+    var headers = {
+      'session_token':self.RootStore.merchantStore.session
+    }
+
+    var body = {
+      "method": "GET",
+      "headers": headers
+    }
+
+    var res = null;
+    await axios.post(Paths.serverPath +'/ip', body)
+    .then(async function(response) {
+      console.log('ip', response);
+      if(response.status == 200){
+        res = response.data;
+      }
+    })
+    .catch(function (error) {
+      console.log("error", error);
     });
 
     return await res;
