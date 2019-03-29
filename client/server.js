@@ -278,30 +278,37 @@ app.post('/init', asyncHandler(async (req, res,) => {
               // var parseData = JSON.parse(response);
               // console.log('response1 ..... ', response.body);
 
-              let ip = eval(response.body).ip; //'5.156.158.46'; //'3.127.255.255	'; 
+              let ip = eval(response.body).ip; //'5.156.158.46'; //'3.127.255.255	';
 
-              var header = Object.assign({}, req.body.headers,
-                {
-                  'Content-Type': 'application/json',
-                  "Application":"app_locale=en_UA|requirer=checkout|app_id=company.tap.checkout|requirer_os=pc|requirer_version=2.0.0|requirer_os_version=11.3"
-                });
-
-                Request.get({
-                  "headers": req.body.headers,
-                  "url": "http://34.76.184.197/api/currency/ipaddress/"+ip,
-                }, (error, response) => {
-                  if(error) {
-                    return console.dir(error);
-                  }
-
-                  var parseData = JSON.parse(response.body);
-                  console.log('parseData2 ..... ', parseData);
-
-                  res.send(parseData);
-                });
-
-
+              res.send(ip);
             });
+
+          });
+
+          app.post('/currency', (req, res) => {
+
+            // console.log(req);
+            var Request = require("request");
+
+            var header = Object.assign({}, req.body.headers,
+              {
+                'Content-Type': 'application/json',
+                "Application":"app_locale=en_UA|requirer=checkout|app_id=company.tap.checkout|requirer_os=pc|requirer_version=2.0.0|requirer_os_version=11.3"
+              });
+
+              Request.get({
+                "headers": req.body.headers,
+                "url": "http://34.76.184.197/api/currency/ipaddress/"+req.body.params.ip,
+              }, (error, response) => {
+                if(error) {
+                  return console.dir(error);
+                }
+
+                var parseData = JSON.parse(response.body);
+                console.log('parseData2 ..... ', parseData);
+
+                res.send(parseData);
+              });
 
           });
 

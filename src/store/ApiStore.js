@@ -90,7 +90,7 @@ class ApiStore{
            self.sendResponse(result);
          }  else {
            self.getCurrentCountry().then(result => {
-            // console.log('rrr result', result);
+            console.log('vvv result', result);
              self.setPaymentOptions(result);
            });
 
@@ -100,7 +100,7 @@ class ApiStore{
        });
      }  else {
        self.getCurrentCountry().then(result => {
-         // console.log('rrr result', result);
+         console.log('vvv result', result);
          self.setPaymentOptions(result);
        });
 
@@ -1135,16 +1135,11 @@ class ApiStore{
     return await res;
   }
 
-  async getCurrentCountry(){
+  async getIP(){
     var self = this;
-
-    var headers = {
-      'session_token':self.RootStore.merchantStore.session
-    }
 
     var body = {
       "method": "GET",
-      "headers": headers
     }
 
     var res = null;
@@ -1160,6 +1155,41 @@ class ApiStore{
     });
 
     return await res;
+  }
+
+  async getCurrentCountry(){
+    var self = this;
+
+    var headers = {
+      'session_token':self.RootStore.merchantStore.session
+    }
+
+    var res = null;
+    await this.getIP().then(async function (ip){
+      console.log('ip addresss', ip);
+      var body = {
+        "method": "GET",
+        "headers": headers,
+        "params": {
+          ip: ip
+        }
+      }
+
+      await axios.post(Paths.serverPath +'/currency', body)
+      .then(async function(response) {
+        console.log('ip', response);
+        if(response.status == 200){
+          res = response.data;
+        }
+      })
+      .catch(function (error) {
+        console.log("error", error);
+      });
+
+    });
+
+    return await res;
+
   }
 
 }
