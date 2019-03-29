@@ -2,7 +2,8 @@ const express        = require('express');
 const bodyParser     = require('body-parser');
 const app            = express();
 const jwtJsDecode    = require('jwt-js-decode');
-const asyncHandler = require('express-async-handler')
+const asyncHandler = require('express-async-handler');
+// const iplocation = require("iplocation").default;
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -87,7 +88,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
       }
 
       var parseData = JSON.parse(response.body);
-      // console.log('response ..... ', response.body);
+      // console.log('init response ..... ', response.body);
       // global.session = JSON.parse(response.body).data.session_token;
       // global.key = JSON.parse(response.body).data.encryption_key;
 
@@ -130,17 +131,17 @@ app.post('/init', asyncHandler(async (req, res,) => {
 
       if(session){
 
-        console.log(
-          "%cVALID SESSION",
-          "color: green; display: block;"
-        );
+        // console.log(
+        //   "%cVALID SESSION",
+        //   "color: green; display: block;"
+        // );
         // console.log('checkJWTExpiry >>>>>>>>>>>>>>>>>>>>>>>>>> ', checkJWTExpiry());
         // console.log(req);
         if(req.body.method.toLowerCase() === 'post'){
-          console.log(
-            "%c/POST  "+ req.body.path,
-            "background: pink; color: white; display: block;"
-          );
+          // console.log(
+          //   "%c/POST  "+ req.body.path,
+          //   "background: pink; color: white; display: block;"
+          // );
           Request.post({
             "headers": header,
             "url": mode + req.body.path,
@@ -148,19 +149,19 @@ app.post('/init', asyncHandler(async (req, res,) => {
               if(error) {
                 res.send(error);
               }
-              console.log(
-                "%c/response",
-                "background: blue; color: white; display: block;"
-              );
+              // console.log(
+              //   "%c/response",
+              //   "background: blue; color: white; display: block;"
+              // );
               // console.log(response.body);
               res.send(response.body);
             });
           }
           else if(req.body.method.toLowerCase() === 'get'){
-            console.log(
-              "%c/GET  "+ req.body.path,
-              "background: pink; color: white; display: block;"
-            );
+            // console.log(
+            //   "%c/GET  "+ req.body.path,
+            //   "background: pink; color: white; display: block;"
+            // );
             Request.get({
               "headers": header,
               "url": mode + req.body.path}, (error, response) => {
@@ -168,19 +169,19 @@ app.post('/init', asyncHandler(async (req, res,) => {
                   res.send(error);
                 }
 
-              console.log(
-                "%c/response",
-                "background: blue; color: white; display: block;"
-              );
+              // console.log(
+              //   "%c/response",
+              //   "background: blue; color: white; display: block;"
+              // );
               // console.log(response.body);
                 res.send(response.body);
               });
             }
             else if(req.body.method.toLowerCase() === 'put'){
-              console.log(
-                "%c/PUT  "+ req.body.path,
-                "background: pink; color: white; display: block;"
-              );
+              // console.log(
+              //   "%c/PUT  "+ req.body.path,
+              //   "background: pink; color: white; display: block;"
+              // );
               Request.put({
                 "headers": header,
                 "url": mode + req.body.path,
@@ -190,20 +191,20 @@ app.post('/init', asyncHandler(async (req, res,) => {
                   res.send(error);
                 }
 
-              console.log(
-                "%c/response",
-                "background: blue; color: white; display: block;"
-              );
+              // console.log(
+              //   "%c/response",
+              //   "background: blue; color: white; display: block;"
+              // );
               // console.log(response.body);
                 res.send(response.body);
               });
 
             }
             else if(req.body.method.toLowerCase() === 'delete'){
-              console.log(
-                "%c/DELETE  "+ req.body.path,
-                "background: pink; color: white; display: block;"
-              );
+              // console.log(
+              //   "%c/DELETE  "+ req.body.path,
+              //   "background: pink; color: white; display: block;"
+              // );
               Request.delete({
                 "headers": header,
                 "url": mode + req.body.path}, (error, response) => {
@@ -211,10 +212,10 @@ app.post('/init', asyncHandler(async (req, res,) => {
                     res.send(error);
                   }
 
-                console.log(
-                  "%c/response",
-                  "background: blue; color: white; display: block;"
-                );
+                // console.log(
+                //   "%c/response",
+                //   "background: blue; color: white; display: block;"
+                // );
                 // console.log(response.body);
                   res.send(response.body);
                 });
@@ -257,25 +258,52 @@ app.post('/init', asyncHandler(async (req, res,) => {
 
             });
 
-          /*
-          app.get('/api/:mode/:headers', (req, res) => {
+            app.post('/ip', (req, res) => {
 
-          var Request = require("request");
-          var mode = req.params.mode === 'Development' ? 'http://35.194.57.148:8080' : 'https://api.tap.company';
+              // console.log(req);
+              var Request = require("request");
 
-          Request.get({
-          "headers": req.params.headers,
-          "url": mode + req.params.path}, (error, response) => {
-          if(error) {
-          res.send(error);
-          }
-          res.send(response);
+              var header = {
+                'Content-Type':'application/json'
+              };
+
+              Request.get({
+                  "headers": header,
+                  "url":"https://api.ipify.org?format=jsonp&callback=",
+              }, (error, response) => {
+                  if(error) {
+                    return console.dir(error);
+              }
+
+              // var parseData = JSON.parse(response);
+              // console.log('response1 ..... ', response.body);
+
+              let ip = eval(response.body).ip; //'5.156.158.46'; //'3.127.255.255	'; 
+
+              var header = Object.assign({}, req.body.headers,
+                {
+                  'Content-Type': 'application/json',
+                  "Application":"app_locale=en_UA|requirer=checkout|app_id=company.tap.checkout|requirer_os=pc|requirer_version=2.0.0|requirer_os_version=11.3"
+                });
+
+                Request.get({
+                  "headers": req.body.headers,
+                  "url": "http://34.76.184.197/api/currency/ipaddress/"+ip,
+                }, (error, response) => {
+                  if(error) {
+                    return console.dir(error);
+                  }
+
+                  var parseData = JSON.parse(response.body);
+                  console.log('parseData2 ..... ', parseData);
+
+                  res.send(parseData);
+                });
+
+
+            });
+
           });
-
-          });*/
-
-
-          //require('./routes')(app, {});
 
           const port = 8000;
           app.listen(port, () => {

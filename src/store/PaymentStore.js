@@ -162,9 +162,12 @@ class PaymentStore{
     return total_fees;
   }
 
-  getPaymentMethods(data, currency){
+  getPaymentMethods(data, currency, customer_cur){
 
     if(data != null){
+
+      console.log('v customer_currency', customer_cur);
+
 
       // data = JSON.parse(data);
       this.setPaymentMethods(data.payment_methods);
@@ -203,22 +206,59 @@ class PaymentStore{
           self.isLoading = false;
         }
         else if(methods_currencies.length > 1){
-          self.supported_currencies.forEach(function(cur){
 
-            if(cur.currency === currency){
-                self.setCurrentCurrency(cur);
-                self.current_amount = cur.amount;
-                self.customer_cards_by_currency = self.savedCardsByCurrency;
-                self.RootStore.configStore.order = cur;
+          var merchant_currency, customer_currency = null;
 
-                self.isLoading = false;
-            }
+          self.supported_currencies.filter(function(el){
+              if(currency.indexOf(el.currency) >= 0){
+                console.log('v merchant currency is: ', el);
+                merchant_currency = el;
+              }
 
-            if(cur.currency == data.settlement_currency){
-              self.settlement_currency = cur;
-            }
+              if(customer_cur.code != null && customer_cur.code.indexOf(el.currency) >= 0){
+                console.log('v customer currency is: ', el);
+                customer_currency = el;
+              }
+
+              if(el.currency == data.settlement_currency){
+                self.settlement_currency = el;
+              }
 
           });
+
+          if(customer_currency != null && customer_currency.currency){
+            self.setCurrentCurrency(customer_currency);
+            self.current_amount = customer_currency.amount;
+            self.customer_cards_by_currency = self.savedCardsByCurrency;
+            self.RootStore.configStore.order = customer_currency;
+
+            self.isLoading = false;
+          }
+          else {
+            self.setCurrentCurrency(merchant_currency);
+            self.current_amount = merchant_currency.amount;
+            self.customer_cards_by_currency = self.savedCardsByCurrency;
+            self.RootStore.configStore.order = merchant_currency;
+
+            self.isLoading = false;
+          }
+
+          // self.supported_currencies.forEach(function(cur){
+          //
+          //   if(cur.currency === currency){
+          //       self.setCurrentCurrency(cur);
+          //       self.current_amount = cur.amount;
+          //       self.customer_cards_by_currency = self.savedCardsByCurrency;
+          //       self.RootStore.configStore.order = cur;
+          //
+          //       self.isLoading = false;
+          //   }
+          //
+          //   if(cur.currency == data.settlement_currency){
+          //     self.settlement_currency = cur;
+          //   }
+          //
+          // });
         }
         else {
           this.isLoading = true;
@@ -360,9 +400,6 @@ class PaymentStore{
 
 
   setCurrentCurrency(value){
-    // console.log("+ current currency", value.currency);
-    // console.log('+ current currency', this.current_currency.currency);
-    // console.log('+ value.currency', value.currency);
 
     if(this.current_currency.currency != undefined){
       this.old_currency = this.current_currency.currency;
@@ -375,8 +412,6 @@ class PaymentStore{
     this.customer_cards_by_currency = this.savedCardsByCurrency;
     this.active_payment_option_total_amount = value.currency;
 
-    // console.log('is it there? ', this.RootStore.formStore.card);
-
     if(this.RootStore.formStore.card != null){
       this.RootStore.formStore.switchCurrency(value);
       // this.RootStore.formStore.clearCardForm();
@@ -388,13 +423,12 @@ class PaymentStore{
     var self = this;
     this.supported_currencies = {};
     var config_currencies = this.RootStore.configStore.gateway.supportedCurrencies;
-    console.log('ccc', config_currencies);
+    // console.log('ccc', config_currencies);
     if(typeof config_currencies == 'object' && Array.isArray(config_currencies.slice())){
       self.currencies = config_currencies;
       self.supported_currencies = value.filter(function(el){
           return config_currencies.indexOf(el.currency) >= 0;
       });
-
     }
     else {
       switch (config_currencies){
@@ -413,12 +447,8 @@ class PaymentStore{
           self.supported_currencies = value;
           break;
       }
-
-      console.log('cccc', self.currencies);
-
+      // console.log('cccc', self.currencies);
     }
-
-    // console.log('config ******* ', self.supported_currencies);
 
     var methods_currencies = this.supported_currencies_based_on_methods;
 
