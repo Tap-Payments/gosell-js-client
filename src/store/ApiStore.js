@@ -1147,7 +1147,7 @@ class ApiStore{
     .then(async function(response) {
       console.log('ip', response);
       if(response.status == 200){
-        res = response.data;
+        res = eval(response.data).ip;
       }
     })
     .catch(function (error) {

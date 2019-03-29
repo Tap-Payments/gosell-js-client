@@ -258,32 +258,32 @@ app.post('/init', asyncHandler(async (req, res,) => {
 
             });
 
-            app.post('/ip', (req, res) => {
-
-              // console.log(req);
-              var Request = require("request");
-
-              var header = {
-                'Content-Type':'application/json'
-              };
-
-              Request.get({
-                  "headers": header,
-                  "url":"https://api.ipify.org?format=jsonp&callback=",
-              }, (error, response) => {
-                  if(error) {
-                    return console.dir(error);
-              }
-
-              // var parseData = JSON.parse(response);
-              // console.log('response1 ..... ', response.body);
-
-              let ip = eval(response.body).ip; //'5.156.158.46'; //'3.127.255.255	';
-
-              res.send(ip);
-            });
-
-          });
+          //   app.post('/ip', (req, res) => {
+          //
+          //     // console.log(req);
+          //     var Request = require("request");
+          //
+          //     var header = {
+          //       'Content-Type':'application/json'
+          //     };
+          //
+          //     Request.get({
+          //         "headers": header,
+          //         "url":"https://api.ipify.org?format=jsonp&callback=",
+          //     }, (error, response) => {
+          //         if(error) {
+          //           return console.dir(error);
+          //     }
+          //
+          //     // var parseData = JSON.parse(response);
+          //     // console.log('response1 ..... ', response.body);
+          //
+          //     let ip = eval(response.body).ip; //'5.156.158.46'; //'3.127.255.255	';
+          //
+          //     res.send(ip);
+          //   });
+          //
+          // });
 
           app.post('/currency', (req, res) => {
 
