@@ -271,6 +271,46 @@
     "en": "US Dollar",
     "ar": "دولار أمريكي"
   },
+    "supported_currencies_title_kwd":{
+    "en": "Kuwaiti Dinar",
+    "ar": "دينار الكويتي"
+  },
+    "supported_currencies_title_sar":{
+    "en": "Saudi Riyal",
+    "ar": "ريال السعودي"
+  },
+    "supported_currencies_title_bhd":{
+    "en": "Bahraini Dinar",
+    "ar": "دينار البحريني"
+  },
+    "supported_currencies_title_aed":{
+    "en": "UAE Dirham",
+    "ar": "درهم الإماراتي"
+  },
+    "supported_currencies_title_egp":{
+    "en": "Egyptian Pound",
+    "ar": "جنيه المصري"
+  },
+    "supported_currencies_title_eur":{
+    "en": "EURO",
+    "ar": "يورو"
+  },
+    "supported_currencies_title_gbp":{
+    "en": "British Pound",
+    "ar": "جنيه الإسترليني"
+  },
+    "supported_currencies_title_omr":{
+    "en": "Omani Riyal",
+    "ar": "ريال العماني"
+  },
+    "supported_currencies_title_qar":{
+    "en": "Qatari Riyal",
+    "ar": "ريال القطري"
+  },
+    "supported_currencies_title_usd":{
+    "en": "US Dollar",
+    "ar": "دولار الأمريكي"
+  },
     "btn_save_title":{
     "en": "Save",
     "ar": "حفظ"
@@ -442,5 +482,9 @@
   "error_invalid_cvv_characters":{
     "en": "Invalid CVV number given!",
     "ar": "القيمة المدخلة غير صحيحة"
+  },
+  "exchange_currency_message":{
+    "en": "Would you like to exchange the currency to %@?",
+    "ar": "هل تود تغيير العملة لل%@؟"
   }
 }

@@ -618,7 +618,7 @@ class UIStore {
   closeNotification(){
     var self = this;
 
-    if(self.delete_card === null) {
+    if(self.delete_card === null && self.errorHandler.options == null) {
       this.errorHandler.visable = false;
       setTimeout(function(){
         self.errorHandler = {};
