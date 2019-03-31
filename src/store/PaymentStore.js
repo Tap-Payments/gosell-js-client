@@ -66,6 +66,10 @@ class PaymentStore{
 
     this.supported_payment_methods = null;
 
+    this.confirmExchangeCurrency = this.confirmExchangeCurrency.bind(this);
+    this.cancelExchangeCurrency = this.cancelExchangeCurrency.bind(this);
+
+
   }
 
   setThreeDSecure(value){
@@ -225,21 +229,28 @@ class PaymentStore{
 
           });
 
-          if(customer_currency != null && customer_currency.currency){
-            self.setCurrentCurrency(customer_currency);
-            self.current_amount = customer_currency.amount;
-            self.customer_cards_by_currency = self.savedCardsByCurrency;
-            self.RootStore.configStore.order = customer_currency;
 
-            self.isLoading = false;
-          }
-          else {
-            self.setCurrentCurrency(merchant_currency);
-            self.current_amount = merchant_currency.amount;
-            self.customer_cards_by_currency = self.savedCardsByCurrency;
-            self.RootStore.configStore.order = merchant_currency;
+          self.setCurrentCurrency(merchant_currency);
+          self.current_amount = merchant_currency.amount;
+          self.customer_cards_by_currency = self.savedCardsByCurrency;
+          self.RootStore.configStore.order = merchant_currency;
 
-            self.isLoading = false;
+          self.isLoading = false;
+
+          if(customer_currency != null && customer_currency.currency != merchant_currency.currency){
+
+            var currency_name = this.RootStore.localizationStore.getContent('supported_currencies_title_'+customer_currency.currency.toLowerCase(), null);
+
+            this.RootStore.uIStore.setErrorHandler({
+              visable: true,
+              type: 'warning',
+              code: 'Exchange Currency',
+              msg: this.RootStore.localizationStore.getContent('exchange_currency_message', null).replace('%@', currency_name),
+              options: [
+                {title: this.RootStore.localizationStore.getContent('alert_cancel_payment_status_undefined_btn_confirm_title', null), action: this.confirmExchangeCurrency.bind(this, customer_currency)},
+                {title: '×', action: this.cancelExchangeCurrency.bind(this)},
+              ]
+            });
           }
 
           // self.supported_currencies.forEach(function(cur){
@@ -271,6 +282,14 @@ class PaymentStore{
         this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
       }
     }
+  }
+
+  confirmExchangeCurrency(customer_currency){
+    this.setCurrentCurrency(customer_currency);
+  }
+
+  cancelExchangeCurrency(){
+    this.RootStore.uIStore.setErrorHandler({});
   }
 
   setPaymentMethods(value){
