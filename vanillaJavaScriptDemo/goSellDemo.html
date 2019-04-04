@@ -21,7 +21,7 @@
 
     <script>
 
-    goSell.config({
+    goSell.init({
       containerID:"root",
       gateway:{
         publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
@@ -108,23 +108,26 @@
           number: "39389898"
         }
       },
-      charge:{
-         saveCard: true,
-         threeDSecure: true,
-         // description: "Test Description",
-         statement_descriptor: "Sample",
-         reference:{
-           transaction: "txn_0001",
-           order: "ord_0001"
-         },
-         metadata:{},
-         receipt:{
-           email: false,
-           sms: true
-         },
-         redirect: window.location.href,
-         post: window.location.href,
-       }
+      transaction:{
+        mode: 'charge',
+        charge:{
+           saveCard: true,
+           threeDSecure: true,
+           // description: "Test Description",
+           statement_descriptor: "Sample",
+           reference:{
+             transaction: "txn_0001",
+             order: "ord_0001"
+           },
+           metadata:{},
+           receipt:{
+             email: false,
+             sms: true
+           },
+           redirect: window.location.href,
+           post: window.location.href,
+         }
+      }
     });
 
     </script>

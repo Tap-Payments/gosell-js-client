@@ -7,7 +7,10 @@ class UIStore {
 
   constructor(RootStore) {
     this.RootStore = RootStore;
+    this.reset();
+  }
 
+  reset(){
     this.openModal = false;
     this.isLoading = true;
 
@@ -400,6 +403,10 @@ class UIStore {
   }
 
   stopLoading(){
+    // console.log('paymentstore', this.RootStore.paymentStore.isLoading);
+    // console.log('merchantStore', this.RootStore.merchantStore.isLoading);
+    // console.log('localizationStore', this.RootStore.localizationStore.isLoading);
+
     if(!this.RootStore.paymentStore.isLoading && !this.RootStore.merchantStore.isLoading && !this.RootStore.localizationStore.isLoading){
       this.isLoading = false;
     }
@@ -525,7 +532,7 @@ class UIStore {
       this.delete_card = null;
       this.edit_customer_cards = this.RootStore.localizationStore.getContent('common_edit', null);
 
-      if(this.RootStore.configStore.transaction_mode !== 'get_token' && this.RootStore.configStore.transaction_mode !== 'get_token'){
+      if(this.RootStore.configStore.transaction_mode !== 'token' && this.RootStore.configStore.transaction_mode !== 'token'){
         this.shakeCards(false);
       }
     }

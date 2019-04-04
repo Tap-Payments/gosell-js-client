@@ -306,7 +306,8 @@ class FormStore{
   generateCardForm(id){
     var self = this;
 
-    this.tap = this.generateForm(this.RootStore.configStore.gateway.publicKey);
+    this.tap = this.generateForm(this.RootStore.configStore.key);
+    // console.log('key', this.RootStore.configStore.key);
 
     var elements = this.tap.elements({});
 
@@ -314,7 +315,8 @@ class FormStore{
 
     var paymentOptions = {};
 
-    //console.log('current currency', this.RootStore.paymentStore.current_currency);
+    // console.log('view', this.RootStore.configStore.view);
+    // console.log('mode', this.RootStore.configStore.transaction_mode);
 
     if(self.RootStore.configStore.view === 'GOSELL_ELEMENTS'){
         paymentOptions = {
@@ -328,16 +330,18 @@ class FormStore{
        // console.log('&& gosell elements methods', this.RootStore.paymentStore.supported_payment_methods);
     }
     else {
-      if(this.RootStore.configStore.transaction_mode === 'get_token' || this.RootStore.configStore.transaction_mode === 'save_card'){
+      if(this.RootStore.configStore.transaction_mode === 'token' || this.RootStore.configStore.transaction_mode === 'save_card'){
           paymentOptions = {
-           currencyCode: this.RootStore.paymentStore.currencies.slice(),
+           // currencyCode: this.RootStore.paymentStore.currencies.slice(),
+           currencyCode: this.RootStore.configStore.gateway.supportedCurrencies.slice(),
            labels : this.RootStore.configStore.labels,
-           paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
+           paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods.slice(),
+           // paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
            TextDirection: this.RootStore.uIStore.dir
          }
 
-         console.log('&& save card', this.RootStore.paymentStore.currencies.slice());
-         console.log('&& save card methods', this.RootStore.paymentStore.supported_payment_methods.slice());
+         // console.log('&& save card', this.RootStore.configStore.gateway.supportedCurrencies.slice());
+         // console.log('&& save card methods', this.RootStore.configStore.gateway.supportedPaymentMethods.slice());
       }
       else {
          paymentOptions = {
@@ -347,8 +351,8 @@ class FormStore{
           TextDirection: this.RootStore.uIStore.dir
         }
 
-        console.log('&& else', [this.RootStore.paymentStore.current_currency.currency]);
-        console.log('&& else methods', this.RootStore.paymentStore.supported_payment_methods.slice());
+        // console.log('&& else', [this.RootStore.paymentStore.current_currency.currency]);
+        // console.log('&& else methods', this.RootStore.paymentStore.supported_payment_methods.slice());
       }
     }
 
@@ -356,7 +360,7 @@ class FormStore{
     this.card.mount('#' + id);
 
     this.card.addEventListener('change', function(event) {
-      console.log('change event', event);
+      // console.log('change event', event);
       self.onChange(event);
     });
 
@@ -479,7 +483,7 @@ class FormStore{
     if(event.BIN && event.BIN.card_brand !== active_brand){
         //console.log(event.BIN.card_brand);
 
-        if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
+        if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS' && self.RootStore.configStore.transaction_mode != 'save_card' && self.RootStore.configStore.transaction_mode != 'token'){
           self.RootStore.paymentStore.getFees(event.BIN.card_brand);
 
         }
@@ -489,9 +493,7 @@ class FormStore{
     }
 
     if(event.loaded){
-      //console.log('loaded!!!!! ', event.loaded);
-
-      if(self.RootStore.configStore.transaction_mode === 'get_token' || self.RootStore.configStore.transaction_mode === 'save_card'){
+      if(self.RootStore.configStore.transaction_mode === 'token' || self.RootStore.configStore.transaction_mode === 'save_card'){
         //console.log('&& update the element height');
         self.RootStore.uIStore.calcElementsHeight('gosell-gateway-form-container');
       }
@@ -569,7 +571,7 @@ class FormStore{
 
      await this.tap.createToken(this.card).then(function(result) {
 
-         if (result.error) {
+         if(result.error) {
             self.RootStore.paymentStore.save_card_active = false;
             self.RootStore.paymentStore.saveCardOption(false);
 
@@ -590,7 +592,7 @@ class FormStore{
              self.RootStore.uIStore.stopBtnLoader();
 
              // Send the token to your server
-             if(self.RootStore.configStore.transaction_mode === 'get_token'){
+             if(self.RootStore.configStore.transaction_mode === 'token'){
 
                  self.RootStore.configStore.callbackFunc(result);
 

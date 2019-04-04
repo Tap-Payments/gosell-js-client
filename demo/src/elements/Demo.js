@@ -66,7 +66,7 @@ class Demo extends Component {
 
   render() {
 
-    console.log('something wrong here', this.Store.gateway);
+    // console.log('something wrong here', this.Store.gateway);
     return (
       <div className="demo-settings">
       <fieldset>
@@ -83,7 +83,7 @@ class Demo extends Component {
                    <option value="charge">Charge Mode</option>
                    <option value="authorize">Authorize Mode</option>
                    <option value="save_card">Save Card Mode</option>
-                   <option value="get_token">Tokenize Mode</option>
+                   <option value="token">Tokenize Mode</option>
                  </select>
               </div>
             </div>
@@ -119,10 +119,17 @@ class Demo extends Component {
                 gateway={this.Store.gateway}
                 customer={this.Store.customer}
                 order={this.Store.order}
-                charge={this.Store.transaction_mode === 'charge' ? this.Store.transaction : null}
-                authorize={this.Store.transaction_mode === 'authorize' ? this.Store.transaction : null}
-                saveCard={this.Store.transaction_mode === 'save_card'}
-                token={this.Store.transaction_mode === 'get_token'}/>
+                transaction={{
+                  mode: this.Store.transaction_mode,
+                  charge: this.Store.transaction,
+                  authorize: this.Store.transaction
+                }}
+                // transaction_mode={this.Store.transaction_mode}
+                // charge={this.Store.transaction_mode === 'charge' ? this.Store.transaction : null}
+                // authorize={this.Store.transaction_mode === 'authorize' ? this.Store.transaction : null}
+                // saveCard={this.Store.transaction_mode === 'save_card'}
+                // token={this.Store.transaction_mode === 'token'}
+                />
 
              <TapBtn
                id="gosell-lightbox-btn"
@@ -138,7 +145,7 @@ class Demo extends Component {
               width="90%"
               height="44px"
               btnColor={'#007AFF'}
-              active={this.Store.transaction_mode === 'get_token'}
+              active={this.Store.transaction_mode === 'token'}
               animate={false}
               handleClick={this.handleElements.bind(this)}>goSell Elements</TapBtn>
 

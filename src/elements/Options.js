@@ -117,7 +117,8 @@ class Options extends Component {
         );
     }
 
-    var symbol = store.localizationStore.getContent('supported_currencies_symbol_' + store.configStore.order.currency.toLowerCase(), null);
+    var symbol = store.configStore.order ? store.localizationStore.getContent('supported_currencies_symbol_' + store.configStore.order.currency.toLowerCase(), null) : null;
+    var amount = store.configStore.order ?  store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit)) : null;
     var order_labels = {items: store.localizationStore.getContent('items_list_title', null), desc: store.localizationStore.getContent('tranx_description_title', null)};
 
     return (
@@ -129,7 +130,7 @@ class Options extends Component {
                     desc={store.configStore.tranx_description}
                     items={store.configStore.items}
                     labels={order_labels}
-                    total={symbol + store.uIStore.formatNumber(store.configStore.order.amount.toFixed(store.configStore.order.decimal_digit))}/>
+                    total={symbol + amount}/>
                 </div>
             </div>
             <div
@@ -192,7 +193,6 @@ class Options extends Component {
             </div>
 
           </React.Fragment>
-
     );
   }
 }

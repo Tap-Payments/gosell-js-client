@@ -25,15 +25,14 @@ class GoSellElements extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.config(nextProps);
-    console.log('=== nextProps', nextProps);
 
   }
 
   config(props){
     RootStore.configStore.setConfig(props, 'GOSELL_ELEMENTS');
-    RootStore.configStore.configure().then(result => {
-      console.log('config result', result);
-    });
+    // RootStore.configStore.configure().then(result => {
+    //   console.log('config result', result);
+    // });
     // console.log('=== dir', RootStore.uIStore.dir);
   }
 

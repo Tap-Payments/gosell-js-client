@@ -68,44 +68,46 @@ class ApiStore{
 
      });
 
+     console.log('auth', res);
      return await res;
 
   }
 
-  async init(){
-    console.log(
-      "%cinit()",
-      "background: yellow; color: black; display: block;"
-    );
+  async init(key){
      var self = this;
 
-     // console.log('session ', self.RootStore.merchantStore.session);
+       if(self.RootStore.merchantStore.session == null){
 
-     if(self.RootStore.merchantStore.session == null){
+         await this.auth(key).then(async result => {
+           console.log('auth response from init ', result);
+           if(result.error || result.errors){
+             self.sendResponse(result);
+           }  else {
 
-       // console.log('public key', this.RootStore.configStore.gateway.publicKey);
-       await this.auth(this.RootStore.configStore.gateway.publicKey).then(async result => {
-         console.log('auth response from init ', result);
-         if(result.error || result.errors){
-           self.sendResponse(result);
-         }  else {
+             self.getMerchantDetails();
+
+             if(self.RootStore.configStore.transaction_mode != 'token' && self.RootStore.configStore.transaction_mode != 'save_card'){
+               self.getCurrentCountry().then(result => {
+                console.log('vvv result', result);
+                 self.setPaymentOptions(result);
+               });
+             }
+
+           }
+
+         });
+       } else {
+
+         self.getMerchantDetails();
+
+         if(self.RootStore.configStore.transaction_mode != 'token' && self.RootStore.configStore.transaction_mode != 'save_card'){
            self.getCurrentCountry().then(result => {
             console.log('vvv result', result);
              self.setPaymentOptions(result);
            });
-
-           self.getMerchantDetails();
          }
 
-       });
-     }  else {
-       self.getCurrentCountry().then(result => {
-         console.log('vvv result', result);
-         self.setPaymentOptions(result);
-       });
-
-       self.getMerchantDetails();
-     }
+       }
    }
 
  sendResponse(json) {
@@ -152,7 +154,6 @@ class ApiStore{
   async setPaymentOptions(customer_currency){
     var self = this;
     self.setPaymentOptionsFlag  = false;
-
     var headers = {
       'session_token':self.RootStore.merchantStore.session
     }
@@ -170,7 +171,16 @@ class ApiStore{
         break;
     }
 
-    var customer = this.RootStore.configStore.gateway.customerCards && this.RootStore.configStore.customer ? this.RootStore.configStore.customer.id : null;
+    console.log('mode', mode);
+
+    var customer = null;
+
+    if(this.RootStore.configStore.gateway.customerCards && this.RootStore.configStore.customer && this.RootStore.configStore.customer.id){
+      customer = this.RootStore.configStore.customer.id;
+    }
+
+    console.log('mode from payment/options',this.RootStore.configStore.transaction_mode);
+    console.log('this.order from payment/options',this.RootStore.configStore.order);
 
     var body = {
       "mode": "Production",
@@ -179,15 +189,16 @@ class ApiStore{
       "headers": headers,
       "reqBody": {
          "transaction_mode": mode,
-         "items": this.RootStore.configStore.items ?  this.RootStore.configStore.items : null,
-         "shipping": this.RootStore.configStore.shipping ? this.RootStore.configStore.shipping : null,
-         "taxes": this.RootStore.configStore.taxes ? this.RootStore.configStore.taxes : null,
          "customer": customer,
+         "items": this.RootStore.configStore.items ?  this.RootStore.configStore.items.slice() : null,
+         "shipping": this.RootStore.configStore.shipping ? this.RootStore.configStore.shipping.slice() : null,
+         "taxes": this.RootStore.configStore.taxes ? this.RootStore.configStore.taxes.slice() : null,
          "currency" :  mode != null ? this.RootStore.configStore.order.currency : null,
          "total_amount": mode != null ? this.RootStore.configStore.order.amount : null
       }
     }
 
+    console.log('body ----', body);
     var res = null, data = null;
     await axios.post(Paths.serverPath +'/api', body)
     .then(async function (response) {
@@ -207,23 +218,19 @@ class ApiStore{
 
          }
          else {
-            // self.RootStore.uIStore.showMsg('warning', response.data.errors[0].description, response.data.errors[0].code);
             self.sendResponse(response.data);
          }
-
-
-
     })
     .catch(function (error) {
       console.log("error", error);
     });
-    self.updateLoader()
+
+    self.updateLoader();
     return await res;
   }
 
   async getMerchantDetails(){
     var self = this;
-    self.getMerchantDetailsFlag = false
 
     var headers = {
       'session_token': self.RootStore.merchantStore.session
@@ -265,7 +272,8 @@ class ApiStore{
     .catch(function (error) {
       console.log(error);
     });
-    self.updateLoader()
+    self.updateLoader();
+
     return await res;
   }
 
@@ -317,7 +325,7 @@ class ApiStore{
                   if(chg.data.transaction && chg.data.transaction.url){
                       window.open(chg.data.transaction.url, '_self');
                   } else if(chg.data.authenticate){
-                      self.RootStore.paymentStore.charge = chg.data;
+                      self.RootStore.paymentStore.transaction = chg.data;
                       self.RootStore.paymentStore.authenticate = chg.data.authenticate;
 
                       if(chg.data.authenticate.status === 'INITIATED'){
@@ -355,7 +363,7 @@ class ApiStore{
                 if(auth.data.transaction && auth.data.transaction.url){
                     window.open(auth.data.transaction.url, '_self');
                 } else if(auth.data.authenticate){
-                    self.RootStore.paymentStore.charge = auth.data;
+                    self.RootStore.paymentStore.transaction = auth.data;
                     self.RootStore.paymentStore.authenticate = auth.data.authenticate;
 
                     if(auth.data.authenticate.status === 'INITIATED'){
@@ -400,33 +408,34 @@ class ApiStore{
       "path": "/v2/charges",
       "headers": headers,
       "reqBody": {
-        "id": this.RootStore.configStore.charge.id ? this.RootStore.configStore.charge.id : null,
+        "id": this.RootStore.configStore.transaction.id ? this.RootStore.configStore.transaction.id : null,
         "amount": this.RootStore.configStore.order.amount,
         "currency": this.RootStore.configStore.order.currency,
         "product":"GOSELL",
         "threeDSecure":this.RootStore.paymentStore.three_d_Secure,
         "save_card":this.RootStore.paymentStore.save_card_option,
         "fee": fees,
-        "statement_descriptor":this.RootStore.configStore.charge.statement_descriptor,
-        "description":this.RootStore.configStore.charge.description,
-        "metadata":this.RootStore.configStore.charge.metadata,
-        "reference":this.RootStore.configStore.charge.reference,
-        "receipt":this.RootStore.configStore.charge.receipt,
+        "statement_descriptor":this.RootStore.configStore.transaction.statement_descriptor,
+        "description":this.RootStore.configStore.transaction.description,
+        "metadata":this.RootStore.configStore.transaction.metadata,
+        "reference":this.RootStore.configStore.transaction.reference,
+        "receipt":this.RootStore.configStore.transaction.receipt,
         "customer": this.RootStore.configStore.customer,
         "source":{
           "id": source
         },
         "post":{
-          "url": this.RootStore.configStore.charge.post
+          "url": this.RootStore.configStore.transaction.post
         },
         "redirect":{
-          "url": this.RootStore.configStore.charge.redirect
+          "url": this.RootStore.configStore.transaction.redirect
         },
         "selected_currency":this.RootStore.paymentStore.current_currency.currency,
         "selected_amount":this.RootStore.paymentStore.current_currency.amount
       }
     }
 
+    console.log('charge body', body);
     var res = null;
 
     await axios.post(Paths.serverPath +'/api', body)
@@ -457,36 +466,38 @@ class ApiStore{
       "path": "/v2/authorize",
       "headers": headers,
       "reqBody": {
-        "id": this.RootStore.configStore.authorize.id ? this.RootStore.configStore.authorize.id : null,
+        "id": this.RootStore.configStore.transaction.id ? this.RootStore.configStore.transaction.id : null,
         "amount": this.RootStore.configStore.order.amount,
         "currency": this.RootStore.configStore.order.currency,
         "product":"GOSELL",
         "threeDSecure":this.RootStore.paymentStore.three_d_Secure,
         "save_card":this.RootStore.paymentStore.save_card_option,
         "fee": fees,
-        "statement_descriptor":this.RootStore.configStore.authorize.statement_descriptor,
-        "description":this.RootStore.configStore.authorize.description,
-        "metadata":this.RootStore.configStore.authorize.metadata,
-        "reference":this.RootStore.configStore.authorize.reference,
-        "receipt":this.RootStore.configStore.authorize.receipt,
+        "statement_descriptor":this.RootStore.configStore.transaction.statement_descriptor,
+        "description":this.RootStore.configStore.transaction.description,
+        "metadata":this.RootStore.configStore.transaction.metadata,
+        "reference":this.RootStore.configStore.transaction.reference,
+        "receipt":this.RootStore.configStore.transaction.receipt,
         "customer": this.RootStore.configStore.customer,
         "source":{
           "id": source
         },
         "auto": {
-          "type": this.RootStore.configStore.authorize.auto.type,
-          "time": this.RootStore.configStore.authorize.auto.time,
+          "type": this.RootStore.configStore.transaction.auto.type,
+          "time": this.RootStore.configStore.transaction.auto.time,
         },
         "post":{
-          "url": this.RootStore.configStore.authorize.post
+          "url": this.RootStore.configStore.transaction.post
         },
         "redirect":{
-          "url": this.RootStore.configStore.authorize.redirect
+          "url": this.RootStore.configStore.transaction.redirect
         },
         "selected_currency":this.RootStore.paymentStore.current_currency.currency,
         "selected_amount":this.RootStore.paymentStore.current_currency.amount
       }
     }
+
+    console.log('authorize body', body);
 
     var result, res = null;
 
@@ -517,7 +528,9 @@ class ApiStore{
        });
      }
 
+     console.log('id', id);
      var type = id.substring(0,4);
+     console.log('type', type);
 
      switch (type) {
        case 'chg_':
@@ -528,6 +541,10 @@ class ApiStore{
          break;
      }
 
+     if(transaction.data.error || transaction.data.errors){
+         self.sendResponse(transaction.data);
+     }
+    
      return await transaction;
 
    }
@@ -1019,10 +1036,10 @@ class ApiStore{
     var path = null;
     switch (this.RootStore.configStore.transaction_mode) {
       case 'charge':
-        path = "/v2/charges/authenticate/"+this.RootStore.paymentStore.charge.id
+        path = "/v2/charges/authenticate/"+this.RootStore.paymentStore.transaction.id
         break;
       case 'authorize':
-        path = "/v2/authorize/authenticate/"+this.RootStore.paymentStore.authorize.id
+        path = "/v2/authorize/authenticate/"+this.RootStore.paymentStore.transaction.id
         break;
     }
 
@@ -1082,10 +1099,10 @@ class ApiStore{
     var path = null;
     switch (this.RootStore.configStore.transaction_mode) {
       case 'charge':
-        path = "/v2/charges/authenticate/"+ this.RootStore.paymentStore.charge.id
+        path = "/v2/charges/authenticate/"+ this.RootStore.paymentStore.transaction.id
         break;
       case 'authorize':
-        path = "/v2/authorize/authenticate/"+this.RootStore.paymentStore.authorize.id
+        path = "/v2/authorize/authenticate/"+this.RootStore.paymentStore.transaction.id
         break;
     }
 
