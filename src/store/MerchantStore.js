@@ -43,6 +43,15 @@ class MerchantStore {
 
       }
 
+      if(this.RootStore.configStore.transaction_mode === 'token' || this.RootStore.configStore.transaction_mode === 'save_card'){
+        this.isLoading = false;
+        this.RootStore.paymentStore.isLoading = false;
+        this.RootStore.uIStore.stopLoading();
+      }
+
+
+      // console.log('inside merchant store', this.isLoading);
+
   }
 
 }

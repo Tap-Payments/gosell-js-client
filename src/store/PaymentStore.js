@@ -5,6 +5,13 @@ class PaymentStore{
 
   constructor(RootStore) {
     this.RootStore = RootStore;
+    this.reset();
+
+    this.confirmExchangeCurrency = this.confirmExchangeCurrency.bind(this);
+    this.cancelExchangeCurrency = this.cancelExchangeCurrency.bind(this);
+  }
+
+  reset() {
 
     this.payment_methods = {};
     this.current_amount = 0;
@@ -62,50 +69,39 @@ class PaymentStore{
     this.active_payment_option_total_amount = 0;
     this.source_id = null;
 
-    this.charge = null;
+    this.transaction = null;
 
     this.supported_payment_methods = null;
-
-    this.confirmExchangeCurrency = this.confirmExchangeCurrency.bind(this);
-    this.cancelExchangeCurrency = this.cancelExchangeCurrency.bind(this);
-
-
   }
 
   setThreeDSecure(value){
     var self = this;
 
-    // if(value){
-    //   switch (self.RootStore.configStore.transaction_mode) {
-    //     case "charge":
-    //       self.three_d_Secure = self.RootStore.configStore.charge.threeDSecure;
-    //       break;
-    //     case "authorize":
-    //       self.three_d_Secure = self.RootStore.configStore.authorize.threeDSecure;
-    //       break;
-    //     default:
-          self.three_d_Secure = value;
-      // }
-    // }
+    self.three_d_Secure = value;
 
-  }
-
-  setCards(value){
-    // console.log('customer card', this.RootStore.configStore.gateway.customerCards);
-    if(this.RootStore.configStore.gateway.customerCards){
-      this.customer_cards = value;
-      this.customer_cards_by_currency = this.savedCardsByCurrency;
+    if(value){
+      switch (self.RootStore.configStore.transaction_mode) {
+        case "charge":
+          self.three_d_Secure = self.RootStore.configStore.transaction.threeDSecure;
+          break;
+        case "authorize":
+          self.three_d_Secure = self.RootStore.configStore.transaction.threeDSecure;
+          break;
+      }
     }
 
   }
 
+  setCards(value){
+    if(this.RootStore.configStore.gateway.customerCards){
+      this.customer_cards = value;
+      this.customer_cards_by_currency = this.savedCardsByCurrency;
+    }
+  }
+
   getFees(value){
     var self = this;
-    // console.log('99 payment methods in getFee', self.payment_methods);
     var active = self.payment_methods.filter(function(payment){
-        // console.log('99 '+ value, payment.name);
-        // console.log('99 payment', payment);
-        // console.log('99 what is the problem?????????? ', value.indexOf(payment.name));
         try{
           if(value.indexOf(payment.name) >= 0){
             if(payment.extra_fees){
@@ -127,9 +123,6 @@ class PaymentStore{
     });
 
     self.active_payment_option = active[0];
-    // console.log('99 self.active_payment_option', self.active_payment_option);
-    // console.log('99 active_payment_option_fees', self.active_payment_option_fees);
-    // console.log('99 active_payment_option_total_amount', self.active_payment_option_total_amount);
   }
 
   calcExtraFees(fees){
@@ -170,15 +163,10 @@ class PaymentStore{
 
     if(data != null){
 
-      console.log('v customer_currency', customer_cur);
-
-      // data = JSON.parse(data);
       this.setPaymentMethods(data.payment_methods);
       this.setSupportedCurrencies(data.supported_currencies);
 
-      // console.log('customerCards: ', this.RootStore.configStore.gateway.customerCards);
       if(this.RootStore.configStore.gateway.customerCards){
-        // console.log('set cards', data.cards);
         this.setCards(data.cards);
       }
 
@@ -191,7 +179,6 @@ class PaymentStore{
       var self = this;
 
       var methods_currencies = this.supported_currencies_based_on_methods;
-      // console.log('methods', methods_currencies);
 
       if(this.supported_currencies && Array.isArray(this.supported_currencies.slice()) && this.supported_currencies.length > 0){
         // console.log('hey', self.supported_currencies.slice().length);
@@ -211,15 +198,32 @@ class PaymentStore{
         else if(methods_currencies.length > 1){
 
           var merchant_currency, customer_currency = null;
+          // var arr = self.supported_currencies.slice();
+          // console.log('v  arr', arr);
+          // for(var i=0; i< arr.length; i++){
+          //   if(currency.indexOf(arr[i].currency) >= 0){
+          //     console.log('v merchant currency is: ', arr[i]);
+          //     merchant_currency = arr[i];
+          //   }
+          //
+          //   if(customer_cur.code != null && customer_cur.code.indexOf(arr[i].currency) >= 0){
+          //     console.log('v customer currency is: ', arr[i]);
+          //     customer_currency = arr[i];
+          //   }
+          //
+          //   if(arr[i].currency == data.settlement_currency){
+          //     self.settlement_currency = arr[i];
+          //   }
+          // }
 
           self.supported_currencies.filter(function(el){
               if(currency.indexOf(el.currency) >= 0){
-                console.log('v merchant currency is: ', el);
+                // console.log('v merchant currency is: ', el);
                 merchant_currency = el;
               }
 
               if(customer_cur.code != null && customer_cur.code.indexOf(el.currency) >= 0){
-                console.log('v customer currency is: ', el);
+                // console.log('v customer currency is: ', el);
                 customer_currency = el;
               }
 
@@ -228,7 +232,6 @@ class PaymentStore{
               }
 
           });
-
 
           self.setCurrentCurrency(merchant_currency);
           self.current_amount = merchant_currency.amount;
@@ -252,23 +255,6 @@ class PaymentStore{
               ]
             });
           }
-
-          // self.supported_currencies.forEach(function(cur){
-          //
-          //   if(cur.currency === currency){
-          //       self.setCurrentCurrency(cur);
-          //       self.current_amount = cur.amount;
-          //       self.customer_cards_by_currency = self.savedCardsByCurrency;
-          //       self.RootStore.configStore.order = cur;
-          //
-          //       self.isLoading = false;
-          //   }
-          //
-          //   if(cur.currency == data.settlement_currency){
-          //     self.settlement_currency = cur;
-          //   }
-          //
-          // });
         }
         else {
           this.isLoading = true;
@@ -508,29 +494,6 @@ class PaymentStore{
     // });
   }
 
-  // sort(){
-  //
-  //   this.webPayments = [];
-  //   this.cardPayments = [];
-  //   if(Array.isArray(this.payment_methods.slice())){
-  //     var self = this;
-  //
-  //     this.payment_methods.forEach(function(method) {
-  //       if(method.payment_type === 'web'){
-  //         self.webPayments.push(method);
-  //         //self.charge(method.source_id);
-  //       }
-  //
-  //       if(method.payment_type === 'card'){
-  //         self.cardPayments.push(method);
-  //       }
-  //
-  //     });
-  //
-  //   }
-  //
-  // }
-
   sort(){
 
     this.webPayments = [];
@@ -538,7 +501,6 @@ class PaymentStore{
 
     if(this.payment_methods && this.payment_methods.slice().length > 0){
 
-      // console.log('**** in sort payment methods', this.payment_methods);
       var self = this;
 
       this.payment_methods = this.payment_methods.slice();
@@ -547,9 +509,6 @@ class PaymentStore{
 
       for(var i = 0; i < this.payment_methods.length; i++){
         method = this.payment_methods[i];
-
-        // console.log('**** method', method);
-        // console.log('**** method', method.payment_type);
 
         try{
           if(method.payment_type == 'web'){
@@ -562,10 +521,6 @@ class PaymentStore{
         catch(err) {
           console.log('error', err)
         }
-
-        // console.log('**** web payments', this.webPayments);
-        // console.log('**** card payments', this.cardPayments);
-
       }
     }
 
@@ -589,17 +544,14 @@ class PaymentStore{
 
   computed
   get getCurrentValue(){
-
     let old = this.RootStore.configStore.order;
-    let current =  this.RootStore.paymentStore.current_currency;
+    let current = this.RootStore.paymentStore.current_currency;
 
     var title = {'main': this.getMainAmount};
 
     if(current.currency !== old.currency){
           title = {'main': this.getCurrentAmount, 'secondary': this.getMainAmount}
     }
-
-    // console.log('title', title);
 
     return title;
   }
@@ -622,20 +574,20 @@ class PaymentStore{
 
   computed
   get getCurrentAmount(){
-    let current =  this.RootStore.paymentStore.current_currency;
-    let new_amount = this.RootStore.uIStore.formatNumber(current.amount.toFixed(current.decimal_digit));
+    if(this.RootStore.paymentStore.current_currency.amount != null){
+      let current =  this.RootStore.paymentStore.current_currency;
+      let new_amount = this.RootStore.uIStore.formatNumber(current.amount.toFixed(current.decimal_digit));
 
-    var new_symbol = this.RootStore.localizationStore.getContent('supported_currencies_symbol_' + current.currency.toLowerCase(), null);
+      var new_symbol = this.RootStore.localizationStore.getContent('supported_currencies_symbol_' + current.currency.toLowerCase(), null);
 
-    if(this.RootStore.uIStore.dir === 'rtl'){
-      return new_amount + ' ' + new_symbol;
+      if(this.RootStore.uIStore.dir === 'rtl'){
+        return new_amount + ' ' + new_symbol;
+      }
+      else {
+        return new_symbol + new_amount;
+      }
     }
-    else {
-      return new_symbol + new_amount;
-    }
-
   }
-
 }
 
 decorate(PaymentStore, {
@@ -667,8 +619,6 @@ decorate(PaymentStore, {
   customer: observable,
   redirectURL:observable,
   metadata: observable,
-  charge_id: observable,
-  authorize_id: observable,
   ref: observable,
   tranx_desc: observable,
   receipt: observable,
@@ -678,8 +628,7 @@ decorate(PaymentStore, {
   otp_resend_interval: observable,
   otp_resend_attempts: observable,
   authenticate: observable,
-  authorize: observable,
-  charge:observable,
+  transaction: observable,
   old_currency: observable,
   supported_payment_methods: observable
 });

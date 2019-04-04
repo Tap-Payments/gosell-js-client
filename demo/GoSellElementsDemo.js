@@ -44,7 +44,9 @@ class GoSellElementsDemo extends Component {
                  }
              }
            }}
-           token={true} />
+           transaction={{
+             mode:'token',
+           }}/>
 
            <p id="msg"></p>
 

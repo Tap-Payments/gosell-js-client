@@ -9,7 +9,7 @@ class Details extends Component {
   }
 
   handleClick(){
-    if(this.props.store.configStore.transaction_mode != 'get_token' && this.props.store.configStore.transaction_mode != 'save_card'){
+    if(this.props.store.configStore.transaction_mode != 'token' && this.props.store.configStore.transaction_mode != 'save_card'){
       this.props.store.actionStore.handleBusinessInfoClick();
     }
   }

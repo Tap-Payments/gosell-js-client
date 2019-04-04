@@ -106,7 +106,9 @@ class OpenPaymentPage extends Component {
              shipping:null,
              taxes: null
            }}
-           charge={{
+           transaction={{
+             mode:'charge',
+             charge:{
               saveCard: false,
               threeDSecure: true,
               description: "Test Description",
@@ -122,7 +124,7 @@ class OpenPaymentPage extends Component {
               },
               redirect: window.location.href,
               post: window.location.href,
-            }}
+            }}}
            />
            <button onClick={this.handleClick.bind(this)}>Open goSell Page</button>
       </div>

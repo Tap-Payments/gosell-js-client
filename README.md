@@ -108,6 +108,14 @@ It's a required field for the JS library. Includes the order details, it's requi
 | shipping | string  | **optional**  | null | Shipping details. |
 | taxes | object  | **optional**  | null | taxes detail. |
 
+- transaction **[object]**:
+It's a required field for the JS library. Includes the transaction mode and it's configurations.
+
+| property name | Type  | Status  | Default value	 | Description |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| mode | string  | **required**  |  | It can be 'charge', 'authorize', 'save_card' or 'token' |
+| charge | object  | **required if the mode = 'charge'**  |  | includes the merchant's configurations for charge mode |
+| authorize | object  | **required if the mode = 'authorize'**  |  | includes the merchant's configurations for authorize mode |
 
 #### goSell Transaction Modes
 
@@ -146,12 +154,11 @@ Enable authorize mode in goSell payment gateway. The object should includes the 
 | redirect | string  | **required**  |  | After payment completed, payer will be redirected to this url (KNET and 3D secure charge request required, Redirect url) |
 | post | object  | **required**  |  | After payment completed, goSell Gateway will post the charge response to the this url |
 
-3. saveCard **[boolean]**:
-Save credit/debit cards in goSell gateway.
+3. save_card:
+Save credit/debit cards in goSell gateway. There's not configurations for this mode.
 
-4. token **[boolean]**:
-Used to generate card token.
-
+4. token:
+Used to generate card token. There's not configurations for this mode.
 
 #### goSell Examples
 
@@ -266,23 +273,26 @@ Transaction mode of the example: 'charge'
         shipping:null,
         taxes: null
       },
-     charge:{
-        saveCard: false,
-        threeDSecure: true,
-        description: "Test Description",
-        statement_descriptor: "Sample",
-        reference:{
-          transaction: "txn_0001",
-          order: "ord_0001"
-        },
-        metadata:{},
-        receipt:{
-          email: false,
-          sms: true
-        },
-        redirect: window.location.href,
-        post: window.location.href,
-      }
+     transaction:{
+       mode: 'charge',
+       charge:{
+          saveCard: false,
+          threeDSecure: true,
+          description: "Test Description",
+          statement_descriptor: "Sample",
+          reference:{
+            transaction: "txn_0001",
+            order: "ord_0001"
+          },
+          metadata:{},
+          receipt:{
+            email: false,
+            sms: true
+          },
+          redirect: window.location.href,
+          post: window.location.href,
+        }
+     }
     });
 
     </script>
@@ -404,7 +414,9 @@ class GoSellDemo extends Component {
              shipping:null,
              taxes: null
            }}
-           charge={{
+           transaction={
+             mode: 'charge',
+             charge:{
               saveCard: false,
               threeDSecure: true,
               description: "Test Description",

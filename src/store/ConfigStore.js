@@ -2,12 +2,20 @@ import {decorate, observable, computed} from 'mobx';
 import axios from 'axios';
 import Paths from '../../webpack/paths';
 
-//include all the
+// let defaults = {
+//   language: 'en',
+//   country: 'kw'
+// }
+
 class ConfigStore {
 
   constructor(RootStore) {
     this.RootStore = RootStore;
+    this.reset();
+    // this.defaults['language']
+  }
 
+  reset(){
     this.config = null;
     this.key = null;
     this.gateway = {
@@ -49,11 +57,7 @@ class ConfigStore {
     this.transaction_mode = null;
     this.tranx_description = null;
     this.customer = null;
-
-    this.charge = null;
-    this.authorize = null;
-    this.saveCard = null;
-    this.token = null;
+    this.transaction = null;
 
     this.order = null;
 
@@ -63,7 +67,7 @@ class ConfigStore {
 
     this.redirect_url = null;
 
-    this.legalConfig = false;
+    this.legalConfig = true;
 
     this.notifications = 'standard';
 
@@ -107,378 +111,284 @@ class ConfigStore {
   }
 
   setConfig(value, view){
-      // console.log('set setConfig');
 
-      this.config = value;
-      this.key = value.gateway ? value.gateway.publicKey : null;
+    this.config = value;
+    this.view = view;
 
-      this.view = view;
-      this.language = value.gateway.language ? value.gateway.language : 'en';
+    this.key = value.gateway ? value.gateway.publicKey : null;
 
-      this.RootStore.uIStore.dir = this.language === 'ar' ? 'rtl' : 'ltr';
-
-      this.language === 'en' ? require('../assets/css/fontsEn.css') : require('../assets/css/fontsAr.css');
-
-      // this.style.base.fontSize = this.language === 'en' ? '15px' : '10px';
-      this.style.base.fontFamily = this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light';
-      this.style.base.fontUrl = this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css';
-
+    this.language = value.gateway && value.gateway.language ? value.gateway.language : 'en';
+    this.language === 'en' ? require('../assets/css/fontsEn.css') : require('../assets/css/fontsAr.css');
   }
 
   async configure(){
-    var self = this;
-    var value = this.config;
-    // console.log('value', value);
 
-    if(value.gateway != null && value.gateway){
-      if(window.location.protocol=='http:' && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0){
-        // console.log('error setConfig');
-        this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_https_configration_msg', null), this.RootStore.localizationStore.getContent('gosell_https_configration_submsg', null));
+    this.transaction_mode = this.config.transaction ? this.config.transaction.mode : null;
+
+    switch (this.transaction_mode) {
+      case 'charge':
+        await this.setGateway(this.config);
+        await this.setCustomer(this.config);
+        await this.setTransaction(this.config.order, this.config.transaction.charge).then(async result => {
+          console.log('result', result);
+          this.legalConfig = result;
+        });
+        break;
+      case 'authorize':
+        await this.setGateway(this.config);
+        await this.setCustomer(this.config);
+        await this.setTransaction(this.config.order, this.config.transaction.authorize).then(async result => {
+          console.log('result', result);
+          this.legalConfig = result;
+        });
+        break;
+      case 'save_card':
+        this.btn = this.RootStore.localizationStore.getContent('btn_save_title', null);
+        this.legalConfig = true;
+        break;
+      case 'token':
+        this.legalConfig = true;
+        break;
+      default:
+        this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
         this.legalConfig = false;
-      }
-      else {
+        break;
+    }
 
-        if(value.gateway != null &&  value.gateway.publicKey){
-          this.gateway = value.gateway;
+    // console.log('_return', this.legalConfig);
+    return await this.legalConfig;
+  }
 
-          // console.log('gateway', value.gateway);
+  setOrder(value){
+    console.log('from set order', value);
+    if(this.legalConfig && (value || value != null)){
+      this.order = value;
+      this.items = value.items ? value.items.slice() : null;
+      this.shipping = value.shipping ? value.shipping : null;
+      this.taxes = value.taxes ? value.taxes : null;
+      console.log('this.legalConfig1', this.legalConfig);
 
-          this.contactInfo = !(value.gateway.contactInfo) ? value.gateway.contactInfo : this.contactInfo;
+      this.legalConfig = true;
 
-          this.language = value.gateway.language ? value.gateway.language : 'en';
+      console.log('this.legalConfig2', this.legalConfig);
+    }
+    else if(this.transaction_mode != 'token' && this.transaction_mode != 'save_card'){
+      this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_order_configration_msg', null), null);
+      this.legalConfig = false;
+    }
 
-          this.RootStore.uIStore.dir = this.language === 'ar' ? 'rtl' : 'ltr';
+    return this.legalConfig;
+  }
 
-          // console.log('supportedCurrencies', value.gateway.supportedCurrencies);
-          // console.log('type', typeof value.gateway.supportedCurrencies);
+  setCustomer(value){
 
-          if(value.gateway.supportedCurrencies){
-            if(typeof value.gateway.supportedCurrencies == 'object'){
-              var currencies = [];
-              value.gateway.supportedCurrencies.forEach(function(c){
-                currencies.push(c.toUpperCase());
-              });
-
-              this.gateway.supportedCurrencies = currencies;
-            }
-            else {
-              this.gateway.supportedCurrencies = value.gateway.supportedCurrencies.toLowerCase();
-            }
-          }
-          // else {
-          //   this.gateway.supportedCurrencies = 'all';
-          // }
-
-          if(value.gateway.supportedPaymentMethods){
-            if(typeof value.gateway.supportedPaymentMethods == 'object'){
-              var methods = [];
-              value.gateway.supportedPaymentMethods.forEach(function(c){
-                methods.push(c.toUpperCase());
-              });
-
-              this.gateway.supportedPaymentMethods = methods;
-            }
-            else {
-              this.gateway.supportedPaymentMethods = value.gateway.supportedPaymentMethods.toLowerCase();
-            }
-          }
-          // else {
-          //   this.gateway.supportedPaymentMethods = 'all';
-          // }
-
-          // if(value.gateway.saveCardOption != undefined){
-            this.gateway.saveCardOption = value.gateway.saveCardOption;
-          // }
-          // else {
-          //   this.gateway.saveCardOption = true;
-          // }
-
-          this.gateway.customerCards = value.gateway.customerCards;
-
-          // else {
-          //   this.gateway.customerCards = false;
-          // }
-
-
-          if(value.gateway.labels && value.gateway.labels.actionButton){
-            this.btn = value.gateway.labels.actionButton;
-          }
-          else {
-
-            if(this.transaction_mode === 'save_card'){
-              this.btn = this.RootStore.localizationStore.getContent('btn_save_title', null);
-            }
-            else {
-              this.btn = this.RootStore.localizationStore.getContent('btn_pay_title_generic', null);
-            }
-          }
-
-          if(value.gateway.labels){
-            this.labels = {
-              cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
-              expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
-              cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
-              cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
-            };
-          }
-          else {
-            this.labels = {
-                cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
-                expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
-                cvv:this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
-                cardHolder:this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
-            }
-          }
-          // console.log('font', this.language === 'en' ? "'Roboto-Light', sans-serif" : "'Helvetica-Light', sans-serif");
-          if(value.gateway.style && isEmpty(value.gateway.style)){
-            this.style = {
-              base: value.gateway.style.base && isEmpty(value.gateway.style.base) ? value.gateway.style.base : {
-                color: '#535353',
-                lineHeight: '18px',
-                fontFamily: this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
-                fontUrl: this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
-                fontSmoothing: 'antialiased',
-                fontSize: '15px',
-                '::placeholder': {
-                  color: 'rgba(0, 0, 0, 0.26)',
-                  fontSize:this.language === 'en' ? '15px' : '10px'
-                }
-              },
-              invalid: value.gateway.style.invalid && isEmpty(value.gateway.style.invalid) ? value.gateway.style.invalid : {
-                color: 'red',
-                iconColor: '#fa755a '
-              }
-            };
-          }
-
-          if(value.gateway.notifications && value.gateway.notifications !== 'standard'){
-            this.notifications = value.gateway.notifications;
-          }
-
-          return await this.tranxConfig(value);
-
-        }
-        else {
-          console.log("Something went wrong! Please check the goSell configration");
-          this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
-          this.legalConfig = false;
-        }
-
+    if(this.legalConfig && (value.customer || value.customer != null)){
+      this.customer = value.customer;
+    }
+    else if(this.transaction_mode === 'save_card'){
+      this.legalConfig = false;
+      this.RootStore.uIStore.showMsg('warning',this.RootStore.localizationStore.getContent('gosell_customer_configration_msg', null), null);
     }
   }
-  else {
-    // console.log("Something went wrong! Please check the goSell configration");
-    this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
-    this.legalConfig = false;
+
+  setGateway(value){
+
+    if(this.legalConfig && (value.gateway && value.gateway != null)){
+        if(window.location.protocol=='http:' && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0){
+          // console.log('error setConfig');
+          this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_https_configration_msg', null), this.RootStore.localizationStore.getContent('gosell_https_configration_submsg', null));
+          this.legalConfig = false;
+        }
+        else {
+
+          if(value.gateway && value.gateway != null &&  value.gateway.publicKey){
+            this.gateway = value.gateway;
+
+            this.RootStore.uIStore.dir = this.language === 'ar' ? 'rtl' : 'ltr';
+
+            // this.style.base.fontSize = this.language === 'en' ? '15px' : '10px';
+            this.style.base.fontFamily = this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light';
+            this.style.base.fontUrl = this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css';
+
+            this.contactInfo = !(value.gateway.contactInfo) ? value.gateway.contactInfo : this.contactInfo;
+
+            this.language = value.gateway.language ? value.gateway.language : 'en';
+
+            this.RootStore.uIStore.dir = this.language === 'ar' ? 'rtl' : 'ltr';
+
+            if(value.gateway.supportedCurrencies){
+              if(typeof value.gateway.supportedCurrencies == 'object'){
+                var currencies = [];
+                value.gateway.supportedCurrencies.forEach(function(c){
+                  currencies.push(c.toUpperCase());
+                });
+
+                this.gateway.supportedCurrencies = currencies;
+              }
+              else {
+                this.gateway.supportedCurrencies = value.gateway.supportedCurrencies.toLowerCase();
+              }
+            }
+
+            if(value.gateway.supportedPaymentMethods){
+              if(typeof value.gateway.supportedPaymentMethods == 'object'){
+                var methods = [];
+                value.gateway.supportedPaymentMethods.forEach(function(c){
+                  methods.push(c.toUpperCase());
+                });
+
+                this.gateway.supportedPaymentMethods = methods;
+              }
+              else {
+                this.gateway.supportedPaymentMethods = value.gateway.supportedPaymentMethods.toLowerCase();
+              }
+            }
+
+            this.gateway.saveCardOption = value.gateway.saveCardOption;
+            this.gateway.customerCards = value.gateway.customerCards;
+
+            if(value.gateway.labels && value.gateway.labels.actionButton){
+              this.btn = value.gateway.labels.actionButton;
+            }
+            else {
+
+              if(this.transaction_mode === 'save_card'){
+                this.btn = this.RootStore.localizationStore.getContent('btn_save_title', null);
+              }
+              else {
+                this.btn = this.RootStore.localizationStore.getContent('btn_pay_title_generic', null);
+              }
+            }
+
+            if(value.gateway.labels){
+              this.labels = {
+                cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+                expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+                cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+                cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
+              };
+            }
+            else {
+              this.labels = {
+                  cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+                  expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+                  cvv:this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+                  cardHolder:this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
+              }
+            }
+            if(value.gateway.style && isEmpty(value.gateway.style)){
+              this.style = {
+                base: value.gateway.style.base && isEmpty(value.gateway.style.base) ? value.gateway.style.base : {
+                  color: '#535353',
+                  lineHeight: '18px',
+                  fontFamily: this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
+                  fontUrl: this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
+                  fontSmoothing: 'antialiased',
+                  fontSize: '15px',
+                  '::placeholder': {
+                    color: 'rgba(0, 0, 0, 0.26)',
+                    fontSize:this.language === 'en' ? '15px' : '10px'
+                  }
+                },
+                invalid: value.gateway.style.invalid && isEmpty(value.gateway.style.invalid) ? value.gateway.style.invalid : {
+                  color: 'red',
+                  iconColor: '#fa755a '
+                }
+              };
+            }
+
+            if(value.gateway.notifications && value.gateway.notifications !== 'standard'){
+              this.notifications = value.gateway.notifications;
+            }
+
+          }
+          else {
+            console.log("Something went wrong! Please check the goSell configration");
+            this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
+            this.legalConfig = false;
+          }
+
+      }
+    }
+    else {
+      this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
+      this.legalConfig = false;
+    }
+
   }
 
-  // console.log('transaction_mode', this.transaction_mode);
-  // console.log('legal finally!!!', this.legalConfig);
-
-  }
-
-  async tranxConfig(value){
+  async setTransaction(order, value){
 
     var self = this;
 
-    var URLSearchParams = require('url-search-params');
+    if(this.legalConfig && value){
+      if(value.id){
+        await this.RootStore.apiStore.getTransaction(value.id).then(result => {
+          console.log('get charge transaction response', result);
 
-    var urlParams = new URLSearchParams(window.location.search);
+          self.redirect_url = result.data.redirect.url;
 
-    if(!urlParams.has('tap_id')){
-      if(value.charge && value.charge != null){
-        this.transaction_mode = 'charge';
+          self.customer = result.data.customer;
 
-        return await this.chargeDetails(value);
+          self.transaction = {
+            id: value.id,
+            auto: result.data.auto ? result.data.auto : null,
+            saveCard:  result.data.save_card,
+            threeDSecure:  result.data.threeDSecure,
+            description:  result.data.description,
+            statement_descriptor:  result.data.statement_descriptor,
+            reference:  result.data.reference,
+            metadata:  result.data.metadata,
+            receipt:  result.data.receipt,
+            redirect:  result.data.redirect.url,
+            post:  result.data.post.url
+          };
+
+          self.RootStore.paymentStore.transaction = self.transaction;
+
+          // console.log("order is: ", this.order);
+
+          self.tranx_description = self.transaction.description;
+
+          var orderDetails = {
+              currency: result.data.currency,
+              amount: result.data.amount
+          };
+
+          self.legalConfig = self.setOrder(orderDetails);
+
+        });
+
+
+
+      }else {
+
+        self.transaction = value;
+
+        self.RootStore.paymentStore.transaction = self.transaction;
+
+        console.log('this.transaction', this.transaction);
+
+        self.tranx_description = self.transaction.description;
+
+        self.redirect_url = value.redirect;
+
+
+        self.legalConfig = self.setOrder(order);
 
       }
-      else if(value.authorize && value.authorize != null){
-        this.transaction_mode = 'authorize';
-
-        return await this.authorizeDetails(value);
-      }
-      else if(value.saveCard){
-        this.transaction_mode = 'save_card';
-        this.saveCard = value.saveCard;
-
-        this.tranx_description = null;
-
-        if(value.order || value.order != null){
-          this.order = {currency: value.order.currency, amount: value.order.amount};
-        }
-
-        if(value.customer || value.customer != null){
-          this.customer = value.customer;
-
-          self.legalConfig = true;
-
-          return await self.legalConfig;
-        }
-        else {
-          this.legalConfig = false;
-          console.log("Something went wrong! Please check the customer details");
-          this.RootStore.uIStore.showMsg('warning',this.RootStore.localizationStore.getContent('gosell_customer_configration_msg', null), null);
-
-          return await self.legalConfig;
-        }
-      }
-      else if(value.token){
-        this.transaction_mode = 'get_token';
-        this.tranx_description = null;
-
-        this.token = value.token;
-        if(value.order || value.order != null){
-          this.order = {currency: value.order.currency, amount: value.order.amount};
-        }
-
-        self.legalConfig = true;
-        return await self.legalConfig;
-
-      }
-      else {
-        this.legalConfig = false;
+    }
+    else {
         console.log("Something went wrong! Please check the goSell configration");
         this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
-
-        return await self.legalConfig;
-      }
-    }
-  }
-
-  async chargeDetails(value){
-
-    var self = this;
-
-    if(value.charge.id){
-      // console.log(value.charge.id);
-      await this.RootStore.apiStore.getTransaction(value.charge.id).then(async result => {
-        // console.log('get charge transaction response', result);
-        self.redirect_url = result.data.redirect.url;
-
-        self.order = {currency: result.data.currency, amount: result.data.amount};
-        self.customer = result.data.customer;
-
-        self.charge = {
-          saveCard:  result.data.save_card,
-          threeDSecure:  result.data.threeDSecure,
-          description:  result.data.description,
-          statement_descriptor:  result.data.statement_descriptor,
-          reference:  result.data.reference,
-          metadata:  result.data.metadata,
-          receipt:  result.data.receipt,
-          redirect:  result.data.redirect.url,
-          post:  result.data.post.url
-        };
-
-        // console.log("order is: ", this.order);
-
-        self.tranx_description = self.charge.description;
-
-        self.RootStore.paymentStore.charge = self.charge;
-
-        self.legalConfig = true;
-
-        return await self.legalConfig;
-
-      });
-
-    }else {
-
-      this.charge = value.charge;
-
-      self.tranx_description = self.charge.description;
-
-      this.redirect_url = value.charge.redirect;
-      this.RootStore.paymentStore.charge = this.charge;
-
-      if(value.customer || value.customer != null){
-        this.customer = value.customer;
-      }
-
-      if(value.order || value.order != null){
-        this.items = value.order.items;
-        this.shipping = value.order.shipping;
-        this.taxes = value.order.taxes;
-        this.order = {currency: value.order.currency, amount: value.order.amount};
-
-        this.legalConfig = true;
-        return await this.legalConfig;
-      }
-      else {
         this.legalConfig = false;
-        this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_order_configration_msg', null), null);
-
-        return await this.legalConfig;
-      }
     }
+
+    return await this.legalConfig;
+
   }
 
-  async authorizeDetails(value){
 
-    var self = this;
-
-    if(value.authorize.id){
-      // console.log(value.authorize.id);
-
-      await this.RootStore.apiStore.getTransaction(value.authorize.id).then(async result => {
-        // console.log('get authorize transaction response', result);
-        self.redirect_url = result.data.redirect.url;
-
-        self.order = {currency: result.data.currency, amount: result.data.amount};
-        // console.log('order ++++++ ', self.order);
-        self.customer = result.data.customer;
-
-        self.authorize = {
-          auto: result.data.auto,
-          saveCard:  result.data.save_card,
-          threeDSecure:  result.data.threeDSecure,
-          description:  result.data.description,
-          statement_descriptor: result.data.statement_descriptor,
-          reference: result.data.reference,
-          metadata: result.data.metadata,
-          receipt: result.data.receipt,
-          redirect: result.data.redirect.url,
-          post: result.data.post.url
-        };
-
-        self.tranx_description = self.authorize.description;
-
-        self.RootStore.paymentStore.authorize = self.authorize;
-
-        self.legalConfig = true;
-
-        return await self.legalConfig;
-      });
-
-    }else {
-      this.authorize = value.authorize;
-
-      self.tranx_description = self.authorize.description;
-      // console.log('authorize', this.authorize);
-      this.redirect_url = value.authorize.redirect;
-
-      if(value.customer || value.customer != null){
-        this.customer = value.customer;
-      }
-
-      if(value.order || value.order != null){
-        this.items = value.order.items;
-        this.shipping = value.order.shipping;
-        this.taxes = value.order.taxes;
-        this.order = {currency: value.order.currency, amount: value.order.amount};
-
-        self.legalConfig = true;
-
-        return await self.legalConfig;
-      }
-      else {
-        this.legalConfig = false;
-        this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_order_configration_msg', null), null);
-
-        return await self.legalConfig;
-      }
-    }
-  }
 }
 
 
@@ -494,6 +404,7 @@ decorate(ConfigStore, {
   btn:observable,
   style:observable,
   transaction_mode: observable,
+  transaction: observable,
   customer: observable,
   charge: observable,
   authorize: observable,

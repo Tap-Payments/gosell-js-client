@@ -5,6 +5,7 @@ import NaviButton from "./modalNavigator/NaviButton";
 import "../assets/css/styles.css";
 import styled from "styled-components";
 import clearIcon from "../assets/icons/clear.svg";
+// import ReactDOM from 'react-dom';
 
 const propTypes = {
   id: PropTypes.string.isRequired
@@ -55,6 +56,7 @@ class Modal extends React.Component {
         modal.setState({ isOpen: false , isOpenWait: "tap-payments-modal-open" });
 
         if(modal.props.onClose) modal.props.onClose(id);
+
       }, 1200);
 
     }
@@ -290,6 +292,9 @@ class Modal extends React.Component {
 
     document.body.classList.remove('tap-payments-modal-open');
     this.props.blur ? this.removeBlur() : null;
+
+    // ReactDOM.unmountComponentAtNode(document.getElementById(this.props.id));
+
     this.modaldialog.remove();
 
   }
@@ -307,6 +312,7 @@ class Modal extends React.Component {
     // console.log('close it is hidden: ', !this.state.isOpen);
     return (
       <div
+        id={this.props.id}
         className="tap-payments-modal-container"
         dir={this.state.dir}
         style={!this.state.isOpen ? {display: 'none'} : {}}

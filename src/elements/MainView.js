@@ -1,6 +1,7 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
-import PaymentOptions from './PaymentOptions';
+import Pay from './Pay';
+import Save from './Save';
 import SideMenu from './SideMenu';
 import SupportedCurrencies from './SupportedCurrencies';
 import BusinessInfo from './BusinessInfo';
@@ -9,12 +10,28 @@ class MainView extends Component {
 
   render() {
       let store = this.props.store;
-      console.log('sub pages +++++++++++++++++++++++++ ', store.uIStore.getSubPage);
-      console.log('page dir >>>>>>>>>>>>>>>>>>>>>>>>>>>>', store.uIStore.pageDir);
+
+      let view = null;
+
+      switch (store.configStore.transaction_mode) {
+        case 'charge':
+          view = (<Pay store={store}/>);
+          break;
+        case 'authorize':
+            view = (<Pay store={store}/>);
+            break;
+        case 'save_card':
+            view = (<Save store={store}/>);
+            break;
+        case 'token':
+            view = (<Save store={store}/>);
+            break;
+      }
 
       return (
           <React.Fragment>
-            <PaymentOptions store={store} />
+            {view}
+
             {!store.isMobile ?
               <React.Fragment>
                 <SideMenu key={0} id='currencies' dir={store.uIStore.dir}  animationDuration={'300ms'}  expand={store.uIStore.getSubPage === 0 ? true : false} width={110}>

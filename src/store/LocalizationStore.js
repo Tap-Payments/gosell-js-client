@@ -18,7 +18,7 @@ class LocalizationStore {
     var self = this;
     axios.post(Paths.serverPath +'/localization', {})
     .then( function (response) {
-      console.log('localization', response);
+      // console.log('localization', response);
       self.strings =  response.data;
       self.isLoading = false;
     })

@@ -20,12 +20,16 @@ class GoSell extends Component {
     GoSell.handleView();
 
     RootStore.configStore.configure().then(result => {
+      // console.log('return', result);
       RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null), null);
-      if(!GoSell.showTranxResult()){
-        if(RootStore.configStore.legalConfig){
-          RootStore.apiStore.init();
+
+      if(result){
+
+        if(!GoSell.showTranxResult()){
+            RootStore.apiStore.init(RootStore.configStore.key);
         }
       }
+
     });
 
   }
@@ -39,12 +43,15 @@ class GoSell extends Component {
     GoSell.handleView();
 
     RootStore.configStore.configure().then(result => {
+      // console.log('return', result);
       RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null), null);
-      if(!GoSell.showTranxResult()){
-        if(RootStore.configStore.legalConfig){
-          RootStore.apiStore.init();
+
+      if(result){
+        if(!GoSell.showTranxResult()){
+            RootStore.apiStore.init(RootStore.configStore.key);
         }
       }
+
     });
 
   }
@@ -75,7 +82,7 @@ class GoSell extends Component {
 
     RootStore.uIStore.setErrorHandler({});
     RootStore.uIStore.startLoading('loader', null, null);
-
+    // RootStore.configStore.configure();
     RootStore.uIStore.setOpenModal(true);
 
     RootStore.configStore.setGlobalStyle();
@@ -92,7 +99,7 @@ class GoSell extends Component {
     console.log('urlParams', urlParams);
     if(urlParams.has('tap_id')){
 
-      RootStore.configStore.configure().then(result => {
+      // RootStore.configStore.configure().then(result => {
         GoSell.handleView();
         tap_id = urlParams.get('tap_id');
 
@@ -101,7 +108,7 @@ class GoSell extends Component {
           // console.log('init response', result);
           console.log('url', RootStore.configStore.redirect_url);
         });
-      });
+      // });
 
       return true;
     }
@@ -126,7 +133,8 @@ class GoSell extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('nextProps', nextProps);
+    console.log('nextProps', nextProps);
+
     this.config(nextProps);
     this.handleWindowSizeChange();
   }
@@ -191,13 +199,12 @@ class GoSell extends Component {
 
   static handleClose(){
       RootStore.uIStore.setOpenModal(false);
-      // RootStore.uIStore.stopLoading();
+      RootStore.uIStore.isLoading = true;
 
       RootStore.uIStore.mainHeight = 0;
 
       RootStore.uIStore.getErrorHandler.visable = false;
       RootStore.uIStore.show_order_details = false;
-      // RootStore.uIStore.startLoading('loader', RootStore.localizationStore.getContent('please_wait_msg', null));
 
       RootStore.uIStore.setSubPage(-1);
       RootStore.uIStore.setPageIndex(0, 'x');
@@ -232,7 +239,8 @@ class GoSell extends Component {
 
     return(
         <React.Fragment>
-            <Modal id={RootStore.uIStore.modalID}
+            <Modal
+                id={RootStore.uIStore.modalID}
                 open={RootStore.uIStore.openModal}
                 onClose={GoSell.handleClose}
                 blur={true}
@@ -264,7 +272,7 @@ class GoSell extends Component {
                   onClose={GoSell.handleClose}
                   style={RootStore.uIStore.modal.headerStyle}
                   separator={false}></Header>}>
-                       <MainView store={RootStore} />
+                       {!RootStore.uIStore.isLoading ? <MainView store={RootStore} /> : null}
                </Modal>
           </React.Fragment>
       );
