@@ -13,10 +13,11 @@ module.exports = {
         gateway={object.gateway}
         customer={object.customer}
         order={object.order}
-        charge={object.charge}
-        authorize={object.authorize}
-        saveCard={object.saveCard}
-        token={object.token} />, document.getElementById(object.containerID));
+        transaction={{
+          mode: object.transaction.mode,
+          charge:object.transaction.charge,
+          authorize:object.transaction.authorize,
+        }} />, document.getElementById(object.containerID));
   },
   openLightBox:function(){
     module.exports.GoSell.openLightBox();
@@ -30,7 +31,7 @@ module.exports = {
     ReactDOM.render(
       <GoSellElements
         gateway={object.gateway}
-        token={true} />, document.getElementById(object.containerID));
+        transaction={{ mode: 'token' }} />, document.getElementById(object.containerID));
   },
   submit:function(){
     module.exports.GoSellElements.submit();
