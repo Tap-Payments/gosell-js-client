@@ -305,6 +305,9 @@ class PaymentStore{
         }
       });
     });
+    
+    // console.log('&& payment_methods', this.payment_methods.slice());
+    // console.log('&& supported_currencies_based_on_methods', this.supported_currencies_based_on_methods);
   }
 
   computed

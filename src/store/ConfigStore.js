@@ -150,6 +150,7 @@ class ConfigStore {
         this.legalConfig = true;
         break;
       default:
+        console.log("configure Something went wrong! Please check the goSell configration");
         this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
         this.legalConfig = false;
         break;
@@ -161,16 +162,15 @@ class ConfigStore {
 
   setOrder(value){
     console.log('from set order', value);
-    if(this.legalConfig && (value || value != null)){
+    if(this.legalConfig && (value || value != null) && ((value.amount && value.amount != null) && (value.currency && value.currency != null))){
+
       this.order = value;
       this.items = value.items ? value.items.slice() : null;
       this.shipping = value.shipping ? value.shipping : null;
       this.taxes = value.taxes ? value.taxes : null;
-      console.log('this.legalConfig1', this.legalConfig);
 
       this.legalConfig = true;
 
-      console.log('this.legalConfig2', this.legalConfig);
     }
     else if(this.transaction_mode != 'token' && this.transaction_mode != 'save_card'){
       this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_order_configration_msg', null), null);
@@ -303,7 +303,7 @@ class ConfigStore {
 
           }
           else {
-            console.log("Something went wrong! Please check the goSell configration");
+            console.log("setGateway Something went wrong! Please check the goSell configration");
             this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
             this.legalConfig = false;
           }
@@ -311,6 +311,7 @@ class ConfigStore {
       }
     }
     else {
+      console.log("setGateway Something went wrong! Please check the goSell configration");
       this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
       this.legalConfig = false;
     }
@@ -379,7 +380,7 @@ class ConfigStore {
       }
     }
     else {
-        console.log("Something went wrong! Please check the goSell configration");
+        console.log("setTransaction Something went wrong! Please check the goSell configration");
         this.RootStore.uIStore.showMsg('warning', this.RootStore.localizationStore.getContent('gosell_gateway_configration_msg', null), null);
         this.legalConfig = false;
     }
