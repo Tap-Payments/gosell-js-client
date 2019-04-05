@@ -93,22 +93,19 @@ class GoSell extends Component {
 
     var urlParams = new URLSearchParams(window.location.search);
 
-    console.log('hey', window.location.query);
+    // console.log('hey', window.location.query);
     var tap_id = null;
 
-    console.log('urlParams', urlParams);
+    // console.log('urlParams', urlParams);
     if(urlParams.has('tap_id')){
 
-      // RootStore.configStore.configure().then(result => {
+      RootStore.configStore.configure().then(result => {
         GoSell.handleView();
         tap_id = urlParams.get('tap_id');
 
         console.log('tap_id', tap_id);
-        RootStore.apiStore.getTransactionResult(tap_id).then(result => {
-          // console.log('init response', result);
-          console.log('url', RootStore.configStore.redirect_url);
-        });
-      // });
+        RootStore.apiStore.getTransactionResult(tap_id);
+      });
 
       return true;
     }
