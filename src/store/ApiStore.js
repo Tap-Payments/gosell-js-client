@@ -544,7 +544,7 @@ class ApiStore{
      if(transaction.data.error || transaction.data.errors){
          self.sendResponse(transaction.data);
      }
-    
+
      return await transaction;
 
    }
@@ -609,7 +609,7 @@ class ApiStore{
                   }
                   else if(auth.data.status && (auth.data.status.toUpperCase() === 'VOID' || auth.data.status.toUpperCase() === 'CAPTURED' || auth.data.status.toUpperCase() === 'AUTHORIZED')){
                     console.log(auth.data);
-                    self.RootStore.configStore.callbackFunc(charge.data);
+                    self.RootStore.configStore.callbackFunc(auth.data);
                     self.RootStore.uIStore.showMsg('success', self.RootStore.localizationStore.getContent('gosell_successful_transaction', null), auth.data.id);
                   }
                   else if(auth.data.status && (auth.data.status.toUpperCase() === 'ABANDONED' || auth.data.status.toUpperCase() === 'CANCELLED' || auth.data.status.toUpperCase() === 'FAILED' || auth.data.status.toUpperCase() === 'DECLINED' || auth.data.status.toUpperCase() === 'RESTRICTED' || auth.data.status.toUpperCase() === 'TIMEDOUT')) {
