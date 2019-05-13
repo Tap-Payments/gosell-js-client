@@ -72,7 +72,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
   var mode = req.body.mode === 'Development' ? 'http://35.194.57.148:8080' : 'https://api.tap.company';
 
   var requestbody = req.body.reqBody ? req.body.reqBody : {};
-  var header = Object.assign({}, req.body.headers,
+  var _header = Object.assign({}, req.body.headers,
     {
       "access_key": "ak_XKokBfNWv6FIYuTMg5sLPjhJ",
       'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
     });
 
     Request.get({
-      "headers": header,
+      "headers": _header,
       "url": mode + "/v2/init",
     }, (error, response) => {
       if(error) {
