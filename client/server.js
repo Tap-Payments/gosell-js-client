@@ -80,7 +80,7 @@ app.post('/init', asyncHandler(async (req, res,) => {
     });
 
     Request.get({
-      "headers": req.body.headers,
+      "headers": header,
       "url": mode + "/v2/init",
     }, (error, response) => {
       if(error) {
