@@ -8,7 +8,7 @@ class GoSellDemo extends Component {
   }
 
   callbackFunc(response){
-    console.log(response);
+    //console.log('response ===> ', response);
   }
 
   render() {
@@ -56,7 +56,7 @@ class GoSellDemo extends Component {
              }
            }}
            customer={{
-             // id:"cus_m1QB0320181401l1LD1812433335",
+             id:"cus_k2D15820191258y4H21302372",
              first_name: "Hala",
              middle_name: "A.",
              last_name: "Qutmosh",
@@ -113,7 +113,7 @@ class GoSellDemo extends Component {
              charge:{
               saveCard: false,
               threeDSecure: true,
-              description: "Test Description",
+              description: "Test Description 3333333333",
               statement_descriptor: "Sample",
               reference:{
                 transaction: "txn_0001",

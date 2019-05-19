@@ -11,15 +11,6 @@ class Main extends Component {
             <Link to="/open-light-box-demo">LightBox & Elements Demo</Link>
           </li>
           <li>
-            <Link to="/open-page-demo">
-              Open Payment Page from JS library without charge / authorize ID
-              (for now, it just called the old gateway)
-            </Link>
-          </li>
-          <li>
-            <Link to="/gateway">Payment Gateway Page</Link>
-          </li>
-          <li>
             <Link to="/demo">GoSell Demo</Link>
           </li>
           <li>

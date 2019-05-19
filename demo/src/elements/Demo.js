@@ -17,15 +17,8 @@ class Demo extends Component {
     }
   }
 
-  componentDidMount(){
-    // window.addEventListener('change', function(event){
-    //   console.log('goSell event hey!! ', event);
-    // })
-
-  }
-
   hey(data){
-    console.log(data);
+    //console.log(data);
   }
 
   setPublicKeyCookie(){
@@ -33,6 +26,7 @@ class Demo extends Component {
       Cookies.set("goSellDemo_" + "publicKey", this.Store.gateway.publicKey);
     }
   }
+
   handleLightBox(){
     GoSell.openLightBox(this.hey);
     // set p-key on start
@@ -66,7 +60,7 @@ class Demo extends Component {
 
   render() {
 
-    // console.log('something wrong here', this.Store.gateway);
+    // //console.log('something wrong here', this.Store.gateway);
     return (
       <div className="demo-settings">
       <fieldset>
@@ -123,13 +117,7 @@ class Demo extends Component {
                   mode: this.Store.transaction_mode,
                   charge: this.Store.transaction,
                   authorize: this.Store.transaction
-                }}
-                // transaction_mode={this.Store.transaction_mode}
-                // charge={this.Store.transaction_mode === 'charge' ? this.Store.transaction : null}
-                // authorize={this.Store.transaction_mode === 'authorize' ? this.Store.transaction : null}
-                // saveCard={this.Store.transaction_mode === 'save_card'}
-                // token={this.Store.transaction_mode === 'token'}
-                />
+                }} />
 
              <TapBtn
                id="gosell-lightbox-btn"

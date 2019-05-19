@@ -21,19 +21,10 @@ module.exports = {
 	cssFolder: "css",
 	jsFolder: "js",
 
-	imgsPath: 'https://goselljslib.b-cdn.net/imgs/',
+	imgsPath: 'https://goselljslib.b-cdn.net/v1.3/imgs/',
 	fontsPath: 'https://goSellJSLib.b-cdn.net/fonts/',
 	cssPath: 'https://goSellJSLib.b-cdn.net/css/',
-	// serverPath: 'http://192.168.8.193:8000',
-	// serverPath: 'http://localhost:8000',
-	// serverPath: 'http://192.168.8.164:8000',
-	// serverPath: 'http://192.168.1.119:8000',
-	serverPath: 'http://35.237.168.102/api',
-  // serverPath: 'http://35.195.64.244/api',
-	// serverPath: 'http://192.168.0.7:8000'
+	serverPath: 'http://localhost:8010',
+  popupPath: 'http://localhost:3000/popup/',
+  pagePath: 'http://localhost:3000/page/',
 };
-
-// GoSellGateway - page
-// GoSellGateway - popup
-// GoSellElements
-// imgsPath: path.resolve(__dirname, "../", "src/assets/imgs/"),

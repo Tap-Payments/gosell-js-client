@@ -1,9 +1,7 @@
 import React, { Component }  from 'react';
 import {observer} from 'mobx-react';
-// import {NotificationBar} from '@tap-payments/modal-fix';
-import {NotificationBar} from '../lib/modal';
+import NotificationBar from './NotificationBar';
 import RootStore from '../store/RootStore.js';
-import CardsForm from './CardsForm.js';
 
 class GoSellElements extends Component {
 
@@ -20,20 +18,20 @@ class GoSellElements extends Component {
   }
 
   componentDidMount(){
+    RootStore.apiStore.getLocalization().then(result => {
+       RootStore.localizationStore.strings =  result;
+       RootStore.localizationStore.isLoading = false;
+    });
+
     RootStore.formStore.generateCardForm('gosell-gateway-element-container');
   }
 
   componentWillReceiveProps(nextProps) {
     this.config(nextProps);
-
   }
 
   config(props){
-    RootStore.configStore.setConfig(props, 'GOSELL_ELEMENTS');
-    // RootStore.configStore.configure().then(result => {
-    //   console.log('config result', result);
-    // });
-    // console.log('=== dir', RootStore.uIStore.dir);
+    RootStore.configStore.setConfig(props);
   }
 
   closeNotification(){

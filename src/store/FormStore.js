@@ -123,7 +123,7 @@ class FormStore{
       self.createToken = function(card,result){
 
           if(self.lock==true){
-              //console.log('wait')
+              ////console.log('wait')
               return;
           }
 
@@ -148,7 +148,7 @@ class FormStore{
                     var i_obj = iframe_obj.getAttribute('src');
 
                     if (0 === i_obj.indexOf(e.origin)){
-                        ////console.log(e.data);
+                        //////console.log(e.data);
                         if(e.data.error){
                             self.lock = false;
                             resolve(e.data)
@@ -233,9 +233,9 @@ class FormStore{
           }
           self.elements.card.addEventListener= function(id, res){
 
-            // console.log('card id', id);
+            // //console.log('card id', id);
               window.addEventListener('message', receiver, false);
-              ////console.log(this)
+              //////console.log(this)
               if(this.card){
                 var iframe_obj = this.card._iframe;
               }
@@ -246,8 +246,8 @@ class FormStore{
               function receiver(e) {
                   //if (0 === self.card._iframe.src.indexOf(e.origin)){
                   if (iframe_obj && 0 === iframe_obj.src.indexOf(e.origin)){
-                      /*console.log("received in js library");
-                      console.log(e.data);*/
+                      /*//console.log("received in js library");
+                      //console.log(e.data);*/
                       if(e.data.layout){
                           var iframeWin = document.getElementById("myFrame");
                           //iframeWin.setAttribute("height","140px");
@@ -257,7 +257,7 @@ class FormStore{
                               var iframeWin = document.getElementById("myFrame").contentWindow;
                               iframeWin.postMessage({'action':'client_ip','key':self._apiKey,'client_ip':details.ip}, window.location.protocol+"//"+frameurl+"/tap_payment_widget");
                           });
-                          ////console.log(e.data.layout.height);
+                          //////console.log(e.data.layout.height);
                           //iframeWin.setAttribute("height",e.data.layout.height)
                       }
                       if(e.data.success==true && e.data.BIN && e.data.type!='token'){
@@ -275,23 +275,18 @@ class FormStore{
 
               this.card.type= type;
 
-              //console.log('type', type);
-              //console.log('self.card', this.card);
               var x = document.createElement("IFRAME");
               x.setAttribute("id",'myFrame');
               x.setAttribute("name",'myFrame');
               x.setAttribute("title",'Secure payment input');
               x.setAttribute("allowpaymentrequest",'true');
-              //below line disables javascript in iframe
-              //x.setAttribute("security",'restricted');
-              ////console.log(objectToQueryString(options_object));
+
 
               x.setAttribute("style",'border: none !important;margin: 0px !important;padding: 0px !important;min-width: 100% !important;overflow: hidden !important;display: block !important;');
 
               x.setAttribute("src", window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui?"+ self.objectToQueryString(options_object)+'&key='+key+'&'+ self.objectToQueryString(paymentOptions));
               this.card._iframe =  x;
               self.currencyCode = paymentOptions.currencyCode;
-              // console.log('it is card', this.card);
 
               return this.card;
           }
@@ -306,61 +301,24 @@ class FormStore{
   generateCardForm(id){
     var self = this;
 
-    this.tap = this.generateForm(this.RootStore.configStore.key);
-    // console.log('key', this.RootStore.configStore.key);
+    this.tap = this.generateForm(this.RootStore.configStore.gateway.publicKey);
 
     var elements = this.tap.elements({});
 
     var style = this.RootStore.configStore.style;
 
-    var paymentOptions = {};
-
-    // console.log('view', this.RootStore.configStore.view);
-    // console.log('mode', this.RootStore.configStore.transaction_mode);
-
-    if(self.RootStore.configStore.view === 'GOSELL_ELEMENTS'){
-        paymentOptions = {
+    var paymentOptions = {
          currencyCode: this.RootStore.configStore.gateway.supportedCurrencies.slice(),
-         labels : this.RootStore.configStore.labels,
+         labels : this.RootStore.configStore.gateway.labels,
          paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods.slice(),
-         TextDirection: this.RootStore.uIStore.dir
-       }
-
-       // console.log('&& gosell elements', this.RootStore.paymentStore.currencies);
-       // console.log('&& gosell elements methods', this.RootStore.paymentStore.supported_payment_methods);
-    }
-    else {
-      if(this.RootStore.configStore.transaction_mode === 'token' || this.RootStore.configStore.transaction_mode === 'save_card'){
-          paymentOptions = {
-           // currencyCode: this.RootStore.paymentStore.currencies.slice(),
-           currencyCode: this.RootStore.configStore.gateway.supportedCurrencies.slice(),
-           labels : this.RootStore.configStore.labels,
-           paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods.slice(),
-           // paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
-           TextDirection: this.RootStore.uIStore.dir
-         }
-
-         // console.log('&& save card', this.RootStore.configStore.gateway.supportedCurrencies.slice());
-         // console.log('&& save card methods', this.RootStore.configStore.gateway.supportedPaymentMethods.slice());
-      }
-      else {
-         paymentOptions = {
-          currencyCode: [this.RootStore.paymentStore.current_currency.currency],
-          labels : this.RootStore.configStore.labels,
-          paymentAllowed: this.RootStore.paymentStore.supported_payment_methods.slice(),
-          TextDirection: this.RootStore.uIStore.dir
-        }
-
-        // console.log('&& else', [this.RootStore.paymentStore.current_currency.currency]);
-        // console.log('&& else methods', this.RootStore.paymentStore.supported_payment_methods.slice());
-      }
+         TextDirection: this.RootStore.configStore.gateway.language == 'en' ? 'ltr' : 'rtl'
     }
 
     this.card = elements.create('card', {style: style}, paymentOptions);
     this.card.mount('#' + id);
 
     this.card.addEventListener('change', function(event) {
-      // console.log('change event', event);
+      // //console.log('change event', event);
       self.onChange(event);
     });
 
@@ -371,43 +329,7 @@ class FormStore{
     var bin = true;
     var active_brand = null;
 
-    if(event.code == 200){
-      self.RootStore.paymentStore.save_card_active = true;
-      self.RootStore.uIStore.setIsActive('FORM');
-      // console.log('form', self.RootStore.uIStore.getIsActive);
-      // var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.current_currency.symbol + self.RootStore.uIStore.formatNumber(self.RootStore.paymentStore.active_payment_option_total_amount.toFixed(self.RootStore.paymentStore.current_currency.decimal_digit)) : '';
-
-      var total = self.RootStore.paymentStore.active_payment_option_total_amount > 0 ? self.RootStore.paymentStore.getCurrentAmount : '';
-
-      self.RootStore.uIStore.goSellBtn({
-        title: self.RootStore.configStore.btn + ' ' + total,
-        color: '#2ACE00',
-        active: true
-      });
-
-      // console.log('onChange', self.RootStore.uIStore.btn);
-
-      //console.log('I am in success');
-
-      if(self.RootStore.configStore.transaction_mode === 'save_card'){
-        self.RootStore.paymentStore.saveCardOption(true);
-      }
-    }
-    else if(event.code == 100 && event.focus == 'in'){
-      self.RootStore.uIStore.keyboard = true;
-
-      self.cardFormHandleClick();
-      // set the flag true every time the frame is focused
-      this.submitBtnFlag  = true
-    }
-    else if(event.code == 403 && event.status == 'invalid'){
-      self.RootStore.uIStore.goSellBtn({
-        title: self.RootStore.configStore.btn,
-        active: false,
-        loader: false
-      });
-    }
-    else if(event.error && event.error.code == 400){
+    if(event.error && event.error.code == 400){
       self.RootStore.uIStore.setErrorHandler({
         visable: true,
         code: event.error.code,
@@ -417,15 +339,8 @@ class FormStore{
     }
     else if(event.code == 400 || (event.error_interactive && event.error_interactive.code == 400)){
 
-        if(self.RootStore.uIStore.btn.active && self.RootStore.uIStore.btn.loader){
-          self.RootStore.uIStore.warningHandler();
-        }
-        else {
-          self.RootStore.paymentStore.save_card_active = false;
-          self.RootStore.paymentStore.saveCardOption(false);
-
-          console.log('event code 400');
-          console.log('code', event.error_interactive.code);
+          //console.log('event code 400');
+          //console.log('code', event.error_interactive.code);
 
           if(event.error_interactive.key === "cvv_digit_required"){
             var msg = self.RootStore.localizationStore.getContent(event.error_interactive.key, null).replace('<digit>', event.error_interactive.digit);
@@ -467,104 +382,12 @@ class FormStore{
           else {
             self.hide = false;
           }
-        }
 
     }
-    else if(event.code == 101 && event.code == 200){
-      console.log("it's out & successful");
-    }
-    else if(event.code == 101 && event.code != 200){
-      console.log("it's out");
-      self.RootStore.uIStore.keyboard = false;
-      console.log('out keyboard from formStore', self.RootStore.uIStore.keyboard);
-    }
-
-
     if(event.BIN && event.BIN.card_brand !== active_brand){
-        //console.log(event.BIN.card_brand);
-
-        if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS' && self.RootStore.configStore.transaction_mode != 'save_card' && self.RootStore.configStore.transaction_mode != 'token'){
-          self.RootStore.paymentStore.getFees(event.BIN.card_brand);
-
-        }
-
-        //console.log(active_brand, event.BIN);
         active_brand = event.BIN.card_brand;
     }
-
-    if(event.loaded){
-      if(self.RootStore.configStore.transaction_mode === 'token' || self.RootStore.configStore.transaction_mode === 'save_card'){
-        //console.log('&& update the element height');
-        self.RootStore.uIStore.calcElementsHeight('gosell-gateway-form-container');
-      }
-      else {
-        self.RootStore.uIStore.calcElementsHeight('gosell-gateway-payment-options');
-      }
-
-    }
   }
-
-  // checkFocus() {
-  //
-  //   var self = this;
-  //   var statusFocus = null;
-  //
-  //   var isfocused = document.getElementById("myFrame");
-  //
-  //       if(document.activeElement == isfocused) {
-  //         if(statusFocus != false){
-  //             statusFocus=false;
-  //             // console.log('in focus');
-  //             // if(self.RootStore.configStore.view !== 'GOSELL_ELEMENTS'){
-  //               self.cardFormHandleClick();
-  //             // }
-  //             //return {"statusFocus":statusFocus,'message':"iframe has focus"};
-  //         }
-  //       } else {
-  //         if(statusFocus != true){
-  //           // console.log('in focus');
-  //             statusFocus=true;
-  //             //return {"statusFocus":statusFocus,'message':"iframe has not focused"};
-  //         }
-  //       }
-  //
-  //       return;
-  //  }
-
-   cardFormHandleClick(){
-
-     if(this.RootStore.uIStore.btn.active && this.RootStore.uIStore.btn.loader){
-       this.RootStore.uIStore.warningHandler();
-     }
-     else {
-       this.RootStore.paymentStore.selected_card = null;
-       this.RootStore.uIStore.setSubPage(-1);
-
-       //clear open menus
-       // this.RootStore.uIStore.setPageIndex(0);
-       // this.RootStore.uIStore.isMobile ? this.RootStore.uIStore.setSubPage(0) : this.RootStore.uIStore.setSubPage(-1);
-
-       if(this.RootStore.uIStore.getIsActive !== 'FORM'){
-         this.RootStore.paymentStore.active_payment_option_total_amount = 0;
-         this.RootStore.uIStore.setErrorHandler({});
-         this.RootStore.uIStore.delete_card = null;
-         // this.RootStore.uIStore.payBtn(false);
-
-         this.RootStore.uIStore.goSellBtn({
-           title: this.RootStore.configStore.btn,
-           active: false,
-           loader: false
-         });
-
-       }
-
-       //form is active
-       this.RootStore.uIStore.setIsActive('FORM');
-
-
-    }
-
-   }
 
    async generateToken() {
      var self = this;
@@ -572,9 +395,6 @@ class FormStore{
      await this.tap.createToken(this.card).then(function(result) {
 
          if(result.error) {
-            self.RootStore.paymentStore.save_card_active = false;
-            self.RootStore.paymentStore.saveCardOption(false);
-
             // Inform the user if there was an error
             self.RootStore.uIStore.setErrorHandler({
                  visable: true,
@@ -584,27 +404,16 @@ class FormStore{
             });
 
          } else {
-             self.RootStore.uIStore.setIsActive('FORM');
-             //console.log('result ----> ', result);
-             self.RootStore.paymentStore.source_id = result.id;
-             self.RootStore.paymentStore.active_payment_option = result.card;
-             //console.log('card details', result.card);
-             self.RootStore.uIStore.stopBtnLoader();
+            self.RootStore.configStore.callbackFunc(result);
 
-             // Send the token to your server
-             if(self.RootStore.configStore.transaction_mode === 'token'){
-
-                 self.RootStore.configStore.callbackFunc(result);
-
-                 self.RootStore.uIStore.setErrorHandler({
+            self.RootStore.uIStore.setErrorHandler({
                    visable: true,
                    code: 200,
                    msg: result.id,
                    type: 'success'
-                 });
+            });
 
-                 self.clearCardForm();
-              }
+            self.clearCardForm();
          }
      });
     }
@@ -613,24 +422,8 @@ class FormStore{
      if(this.card != null){
        this.card.clearForm();
        this.card.blurForm();
-       // this.RootStore.uIStore.payBtn(false);
-       this.RootStore.uIStore.goSellBtn({
-         title: this.RootStore.configStore.btn,
-         active: false,
-         loader: false
-       });
      }
-
    }
-
-   switchCurrency(value){
-     //console.log('switch currencies', value);
-     var currency = value.currency;
-     var v = [currency];
-     //console.log('switcher', v);
-     this.card.currency(v);
-   }
-
 }
 
 decorate(FormStore, {

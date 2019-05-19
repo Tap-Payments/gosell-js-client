@@ -134,7 +134,7 @@ class DemoConfigStore {
   callbackFunc(response){
     let customerID = null;
 
-    console.log('response from callback func', response);
+    //console.log('response from callback func', response);
     if (response && response.customer){
       // there are two different structures
       if (response.customer.id){
@@ -156,16 +156,16 @@ class DemoConfigStore {
 
 
   updateGatewayObj(e) {
-    // console.log(e.target.name, e.target.value);
+    // //console.log(e.target.name, e.target.value);
 
     let gatewayObj = Object.assign({}, this.gateway);
     let key = e.target.name;
 
-    // console.log('language ? ', key);
-    // console.log('language ? ', e.target.value);
+    // //console.log('language ? ', key);
+    // //console.log('language ? ', e.target.value);
     if(e.target.type == 'checkbox'){
       gatewayObj[key] = e.target.checked;
-      console.log(typeof gatewayObj[key], gatewayObj[key]);
+      //console.log(typeof gatewayObj[key], gatewayObj[key]);
     }
     else if(e.target.name == 'labels'){
       gatewayObj[key].actionButton = e.target.value;
@@ -173,14 +173,14 @@ class DemoConfigStore {
     else if((e.target.name === 'supportedCurrencies' || e.target.name === 'supportedPaymentMethods')){
 
       if(e.target.value === 'all' || e.target.value === 'gcc'){
-        // console.log('++ value', e.target.value);
+        // //console.log('++ value', e.target.value);
         gatewayObj[key] = e.target.value;
       }
       else if(e.target.value !== 'all' && e.target.value !== 'gcc'){
-        // console.log('++ value', e.target.value);
+        // //console.log('++ value', e.target.value);
         var value =  e.target.value;
         var val = value.split(",");
-        // console.log('++', val);
+        // //console.log('++', val);
         gatewayObj[key] = val;
       }
 
@@ -190,12 +190,12 @@ class DemoConfigStore {
     }
 
     this.gateway= gatewayObj;
-    // console.log('updated gatewayObj: ',gatewayObj);
-    // console.log('updated: ',this.gateway.supportedPaymentMethods);
+    // //console.log('updated gatewayObj: ',gatewayObj);
+    // //console.log('updated: ',this.gateway.supportedPaymentMethods);
   }
 
   updateCustomerObj(e){
-    // console.log(e.target.name, e.target.value);
+    // //console.log(e.target.name, e.target.value);
     let customerObj = Object.assign({}, this.customer);
     let key = e.target.name;
 
@@ -209,7 +209,7 @@ class DemoConfigStore {
   }
 
   updateOrder(e){
-    // console.log(e.target.name, e.target.value);
+    // //console.log(e.target.name, e.target.value);
     let orderObj = Object.assign({}, this.order);
     let key = e.target.name;
 
@@ -224,7 +224,7 @@ class DemoConfigStore {
 
     if(e.target.type == 'checkbox'){
       tranxObj[key] = e.target.checked;
-      console.log(typeof tranxObj[key], tranxObj[key]);
+      //console.log(typeof tranxObj[key], tranxObj[key]);
     }
     else {
       tranxObj[key] = e.target.value;
@@ -238,14 +238,14 @@ class DemoConfigStore {
     let key = e.target.name;
 
     authorize[key] = e.target.value;
-    console.log('authorize[key]', authorize[key]);
+    //console.log('authorize[key]', authorize[key]);
 
     this.authorize = authorize;
 
     this.transaction = Object.assign({}, this.transaction);
     this.transaction.auto = this.authorize;
-    console.log('authorize', this.transaction);
-    console.log('---> ', this.authorize);
+    //console.log('authorize', this.transaction);
+    //console.log('---> ', this.authorize);
   }
 
   updateMode(e){
@@ -261,10 +261,10 @@ class DemoConfigStore {
       this.transaction = Object.assign({}, this.transaction);
       this.transaction.auto = this.authorize;
 
-      console.log('transaction', this.transaction);
+      //console.log('transaction', this.transaction);
     }
 
-    console.log('mode', this.transaction_mode);
+    //console.log('mode', this.transaction_mode);
   }
 
 }

@@ -317,7 +317,7 @@ class GoSellDemo extends Component {
   render() {
 
     callbackFunc(response){
-      console.log(response);
+      //console.log(response);
     }
 
     return (
@@ -572,7 +572,7 @@ class GoSellElementsDemo extends Component {
   }
 
   callbackFunc(response){
-    console.log(response);
+    //console.log(response);
   }
 
   render() {

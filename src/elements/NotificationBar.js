@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../assets/css/styles.css';
+import '../assets/css/notifications.css';
 
 class NotificationBar extends Component{
 
