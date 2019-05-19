@@ -52,6 +52,7 @@
     "@tap-payments/modal-fix": "^1.1.57",
     "autoprefixer": "^9.4.7",
     "axios": "^0.18.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "babel-polyfill": "^6.26.0",
     "base-64": "^0.1.0",
     "bluebird": "^3.3.4",
