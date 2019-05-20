@@ -17,6 +17,8 @@ class UIStore {
     this.modalMode = 'popup';
     this.errorHandler = {};
 
+    this.isLoading = true;
+
   }
 
   setOpenModal(value){
@@ -96,7 +98,8 @@ decorate(UIStore, {
   modalMode:observable,
   modalID: observable,
   tap_id: observable,
-  errorHandler:observable
+  errorHandler:observable,
+  isLoading:observable
 });
 
 export default UIStore;

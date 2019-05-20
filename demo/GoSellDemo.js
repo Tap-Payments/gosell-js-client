@@ -29,6 +29,10 @@ class GoSellDemo extends Component {
              saveCardOption:true,
              customerCards: true,
              notifications:'standard',
+             backgroundImg: {
+               url: 'https://images.unsplash.com/photo-1502657877623-f66bf489d236?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80',
+               opacity: '0.5'
+             },
              callback: this.callbackFunc.bind(this),
              labels:{
                  cardNumber:"Card Number",

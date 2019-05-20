@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start_": "npm run start-dev & npm run start-server",
+    "start_": "npm run start-dev",
     "start": "pm2 start process.json --no-daemon",
     "start-dev": "cross-env NODE_ENV=development webpack-dev-server --compress",
-    "start-server": "nodemon client/server.js",
     "build": "cross-env NODE_ENV=production webpack",
     "transpile": "babel src -d dist --copy-files",
     "prepublishOnly": "npm run transpile",
