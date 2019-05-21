@@ -4,6 +4,7 @@ import Paths from '../../webpack/paths';
 import RootStore from '../store/RootStore.js';
 import TapLoader from './TapLoader';
 import styled from "styled-components";
+import '../assets/css/style.css';
 
 class GoSell extends Component {
 
@@ -13,6 +14,10 @@ class GoSell extends Component {
     RootStore.uIStore.setOpenModal(true);
     RootStore.uIStore.isLoading = true;
 
+    var body = document.getElementsByTagName("BODY")[0];
+    body.classList.add('gosell-payment-gateway-open');
+
+    console.log(RootStore.configStore.token);
     setTimeout(function(){
       var iframe = document.getElementById('gosell-gateway');
 
@@ -94,7 +99,7 @@ class GoSell extends Component {
         self.closeModal();
       }
 
-      if(e.data != 'close'){
+      if(e.data.callback && typeof(e.data.callback) == 'object'){
         RootStore.configStore.callbackFunc(e.data);
       }
 

@@ -8,7 +8,7 @@ class GoSellDemo extends Component {
   }
 
   callbackFunc(response){
-    //console.log('response ===> ', response);
+    console.log('response ===> ', response);
   }
 
   render() {
