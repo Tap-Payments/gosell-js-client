@@ -1,6 +1,6 @@
 {
   "name": "@tap-payments/payment",
-  "version": "1.0.0",
+  "version": "1.4.0",
   "description": "Online Tap Payment Gateway",
   "main": "index.js",
   "scripts": {
