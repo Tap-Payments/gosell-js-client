@@ -2,6 +2,7 @@ import React, { Component }  from 'react';
 import styled from "styled-components";
 import {Loader} from '@tap-payments/loader';
 import * as shortWhiteLoader from '../assets/white-loader.json';
+import '../assets/css/style.css';
 
 class TapLoader extends Component {
 
@@ -45,22 +46,8 @@ class TapLoader extends Component {
   render() {
     let style = {position:'relative',top:((50-(Math.floor(window.innerHeight/100)%100))+"%")};
 
-    let Container = styled.div`
-      background-color: rgba(0, 0, 0, 0.6);
-      overflow: hidden !important;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      z-index: 99999999;
-    `
-
     return (
-      <Container>
+      <div className="gosell-gateway-msg">
           <div className='gosell-gateway-msg-wrapper' style={window.innerWidth >= 440 ? style : {color:''}}>
             <div style={{width: '60px', height: '60px', margin: 'auto', display: this.state.status ? 'block' : 'none'}}>
               <Loader
@@ -75,7 +62,7 @@ class TapLoader extends Component {
             <p className="gosell-gateway-msg-desc" style={{color: this.props.color === 'white' ? '#a4a5a7' : '#797777'}}>{this.props.desc}</p>
             <br/>
           </div>
-      </Container>
+      </div>
     );
   }
 }

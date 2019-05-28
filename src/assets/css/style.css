@@ -5,3 +5,45 @@
   height: 100%;
   margin: 0;
 }
+.gosell-gateway-msg{
+  background-color: rgba(0, 0, 0, 0.6);
+  overflow: hidden !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  z-index: 99999999;
+}
+
+.gosell-gateway-msg-wrapper{
+  height: 100%;
+  align-items: center;
+}
+.gosell-gateway-msg-title{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 17px;
+  color: #4b4847;
+  letter-spacing: -0.08px;
+  text-align: center;
+}
+
+.gosell-gateway-msg-desc{
+  margin: 0 20px;
+  font-size: 13px;
+  color: #9D9FA4;
+  letter-spacing: -0.06px;
+  text-align: center;
+}
+
+@media(max-width: 440px){
+  .gosell-gateway-msg-wrapper {
+    display: flex;
+    /* position: unset; */
+    flex-direction: column;
+  }
+}

@@ -10,6 +10,7 @@ class GoSell extends Component {
 
   //open Tap gateway as a light box by JS library
   static openLightBox(){
+    
     RootStore.uIStore.modalMode = 'popup';
     RootStore.uIStore.setOpenModal(true);
     RootStore.uIStore.isLoading = true;
@@ -118,6 +119,9 @@ class GoSell extends Component {
 
       window.open(url[0], '_self');
     }
+
+    var body = document.getElementsByTagName("BODY")[0];
+    body.classList.remove('gosell-payment-gateway-open');
   }
 
   componentWillUnMount(){
@@ -129,16 +133,17 @@ class GoSell extends Component {
     // Listen to message from child window
     eventer(messageEvent,function(e) {
       if(e.data == 'close'){
-        //console.log('close it');
         RootStore.uIStore.setOpenModal(false);
+        var body = document.getElementsByTagName("BODY")[0];
+        body.classList.remove('gosell-payment-gateway-open');
       }
-      //console.log('parent received message!:  ',e.data);
+
     },false);
   }
 
   render() {
 
-    console.log('tap_id', RootStore.uIStore.tap_id);
+    // console.log('tap_id', RootStore.uIStore.tap_id);
     return(
         <React.Fragment>
               {RootStore.uIStore.openModal ?

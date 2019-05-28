@@ -8,16 +8,36 @@ module.exports = {
   GoSell:GoSell,
   GoSellElements:GoSellElements,
   config:function(object) {
-    ReactDOM.render(
-      <GoSell
-        gateway={object.gateway}
-        customer={object.customer}
-        order={object.order}
-        transaction={{
-          mode: object.transaction.mode,
-          charge:object.transaction.charge,
-          authorize:object.transaction.authorize,
-        }} />, document.getElementById(object.containerID));
+    if(object.containerID){
+      ReactDOM.render(
+        <GoSell
+          gateway={object.gateway}
+          customer={object.customer}
+          order={object.order}
+          transaction={{
+            mode: object.transaction.mode,
+            charge:object.transaction.charge,
+            authorize:object.transaction.authorize,
+          }} />, document.getElementById(object.containerID));
+    }
+    else {
+      var container = document.createElement("div");
+      container.setAttribute('id', 'gosell-js-lib');
+
+      document.body.insertBefore(container, document.body.childNodes[0]);
+
+      ReactDOM.render(
+        <GoSell
+          gateway={object.gateway}
+          customer={object.customer}
+          order={object.order}
+          transaction={{
+            mode: object.transaction.mode,
+            charge:object.transaction.charge,
+            authorize:object.transaction.authorize,
+          }} />, document.getElementById('gosell-js-lib'));
+    }
+
   },
   openLightBox:function(){
     module.exports.GoSell.openLightBox();
