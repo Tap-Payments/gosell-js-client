@@ -22,7 +22,7 @@ class GoSellDemo extends Component {
         <GoSell
            gateway={{
              publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
-             language:"en",
+             language:"ar",
              contactInfo:true,
              supportedCurrencies:"all",
              supportedPaymentMethods:"all",

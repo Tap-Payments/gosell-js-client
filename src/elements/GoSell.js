@@ -10,7 +10,7 @@ class GoSell extends Component {
 
   //open Tap gateway as a light box by JS library
   static openLightBox(){
-    
+
     RootStore.uIStore.modalMode = 'popup';
     RootStore.uIStore.setOpenModal(true);
     RootStore.uIStore.isLoading = true;
@@ -43,6 +43,10 @@ class GoSell extends Component {
     if(urlParams.has('tap_id')){
       RootStore.uIStore.isLoading = true;
       RootStore.uIStore.setOpenModal(true);
+      
+      var body = document.getElementsByTagName("BODY")[0];
+      body.classList.add('gosell-payment-gateway-open');
+
       RootStore.uIStore.tap_id = urlParams.get('tap_id');
 
       setTimeout(function(){
