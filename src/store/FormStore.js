@@ -57,27 +57,6 @@ class FormStore{
   }
 
 
-  detect_details(){
-      return new Promise(function(resolve, reject) {
-         var xhttp = new XMLHttpRequest();
-
-          xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-
-                return resolve(
-                    {
-                        ip:JSON.parse(this.responseText).ip
-                    }
-                );
-
-
-            }
-          };
-          xhttp.open("GET", "//partners.payments.tap.company/api/v1.3/iploc.aspx", true);
-          xhttp.send();
-     });
-  }
-
   generateForm(key){
       var self = this;
 
@@ -222,13 +201,6 @@ class FormStore{
                   s.appendChild(d);
                   d.appendChild(this._iframe);
               }
-              //bewlo code is not working due to CORs restriction, should enable it then un comment
-              /*this._iframe.onload = function(){
-                  detect_details().then(function(details) {
-                      var iframeWin = document.getElementById("myFrame").contentWindow;
-                      iframeWin.postMessage({'action':'userdetails','key':this._apiKey,'details':details}, window.location.protocol+"//"+frameurl+"/tap_payment_widget");
-                  });
-              };*/
 
           }
           self.elements.card.addEventListener= function(id, res){
@@ -253,12 +225,13 @@ class FormStore{
                           //iframeWin.setAttribute("height","140px");
                           iframeWin.setAttribute("height",e.data.layout.height)
                           res({loaded:true});
-                          self.detect_details().then(function(details) {
-                              var iframeWin = document.getElementById("myFrame").contentWindow;
-                              iframeWin.postMessage({'action':'client_ip','key':self._apiKey,'client_ip':details.ip}, window.location.protocol+"//"+frameurl+"/tap_payment_widget");
-                          });
-                          //////console.log(e.data.layout.height);
-                          //iframeWin.setAttribute("height",e.data.layout.height)
+
+                          self.RootStore.apiStore.getIP().then(ip => {
+                            console.log('ip', ip);
+                            var iframeWin = document.getElementById("myFrame").contentWindow;
+                            iframeWin.postMessage({'action':'client_ip','key':self._apiKey,'client_ip':ip}, window.location.protocol+"//"+frameurl+"/tap_payment_widget");
+                          })
+
                       }
                       if(e.data.success==true && e.data.BIN && e.data.type!='token'){
                           self.tds=e.data;

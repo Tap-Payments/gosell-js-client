@@ -69,11 +69,9 @@ class ConfigStore {
 
     this.RootStore.apiStore.generateToken(value).then(obj => {
       this.token = obj.token;
-      //console.log('token', this.token);
+      console.log('token', this.token);
     });
-
   }
-
 }
 
 function isEmpty(obj){

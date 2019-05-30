@@ -33,11 +33,32 @@ class ApiStore{
       res = response.data;
 
       //console.log('generate response', res);
-
-
     })
     .catch(function (error) {
       //console.log(error);
+    });
+
+    return await res;
+  }
+
+  async getIP(){
+    var self = this;
+
+    var header = {
+      'Content-Type':'application/json'
+    }
+
+    var res = null;
+    await axios.get('https://api.ipify.org?format=jsonp&callback=', header)
+    .then(async function(response) {
+      //console.log('ip', response);
+      if(response.status == 200){
+        res = eval(response.data).ip;
+        console.log('res ip', res);
+      }
+    })
+    .catch(function (error) {
+      console.log("error", error);
     });
 
     return await res;

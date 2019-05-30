@@ -28,7 +28,9 @@ class GoSell extends Component {
           RootStore.uIStore.isLoading = false;
         }, 500);
       });
+
     }, 100);
+
   }
 
   //redirect to Tap gateway from JS library without calling charge / authrorize API from merchant side
@@ -43,7 +45,7 @@ class GoSell extends Component {
     if(urlParams.has('tap_id')){
       RootStore.uIStore.isLoading = true;
       RootStore.uIStore.setOpenModal(true);
-      
+
       var body = document.getElementsByTagName("BODY")[0];
       body.classList.add('gosell-payment-gateway-open');
 
@@ -58,6 +60,7 @@ class GoSell extends Component {
             RootStore.uIStore.isLoading = false;
           }, 500);
         });
+
       }, 100);
 
       return true;
@@ -74,7 +77,7 @@ class GoSell extends Component {
     }
   }
 
-  componentWillMount() {
+  componentWillMount(){
     this.config(this.props);
     console.log('iframe', document.querySelector('iframe'));
   }
@@ -88,7 +91,7 @@ class GoSell extends Component {
   }
 
   componentDidMount(){
-
+    
     GoSell.showTranxResult();
     var self = this;
     // Create IE + others compatible event handler
@@ -147,7 +150,6 @@ class GoSell extends Component {
 
   render() {
 
-    // console.log('tap_id', RootStore.uIStore.tap_id);
     return(
         <React.Fragment>
               {RootStore.uIStore.openModal ?
