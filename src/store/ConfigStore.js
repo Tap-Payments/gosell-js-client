@@ -67,10 +67,16 @@ class ConfigStore {
 
     this.notifications = value.gateway && value.gateway.notifications ? value.gateway.notifications : 'standard';
 
-    this.RootStore.apiStore.generateToken(value).then(obj => {
-      this.token = obj.token;
-      console.log('token', this.token);
-    });
+    var URLSearchParams = require('url-search-params');
+    var urlParams = new URLSearchParams(window.location.search);
+    console.log('...', urlParams.has('tap_id'));
+    
+    if(!urlParams.has('tap_id')){
+      this.RootStore.apiStore.generateToken(value).then(obj => {
+        this.token = obj.token;
+        console.log('token', this.token);
+      });
+    }
   }
 }
 

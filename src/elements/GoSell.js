@@ -50,7 +50,9 @@ class GoSell extends Component {
       body.classList.add('gosell-payment-gateway-open');
 
       RootStore.uIStore.tap_id = urlParams.get('tap_id');
+      RootStore.configStore.token = urlParams.get('token');
 
+      console.log('url token', urlParams.get('token'));
       setTimeout(function(){
         var iframe = document.getElementById('gosell-gateway');
 
@@ -79,7 +81,7 @@ class GoSell extends Component {
 
   componentWillMount(){
     this.config(this.props);
-    console.log('iframe', document.querySelector('iframe'));
+    // console.log('iframe', document.querySelector('iframe'));
   }
 
   componentWillReceiveProps(nextProps){
@@ -91,8 +93,9 @@ class GoSell extends Component {
   }
 
   componentDidMount(){
-    
+
     GoSell.showTranxResult();
+
     var self = this;
     // Create IE + others compatible event handler
     var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
