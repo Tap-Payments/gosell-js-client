@@ -124,10 +124,11 @@ class GoSell extends Component {
     var urlParams = new URLSearchParams(window.location.search);
 
     if(urlParams.has('tap_id')){
-      var url = document.location.href;
-      var url = url.split('?');
+      // var url = document.location.href;
+      // var url = url.split('?');
+      // console.log('url', url[0]);
 
-      window.open(url[0], '_self');
+      window.open(RootStore.configStore.redirect_url, '_self');
     }
 
     var body = document.getElementsByTagName("BODY")[0];
@@ -143,6 +144,7 @@ class GoSell extends Component {
     // Listen to message from child window
     eventer(messageEvent,function(e) {
       if(e.data == 'close'){
+        console.log('close');
         RootStore.uIStore.setOpenModal(false);
         var body = document.getElementsByTagName("BODY")[0];
         body.classList.remove('gosell-payment-gateway-open');

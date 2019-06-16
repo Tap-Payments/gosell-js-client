@@ -128,7 +128,7 @@ class GoSellDemo extends Component {
                 email: false,
                 sms: true
               },
-              redirect: window.location.href,
+              redirect: window.location.protocol + '//' + window.location.host + '/#demo',
               post: window.location.href,
             }}}
            />

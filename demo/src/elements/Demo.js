@@ -18,7 +18,7 @@ class Demo extends Component {
   }
 
   hey(data){
-    //console.log(data);
+    console.log('callback', data);
   }
 
   setPublicKeyCookie(){

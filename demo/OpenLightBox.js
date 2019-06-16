@@ -11,6 +11,10 @@ class OpenLightBox extends Component {
     super(props);
   }
 
+  componentDidMount(){
+    DemoConfigStore.reset();
+  }
+
   render() {
 
     return (

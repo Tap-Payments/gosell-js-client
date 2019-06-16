@@ -33,6 +33,8 @@ class ConfigStore {
 
     this.token = null;
     this.notifications = 'standard';
+
+    this.redirect_url = null;
   }
 
   callbackFunc(data){
@@ -43,8 +45,22 @@ class ConfigStore {
   }
 
   setConfig(value){
+
+    var self = this;
+
     this.config = value;
     this.gateway = value.gateway ? value.gateway : {};
+
+    var transaction_mode = this.config.transaction ? this.config.transaction.mode : null;
+
+    switch (transaction_mode) {
+      case 'charge':
+        self.redirect_url = self.config.transaction.charge ? self.config.transaction.charge.redirect : window.location.href;
+        break;
+      case 'authorize':
+        self.redirect_url = self.config.transaction.authorize ? self.config.transaction.authorize.redirect : window.location.href;
+        break;
+    }
 
     this.style = {
         base: value.gateway.style.base && isEmpty(value.gateway.style.base) ? value.gateway.style.base : {
@@ -70,7 +86,7 @@ class ConfigStore {
     var URLSearchParams = require('url-search-params');
     var urlParams = new URLSearchParams(window.location.search);
     console.log('...', urlParams.has('tap_id'));
-    
+
     if(!urlParams.has('tap_id')){
       this.RootStore.apiStore.generateToken(value).then(obj => {
         this.token = obj.token;
@@ -88,7 +104,8 @@ decorate(ConfigStore, {
   config: observable,
   token: observable,
   notifications:observable,
-  gateway: observable
+  gateway: observable,
+  redirect_url: observable
 });
 
 export default ConfigStore;

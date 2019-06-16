@@ -5,6 +5,10 @@ import Cookies from "js-cookie";
 class DemoConfigStore {
 
   constructor() {
+    this.reset();
+  }
+
+  reset(){
     // check if there is a p-key on start
     let publicKeyCookie  = Cookies.get("goSellDemo_" + "publicKey");
 
@@ -79,10 +83,11 @@ class DemoConfigStore {
         email: false,
         sms: true
       },
-      redirect: window.location.href,
+      redirect: window.location.protocol + '//' + window.location.host + '/#/open-light-box-demo',
       post:  window.location.href
     };
-    console.log('window.location.href', window.location.href);
+
+    console.log('redirect', window.location.protocol + '//' + window.location.host + '/#/open-light-box-demo');
 
     this.order = {
       amount: 100,
@@ -126,10 +131,6 @@ class DemoConfigStore {
     };
 
     this.btnLoading = false;
-
-    // this.updateGatewayObj = this.updateGatewayObj.bind(this);
-    // this.updateCustomerObj = this.updateCustomerObj.bind(this);
-    // this.updateOrder = this.updateOrder.bind(this);
   }
 
   callbackFunc(response){
