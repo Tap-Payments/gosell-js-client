@@ -25,7 +25,7 @@ module.exports = {
 	fontsPath: 'https://goSellJSLib.b-cdn.net/fonts/',
 	cssPath: 'https://goSellJSLib.b-cdn.net/css/',
 	// serverPath: 'http://localhost:8000',
-  serverPath: 'http://35.195.64.244/api',
-  framePath: 'http://goweb.tap.company/',
+  serverPath: 'https://jslib.payments.gosell.io/api',
+  framePath: 'https://jslib.payments.gosell.io/',
   // framePath: 'http://localhost:3000/',
 };

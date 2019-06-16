@@ -79,9 +79,10 @@ class DemoConfigStore {
         email: false,
         sms: true
       },
-      redirect:  window.location.href,
+      redirect: window.location.href,
       post:  window.location.href
     };
+    console.log('window.location.href', window.location.href);
 
     this.order = {
       amount: 100,
