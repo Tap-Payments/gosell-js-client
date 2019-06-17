@@ -22,7 +22,7 @@ class GoSellDemo extends Component {
         <GoSell
            gateway={{
              publicKey:"pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
-             language:"en",
+             language:"ar",
              contactInfo:true,
              supportedCurrencies:"all",
              supportedPaymentMethods:"all",
@@ -34,13 +34,12 @@ class GoSellDemo extends Component {
                opacity: '0.5'
              },
              callback: this.callbackFunc.bind(this),
-             labels:{
-                 cardNumber:"Card Number",
-                 expirationDate:"MM/YY",
-                 cvv:"CVV",
-                 cardHolder:"Name on Card",
-                 actionButton:"Pay"
-             },
+             // labels:{
+             //     cardNumber:"Card Number",
+             //     expirationDate:"MM/YY",
+             //     cvv:"CVV",
+             //     cardHolder:"Name on Card",
+             // },
              style: {
                  base: {
                    color: '#535353',
