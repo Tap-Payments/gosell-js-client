@@ -1,5 +1,4 @@
 import React, { Component }  from 'react';
-import styled from "styled-components";
 import {Loader} from '@tap-payments/loader';
 import * as shortWhiteLoader from '../assets/white-loader.json';
 import '../assets/css/style.css';
@@ -11,7 +10,7 @@ class TapLoader extends Component {
     this.state = {
       status: this.props.status,
       type: this.props.type,
-      loader: null,
+      loader: shortWhiteLoader,
       second: true,
       duration: this.props.duration,
     }
@@ -28,12 +27,10 @@ class TapLoader extends Component {
   }
 
   load(value){
-    var loader  = shortWhiteLoader;
-
     this.setState({
       status: value.status,
       type: value.type,
-      loader: loader,
+      loader: shortWhiteLoader,
       second: null,
       duration: value.duration,
     });

@@ -3,7 +3,6 @@ import {observer} from 'mobx-react';
 import Paths from '../../webpack/paths';
 import RootStore from '../store/RootStore.js';
 import TapLoader from './TapLoader';
-import styled from "styled-components";
 import '../assets/css/style.css';
 
 class GoSell extends Component {

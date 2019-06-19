@@ -1,6 +1,11 @@
 # .npmignore
 src
-demo
+demoo
+build
 .babelrc
 .gitignore
+webpack/webpack.common.js
+webpack/webpack.dev.js
+webpack/webpack.prod.js
+webpack/tap-favicon.ico
 webpack.config.js
