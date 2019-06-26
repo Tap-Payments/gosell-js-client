@@ -1,5 +1,4 @@
 import {decorate, observable, computed} from 'mobx';
-import axios from 'axios';
 import Paths from '../../webpack/paths';
 
 class ConfigStore {
@@ -33,7 +32,7 @@ class ConfigStore {
 
     this.token = null;
     this.notifications = 'standard';
-
+    // this.legalConfig = true;
     this.redirect_url = null;
   }
 
@@ -49,20 +48,34 @@ class ConfigStore {
     var self = this;
 
     this.config = value;
-    this.gateway = value.gateway ? value.gateway : {};
 
-    var transaction_mode = this.config.transaction ? this.config.transaction.mode : null;
-
-    switch (transaction_mode) {
-      case 'charge':
-        self.redirect_url = self.config.transaction.charge ? self.config.transaction.charge.redirect : window.location.href;
-        break;
-      case 'authorize':
-        self.redirect_url = self.config.transaction.authorize ? self.config.transaction.authorize.redirect : window.location.href;
-        break;
+    this.config = Object.assign({}, value);
+    this.config['location'] = {
+      protocol: window.location.protocol,
+      host: window.location.host,
+      path: window.location.pathname
     }
+    
+    console.log('config', this.config);
 
-    this.style = {
+    this.gateway = value.gateway ? value.gateway : {};
+    console.log('condition', window.location.protocol=='http:' && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0);
+    console.log('protocol', window.location.protocol);
+    console.log('value.gateway.publicKey.indexOf("pk_live")', value.gateway.publicKey.indexOf("pk_live"));
+    console.log('window.location.protocol==http && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0',window.location.protocol=='http:' && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0);
+
+      var transaction_mode = this.config.transaction ? this.config.transaction.mode : null;
+
+      switch (transaction_mode) {
+        case 'charge':
+          self.redirect_url = self.config.transaction.charge ? self.config.transaction.charge.redirect : window.location.href;
+          break;
+        case 'authorize':
+          self.redirect_url = self.config.transaction.authorize ? self.config.transaction.authorize.redirect : window.location.href;
+          break;
+      }
+
+      this.style = {
         base: value.gateway.style.base && isEmpty(value.gateway.style.base) ? value.gateway.style.base : {
         color: '#535353',
         lineHeight: '18px',
@@ -81,18 +94,20 @@ class ConfigStore {
         }
       };
 
-    this.notifications = value.gateway && value.gateway.notifications ? value.gateway.notifications : 'standard';
+      this.notifications = value.gateway && value.gateway.notifications ? value.gateway.notifications : 'standard';
 
-    var URLSearchParams = require('url-search-params');
-    var urlParams = new URLSearchParams(window.location.search);
-    console.log('...', urlParams.has('tap_id'));
+      var URLSearchParams = require('url-search-params');
+      var urlParams = new URLSearchParams(window.location.search);
+      console.log('...', urlParams.has('tap_id'));
 
-    if(!urlParams.has('tap_id')){
-      this.RootStore.apiStore.generateToken(value).then(obj => {
-        this.token = obj.token;
-        console.log('token', this.token);
-      });
-    }
+      if(!urlParams.has('tap_id')){
+        this.RootStore.apiStore.generateToken(this.config).then(obj => {
+          this.token = obj.token;
+          console.log('token', this.token);
+        });
+      }
+
+
   }
 }
 
@@ -105,7 +120,8 @@ decorate(ConfigStore, {
   token: observable,
   notifications:observable,
   gateway: observable,
-  redirect_url: observable
+  redirect_url: observable,
+  // legalConfig:observable
 });
 
 export default ConfigStore;
