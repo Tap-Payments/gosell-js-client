@@ -34,7 +34,8 @@ class GoSell extends Component {
 
   //redirect to Tap gateway from JS library without calling charge / authrorize API from merchant side
   static openPaymentPage(){
-    window.open(Paths.framePath + "?mode=page&token="+RootStore.configStore.token, '_self')
+    RootStore.uIStore.modalMode = 'page';
+    window.open(Paths.framePath + "?mode="+RootStore.uIStore.modalMode+"&token="+RootStore.configStore.token, '_self')
   }
 
   static showTranxResult(){
@@ -50,6 +51,8 @@ class GoSell extends Component {
 
       RootStore.uIStore.tap_id = urlParams.get('tap_id');
       RootStore.configStore.token = urlParams.get('token');
+      RootStore.uIStore.modalMode = urlParams.get('mode');
+      console.log('mooooode', RootStore.uIStore.modalMode);
 
       console.log('url token', urlParams.get('token'));
       setTimeout(function(){
@@ -172,12 +175,14 @@ class GoSell extends Component {
                         zIndex: '99999999999999999'
                       }}
                     src={RootStore.uIStore.tap_id != null ?
-                      Paths.framePath +"?mode=popup&token="+RootStore.configStore.token+"&tap_id="+ RootStore.uIStore.tap_id
-                      : Paths.framePath + "?mode=popup&token="+RootStore.configStore.token
+                      Paths.framePath +"?mode="+RootStore.uIStore.modalMode+"&token="+RootStore.configStore.token+"&tap_id="+ RootStore.uIStore.tap_id
+                      : Paths.framePath + "?mode="+RootStore.uIStore.modalMode+"&token="+RootStore.configStore.token
                     } width="100%" height="100%"></iframe>
 
                     <TapLoader
                       type='loader'
+                      color={RootStore.uIStore.modalMode === 'popup' ? 'white' : 'black'}
+                      store={RootStore}
                       status={RootStore.uIStore.isLoading}
                       duration={5}
                       title={null}
