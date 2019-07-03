@@ -18,6 +18,8 @@ module.exports = {
             mode: object.transaction.mode,
             charge:object.transaction.charge,
             authorize:object.transaction.authorize,
+            saveCard: object.transaction.saveCard,
+            token: object.transaction.token
           }} />, document.getElementById(object.containerID));
     }
     else {
@@ -35,6 +37,8 @@ module.exports = {
             mode: object.transaction.mode,
             charge:object.transaction.charge,
             authorize:object.transaction.authorize,
+            saveCard: object.transaction.saveCard,
+            token: object.transaction.token
           }} />, document.getElementById('gosell-js-lib'));
     }
 

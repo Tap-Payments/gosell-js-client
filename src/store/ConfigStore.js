@@ -59,8 +59,10 @@ class ConfigStore {
       host: window.location.host,
       path: window.location.pathname
     }
+
+    console.log('config from value', value);
     
-    console.log('config', this.config);
+    console.log('config from client side', this.config);
 
     this.gateway = value.gateway ? value.gateway : {};
 
@@ -71,7 +73,7 @@ class ConfigStore {
     console.log('value.gateway.publicKey.indexOf("pk_live")', value.gateway.publicKey.indexOf("pk_live"));
     console.log('window.location.protocol==http && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0',window.location.protocol=='http:' && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0);
 
-      var transaction_mode = this.config.transaction ? this.config.transaction.mode : null;
+      var transaction_mode = this.config.transaction && this.config.transaction.mode ? this.config.transaction.mode : null;
 
       switch (transaction_mode) {
         case 'charge':
