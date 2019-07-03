@@ -86,7 +86,7 @@ a.tap-payments-close:hover {
 }
 
 [dir="rtl"] .tap-payments-notification-title{
-    margin-top: -4px;
+    /* margin-top: -4px; */
   }
 
 .tap-payments-notification-false {

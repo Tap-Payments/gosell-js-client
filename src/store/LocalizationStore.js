@@ -9,7 +9,7 @@ class LocalizationStore {
     this.RootStore = RootStore;
     // this.strings = require('./local.json');
 
-    this.strings = null;
+    this.strings = require('./localization.json');
     this.isLoading = true;
     // this.getLocalization()
   }

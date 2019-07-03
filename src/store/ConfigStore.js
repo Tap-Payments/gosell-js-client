@@ -11,6 +11,10 @@ class ConfigStore {
   reset(){
     this.config = null;
     this.gateway = {};
+    this.language = 'en';
+
+    this.labels = {};
+    
     this.style = {
       base:{
         color: '#535353',
@@ -59,6 +63,9 @@ class ConfigStore {
     console.log('config', this.config);
 
     this.gateway = value.gateway ? value.gateway : {};
+
+    this.language = value.gateway && value.gateway.language ? value.gateway.language : 'en';
+    
     console.log('condition', window.location.protocol=='http:' && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0);
     console.log('protocol', window.location.protocol);
     console.log('value.gateway.publicKey.indexOf("pk_live")', value.gateway.publicKey.indexOf("pk_live"));
@@ -75,24 +82,44 @@ class ConfigStore {
           break;
       }
 
-      this.style = {
-        base: value.gateway.style.base && isEmpty(value.gateway.style.base) ? value.gateway.style.base : {
-        color: '#535353',
-        lineHeight: '18px',
-        fontFamily: value.gateway.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
-        fontUrl: value.gateway.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
-        fontSmoothing: 'antialiased',
-        fontSize: '15px',
-        '::placeholder': {
-            color: 'rgba(0, 0, 0, 0.26)',
-            fontSize: value.gateway.language === 'en' ? '15px' : '10px'
-          }
-        },
-        invalid: value.gateway.style.invalid && isEmpty(value.gateway.style.invalid) ? value.gateway.style.invalid : {
-            color: 'red',
-            iconColor: '#fa755a '
+      if(value.gateway.labels){
+        this.labels = {
+          cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+          expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+          cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+          cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
+        };
+      }
+      else {
+        this.labels = {
+            cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+            expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+            cvv:this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+            cardHolder:this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
         }
-      };
+      }
+
+      if(value.gateway && value.gateway.style){
+        this.style = {
+          base: value.gateway.style.base && isEmpty(value.gateway.style.base) ? value.gateway.style.base : {
+          color: '#535353',
+          lineHeight: '18px',
+          fontFamily: value.gateway.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
+          fontUrl: value.gateway.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
+          fontSmoothing: 'antialiased',
+          fontSize: '15px',
+          '::placeholder': {
+              color: 'rgba(0, 0, 0, 0.26)',
+              fontSize: value.gateway.language === 'en' ? '15px' : '10px'
+            }
+          },
+          invalid: value.gateway.style.invalid && isEmpty(value.gateway.style.invalid) ? value.gateway.style.invalid : {
+              color: 'red',
+              iconColor: '#fa755a '
+          }
+        };
+      }
+      
 
       this.notifications = value.gateway && value.gateway.notifications ? value.gateway.notifications : 'standard';
 
@@ -117,6 +144,9 @@ function isEmpty(obj){
 
 decorate(ConfigStore, {
   config: observable,
+  style: observable,
+  labels:observable,
+  language: observable,
   token: observable,
   notifications:observable,
   gateway: observable,

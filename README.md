@@ -40,7 +40,7 @@ You can integrate with goSell by:
 - JavaScript Library, which allows front end developers to setup the payment gateway on their stores easily by adding a very basic snippet of JavaScript using the following script tag:
 
 ```
-<script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.4/js/gosell.js"></script>
+<script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.4.1/js/gosell.js"></script>
 ```
 ** Take care, the configurations structure has been changed in this version **
 >  Use the JavaScript Library in server side environment, otherwise the credit card section will not work.
@@ -81,10 +81,11 @@ It's a required field for the JS library. It includes the general settings of th
 | saveCardOption | boolean  | **optional**  | true | Enable or disable the saving card option on the credit/debit cards section in goSell payment gateway, if saving cards feature is enabled in your goSell account. |
 | customerCards | boolean  | **optional**  | true | Allow/Disallow your customers to pay by their saved cards on goSell Gateway. If you enabled this property, your customers will able to see their saved cards and use them security. |
 | notifications | string  | **optional**  | 'standard' | Define your preferences, if you like to use your own component or HTML element to show notifications or use goSell standard notifications bar. |
-| backgroundImg | object  | **optional**  |  | Define a background image for the goSell JS library page. |
 | callback | function  | **optional**  |  | Define an action or a callback after each transaction. When the payment process is being executed, the library will return the transaction result JSON to the callback function.    |
 | labels | object  | **optional**  | {<br>cardNumber:"Card Number",<br>expirationDate:"MM/YY",<br>cvv:"CVV",<br>cardHolder:"Name on Card",<br>actionButton:"Pay"<br>} | Define custom titles for input boxes inside credit/debit cards section. |
 | style | object  | **optional**  | {<br>base: {<br>color: '#535353',<br>lineHeight: '18px',<br>fontFamily: 'sans-serif',<br>fontSmoothing: 'antialiased',<br>fontSize: '16px',<br>'::placeholder': {<br>color: 'rgba(0, 0, 0, 0.26)',<br>fontSize:'15px'<br>}<br>},<br>invalid: {<br>color: 'red',<br>iconColor: '#fa755a '<br>}<br>} | Define custom style for input boxes inside credit/debit cards section. |
+| content | object  | **optional**  | content:{ <br> successMessage:{ <br> en: "english_success_msg", <br> ar: "arabic_success_msg" <br> }, <br> errorMessage:{ <br> en: "english_error_msg",<br> ar: "arabic_error_msg" <br> } <br> } | Define custom messages for the payment gateway responses. |
+
 
 - customer **[Object]***:
 It's a required field for the JS library. Includes the customer details, it's required for *charge*, *authorize* & *saveCard* modes only.
@@ -92,11 +93,11 @@ It's a required field for the JS library. Includes the customer details, it's re
 | property name | Type  | Status  | Default value	 | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | id | string  | **optional**  | null | The id of your customer  |
-| first_name | string  | **required**  |  | The first name of your customer  |
-| middle_name | string  | **required**  |  | The middle name of your customer  |
-| last_name | string  | **required**  |  | The last name of your customer  |
+| firstName | string  | **required**  |  | The first name of your customer  |
+| middleName | string  | **required**  |  | The middle name of your customer  |
+| lastName | string  | **required**  |  | The last name of your customer  |
 | email | string  | **required**  |  | Customer's email address   |
-| phone | object  | **required**  |  | Customer's phone number. <br>Example: <br>{<br>country_code: "965",<br>number: "99999999"<br>}   |
+| phone | object  | **required**  |  | Customer's phone number. <br>Example: <br>{<br>countryCode: "965",<br>number: "99999999"<br>}   |
 
 - order **[Object]***:
 It's a required field for the JS library. Includes the order details, it's required for *charge*, *authorize* modes only.
@@ -131,7 +132,7 @@ Enable charge mode in goSell payment gateway. The charge transactions will be cr
 | saveCard | boolean  | **optional**  |  | Payer can save the credit for future purpose. Customer phone number is required to save the card, values can be one of (true or false). In order to use this service, please contact our Team to get the access. |
 | threeDSecure | boolean  | **optional**  |  | The 3D Secure request status for a particular charge, values can be one of (true or false) |
 | description | string  | **optional**  |  | Charge Description. |
-| statement_descriptor | string  | **optional**  |  | Payer Statement Descriptor. |
+| statementDescriptor | string  | **optional**  |  | Payer Statement Descriptor. |
 | reference | object  | **optional**  | {<br>transaction: "txn_0001",<br>order: "ord_0001"<br>} | Transaction & order numbers of your reference. |
 | metadata | string  | **optional**  |  | Set of key/value pairs that you can attach to an object. It can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to metadata. |
 | receipt | object  | **optional**  | {<br>email: false,<br>sms: true<br>} | Whether receipt email or sms to be send to the payer or not |
@@ -148,7 +149,7 @@ Enable authorize mode in goSell payment gateway. The object should includes the 
 | saveCard | boolean  | **optional**  |  | Payer can save the credit for future purpose. Customer phone number is required to save the card, values can be one of (true or false). In order to use this service, please contact our Team to get the access. |
 | threeDSecure | boolean  | **optional**  |  | The 3D Secure request status for a particular charge, values can be one of (true or false) |
 | description | string  | **optional**  |  | Charge Description. |
-| statement_descriptor | string  | **optional**  |  | Payer Statement Descriptor. |
+| statementDescriptor | string  | **optional**  |  | Payer Statement Descriptor. |
 | reference | object  | **optional**  | {<br>transaction: "txn_0001",<br>order: "ord_0001"<br>} | Transaction & order numbers of your reference. |
 | metadata | string  | **optional**  |  | Set of key/value pairs that you can attach to an object. It can be useful for storing additional information about the object in a structured format. Individual keys can be unset by posting an empty value to them. All keys can be unset by posting an empty value to metadata. |
 | receipt | object  | **optional**  | {<br>email: false,<br>sms: true<br>} | Whether receipt email or sms to be send to the payer or not |
@@ -173,11 +174,11 @@ Transaction mode of the example: 'charge'
     <title>goSell Demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <link rel="shortcut icon" href="https://goSellJSLib.b-cdn.net/v1.4/imgs/tap-favicon.ico" />
-    <link href="https://goSellJSLib.b-cdn.net/v1.4/css/gosell.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="https://goSellJSLib.b-cdn.net/v1.4.1/imgs/tap-favicon.ico" />
+    <link href="https://goSellJSLib.b-cdn.net/v1.4.1/css/gosell.css" rel="stylesheet" />
 </head>
 <body>
-    <script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.4/js/gosell.js"></script>
+    <script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.4.1/js/gosell.js"></script>
 
     <div id="root"></div>
     <button id="openLightBox" onclick="goSell.openLightBox()">open goSell LightBox</button>
@@ -196,9 +197,8 @@ Transaction mode of the example: 'charge'
         saveCardOption:false,
         customerCards: true,
         notifications:'standard',
-        backgroundImg: {
-          url: 'imgURL',
-          opacity: '0.5'
+        callback:(response) => {
+          console.log('response', response);
         },
         labels:{
             cardNumber:"Card Number",
@@ -223,16 +223,26 @@ Transaction mode of the example: 'charge'
               color: 'red',
               iconColor: '#fa755a '
             }
+        },
+        content:{
+              successMessage:{
+                en: "english_success_msg",
+                ar: "arabic_success_msg"
+              },
+              errorMessage:{
+                en: "english_error_msg",
+                ar: "arabic_error_msg"
+              }
         }
       },
       customer:{
         id:"cus_m1QB0320181401l1LD1812485",
-        first_name: "First Name",
-        middle_name: "Middle Name",
-        last_name: "Last Name",
+        firstName: "First Name",
+        middleName: "Middle Name",
+        lastName: "Last Name",
         email: "demo@email.com",
         phone: {
-            country_code: "965",
+            countryCode: "965",
             number: "99999999"
         }
       },
@@ -244,36 +254,36 @@ Transaction mode of the example: 'charge'
           name:'item1',
           description: 'item1 desc',
           quantity:'x1',
-          amount_per_unit:'KD00.000',
+          amountPerUnit:'KD00.000',
           discount: {
             type: 'P',
             value: '10%'
           },
-          total_amount: 'KD000.000'
+          totalAmount: 'KD000.000'
         },
         {
           id:2,
           name:'item2',
           description: 'item2 desc',
           quantity:'x2',
-          amount_per_unit:'KD00.000',
+          amountPerUnit:'KD00.000',
           discount: {
             type: 'P',
             value: '10%'
           },
-          total_amount: 'KD000.000'
+          totalAmount: 'KD000.000'
         },
         {
           id:3,
           name:'item3',
           description: 'item3 desc',
           quantity:'x1',
-          amount_per_unit:'KD00.000',
+          amountPerUnit:'KD00.000',
           discount: {
             type: 'P',
             value: '10%'
           },
-          total_amount: 'KD000.000'
+          totalAmount: 'KD000.000'
         }],
         shipping:null,
         taxes: null
@@ -284,7 +294,7 @@ Transaction mode of the example: 'charge'
           saveCard: false,
           threeDSecure: true,
           description: "Test Description",
-          statement_descriptor: "Sample",
+          statementDescriptor: "Sample",
           reference:{
             transaction: "txn_0001",
             order: "ord_0001"
@@ -311,7 +321,7 @@ Transaction mode of the example: 'charge'
 
 ```
 import React, { Component }  from "react";
-import { GoSell } from "@tap-payments/gosell";
+import { GoSell } from "@tap-payments/goSell";
 
 class GoSellDemo extends Component {
 
@@ -319,11 +329,11 @@ class GoSellDemo extends Component {
     super(props);
   }
 
-  callbackFunc(response){
-    //console.log(response);
-  }
-
   render() {
+
+    callbackFunc(response){
+      //console.log(response);
+    }
 
     return (
       <div className="App">
@@ -341,10 +351,6 @@ class GoSellDemo extends Component {
              saveCardOption:true,
              customerCards: true,
              notifications:'standard',
-             backgroundImg: {
-               url: 'imgURL',
-               opacity: '0.5'
-             },
              callback: this.callbackFunc,
              labels:{
                  cardNumber:"Card Number",
@@ -372,12 +378,12 @@ class GoSellDemo extends Component {
              }
            }}
            customer={{
-             first_name: "First Name",
-             middle_name: "Middle Name",
-             last_name: "Last Name",
+             firstName: "First Name",
+             middleName: "Middle Name",
+             lastName: "Last Name",
              email: "demo@email.com",
              phone: {
-                 country_code: "965",
+                 countryCode: "965",
                  number: "99999999"
              }
            }}
@@ -389,36 +395,36 @@ class GoSellDemo extends Component {
                name:'item1',
                description: 'item1 desc',
                quantity:'x1',
-               amount_per_unit:'KD00.000',
+               amountPerUnit:'KD00.000',
                discount: {
                  type: 'P',
                  value: '10%'
                },
-               total_amount: 'KD000.000'
+               totalAmount: 'KD000.000'
              },
              {
                id:2,
                name:'item2',
                description: 'item2 desc',
                quantity:'x2',
-               amount_per_unit:'KD00.000',
+               amountPerUnit:'KD00.000',
                discount: {
                  type: 'P',
                  value: '10%'
                },
-               total_amount: 'KD000.000'
+               totalAmount: 'KD000.000'
              },
              {
                id:3,
                name:'item3',
                description: 'item3 desc',
                quantity:'x1',
-               amount_per_unit:'KD00.000',
+               amountPerUnit:'KD00.000',
                discount: {
                  type: 'P',
                  value: '10%'
                },
-               total_amount: 'KD000.000'
+               totalAmount: 'KD000.000'
              }],
              shipping:null,
              taxes: null
@@ -429,7 +435,7 @@ class GoSellDemo extends Component {
               saveCard: false,
               threeDSecure: true,
               description: "Test Description",
-              statement_descriptor: "Sample",
+              statementDescriptor: "Sample",
               reference:{
                 transaction: "txn_0001",
                 order: "ord_0001"
@@ -462,7 +468,7 @@ You can integrate with goSellElements by:
 - JavaScript Library, which allows front end developers to setup the payment gateway on their stores easily by adding a very basic snippet of JavaScript using the following script tag:
 
 ```
-<script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.4/js/gosell.js"></script>
+<script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.3/js/gosell.js"></script>
 ```
 
 >  Use the goSellElements in server side environment, otherwise the credit card section will not work.
@@ -471,13 +477,13 @@ You can integrate with goSellElements by:
 - Install goSell React Component on NPM for who uses React JS. by running the following command in the terminal:
 
 ```
-npm i @tap-payments/gosell
+npm i @tap-payments/goSell
 ```
 
 import the library inside your code:
 
 ```
-import { GoSellElements } from "@tap-payments/gosell";
+import { GoSellElements } from "@tap-payments/goSell";
 ```
 
 #### goSellElements Usage
@@ -518,11 +524,11 @@ Used to generate card token.
       <title>goSell Elements Demo</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-      <link rel="shortcut icon" href="https://goSellJSLib.b-cdn.net/v1.4/imgs/tap-favicon.ico" />
-      <link href="https://goSellJSLib.b-cdn.net/v1.4/css/gosell.css" rel="stylesheet" />
+      <link rel="shortcut icon" href="https://goSellJSLib.b-cdn.net/v1.3/imgs/tap-favicon.ico" />
+      <link href="https://goSellJSLib.b-cdn.net/v1.3/css/gosell.css" rel="stylesheet" />
    </head>
    <body>
-      <script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.4/js/gosell.js"></script>
+      <script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.3/js/gosell.js"></script>
       <div id="root"></div>
       <p id="msg"></p>
       <button id="submit-elements" onclick="goSell.submit()">Submit</button>
@@ -572,7 +578,7 @@ Used to generate card token.
 
 ```
 import React, { Component }  from "react";
-import { GoSellElements } from "@tap-payments/gosell";
+import { GoSellElements } from "@tap-payments/goSell";
 
 class GoSellElementsDemo extends Component {
 

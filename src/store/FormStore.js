@@ -277,12 +277,12 @@ class FormStore{
     this.tap = this.generateForm(this.RootStore.configStore.gateway.publicKey);
 
     var elements = this.tap.elements({});
-
+    console.log('config', this.RootStore.configStore.style);
     var style = this.RootStore.configStore.style;
 
     var paymentOptions = {
          currencyCode: this.RootStore.configStore.gateway.supportedCurrencies.slice(),
-         labels : this.RootStore.configStore.gateway.labels,
+         labels : this.RootStore.configStore.labels,
          paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods.slice(),
          TextDirection: this.RootStore.configStore.gateway.language == 'en' ? 'ltr' : 'rtl'
     }
@@ -368,6 +368,9 @@ class FormStore{
      await this.tap.createToken(this.card).then(function(result) {
 
          if(result.error) {
+
+            self.RootStore.configStore.callbackFunc(result);
+
             // Inform the user if there was an error
             self.RootStore.uIStore.setErrorHandler({
                  visable: true,
@@ -377,14 +380,9 @@ class FormStore{
             });
 
          } else {
-            self.RootStore.configStore.callbackFunc(result);
+            self.RootStore.uIStore.setErrorHandler({});
 
-            self.RootStore.uIStore.setErrorHandler({
-                   visable: true,
-                   code: 200,
-                   msg: result.id,
-                   type: 'success'
-            });
+            self.RootStore.configStore.callbackFunc(result);
 
             self.clearCardForm();
          }
