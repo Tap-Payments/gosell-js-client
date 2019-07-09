@@ -64,7 +64,22 @@ class ConfigStore {
     
     console.log('config from client side', this.config);
 
-    this.gateway = value.gateway ? value.gateway : {};
+    // this.gateway = value.gateway ? value.gateway : {};
+
+    this.gateway = {
+      publicKey: value.gateway.publicKey ? value.gateway.publicKey : null,
+      contactInfo: typeof value.gateway.contactInfo != 'undefined' ? value.gateway.contactInfo : true,
+      customerCards: typeof value.gateway.customerCards != 'undefined' ? value.gateway.customerCards : true,
+      language:value.gateway.language ? value.gateway.language : 'en',
+      notifications:value.gateway.notifications ? value.gateway.notifications : 'standard',
+      backgroundImg: value.gateway.backgroundImg ? value.gateway.backgroundImg : null,
+      saveCardOption: typeof value.gateway.saveCardOption != 'undefined' ? value.gateway.saveCardOption : true,
+      supportedCurrencies: value.gateway.supportedCurrencies ? value.gateway.supportedCurrencies : 'all',
+      supportedPaymentMethods: value.gateway.supportedPaymentMethods ? value.gateway.supportedPaymentMethods : 'all',
+      content: value.gateway.content ? value.gateway.content : this.content,
+      labels: value.gateway.labels ? value.gateway.labels : this.labels,
+      style: value.gateway.style ? value.gateway.style : this.style,
+    } 
 
     this.language = value.gateway && value.gateway.language ? value.gateway.language : 'en';
     
