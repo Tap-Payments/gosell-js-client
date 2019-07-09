@@ -47,18 +47,18 @@ class UIStore {
         }, 5000);
 
       }
-      else if(this.RootStore.configStore.notifications === 'standard' || this.getErrorHandler.options){
-        return(
-          <NotificationBar
-            mode={this.getErrorHandler.type}
-            dir={this.dir}
-            close={this.closeNotification}
-            show={this.getErrorHandler.visable}
-            options={this.getErrorHandler.options}>
-              {this.getErrorHandler.msg}
-          </NotificationBar>
-        );
-      }
+      // else if(this.RootStore.configStore.notifications === 'standard' || this.getErrorHandler.options){
+      //   return(
+      //     <NotificationBar
+      //       mode={this.getErrorHandler.type}
+      //       dir={this.dir}
+      //       close={this.closeNotification}
+      //       show={this.getErrorHandler.visable}
+      //       options={this.getErrorHandler.options}>
+      //         {this.getErrorHandler.msg}
+      //     </NotificationBar>
+      //   );
+      // }
   }
 
   closeNotification(){
@@ -82,9 +82,9 @@ class UIStore {
     var self = this;
     this.errorHandler = value;
 
-    if(this.RootStore.configStore.notifications === 'standard' && value.visable){
-      window.scroll(0, 0);
-    }
+    // if(this.RootStore.configStore.notifications === 'standard' && value.visable){
+    //   window.scroll(0, 0);
+    // }
 
     setTimeout(function(){
         self.closeNotification();
