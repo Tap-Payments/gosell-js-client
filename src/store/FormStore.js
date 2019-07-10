@@ -59,7 +59,7 @@ class FormStore{
 
   generateForm(key){
       var self = this;
-
+      var protocol = 'https:';
       var frameurl="secure.gosell.io/tappaymentwidget/public/"
       function _ensureHTTPS(key){
 
@@ -111,7 +111,7 @@ class FormStore{
           return new Promise(function(resolve, reject) {
 
               var iframeWin = document.getElementById("myFrame").contentWindow;
-              iframeWin.postMessage({'action':'submit','key':self._apiKey,'encryption_key':self._encryption_key}, window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui");
+              iframeWin.postMessage({'action':'submit','key':self._apiKey,'encryption_key':self._encryption_key}, protocol+"//"+frameurl+"/tap_payment_widget_ui");
 
               window.addEventListener('message', receivertoken, false);
 
@@ -159,7 +159,7 @@ class FormStore{
                       if(document.getElementById("myFrame")!=null){
                           self.currencyCode=crncy;
                           var iframeWin = document.getElementById("myFrame").contentWindow;
-                          iframeWin.postMessage({'action':'currency','key':self._apiKey,'currency':crncy}, window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui");
+                          iframeWin.postMessage({'action':'currency','key':self._apiKey,'currency':crncy}, protocol+"//"+frameurl+"/tap_payment_widget_ui");
                       }
 
               });
@@ -169,7 +169,7 @@ class FormStore{
               return new Promise(function(resolve, reject) {
                       if(document.getElementById("myFrame")!=null){
                           var iframeWin = document.getElementById("myFrame").contentWindow;
-                          iframeWin.postMessage({'action':'clearForm','key':self._apiKey}, window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui");
+                          iframeWin.postMessage({'action':'clearForm','key':self._apiKey}, protocol+"//"+frameurl+"/tap_payment_widget_ui");
                       }
 
               });
@@ -185,7 +185,7 @@ class FormStore{
               return new Promise(function(resolve, reject) {
                       if(document.getElementById("myFrame")!=null){
                           var iframeWin = document.getElementById("myFrame").contentWindow;
-                          iframeWin.postMessage({'action':'blurForm','key':self._apiKey}, window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui");
+                          iframeWin.postMessage({'action':'blurForm','key':self._apiKey}, protocol+"//"+frameurl+"/tap_payment_widget_ui");
                       }
 
               });
@@ -229,7 +229,7 @@ class FormStore{
                           self.RootStore.apiStore.getIP().then(ip => {
                             console.log('ip', ip);
                             var iframeWin = document.getElementById("myFrame").contentWindow;
-                            iframeWin.postMessage({'action':'client_ip','key':self._apiKey,'client_ip':ip}, window.location.protocol+"//"+frameurl+"/tap_payment_widget");
+                            iframeWin.postMessage({'action':'client_ip','key':self._apiKey,'client_ip':ip}, protocol+"//"+frameurl+"/tap_payment_widget");
                           })
 
                       }
@@ -257,7 +257,7 @@ class FormStore{
 
               x.setAttribute("style",'border: none !important;margin: 0px !important;padding: 0px !important;min-width: 100% !important;overflow: hidden !important;display: block !important;');
 
-              x.setAttribute("src", window.location.protocol+"//"+frameurl+"/tap_payment_widget_ui?"+ self.objectToQueryString(options_object)+'&key='+key+'&'+ self.objectToQueryString(paymentOptions));
+              x.setAttribute("src", protocol+"//"+frameurl+"/tap_payment_widget_ui?"+ self.objectToQueryString(options_object)+'&key='+key+'&'+ self.objectToQueryString(paymentOptions));
               this.card._iframe =  x;
               self.currencyCode = paymentOptions.currencyCode;
 
