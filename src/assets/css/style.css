@@ -6,7 +6,7 @@
   margin: 0;
 }
 .gosell-gateway-msg{
-  background-color: rgba(0, 0, 0, 0.6);
+  /* background-color: rgba(0, 0, 0, 0.6); */
   overflow: hidden !important;
   position: absolute;
   top: 0;
@@ -23,6 +23,7 @@
   height: 100%;
   align-items: center;
 }
+
 .gosell-gateway-msg-title{
   margin-top: 20px;
   margin-bottom: 10px;

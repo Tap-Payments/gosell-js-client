@@ -1,6 +1,8 @@
 import React, { Component }  from 'react';
 import {Loader} from '@tap-payments/loader';
 import * as shortWhiteLoader from '../assets/white-loader.json';
+import * as shortBlackLoader from '../assets/black-loader.json';
+
 import '../assets/css/style.css';
 
 class TapLoader extends Component {
@@ -30,7 +32,7 @@ class TapLoader extends Component {
     this.setState({
       status: value.status,
       type: value.type,
-      loader: shortWhiteLoader,
+      loader: value.color === 'white' ? shortWhiteLoader : shortBlackLoader,
       second: null,
       duration: value.duration,
     });
@@ -44,7 +46,7 @@ class TapLoader extends Component {
     let style = {position:'relative',top:((50-(Math.floor(window.innerHeight/100)%100))+"%")};
 
     return (
-      <div className="gosell-gateway-msg">
+      <div className="gosell-gateway-msg" style={{ backgroundColor: this.props.store.uIStore.modalMode == 'popup' ? 'rgba(0, 0, 0, 0.6)' : '#f0f1f2' }}>
           <div className='gosell-gateway-msg-wrapper' style={window.innerWidth >= 440 ? style : {color:''}}>
             <div style={{width: '60px', height: '60px', margin: 'auto', display: this.state.status ? 'block' : 'none'}}>
               <Loader
