@@ -82,7 +82,7 @@ class UIStore {
     var self = this;
     this.errorHandler = value;
 
-    if(value.visable){
+    if(this.RootStore.configStore.notifications === 'standard' && value.visable){
       window.scroll(0, 0);
     }
 
