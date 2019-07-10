@@ -75,24 +75,26 @@ class ConfigStore {
           break;
       }
 
-      this.style = {
-        base: value.gateway.style.base && isEmpty(value.gateway.style.base) ? value.gateway.style.base : {
-        color: '#535353',
-        lineHeight: '18px',
-        fontFamily: value.gateway.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
-        fontUrl: value.gateway.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
-        fontSmoothing: 'antialiased',
-        fontSize: '15px',
-        '::placeholder': {
-            color: 'rgba(0, 0, 0, 0.26)',
-            fontSize: value.gateway.language === 'en' ? '15px' : '10px'
-          }
-        },
-        invalid: value.gateway.style.invalid && isEmpty(value.gateway.style.invalid) ? value.gateway.style.invalid : {
+      if(value.gateway.style && isEmpty(value.gateway.style)){
+        this.style = {
+          base: (value.gateway.style && value.gateway.style.base) ? value.gateway.style.base : {
+            color: '#535353',
+            lineHeight: '18px',
+            fontFamily: this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
+            fontUrl: this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
+            fontSmoothing: 'antialiased',
+            fontSize: '15px',
+            '::placeholder': {
+              color: 'rgba(0, 0, 0, 0.26)',
+              fontSize:this.language === 'en' ? '15px' : '10px'
+            }
+          },
+          invalid: (value.gateway.style && value.gateway.style.invalid) ? value.gateway.style.invalid : {
             color: 'red',
             iconColor: '#fa755a '
-        }
-      };
+          }
+        };
+      }
 
       this.notifications = value.gateway && value.gateway.notifications ? value.gateway.notifications : 'standard';
 
