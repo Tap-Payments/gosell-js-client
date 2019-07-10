@@ -41,7 +41,9 @@ class ConfigStore {
   }
 
   callbackFunc(data){
-    // //console.log('hey ', data);
+    console.log('callback ?', this.RootStore.configStore.gateway.callback);
+    console.log('typeof callback ', typeof this.RootStore.configStore.gateway.callback);
+
     if(this.RootStore.configStore.gateway.callback){
       this.RootStore.configStore.gateway.callback(data);
     }
@@ -79,6 +81,7 @@ class ConfigStore {
       content: value.gateway.content ? value.gateway.content : this.content,
       labels: value.gateway.labels ? value.gateway.labels : this.labels,
       style: value.gateway.style ? value.gateway.style : this.style,
+      callback: value.gateway.callback ? value.gateway.callback : null,
     } 
 
     this.language = value.gateway && value.gateway.language ? value.gateway.language : 'en';
