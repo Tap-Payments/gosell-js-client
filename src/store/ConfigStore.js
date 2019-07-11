@@ -66,10 +66,10 @@ class ConfigStore {
 
     if(value.gateway.labels){
       this.labels = {
-        cardNumber: value.gateway.labels.cardNumber ? forge.util.decodeUtf8(value.gateway.labels.cardNumber) : this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
-        expirationDate: value.gateway.labels.expirationDate ? forge.util.decodeUtf8(value.gateway.labels.expirationDate) : this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
-        cvv: value.gateway.labels.cvv ? forge.util.decodeUtf8(value.gateway.labels.cvv) : this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
-        cardHolder: value.gateway.labels.cardHolder ? forge.util.decodeUtf8(value.gateway.labels.cardHolder) : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
+        cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+        expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+        cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+        cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
       };
     }
     else {
