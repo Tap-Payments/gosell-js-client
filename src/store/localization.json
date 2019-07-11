@@ -1,0 +1,502 @@
+{
+    "btn_pay_title_generic":{
+    "en": "PAY",
+    "ar": "ادفع"
+  },
+    "btn_pay_title_amount":{
+    "en": "PAY %@",
+    "ar": "ادفع %@"
+  },
+    "payment_options_group_title_recent":{
+    "en": "RECENT",
+    "ar": "مؤخراً"
+  },
+    "payment_options_group_title_others":{
+    "en": "OTHERS",
+    "ar": "أخرى"
+  },
+    "card_input_card_number_placeholder":{
+    "en": "Card Number",
+    "ar": "رقم البطاقة"
+  },
+    "card_input_expiration_date_placeholder":{
+    "en": "MM/YY",
+    "ar": "شهر/سنة"
+  },
+    "card_input_cvv_placeholder":{
+    "en": "CVV",
+    "ar": "الرمز الأمني"
+  },
+    "card_input_cardholder_name_placeholder":{
+    "en": "Name On Card",
+    "ar": "الاسم الموجود في البطاقة"
+  },
+    "card_input_address_on_card_placeholder":{
+    "en": "Address on Card",
+    "ar": "العنوان الموجود في البطاقة"
+  },
+    "save_card_promotion_text":{
+    "en": "For a faster and more secure checkout, please save your card",
+    "ar": "لدفع آمن و سريع، قم بحفظ بطاقتك"
+  },
+    "currency_selection_screen_title":{
+    "en": "Select Currency",
+    "ar": "اختر العملة"
+  },
+    "card_scanning_screen_title":{
+    "en": "Scanning Card",
+    "ar": "المسح الضوئي للبطاقة"
+  },
+    "search_bar_placeholder":{
+    "en": "Search",
+    "ar": "بحث"
+  },
+    "otp_guide_text":{
+    "en": "Please enter the OTP that has been sent to %@",
+    "ar": "الرجاء إدخال الرقم الذي تم إرساله إلى %@"
+  },
+    "btn_confirm_title":{
+    "en": "CONFIRM",
+    "ar": "تأكيد"
+  },
+    "btn_resend_title":{
+    "en": "RESEND",
+    "ar": "إعادة إرسال"
+  },
+    "alert_delete_card_title":{
+    "en": "Delete Card",
+    "ar": "حذف البطاقة"
+  },
+    "alert_delete_card_message":{
+    "en": "Are you sure you would like to delete card %@?",
+    "ar": "هل أنت متأكد من حذف البطاقة %@؟"
+  },
+    "alert_delete_card_btn_cancel_title":{
+    "en": "Cancel",
+    "ar": "إلغاء"
+  },
+    "alert_delete_card_btn_delete_title":{
+    "en": "Delete",
+    "ar": "حذف"
+  },
+    "alert_extra_charges_title":{
+    "en": "Confirm Extra Charges",
+    "ar": "تأكيد الرسوم الإضافية"
+  },
+    "alert_extra_charges_message":{
+    "en": "You will be charged an additional fee of %@ for this type of payment, totalling an amount of %@",
+    "ar": "سوف تتم إضافة  %@ لهذه العملية، إجمالي المبلغ المطلوب   %@"
+  },
+    "alert_extra_charges_btn_cancel_title":{
+    "en": "Cancel",
+    "ar": "إلغاء"
+  },
+    "alert_extra_charges_btn_confirm_title":{
+    "en": "Confirm",
+    "ar": "تأكيد"
+  },
+    "alert_cancel_payment_status_undefined_title":{
+    "en": "Cancel Payment",
+    "ar": "إلغاء عملية الدفع"
+  },
+    "alert_cancel_payment_status_undefined_message":{
+    "en": "Would you like to cancel payment? Payment status will be undefined.",
+    "ar": "هل تود إلغاء عملية الدفع؟ حالة العملية ستصبح غير معرّفة"
+  },
+    "alert_cancel_payment_status_undefined_btn_no_title":{
+    "en": "No",
+    "ar": "لا"
+  },
+    "alert_cancel_payment_status_undefined_btn_confirm_title":{
+    "en": "Confirm",
+    "ar": "تأكيد"
+  },
+    "alert_cancel_payment_title":{
+    "en": "Cancel Payment",
+    "ar": "إلغاء عملية الدفع"
+  },
+    "alert_cancel_payment_message":{
+    "en": "Would you like to cancel payment?",
+    "ar": "هل تود إلغاء عملية الدفع؟"
+  },
+    "alert_cancel_payment_btn_no_title":{
+    "en": "No",
+    "ar": "لا"
+  },
+    "alert_cancel_payment_btn_confirm_title":{
+    "en": "Confirm",
+    "ar": "تأكيد"
+  },
+    "common_edit":{
+    "en": "Edit",
+    "ar": "تعديل"
+  },
+    "common_cancel":{
+    "en": "Cancel",
+    "ar": "إلغاء"
+  },
+    "gosell_gateway_configration_msg":{
+    "en": "Something went wrong! Please check the goSell configuration",
+    "ar": "حدث خطأ ما! الرجاء التأكد من ضبط إعداد goSell"
+  },
+    "gosell_order_configration_msg":{
+    "en": "Something went wrong! Please check the order details",
+    "ar": "حدث خطأ ما! الرجاء التأكد من بيانات الطلب"
+  },
+    "gosell_customer_configration_msg":{
+    "en": "Something went wrong! Please check the customer details",
+    "ar": "حدث خطأ ما! الرجاء التأكد من بيانات العميل"
+  },
+    "gosell_successful_transaction":{
+    "en": "Successful Transaction",
+    "ar": "عملية ناجحة"
+  },
+    "supported_currencies_kwd":{
+    "en": "KWD",
+    "ar": "د.ك"
+  },
+    "supported_currencies_sar":{
+    "en": "SAR",
+    "ar": "ر.س"
+  },
+    "supported_currencies_bhd":{
+    "en": "BHD",
+    "ar": "د.ب"
+  },
+    "supported_currencies_aed":{
+    "en": "AED",
+    "ar": "د.إ"
+  },
+    "supported_currencies_egp":{
+    "en": "EGP",
+    "ar": "ج.م"
+  },
+    "supported_currencies_eur":{
+    "en": "EUR",
+    "ar": "يورو"
+  },
+    "supported_currencies_gbp":{
+    "en": "GBP",
+    "ar": "ج.إ"
+  },
+    "supported_currencies_omr":{
+    "en": "OMR",
+    "ar": "ر.ع"
+  },
+    "supported_currencies_qar":{
+    "en": "QAR",
+    "ar": "ر.ق"
+  },
+    "supported_currencies_usd":{
+    "en": "USD",
+    "ar": "دولار"
+  },
+    "supported_currencies_symbol_kwd":{
+    "en": "KD",
+    "ar": "د.ك"
+  },
+    "supported_currencies_symbol_sar":{
+    "en": "SR",
+    "ar": "ر.س"
+  },
+    "supported_currencies_symbol_bhd":{
+    "en": "BD",
+    "ar": "د.ب"
+  },
+    "supported_currencies_symbol_aed":{
+    "en": "AED",
+    "ar": "د.إ"
+  },
+    "supported_currencies_symbol_egp":{
+    "en": "EGP",
+    "ar": "ج.م"
+  },
+    "supported_currencies_symbol_eur":{
+    "en": "EUR",
+    "ar": "يورو"
+  },
+    "supported_currencies_symbol_gbp":{
+    "en": "GBP",
+    "ar": "ج.إ"
+  },
+    "supported_currencies_symbol_omr":{
+    "en": "OR",
+    "ar": "ر.ع"
+  },
+    "supported_currencies_symbol_qar":{
+    "en": "QR",
+    "ar": "ر.ق"
+  },
+    "supported_currencies_symbol_usd":{
+    "en": "USD",
+    "ar": "دولار"
+  },
+    "supported_currencies_name_kwd":{
+    "en": "Kuwaiti Dinar",
+    "ar": "دينار كويتي"
+  },
+    "supported_currencies_name_sar":{
+    "en": "Saudi Riyal",
+    "ar": "ريال سعودي"
+  },
+    "supported_currencies_name_bhd":{
+    "en": "Bahraini Dinar",
+    "ar": "دينار بحريني"
+  },
+    "supported_currencies_name_aed":{
+    "en": "UAE Dirham",
+    "ar": "درهم إماراتي"
+  },
+    "supported_currencies_name_egp":{
+    "en": "Egyptian Pound",
+    "ar": "جنيه مصري"
+  },
+    "supported_currencies_name_eur":{
+    "en": "EURO",
+    "ar": "يورو"
+  },
+    "supported_currencies_name_gbp":{
+    "en": "British Pound",
+    "ar": "جنيه إسترليني"
+  },
+    "supported_currencies_name_omr":{
+    "en": "Omani Riyal",
+    "ar": "ريال عماني"
+  },
+    "supported_currencies_name_qar":{
+    "en": "Qatari Riyal",
+    "ar": "ريال قطري"
+  },
+    "supported_currencies_name_usd":{
+    "en": "US Dollar",
+    "ar": "دولار أمريكي"
+  },
+    "supported_currencies_title_kwd":{
+    "en": "Kuwaiti Dinar",
+    "ar": "دينار الكويتي"
+  },
+    "supported_currencies_title_sar":{
+    "en": "Saudi Riyal",
+    "ar": "ريال السعودي"
+  },
+    "supported_currencies_title_bhd":{
+    "en": "Bahraini Dinar",
+    "ar": "دينار البحريني"
+  },
+    "supported_currencies_title_aed":{
+    "en": "UAE Dirham",
+    "ar": "درهم الإماراتي"
+  },
+    "supported_currencies_title_egp":{
+    "en": "Egyptian Pound",
+    "ar": "جنيه المصري"
+  },
+    "supported_currencies_title_eur":{
+    "en": "EURO",
+    "ar": "يورو"
+  },
+    "supported_currencies_title_gbp":{
+    "en": "British Pound",
+    "ar": "جنيه الإسترليني"
+  },
+    "supported_currencies_title_omr":{
+    "en": "Omani Riyal",
+    "ar": "ريال العماني"
+  },
+    "supported_currencies_title_qar":{
+    "en": "Qatari Riyal",
+    "ar": "ريال القطري"
+  },
+    "supported_currencies_title_usd":{
+    "en": "US Dollar",
+    "ar": "دولار الأمريكي"
+  },
+    "btn_save_title":{
+    "en": "Save",
+    "ar": "حفظ"
+  },
+    "card_number_required":{
+    "en": "Please fill Card Number.",
+    "ar": "الرجاء تعبئة رقم البطاقة"
+  },
+    "expiry_date_required":{
+    "en": "Please fill expiry date.",
+    "ar": "الرجاء تعبئة تاريخ الإنتهاء"
+  },
+    "cvv_required":{
+    "en": "Please fill the CVV.",
+    "ar": "الرجاء تعبئة رمز التحقق"
+  },
+    "cvv_digit_required":{
+    "en": "<digit> digit CVV required",
+    "ar": "مطلوب <digit> أرقام لرمز التحقق"
+  },
+    "card_holder_required":{
+    "en": "Please fill Card holder name.",
+    "ar": "الرجاء تعبئة إسم حامل البطاقة"
+  },
+    "expiry_year_required":{
+    "en": "Expiry Year is required",
+    "ar": "مطلوب سنة إنتهاء الصلاحية"
+  },
+    "expiry_month_required":{
+    "en": "Expiry Month is required",
+    "ar": "مطلوب شهر إنتهاء الصلاحية"
+  },
+    "expiry_date_past":{
+    "en": "Your card's expiration date is in the past.",
+    "ar": "انتهى تاريخ صلاحية بطاقتك"
+  },
+    "error_invalid_card":{
+    "en": "Invalid card given",
+    "ar": "بطاقة غير صالحة"
+  },
+    "error_card_holder_short":{
+    "en": "Card holder name is too short (minimum is 3 characters).",
+    "ar": "إسم حامل البطاقة قصير (الحد الأدنى هو 3 أحرف)"
+  },
+    "errror_brand_not_supported":{
+    "en": "Card brand not supported",
+    "ar": "العلامة التجارية لبطاقة البنك غير معتمدة"
+  },
+    "error_currency_not_supported":{
+    "en": "Currency not supported by any payment method",
+    "ar": "العملة غير معتمدة من قبل أي طريقة دفع"
+  },
+    "error_currency_not_supported_partial":{
+    "en": "%@currency not supported for %@payment_option",
+    "ar": "%@ العملة غير معتمدة لـ %@ خيار_الدفع"
+  },
+    "gosell_https_configration_msg":{
+    "en": "goSell integrations must use HTTPS.",
+    "ar": "يجب استخدام HTTPS لـ دمج goSell"
+  },
+    "gosell_https_configration_submsg":{
+    "en": "You're using live public key, which should be used with ssl certificate.",
+    "ar": "الرجاء إستخدام شهادة SSL"
+  },
+    "gosell_payment_process_warning_msg":{
+    "en": "Please wait until the payment process is completed!",
+    "ar": "الرجاء الإنتظار حتى تكتمل عملية الدفع"
+  },
+    "gosell_failed_transaction":{
+    "en": "Failed Transaction",
+    "ar": "فشلت العملية"
+  },
+    "gosell_something_went_wrong":{
+    "en": "Sorry, something went wrong!",
+    "ar": "عذراً! حدث خطأ ما"
+  },
+    "payment_methods_knet":{
+    "en": "KNET",
+    "ar": "كي نت"
+  },
+    "payment_methods_benefit":{
+    "en": "Benefit",
+    "ar": "بنفت"
+  },
+    "payment_methods_sadad":{
+    "en": "Sadad",
+    "ar": "سداد"
+  },
+    "view_order_details":{
+    "en": "View Order Details",
+    "ar": "عرض تفاصيل الطلب"
+  },
+    "close_order_details":{
+    "en": "Close Order Details",
+    "ar": "اغلاق تفاصيل الطلب"
+  },
+    "items_list_title":{
+    "en": "Items",
+    "ar": "المشتريات"
+  },
+    "tranx_description_title":{
+    "en": "Description",
+    "ar": "الوصف"
+  },
+    "please_wait_msg":{
+    "en": "Please Wait",
+    "ar": "الرجاء الإنتظار"
+  },
+    "session_error_msg":{
+    "en": "Session has been expired!",
+    "ar": "عذراً، لقد تجاوزت الوقت المسموح به لاستخدام بوابة الدفع الإلكتروني"
+  },
+    "close_btn_title":{
+    "en": "Close",
+    "ar": "اغلاق"
+  },
+  "close_btn_title_page_mode":{
+    "en": "Back to Website",
+    "ar": "عودة إلي الموقع"
+  },
+    "card_deleted_successfully":{
+    "en": "The card has been deleted successfully!",
+    "ar": "تم حذف البطاقة بنجاح!"
+  },
+    "card_deleting_error":{
+    "en": "Can't complete the process!",
+    "ar": "لا يمكن استكمال العملية!"
+  },
+    "card_has_been_saved":{
+    "en": "The card has been saved!",
+    "ar": "تم حفظ البطاقة!"
+  },
+    "otp_code_sent":{
+    "en": "OTP code has been successfully resent!",
+    "ar": "تمت إعادة إرسال الرمز المتغير OTP بنجاح!"
+  },
+    "otp_code_attempts":{
+    "en": "You have exceeded the number of attempts",
+    "ar": "لقد تجاوزت عدد المحاولات المسموح بها"
+  },
+    "device_rotation_msg":{
+    "en": "For better experiance, turn on your device!",
+    "ar": "لتجربة أفضل قم بإعادة الجهاز للوضع الرأسي!"
+  },
+  "merchant_contact_info_title":{
+    "en": "Contact Info",
+    "ar": "معلومات الإتصال"
+  },
+  "merchant_social_media_title":{
+    "en": "Social Media",
+    "ar": "مواقع التواصل الإجتماعي"
+  },
+  "credit_card_title":{
+    "en": "Credit Card",
+    "ar": "بطاقة الائتمان"
+  },
+  "credit_card_subtitle":{
+    "en": "Enter Credit Card",
+    "ar": "أدخل بطاقة الائتمان"
+  },
+  "otp_validation_msg":{
+    "en": "Invalid OTP code given!",
+    "ar": "الرمز المدخل غير صحيح!"
+  },
+  "error_invalid_card_characters":{
+    "en": "Invalid card number given!",
+    "ar": "القيمة المدخلة غير صحيحة"
+  },
+  "error_invalid_expiry_characters":{
+    "en": "Invalid expiry date given!",
+    "ar": "القيمة المدخلة غير صحيحة"
+  },
+  "error_invalid_cvv_characters":{
+    "en": "Invalid CVV number given!",
+    "ar": "القيمة المدخلة غير صحيحة"
+  },
+  "exchange_currency_message":{
+    "en": "Would you like to pay in %@?",
+    "ar": "هل ترغب ان تدفع بال%@؟"
+  },
+  "unit_price":{
+    "en": "Unit Price",
+    "ar": "سعر الوحدة"
+  },
+  "discount":{
+    "en": "Discount",
+    "ar": "خصم"
+  }
+}
