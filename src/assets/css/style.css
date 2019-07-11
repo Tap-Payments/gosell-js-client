@@ -6,7 +6,7 @@
   margin: 0;
 }
 .gosell-gateway-msg{
-  /* background-color: rgba(0, 0, 0, 0.6); */
+  background-color: rgba(0, 0, 0, 0.6);
   overflow: hidden !important;
   position: absolute;
   top: 0;
