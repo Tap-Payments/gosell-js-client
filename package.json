@@ -1,6 +1,6 @@
 {
   "name": "@tap-payments/gosell",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Online Tap Payment Gateway",
   "main": "dist/index.js",
   "module": "src/index.js",

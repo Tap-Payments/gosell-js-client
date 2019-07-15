@@ -377,14 +377,16 @@ class FormStore{
             });
 
          } else {
+            self.RootStore.uIStore.setErrorHandler({});
+
             self.RootStore.configStore.callbackFunc(result);
 
-            self.RootStore.uIStore.setErrorHandler({
-                   visable: true,
-                   code: 200,
-                   msg: result.id,
-                   type: 'success'
-            });
+            // self.RootStore.uIStore.setErrorHandler({
+            //        visable: true,
+            //        code: 200,
+            //        msg: result.id,
+            //        type: 'success'
+            // });
 
             self.clearCardForm();
          }

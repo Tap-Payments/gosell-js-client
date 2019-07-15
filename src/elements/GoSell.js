@@ -42,7 +42,7 @@ class GoSell extends Component {
     var URLSearchParams = require('url-search-params');
     var urlParams = new URLSearchParams(window.location.search);
 
-    if(urlParams.has('tap_id')){
+    if(urlParams.has('tap_id') && urlParams.has('token')){
       RootStore.uIStore.isLoading = true;
       RootStore.uIStore.setOpenModal(true);
 
@@ -64,7 +64,6 @@ class GoSell extends Component {
             RootStore.uIStore.isLoading = false;
           }, 500);
         });
-
       }, 100);
 
       return true;
@@ -96,6 +95,7 @@ class GoSell extends Component {
 
   componentDidMount(){
 
+    console.log('config obj', RootStore.configStore.gateway);
     GoSell.showTranxResult();
 
     var self = this;
@@ -109,6 +109,9 @@ class GoSell extends Component {
       if(e.data == 'close'){
         //console.log('close it');
         RootStore.uIStore.setOpenModal(false);
+        console.log('close 1',RootStore.configStore.gateway.onClose);
+        console.log('close 2',RootStore.configStore.gateway.onClose ? RootStore.configStore.gateway.onClose : null);
+        RootStore.configStore.gateway.onClose ? RootStore.configStore.gateway.onClose() : null;
         self.closeModal();
       }
 
@@ -148,6 +151,10 @@ class GoSell extends Component {
       if(e.data == 'close'){
         console.log('close');
         RootStore.uIStore.setOpenModal(false);
+        console.log('close 3',RootStore.configStore.gateway.onClose);
+        console.log('close 4',RootStore.configStore.gateway.onClose ? RootStore.configStore.gateway.onClose : null);
+        RootStore.configStore.gateway.onClose ? RootStore.configStore.gateway.onClose() : null;
+
         var body = document.getElementsByTagName("BODY")[0];
         body.classList.remove('gosell-payment-gateway-open');
       }
