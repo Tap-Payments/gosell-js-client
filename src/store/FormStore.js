@@ -64,8 +64,18 @@ class FormStore{
       function _ensureHTTPS(key){
 
           if (window.location.protocol=='http:' && 0 === key.indexOf("pk_live")){
+            self.RootStore.configStore.callbackFunc({
+              "errors": [
+                {
+                  "code": "2109",
+                  "description": "goSell integrations must use HTTPS.You're using live public key, which should be used with ssl certificate."
+                }
+              ]
+            });
+
            throw new Error("goSell integrations must use HTTPS.You're using live public key, which should be used with ssl certificate.");
           }
+
           var e = window.location.protocol,
           t = -1 !== ["https:", "file:"].indexOf(e),
           n = -1 !== ["localhost", "127.0.0.1", "0.0.0.0"].indexOf(window.location.hostname),
@@ -78,8 +88,31 @@ class FormStore{
 
       };
 
-      if ("" === key) throw new Error("Please call goSell() with your publishable key. You used an empty string.");
-      if (0 === key.indexOf("sk_")) throw new Error("You should not use your secret key with goSell.\n        Please pass a publishable key instead.");
+      if (key == "" || key == null) {
+        self.RootStore.configStore.callbackFunc({
+          "errors": [
+            {
+              "code": "2104",
+              "description": "Invalid API Key, Please call goSell() with your publishable key. You used an empty string."
+            }
+          ]
+        });
+
+        throw new Error("Invalid API Key, Please call goSell() with your publishable key. You used an empty string.");
+      }
+      
+      if (0 === key.indexOf("sk_")){
+        self.RootStore.configStore.callbackFunc({
+          "errors": [
+            {
+              "code": "2110",
+              "description": "You should not use your secret key with goSell.\n Please pass a publishable key instead."
+            }
+          ]
+        });
+        
+        throw new Error("You should not use your secret key with goSell.\n Please pass a publishable key instead.");
+      } 
       _ensureHTTPS(key);
 
       try {
