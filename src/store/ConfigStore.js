@@ -1,4 +1,4 @@
-import {decorate, observable, computed} from 'mobx';
+import {decorate, observable} from 'mobx';
 import Paths from '../../webpack/paths';
 
 class ConfigStore {
@@ -44,6 +44,7 @@ class ConfigStore {
       this.RootStore.configStore.gateway.callback(data);
     }
   }
+  
 
   setConfig(value){
 
@@ -100,13 +101,14 @@ class ConfigStore {
       }
     };
 
-    this.gateway = value.gateway ? {
+    var gatewayObj = value.gateway ? {
       publicKey: value.gateway.publicKey ? value.gateway.publicKey : null,
       contactInfo: typeof value.gateway.contactInfo != 'undefined' ? value.gateway.contactInfo : true,
       customerCards: typeof value.gateway.customerCards != 'undefined' ? value.gateway.customerCards : true,
       language:value.gateway.language ? value.gateway.language : 'en',
       notifications:value.gateway.notifications ? value.gateway.notifications : 'standard',
       callback: value.gateway.callback ? value.gateway.callback : null,
+      onClose: value.gateway.onClose ? value.gateway.onClose : null,
       backgroundImg: value.gateway.backgroundImg ? value.gateway.backgroundImg : null,
       saveCardOption: typeof value.gateway.saveCardOption != 'undefined' ? value.gateway.saveCardOption : true,
       supportedCurrencies: value.gateway.supportedCurrencies ? value.gateway.supportedCurrencies : 'all',
@@ -115,7 +117,10 @@ class ConfigStore {
       style: value.gateway.style ? value.gateway.style : this.style
     } : {};
 
-    console.log('this.gateway', this.gateway);
+    this.config.gateway = gatewayObj;
+    this.gateway = gatewayObj;
+
+    console.log('this.gateway', this.config.gateway);
 
     console.log('condition', window.location.protocol=='http:' && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0);
     console.log('protocol', window.location.protocol);
@@ -139,7 +144,7 @@ class ConfigStore {
       var urlParams = new URLSearchParams(window.location.search);
       console.log('...', urlParams.has('tap_id'));
 
-      if(!urlParams.has('tap_id')){
+      if(!urlParams.has('token')){
         this.RootStore.apiStore.generateToken(this.config).then(obj => {
           this.token = obj.token;
           console.log('token', this.token);
