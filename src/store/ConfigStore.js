@@ -61,45 +61,47 @@ class ConfigStore {
     
     console.log('config', this.config);
 
-    // this.gateway = value.gateway ? value.gateway : {};
-    this.language = value.gateway && value.gateway.language ? value.gateway.language : 'en';
-    console.log('language', this.language);
+    if(value.gateway){
+      // this.gateway = value.gateway ? value.gateway : {};
+      this.language = value.gateway.language ? value.gateway.language : 'en';
+      console.log('language', this.language);
 
-    if(value.gateway.labels){
-      this.labels = {
-        cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
-        expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
-        cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
-        cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
+      if(value.gateway.labels){
+        this.labels = {
+          cardNumber: value.gateway.labels.cardNumber ? value.gateway.labels.cardNumber : this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+          expirationDate: value.gateway.labels.expirationDate ? value.gateway.labels.expirationDate : this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+          cvv: value.gateway.labels.cvv ? value.gateway.labels.cvv : this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+          cardHolder: value.gateway.labels.cardHolder ? value.gateway.labels.cardHolder : this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
+        };
+      }
+      else {
+        this.labels = {
+            cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
+            expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
+            cvv:this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
+            cardHolder:this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
+        }
+      }
+
+      this.style = {
+        base: (value.gateway.style && value.gateway.style.base) ? value.gateway.style.base : {
+          color: '#535353',
+          lineHeight: '18px',
+          fontFamily: this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
+          fontUrl: this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
+          fontSmoothing: 'antialiased',
+          fontSize: '15px',
+          '::placeholder': {
+            color: 'rgba(0, 0, 0, 0.26)',
+            fontSize:'15px'
+          }
+        },
+        invalid: (value.gateway.style && value.gateway.style.invalid) ? value.gateway.style.invalid : {
+          color: 'red',
+          iconColor: '#fa755a '
+        }
       };
     }
-    else {
-      this.labels = {
-          cardNumber:this.RootStore.localizationStore.getContent('card_input_card_number_placeholder', null),
-          expirationDate:this.RootStore.localizationStore.getContent('card_input_expiration_date_placeholder', null),
-          cvv:this.RootStore.localizationStore.getContent('card_input_cvv_placeholder', null),
-          cardHolder:this.RootStore.localizationStore.getContent('card_input_cardholder_name_placeholder', null)
-      }
-    }
-
-    this.style = {
-      base: (value.gateway.style && value.gateway.style.base) ? value.gateway.style.base : {
-        color: '#535353',
-        lineHeight: '18px',
-        fontFamily: this.language === 'en' ? 'Roboto-Light' : 'Helvetica-Light',
-        fontUrl: this.language === 'en' ? Paths.cssPath + 'fontsEn.css' : Paths.cssPath + 'fontsAr.css',
-        fontSmoothing: 'antialiased',
-        fontSize: '15px',
-        '::placeholder': {
-          color: 'rgba(0, 0, 0, 0.26)',
-          fontSize:'15px'
-        }
-      },
-      invalid: (value.gateway.style && value.gateway.style.invalid) ? value.gateway.style.invalid : {
-        color: 'red',
-        iconColor: '#fa755a '
-      }
-    };
 
     var gatewayObj = value.gateway ? {
       publicKey: value.gateway.publicKey ? value.gateway.publicKey : null,
@@ -127,6 +129,7 @@ class ConfigStore {
     console.log('value.gateway.publicKey.indexOf("pk_live")', value.gateway.publicKey.indexOf("pk_live"));
     console.log('window.location.protocol==http && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0',window.location.protocol=='http:' && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0);
 
+    
       var transaction_mode = this.config.transaction ? this.config.transaction.mode : null;
 
       switch (transaction_mode) {
