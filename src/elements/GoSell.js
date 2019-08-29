@@ -102,6 +102,7 @@ class GoSell extends Component {
       if(e.data == 'close'){
         //console.log('close it');
         RootStore.uIStore.setOpenModal(false);
+        RootStore.configStore.onCloseFunc();
         self.closeModal();
       }
 

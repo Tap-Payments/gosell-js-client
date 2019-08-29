@@ -40,8 +40,15 @@ class ConfigStore {
 
   callbackFunc(data){
     // //console.log('hey ', data);
-    if(this.RootStore.configStore.gateway.callback){
-      this.RootStore.configStore.gateway.callback(data);
+    if(this.gateway.callback){
+      this.gateway.callback(data);
+    }
+  }
+
+  onCloseFunc(){
+    console.log('hey in close func');
+    if(this.config.gateway.onClose){
+      this.config.gateway.onClose();
     }
   }
 
@@ -107,6 +114,7 @@ class ConfigStore {
       language:value.gateway.language ? value.gateway.language : 'en',
       notifications:value.gateway.notifications ? value.gateway.notifications : 'standard',
       callback: value.gateway.callback ? value.gateway.callback : null,
+      onClose: value.gateway.onClose ? value.gateway.onClose : null,
       backgroundImg: value.gateway.backgroundImg ? value.gateway.backgroundImg : null,
       saveCardOption: typeof value.gateway.saveCardOption != 'undefined' ? value.gateway.saveCardOption : true,
       supportedCurrencies: value.gateway.supportedCurrencies ? value.gateway.supportedCurrencies : 'all',
