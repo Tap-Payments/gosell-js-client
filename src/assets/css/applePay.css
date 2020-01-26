@@ -1,0 +1,22 @@
+#apple-pay {
+  display: none;
+}
+
+.apple-pay-set-up-button {
+  margin: 7px 16px 16px 16px;
+  display: inline-block;
+  width: calc(100% - 32px);
+  height: 44px;
+  cursor: pointer;
+  -webkit-appearance: -apple-pay-button;
+  /* -apple-pay-button-type: set-up; */
+}
+.apple-pay-set-up-button-black {
+  -apple-pay-button-style: black;
+}
+.apple-pay-set-up-button-white {
+  -apple-pay-button-style: white;
+}
+.apple-pay-setup-button-white-with-line {
+  -apple-pay-button-style: white-outline;
+}

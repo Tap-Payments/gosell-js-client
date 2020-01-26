@@ -3,10 +3,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import GoSell from "./elements/GoSell.js";
 import GoSellElements from "./elements/GoSellElements.js";
+import ApplePay from "./elements/ApplePay";
 
 module.exports = {
   GoSell: GoSell,
   GoSellElements: GoSellElements,
+  ApplePay: ApplePay,
   config: function(object) {
     if (object.containerID) {
       ReactDOM.render(
@@ -62,5 +64,11 @@ module.exports = {
   },
   submit: function() {
     module.exports.GoSellElements.submit();
+  },
+  applePay: function(object) {
+    ReactDOM.render(<ApplePay />, document.getElementById(object.containerID));
+  },
+  checkAvailability: function() {
+    module.exports.ApplePay.checkAvailability();
   }
 };
