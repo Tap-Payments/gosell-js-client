@@ -1,6 +1,6 @@
 {
   "name": "@tap-payments/gosell",
-  "version": "1.4.0",
+  "version": "1.5.2",
   "description": "Online Tap Payment Gateway",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -17,12 +17,7 @@
   },
   "author": "Hala Q. <h.qutmosh@tap.company> (https://tap.company)",
   "license": "ISC",
-  "peerDependencies": {
-    "react": "^16.3.0",
-    "react-dom": "^16.3.0",
-    "mobx": "^4.11.0",
-    "mobx-react": "^5.4.4"
-  },
+  "peerDependencies": {},
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
@@ -55,6 +50,10 @@
     "bluebird": "^3.5.5",
     "lottie-web": "^5.5.5",
     "node-sass": "^4.12.0",
-    "url-search-params": "^1.1.0"
+    "url-search-params": "^1.1.0",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "mobx": "^4.11.0",
+    "mobx-react": "^5.4.4"
   }
 }
