@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-import NotificationBar from "./NotificationBar";
 import RootStore from "../store/RootStore.js";
 
 class GoSellElements extends Component {

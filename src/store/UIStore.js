@@ -1,11 +1,13 @@
-import React, { Component } from "react";
-import { decorate, observable, computed } from "mobx";
+import React from "react";
+import { decorate, observable } from "mobx";
 import NotificationBar from "../elements/NotificationBar";
 
 class UIStore {
   constructor(RootStore) {
     this.RootStore = RootStore;
     this.reset();
+
+    this.closeNotification = this.closeNotification.bind(this);
   }
 
   reset() {
@@ -75,10 +77,15 @@ class UIStore {
   // }
 
   closeNotification() {
-    var el = document.getElementById(this.RootStore.configStore.notifications);
-    el.innerHTML = null;
-    this.errorHandler.visable = false;
-    this.errorHandler = {};
+    if (this.RootStore.configStore.notifications !== "standard") {
+      var el = document.getElementById(
+        this.RootStore.configStore.notifications
+      );
+      el.innerHTML = "";
+    } else {
+      this.errorHandler.visable = false;
+      this.errorHandler = {};
+    }
   }
 
   computed;
