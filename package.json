@@ -1,7 +1,7 @@
 {
-  "name": "@tap-payments/gosell",
-  "version": "1.4.2",
-  "description": "Online Tap Payment Gateway",
+  "name": "@tap-payments/gosell-staging",
+  "version": "0.0.0",
+  "description": "Tap Web Checkout JS Library",
   "main": "dist/index.js",
   "module": "src/index.js",
   "scripts": {
@@ -17,12 +17,6 @@
   },
   "author": "Hala Q. <h.qutmosh@tap.company> (https://tap.company)",
   "license": "ISC",
-  "peerDependencies": {
-    "react": "^16.3.0",
-    "react-dom": "^16.3.0",
-    "mobx": "^4.11.0",
-    "mobx-react": "^5.4.4"
-  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
@@ -50,11 +44,17 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@tap-payments/loader": "^1.0.14",
+    "@ungap/url-search-params": "^0.1.4",
     "axios": "^0.18.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "bluebird": "^3.5.5",
     "lottie-web": "^5.5.5",
-    "node-sass": "^4.12.0",
-    "url-search-params": "^1.1.0"
+    "node-sass": "^4.12.0"
+  },
+  "peerDependencies": {
+    "react": "16.3.0",
+    "react-dom": "16.3.0",
+    "mobx": "4.11.0",
+    "mobx-react": "5.4.4"
   }
 }

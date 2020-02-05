@@ -1,13 +1,12 @@
-import UIStore from './UIStore.js';
-import ConfigStore from './ConfigStore.js';
-import ApiStore from './ApiStore.js';
-import FormStore from './FormStore';
-import LocalizationStore from './LocalizationStore';
+import UIStore from "./UIStore.js";
+import ConfigStore from "./ConfigStore.js";
+import ApiStore from "./ApiStore.js";
+import FormStore from "./FormStore";
+import LocalizationStore from "./LocalizationStore";
 
 class RootStore {
   constructor() {
-
-    if (! window._babelPolyfill) {
+    if (!window._babelPolyfill) {
       require("@babel/polyfill");
       //console.log('after @babel-polyfill');
     }

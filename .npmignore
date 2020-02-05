@@ -1,6 +1,6 @@
 # .npmignore
 src
-demoo
+demo
 build
 .babelrc
 .gitignore
