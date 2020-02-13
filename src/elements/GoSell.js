@@ -11,22 +11,10 @@ class GoSell extends Component {
   static openLightBox() {
     RootStore.uIStore.modalMode = "popup";
     RootStore.uIStore.setOpenModal(true);
-    RootStore.uIStore.isLoading = true;
+    // RootStore.uIStore.isLoading = true;
 
     var body = document.getElementsByTagName("BODY")[0];
     body.classList.add("gosell-payment-gateway-open");
-
-    console.log(RootStore.configStore.token);
-    setTimeout(function() {
-      var iframe = document.getElementById("gosell-gateway");
-
-      iframe.addEventListener("load", function() {
-        console.log("hey loaded!");
-        setTimeout(function() {
-          RootStore.uIStore.isLoading = false;
-        }, 500);
-      });
-    }, 100);
   }
 
   //redirect to Tap gateway from JS library without calling charge / authrorize API from merchant side
@@ -113,6 +101,17 @@ class GoSell extends Component {
   componentDidMount() {
     GoSell.showTranxResult();
 
+    if (document.getElementById("gosell-gateway") != null) {
+      var iframe = document.getElementById("gosell-gateway");
+
+      iframe.addEventListener("load", function() {
+        console.log("hey loaded!");
+        setTimeout(function() {
+          RootStore.uIStore.isLoading = false;
+        }, 500);
+      });
+    }
+
     var self = this;
     // Create IE + others compatible event handler
     var eventMethod = window.addEventListener
@@ -125,14 +124,16 @@ class GoSell extends Component {
     eventer(
       messageEvent,
       function(e) {
-        if (e.data.close) {
+        if (e.data == "close" || e.data.close) {
           console.log("close it");
           RootStore.uIStore.setOpenModal(false);
 
           RootStore.configStore.gateway.onClose
             ? RootStore.configStore.gateway.onClose()
             : null;
-          self.closeModal(e.data.close);
+          e.data == "close"
+            ? self.closeModal(RootStore.configStore.redirect_url)
+            : self.closeModal(e.data.close);
         }
 
         if (e.data.callback && typeof e.data.callback == "object") {
@@ -153,6 +154,12 @@ class GoSell extends Component {
     }
     var body = document.getElementsByTagName("BODY")[0];
     body.classList.remove("gosell-payment-gateway-open");
+
+    var iframe = document.getElementById("gosell-gateway");
+
+    iframe.setAttribute("src", iframe.getAttribute("src"));
+
+    RootStore.uIStore.isLoading = true;
   }
 
   componentWillUnMount() {
@@ -167,14 +174,16 @@ class GoSell extends Component {
     eventer(
       messageEvent,
       function(e) {
-        if (e.data.close) {
+        if (e.data == "close" || e.data.close) {
           RootStore.uIStore.setOpenModal(false);
 
           RootStore.configStore.gateway.onClose
             ? RootStore.configStore.gateway.onClose()
             : null;
 
-          self.closeModal(e.data.close);
+          e.data == "close"
+            ? self.closeModal(RootStore.configStore.redirect_url)
+            : self.closeModal(e.data.close);
 
           var body = document.getElementsByTagName("BODY")[0];
           body.classList.remove("gosell-payment-gateway-open");
@@ -187,52 +196,51 @@ class GoSell extends Component {
   render() {
     return (
       <React.Fragment>
-        {RootStore.uIStore.openModal ? (
-          <React.Fragment>
-            <iframe
-              id="gosell-gateway"
-              style={{
-                display: !RootStore.uIStore.isLoading ? "block" : "none",
-                position: "absolute",
-                top: "0",
-                bottom: "0",
-                left: "0",
-                right: "0",
-                margin: "auto",
-                border: "0px",
-                zIndex: "99999999999999999"
-              }}
-              src={
-                RootStore.uIStore.tap_id != null
-                  ? Paths.framePath +
-                    "?mode=" +
-                    RootStore.uIStore.modalMode +
-                    "&token=" +
-                    RootStore.configStore.token +
-                    "&tap_id=" +
-                    RootStore.uIStore.tap_id
-                  : Paths.framePath +
-                    "?mode=" +
-                    RootStore.uIStore.modalMode +
-                    "&token=" +
-                    RootStore.configStore.token
-              }
-              width="100%"
-              height="100%"
-            ></iframe>
+        <iframe
+          id="gosell-gateway"
+          style={{
+            display:
+              RootStore.uIStore.openModal && !RootStore.uIStore.isLoading
+                ? "block"
+                : "none",
+            position: "absolute",
+            top: "0",
+            bottom: "0",
+            left: "0",
+            right: "0",
+            margin: "auto",
+            border: "0px",
+            zIndex: "99999999999999999"
+          }}
+          src={
+            RootStore.uIStore.tap_id != null
+              ? Paths.framePath +
+                "?mode=" +
+                RootStore.uIStore.modalMode +
+                "&token=" +
+                RootStore.configStore.token +
+                "&tap_id=" +
+                RootStore.uIStore.tap_id
+              : Paths.framePath +
+                "?mode=" +
+                RootStore.uIStore.modalMode +
+                "&token=" +
+                RootStore.configStore.token
+          }
+          width="100%"
+          height="100%"
+        ></iframe>
 
-            <TapLoader
-              type="loader"
-              color={
-                RootStore.uIStore.modalMode === "popup" ? "white" : "black"
-              }
-              store={RootStore}
-              status={RootStore.uIStore.isLoading}
-              duration={5}
-              title={null}
-              desc={null}
-            />
-          </React.Fragment>
+        {RootStore.uIStore.openModal ? (
+          <TapLoader
+            type="loader"
+            color={RootStore.uIStore.modalMode === "popup" ? "white" : "black"}
+            store={RootStore}
+            status={RootStore.uIStore.isLoading}
+            duration={5}
+            title={null}
+            desc={null}
+          />
         ) : null}
       </React.Fragment>
     );
