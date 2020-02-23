@@ -191,7 +191,7 @@ class ConfigStore {
     if (value.gateway) {
       // this.gateway = value.gateway ? value.gateway : {};
       this.language = value.gateway.language ? value.gateway.language : "en";
-      console.log("language", this.language);
+      // console.log("language", this.language);
 
       if (value.gateway.labels) {
         this.labels = {
@@ -311,26 +311,6 @@ class ConfigStore {
 
     this.config.gateway = gatewayObj;
     this.gateway = gatewayObj;
-
-    console.log("this.gateway", this.config.gateway);
-
-    console.log(
-      "condition",
-      window.location.protocol == "http:" &&
-        value.gateway &&
-        value.gateway.publicKey.indexOf("pk_live") == 0
-    );
-    console.log("protocol", window.location.protocol);
-    console.log(
-      'value.gateway.publicKey.indexOf("pk_live")',
-      value.gateway.publicKey.indexOf("pk_live")
-    );
-    console.log(
-      'window.location.protocol==http && value.gateway && value.gateway.publicKey.indexOf("pk_live") == 0',
-      window.location.protocol == "http:" &&
-        value.gateway &&
-        value.gateway.publicKey.indexOf("pk_live") == 0
-    );
 
     var transaction_mode = this.config.transaction
       ? this.config.transaction.mode
