@@ -274,6 +274,9 @@ class ConfigStore {
     var gatewayObj = value.gateway
       ? {
           publicKey: value.gateway.publicKey ? value.gateway.publicKey : null,
+          merchantId: value.gateway.merchantId
+            ? value.gateway.merchantId
+            : null,
           contactInfo:
             typeof value.gateway.contactInfo != "undefined"
               ? value.gateway.contactInfo

@@ -4,7 +4,7 @@ import Paths from "../../webpack/paths";
 import RootStore from "../store/RootStore.js";
 import TapLoader from "./TapLoader";
 import "../assets/css/style.css";
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 
 class GoSell extends Component {
   //open Tap gateway as a light box by JS library
@@ -19,15 +19,17 @@ class GoSell extends Component {
 
   //redirect to Tap gateway from JS library without calling charge / authrorize API from merchant side
   static openPaymentPage() {
-    RootStore.uIStore.modalMode = "page";
-    window.open(
-      Paths.framePath +
-        "?mode=" +
-        RootStore.uIStore.modalMode +
-        "&token=" +
-        RootStore.configStore.token,
-      "_self"
-    );
+    if (RootStore.configStore.token != null) {
+      RootStore.uIStore.modalMode = "page";
+      window.open(
+        Paths.framePath +
+          "?mode=" +
+          RootStore.uIStore.modalMode +
+          "&token=" +
+          RootStore.configStore.token,
+        "_self"
+      );
+    }
   }
 
   static showTranxResult() {
@@ -35,9 +37,9 @@ class GoSell extends Component {
     var urlParams = new URLSearchParams(window.location.search);
 
     if (urlParams.has("tap_id") && urlParams.has("token")) {
-      if (document.getElementById("gosell-gateway") == null) {
-        ReactDOM.render(<GoSell />, document.getElementById("gosell-js-lib"));
-      }
+      // if (document.getElementById("gosell-gateway") == null) {
+      //   ReactDOM.render(<GoSell />, document.getElementById("gosell-js-lib"));
+      // }
 
       RootStore.uIStore.isLoading = true;
       RootStore.uIStore.setOpenModal(true);
@@ -48,9 +50,7 @@ class GoSell extends Component {
       RootStore.uIStore.tap_id = urlParams.get("tap_id");
       RootStore.configStore.token = urlParams.get("token");
       RootStore.uIStore.modalMode = urlParams.get("mode");
-      console.log("mooooode", RootStore.uIStore.modalMode);
 
-      console.log("url token", urlParams.get("token"));
       setTimeout(function() {
         var iframe = document.getElementById("gosell-gateway");
 
@@ -88,9 +88,9 @@ class GoSell extends Component {
     var URLSearchParams = require("url-search-params");
     var urlParams = new URLSearchParams(window.location.search);
 
-    // console.log("props", props);
+    console.log("props", props);
     if (
-      Object.keys(props).length > 0 &&
+      Object.keys(props).length > 1 &&
       RootStore.configStore.token == null &&
       !urlParams.has("tap_id")
     ) {
@@ -112,6 +112,10 @@ class GoSell extends Component {
       });
     }
 
+    this.callbacks();
+  }
+
+  callbacks() {
     var self = this;
     // Create IE + others compatible event handler
     var eventMethod = window.addEventListener
@@ -124,6 +128,21 @@ class GoSell extends Component {
     eventer(
       messageEvent,
       function(e) {
+        // console.log("event", e.data);
+
+        if (e.data.callback) {
+          if (
+            self.props &&
+            self.props.callback &&
+            self.props.callback != null
+          ) {
+            self.props.callback(e.data);
+            // console.log("inside event ", self.props);
+          } else {
+            RootStore.configStore.callbackFunc(e.data);
+          }
+        }
+
         if (e.data == "close" || e.data.close) {
           console.log("close it");
           RootStore.uIStore.setOpenModal(false);
@@ -134,10 +153,6 @@ class GoSell extends Component {
           e.data == "close"
             ? self.closeModal(RootStore.configStore.redirect_url)
             : self.closeModal(e.data.close);
-        }
-
-        if (e.data.callback && typeof e.data.callback == "object") {
-          RootStore.configStore.callbackFunc(e.data);
         }
       },
       false
@@ -164,33 +179,7 @@ class GoSell extends Component {
 
   componentWillUnMount() {
     // Create IE + others compatible event handler
-    var eventMethod = window.removeEventListener
-      ? "removeEventListener"
-      : "attachEvent";
-    var eventer = window[eventMethod];
-    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-
-    // Listen to message from child window
-    eventer(
-      messageEvent,
-      function(e) {
-        if (e.data == "close" || e.data.close) {
-          RootStore.uIStore.setOpenModal(false);
-
-          RootStore.configStore.gateway.onClose
-            ? RootStore.configStore.gateway.onClose()
-            : null;
-
-          e.data == "close"
-            ? self.closeModal(RootStore.configStore.redirect_url)
-            : self.closeModal(e.data.close);
-
-          var body = document.getElementsByTagName("BODY")[0];
-          body.classList.remove("gosell-payment-gateway-open");
-        }
-      },
-      false
-    );
+    this.callbacks();
   }
 
   render() {
