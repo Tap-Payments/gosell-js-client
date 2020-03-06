@@ -43,6 +43,8 @@ class ConfigStore {
     this.notifications = "standard";
     // this.legalConfig = true;
     this.redirect_url = null;
+
+    this.ip = null;
   }
 
   callbackFunc(data) {
@@ -157,7 +159,7 @@ class ConfigStore {
       app_locale: this.language,
       requirer: "web.checkout",
       app_id: "gosell.checkout.web",
-      app_client_version: "1.4.1",
+      app_client_version: "1.5.0",
       app_server_version: "1.4.0",
       requirer_os: this.os != null ? this.os.name : "unknown",
       requirer_os_version: this.os != null ? this.os.version : "unknown",
@@ -334,13 +336,19 @@ class ConfigStore {
         ? value.gateway.notifications
         : "standard";
 
-    if (this.token == null) {
-      console.log("token inside ===> ", this.token);
-      this.RootStore.apiStore.generateToken(this.config).then(obj => {
-        this.token = obj.token;
-        console.log("token", this.token);
-      });
-    }
+    this.RootStore.apiStore.getIP().then(ip => {
+      self.ip = ip;
+
+      this.config["ip"] = this.ip;
+
+      if (this.token == null) {
+        console.log("token inside ===> ", this.token);
+        this.RootStore.apiStore.generateToken(this.config).then(obj => {
+          self.token = obj.token;
+          console.log("token", this.token);
+        });
+      }
+    });
   }
 }
 
@@ -351,7 +359,8 @@ decorate(ConfigStore, {
   gateway: observable,
   redirect_url: observable,
   language: observable,
-  app: observable
+  app: observable,
+  ip: observable
   // legalConfig:observable
 });
 
