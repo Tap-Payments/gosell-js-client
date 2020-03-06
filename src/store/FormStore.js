@@ -247,25 +247,15 @@ class FormStore {
               iframeWin.setAttribute("height", e.data.layout.height);
               res({ loaded: true });
 
-              // self.RootStore.apiStore.getIP().then(ip => {
-              //   console.log("ip", ip);
-              //   var iframeWin = document.getElementById("myFrame")
-              //     .contentWindow;
-              //   iframeWin.postMessage(
-              //     { action: "client_ip", key: self._apiKey, client_ip: ip },
-              //     protocol + "//" + frameurl + "/tap_payment_widget"
-              //   );
-              // });
-
-              var iframeWin = document.getElementById("myFrame").contentWindow;
-              iframeWin.postMessage(
-                {
-                  action: "client_ip",
-                  key: self._apiKey,
-                  client_ip: self.RootStore.configStore.ip
-                },
-                protocol + "//" + frameurl + "/tap_payment_widget"
-              );
+              self.RootStore.apiStore.getIP().then(ip => {
+                console.log("ip", ip);
+                var iframeWin = document.getElementById("myFrame")
+                  .contentWindow;
+                iframeWin.postMessage(
+                  { action: "client_ip", key: self._apiKey, client_ip: ip },
+                  protocol + "//" + frameurl + "/tap_payment_widget"
+                );
+              });
             }
             if (
               e.data.success == true &&

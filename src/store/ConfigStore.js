@@ -44,7 +44,7 @@ class ConfigStore {
     // this.legalConfig = true;
     this.redirect_url = null;
 
-    this.ip = null;
+    // this.ip = null;
   }
 
   callbackFunc(data) {
@@ -336,19 +336,19 @@ class ConfigStore {
         ? value.gateway.notifications
         : "standard";
 
-    this.RootStore.apiStore.getIP().then(ip => {
-      self.ip = ip;
+    // this.RootStore.apiStore.getIP().then(ip => {
+    //   self.ip = ip;
 
-      this.config["ip"] = this.ip;
+    //   this.config["ip"] = this.ip;
 
-      if (this.token == null) {
-        console.log("token inside ===> ", this.token);
-        this.RootStore.apiStore.generateToken(this.config).then(obj => {
-          self.token = obj.token;
-          console.log("token", this.token);
-        });
-      }
-    });
+    if (this.token == null) {
+      console.log("token inside ===> ", this.token);
+      this.RootStore.apiStore.generateToken(this.config).then(obj => {
+        self.token = obj.token;
+        console.log("token", this.token);
+      });
+    }
+    // });
   }
 }
 
@@ -359,8 +359,8 @@ decorate(ConfigStore, {
   gateway: observable,
   redirect_url: observable,
   language: observable,
-  app: observable,
-  ip: observable
+  app: observable
+  // ip: observable
   // legalConfig:observable
 });
 
