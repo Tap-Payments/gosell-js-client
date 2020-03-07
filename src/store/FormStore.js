@@ -413,7 +413,7 @@ class FormStore {
   async generateToken() {
     var self = this;
 
-    await this.tap.createToken(this.card).then(function(result) {
+    await self.tap.createToken(self.card).then(function(result) {
       if (result.error) {
         // Inform the user if there was an error
         self.RootStore.uIStore.setErrorHandler({

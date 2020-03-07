@@ -1,5 +1,5 @@
 {
-  "name": "@tap-payments/gosell",
+  "name": "@tap-payments/checkout",
   "version": "1.5.0",
   "description": "Online Tap Payment Gateway",
   "main": "dist/index.js",
