@@ -11,7 +11,6 @@ class GoSell extends Component {
   static openLightBox() {
     RootStore.uIStore.modalMode = "popup";
     RootStore.uIStore.setOpenModal(true);
-    // RootStore.uIStore.isLoading = true;
 
     var body = document.getElementsByTagName("BODY")[0];
     body.classList.add("gosell-payment-gateway-open");
@@ -19,8 +18,12 @@ class GoSell extends Component {
 
   //redirect to Tap gateway from JS library without calling charge / authrorize API from merchant side
   static openPaymentPage() {
+    RootStore.uIStore.modalMode = "page";
+    RootStore.uIStore.setOpenModal(true);
+    RootStore.uIStore.isLoading = true;
+
     if (RootStore.configStore.token != null) {
-      RootStore.uIStore.modalMode = "page";
+      // RootStore.uIStore.isLoading = false;
       window.open(
         Paths.framePath +
           "?mode=" +
@@ -37,10 +40,6 @@ class GoSell extends Component {
     var urlParams = new URLSearchParams(window.location.search);
 
     if (urlParams.has("tap_id") && urlParams.has("token")) {
-      // if (document.getElementById("gosell-gateway") == null) {
-      //   ReactDOM.render(<GoSell />, document.getElementById("gosell-js-lib"));
-      // }
-
       RootStore.uIStore.isLoading = true;
       RootStore.uIStore.setOpenModal(true);
 
@@ -90,8 +89,8 @@ class GoSell extends Component {
 
     console.log("props", props);
     if (
-      Object.keys(props).length > 1 &&
-      RootStore.configStore.token == null &&
+      // Object.keys(props).length > 1 &&
+      JSON.stringify(props) != RootStore.configStore.oldConfig &&
       !urlParams.has("tap_id")
     ) {
       RootStore.configStore.setConfig(props);
@@ -101,7 +100,16 @@ class GoSell extends Component {
   componentDidMount() {
     GoSell.showTranxResult();
 
-    if (document.getElementById("gosell-gateway") != null) {
+    console.log("RootStore.uIStore.modalMode", RootStore.uIStore.modalMode);
+    console.log(
+      "document.getElementById",
+      document.getElementById("gosell-gateway")
+    );
+
+    if (
+      document.getElementById("gosell-gateway") != null &&
+      RootStore.uIStore.modalMode == "popup"
+    ) {
       var iframe = document.getElementById("gosell-gateway");
 
       iframe.addEventListener("load", function() {
@@ -173,7 +181,7 @@ class GoSell extends Component {
     var iframe = document.getElementById("gosell-gateway");
 
     iframe.setAttribute("src", iframe.getAttribute("src"));
-
+    RootStore.uIStore.setOpenModal(false);
     RootStore.uIStore.isLoading = true;
   }
 
@@ -185,45 +193,48 @@ class GoSell extends Component {
   render() {
     return (
       <React.Fragment>
-        <iframe
-          id="gosell-gateway"
-          style={{
-            display:
-              RootStore.uIStore.openModal && !RootStore.uIStore.isLoading
-                ? "block"
-                : "none",
-            position: "absolute",
-            top: "0",
-            bottom: "0",
-            left: "0",
-            right: "0",
-            margin: "auto",
-            border: "0px",
-            zIndex: "99999999999999999"
-          }}
-          src={
-            RootStore.uIStore.tap_id != null
-              ? Paths.framePath +
-                "?mode=" +
-                RootStore.uIStore.modalMode +
-                "&token=" +
-                RootStore.configStore.token +
-                "&tap_id=" +
-                RootStore.uIStore.tap_id
-              : Paths.framePath +
-                "?mode=" +
-                RootStore.uIStore.modalMode +
-                "&token=" +
-                RootStore.configStore.token
-          }
-          width="100%"
-          height="100%"
-        ></iframe>
+        {RootStore.uIStore.modalMode == "popup" ? (
+          <iframe
+            id="gosell-gateway"
+            style={{
+              display:
+                RootStore.uIStore.openModal && !RootStore.uIStore.isLoading
+                  ? "block"
+                  : "none",
+              position: "absolute",
+              top: "0",
+              bottom: "0",
+              left: "0",
+              right: "0",
+              margin: "auto",
+              border: "0px",
+              zIndex: "99999999999999999"
+            }}
+            src={
+              RootStore.uIStore.tap_id != null &&
+              RootStore.configStore.token != null
+                ? Paths.framePath +
+                  "?mode=" +
+                  RootStore.uIStore.modalMode +
+                  "&token=" +
+                  RootStore.configStore.token +
+                  "&tap_id=" +
+                  RootStore.uIStore.tap_id
+                : Paths.framePath +
+                  "?mode=" +
+                  RootStore.uIStore.modalMode +
+                  "&token=" +
+                  RootStore.configStore.token
+            }
+            width="100%"
+            height="100%"
+          ></iframe>
+        ) : null}
 
         {RootStore.uIStore.openModal ? (
           <TapLoader
             type="loader"
-            color={RootStore.uIStore.modalMode === "popup" ? "white" : "black"}
+            color={"white"}
             store={RootStore}
             status={RootStore.uIStore.isLoading}
             duration={5}

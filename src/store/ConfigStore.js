@@ -1,4 +1,5 @@
-import { decorate, observable } from "mobx";
+// import { decorate, observable } from "mobx";
+import * as mobx from "mobx";
 import Paths from "../../webpack/paths";
 
 class ConfigStore {
@@ -10,6 +11,7 @@ class ConfigStore {
 
   reset() {
     this.config = null;
+    this.oldConfig = null;
     this.gateway = {};
     this.language = "en";
 
@@ -175,7 +177,15 @@ class ConfigStore {
   setConfig(value) {
     var self = this;
 
+    console.log("* config", this.config);
+    console.log("* value", value);
+    console.log(
+      "* condition",
+      JSON.stringify(this.config) != JSON.stringify(this.oldConfig)
+    );
+
     this.config = value;
+    this.oldConfig = JSON.stringify(mobx.toJS(this.config));
 
     this.config = Object.assign({}, value);
     this.config["location"] = {
@@ -336,30 +346,23 @@ class ConfigStore {
         ? value.gateway.notifications
         : "standard";
 
-    // this.RootStore.apiStore.getIP().then(ip => {
-    //   self.ip = ip;
-
-    //   this.config["ip"] = this.ip;
-
-    if (this.token == null) {
-      console.log("token inside ===> ", this.token);
-      this.RootStore.apiStore.generateToken(this.config).then(obj => {
-        self.token = obj.token;
-        console.log("token", this.token);
-      });
-    }
-    // });
+    console.log("token inside ===> ", this.token);
+    this.RootStore.apiStore.generateToken(this.config).then(obj => {
+      self.token = obj.token;
+      console.log("token", this.token);
+    });
   }
 }
 
-decorate(ConfigStore, {
-  config: observable,
-  token: observable,
-  notifications: observable,
-  gateway: observable,
-  redirect_url: observable,
-  language: observable,
-  app: observable
+mobx.decorate(ConfigStore, {
+  config: mobx.observable,
+  token: mobx.observable,
+  notifications: mobx.observable,
+  gateway: mobx.observable,
+  redirect_url: mobx.observable,
+  language: mobx.observable,
+  app: mobx.observable,
+  oldConfig: mobx.observable
   // ip: observable
   // legalConfig:observable
 });
