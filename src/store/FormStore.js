@@ -63,7 +63,7 @@ class FormStore {
     rawFile.send(null);
   }
 
-  generateForm(key) {
+  generateForm(key, mid = null) {
     var self = this;
     var protocol = "https:";
     var frameurl = "secure.gosell.io/tappaymentwidget/public/";
@@ -103,12 +103,12 @@ class FormStore {
 
     try {
       self._apiKey = key;
+      self._mid = mid;
       self._encryption_key = "sdfds";
     } catch (e) {
       //throw new Error("Please use valid tap js config json file");
     }
 
-    var elements_data;
     self.getInfo = function() {
       return this;
     };
@@ -127,7 +127,7 @@ class FormStore {
           {
             action: "submit",
             key: self._apiKey,
-            encryption_key: self._encryption_key
+            encryption_key: self._encryption_key,
           },
           protocol + "//" + frameurl + "/tap_payment_widget_ui"
         );
@@ -247,7 +247,7 @@ class FormStore {
               iframeWin.setAttribute("height", e.data.layout.height);
               res({ loaded: true });
 
-              self.RootStore.apiStore.getIP().then(ip => {
+              self.RootStore.apiStore.getIP().then((ip) => {
                 console.log("ip", ip);
                 var iframeWin = document.getElementById("myFrame")
                   .contentWindow;
@@ -287,16 +287,19 @@ class FormStore {
 
         x.setAttribute(
           "src",
-          protocol +
+          window.location.protocol +
             "//" +
             frameurl +
             "/tap_payment_widget_ui?" +
             self.objectToQueryString(options_object) +
+            "&mid=" +
+            mid +
             "&key=" +
             key +
             "&" +
             self.objectToQueryString(paymentOptions)
         );
+
         this.card._iframe = x;
         self.currencyCode = paymentOptions.currencyCode;
 
@@ -323,7 +326,7 @@ class FormStore {
       labels: this.RootStore.configStore.gateway.labels,
       paymentAllowed: this.RootStore.configStore.gateway.supportedPaymentMethods.slice(),
       TextDirection:
-        this.RootStore.configStore.gateway.language == "en" ? "ltr" : "rtl"
+        this.RootStore.configStore.gateway.language == "en" ? "ltr" : "rtl",
     };
 
     this.card = elements.create("card", { style: style }, paymentOptions);
@@ -345,7 +348,7 @@ class FormStore {
         visable: true,
         code: event.error.code,
         msg: self.RootStore.localizationStore.getContent(event.error.key, null),
-        type: "warning"
+        type: "warning",
       });
     } else if (
       event.code == 400 ||
@@ -370,7 +373,7 @@ class FormStore {
           visable: true,
           code: event.error_interactive.code,
           msg: msg,
-          type: "error"
+          type: "error",
         });
       }
 
@@ -398,7 +401,7 @@ class FormStore {
             visable: true,
             code: event.error.code,
             msg: event.error.message,
-            type: "warning"
+            type: "warning",
           });
         }
       } else {
@@ -423,7 +426,7 @@ class FormStore {
             result.error.key,
             null
           ),
-          type: "error"
+          type: "error",
         });
       } else {
         self.RootStore.uIStore.setErrorHandler({});
@@ -454,7 +457,7 @@ decorate(FormStore, {
   lock: observable,
   currencyCode: observable,
   tap: observable,
-  card: observable
+  card: observable,
 });
 
 export default FormStore;
