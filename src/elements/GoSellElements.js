@@ -17,7 +17,7 @@ class GoSellElements extends Component {
   }
 
   componentDidMount() {
-    RootStore.apiStore.getLocalization().then(result => {
+    RootStore.apiStore.getLocalization().then((result) => {
       RootStore.localizationStore.strings = result;
       RootStore.localizationStore.isLoading = false;
     });
@@ -30,7 +30,7 @@ class GoSellElements extends Component {
   }
 
   config(props) {
-    RootStore.configStore.setConfig(props);
+    RootStore.configStore.setConfig(props, "GOSELLELEMENTS");
   }
 
   closeNotification() {
@@ -45,7 +45,7 @@ class GoSellElements extends Component {
         <form
           id="gosell-gateway-form-container"
           method="post"
-          ref={node => (this.cardElementsRef = node)}
+          ref={(node) => (this.cardElementsRef = node)}
         >
           <div id="gosell-gateway-element-container"></div>
         </form>

@@ -12,17 +12,17 @@ class Popup extends Component {
     if (e.target.name === "gosell-elements" && e.target.checked) {
       this.setState({
         elements: true,
-        checkout: false
+        checkout: false,
       });
     } else if (e.target.name === "gosell-checkout" && e.target.checked) {
       this.setState({
         elements: false,
-        checkout: true
+        checkout: true,
       });
     } else {
       this.setState({
         elements: false,
-        checkout: false
+        checkout: false,
       });
     }
   }
@@ -62,7 +62,7 @@ class Popup extends Component {
                 saveCardOption: true,
                 customerCards: true,
                 notifications: "standard",
-                callback: response => {
+                callback: (response) => {
                   console.log("callback", response);
                 },
                 onClose: () => {
@@ -77,14 +77,14 @@ class Popup extends Component {
                     fontSize: "10px",
                     "::placeholder": {
                       color: "rgba(0, 0, 0, 0.26)",
-                      fontSize: "10px"
-                    }
+                      fontSize: "10px",
+                    },
                   },
                   invalid: {
                     color: "red",
-                    iconColor: "#fa755a "
-                  }
-                }
+                    iconColor: "#fa755a ",
+                  },
+                },
               }}
               customer={{
                 first_name: "hala",
@@ -93,13 +93,13 @@ class Popup extends Component {
                 email: "test@test.com",
                 phone: {
                   country_code: "+965",
-                  number: "62221019"
-                }
+                  number: "62221019",
+                },
               }}
               order={{
                 amount: 100,
                 currency: "KWD",
-                items: []
+                items: [],
               }}
               transaction={{
                 mode: "charge",
@@ -110,16 +110,16 @@ class Popup extends Component {
                   statement_descriptor: "statement_descriptor",
                   reference: {
                     transaction: "txn_0001",
-                    order: "ord_0001"
+                    order: "ord_0001",
                   },
                   metadata: {},
                   receipt: {
                     email: false,
-                    sms: true
+                    sms: true,
                   },
                   redirect: "http://localhost:3001",
-                  post: null
-                }
+                  post: null,
+                },
               }}
             />
             <br />
@@ -147,9 +147,9 @@ class Popup extends Component {
                 saveCardOption: true,
                 customerCards: true,
                 notifications: "msg",
-                callback: response => {
+                callback: (response) => {
                   console.log("callback", response);
-                }
+                },
               }}
             />
             <div id="msg"></div>

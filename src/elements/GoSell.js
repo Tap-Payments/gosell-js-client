@@ -70,7 +70,7 @@ class GoSell extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tap_id: null
+      tap_id: null,
     };
   }
 
@@ -93,7 +93,7 @@ class GoSell extends Component {
       JSON.stringify(props) != RootStore.configStore.oldConfig &&
       !urlParams.has("tap_id")
     ) {
-      RootStore.configStore.setConfig(props);
+      RootStore.configStore.setConfig(props, "GOSELL");
     }
   }
 
@@ -208,7 +208,7 @@ class GoSell extends Component {
               right: "0",
               margin: "auto",
               border: "0px",
-              zIndex: "99999999999999999"
+              zIndex: "99999999999999999",
             }}
             src={
               RootStore.uIStore.tap_id != null &&

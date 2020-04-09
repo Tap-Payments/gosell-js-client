@@ -1,6 +1,7 @@
 # .npmignore
 src
 demoo
+demo
 build
 .babelrc
 .gitignore
@@ -9,4 +10,6 @@ webpack/webpack.dev.js
 webpack/webpack.prod.js
 webpack/tap-favicon.ico
 webpack.config.js
-webpack/paths
+v1.5.0
+v1.5.0-sandbox
+

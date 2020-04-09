@@ -287,7 +287,7 @@ class FormStore {
 
         x.setAttribute(
           "src",
-          window.location.protocol +
+          protocol +
             "//" +
             frameurl +
             "/tap_payment_widget_ui?" +
@@ -315,7 +315,16 @@ class FormStore {
   generateCardForm(id) {
     var self = this;
 
-    this.tap = this.generateForm(this.RootStore.configStore.gateway.publicKey);
+    var merchant_id =
+      self.RootStore.configStore.config.gateway &&
+      self.RootStore.configStore.config.gateway.merchantId
+        ? self.RootStore.configStore.config.gateway.merchantId
+        : null;
+
+    this.tap = this.generateForm(
+      this.RootStore.configStore.gateway.publicKey,
+      merchant_id
+    );
 
     var elements = this.tap.elements({});
 
