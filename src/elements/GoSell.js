@@ -35,7 +35,7 @@ class GoSell extends Component {
     }
   }
 
-  static showTranxResult() {
+  static showResult() {
     var URLSearchParams = require("url-search-params");
     var urlParams = new URLSearchParams(window.location.search);
 
@@ -70,7 +70,7 @@ class GoSell extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tap_id: null,
+      tap_id: null
     };
   }
 
@@ -98,7 +98,7 @@ class GoSell extends Component {
   }
 
   componentDidMount() {
-    GoSell.showTranxResult();
+    GoSell.showResult();
 
     console.log("RootStore.uIStore.modalMode", RootStore.uIStore.modalMode);
     console.log(
@@ -208,7 +208,7 @@ class GoSell extends Component {
               right: "0",
               margin: "auto",
               border: "0px",
-              zIndex: "99999999999999999",
+              zIndex: "99999999999999999"
             }}
             src={
               RootStore.uIStore.tap_id != null &&

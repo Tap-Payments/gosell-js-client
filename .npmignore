@@ -10,6 +10,5 @@ webpack/webpack.dev.js
 webpack/webpack.prod.js
 webpack/tap-favicon.ico
 webpack.config.js
-v1.5.0
-v1.5.0-sandbox
-
+v1.6.0
+v1.6.0-sandbox
