@@ -5,49 +5,49 @@ const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = {
-	mode: "production",
-	output: {
-		filename: `${commonPaths.jsFolder}/[name].js`,
-		path:  commonPaths.outputPath,
-		library: 'goSell',
-		globalObject: 'this',
-		libraryTarget: 'umd',
-		publicPath: '/'
-	},
-	module: {
-		rules: [
-			{
-				test: /\.css$/,
-				use: [
-					MiniCssExtractPlugin.loader,
-					"css-loader",
-					"sass-loader"
-				]
+  mode: "production",
+  output: {
+    filename: `${commonPaths.jsFolder}/[name].js`,
+    path: commonPaths.outputPath,
+    library: "goSell",
+    globalObject: "this",
+    libraryTarget: "umd",
+    publicPath: "/"
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader"
+          // "sass-loader"
+        ]
       }
-		]
-	},
-	devServer: {
-	 historyApiFallback: true,
- },
-	plugins: [
-		new CleanWebpackPlugin([commonPaths.outputPath.split("/").pop()], {
-			root: commonPaths.root
-		}),
-		new MiniCssExtractPlugin({
-			filename: `${commonPaths.cssFolder}/[name].css`,
-			chunkFilename: "[name].css"
-		}),
-		new UglifyJSPlugin({
-			cache: true,
-			parallel: true,
-			uglifyOptions: {
-				compress: true,
-				ecma: 6,
-				mangle: true
-			},
-			sourceMap: true
-		}),
-		new CompressionPlugin()
-	],
-	devtool: "source-map"
+    ]
+  },
+  devServer: {
+    historyApiFallback: true
+  },
+  plugins: [
+    new CleanWebpackPlugin([commonPaths.outputPath.split("/").pop()], {
+      root: commonPaths.root
+    }),
+    new MiniCssExtractPlugin({
+      filename: `${commonPaths.cssFolder}/[name].css`,
+      chunkFilename: "[name].css"
+    }),
+    new UglifyJSPlugin({
+      cache: true,
+      parallel: true,
+      uglifyOptions: {
+        compress: true,
+        ecma: 6,
+        mangle: true
+      },
+      sourceMap: true
+    }),
+    new CompressionPlugin()
+  ],
+  devtool: "source-map"
 };

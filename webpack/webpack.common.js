@@ -4,15 +4,15 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: {
-    gosell: commonPaths.entryPath,
-    // "gosell-demo": commonPaths.demoPath,
+    gosell: commonPaths.entryPath
+    // "gosell-demo": commonPaths.demoPath
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         use: "babel-loader",
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         test: /\.(png|jpg|gif|svg|otf|ico)$/,
@@ -20,32 +20,32 @@ module.exports = {
           {
             loader: "file-loader",
             options: {
-              name: commonPaths.imgsFolder + "/[name].[ext]",
-            },
+              name: commonPaths.imgsFolder + "/[name].[ext]"
+            }
           },
           {
             loader: "image-webpack-loader",
             options: {
               name: commonPaths.imgsFolder + "/[name].[ext]",
               // bypassOnDebug: true, // webpack@1.x
-              disable: true, // webpack@2.x and newer
+              disable: true // webpack@2.x and newer
               // svgo: {
               //   enabled: true, should be enabled by default
               // },
-            },
-          },
-        ],
+            }
+          }
+        ]
       },
       {
         test: /\.(ttf|otf|eot|woff|woff2)$/,
         use: {
           loader: "file-loader",
           options: {
-            name: commonPaths.fontsFolder + "/[name].[ext]",
-          },
-        },
-      },
-    ],
+            name: commonPaths.fontsFolder + "/[name].[ext]"
+          }
+        }
+      }
+    ]
   },
   // resolve: {
   // 	extensions: ["*", ".js", ".jsx"],
@@ -55,13 +55,13 @@ module.exports = {
   // 	}
   // },
   resolve: {
-    extensions: [".js", ".jsx"],
+    extensions: [".js", ".jsx"]
   },
   plugins: [
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       template: commonPaths.templatePath,
-      favicon: "./webpack/tap-favicon.ico",
-    }),
-  ],
+      favicon: "./webpack/tap-favicon.ico"
+    })
+  ]
 };

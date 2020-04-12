@@ -36,7 +36,7 @@ class GoSell extends Component {
   }
 
   static showResult() {
-    var URLSearchParams = require("url-search-params");
+    var URLSearchParams = require("@ungap/url-search-params/cjs");
     var urlParams = new URLSearchParams(window.location.search);
 
     if (urlParams.has("tap_id") && urlParams.has("token")) {
@@ -84,7 +84,7 @@ class GoSell extends Component {
   }
 
   config(props) {
-    var URLSearchParams = require("url-search-params");
+    var URLSearchParams = require("@ungap/url-search-params/cjs");
     var urlParams = new URLSearchParams(window.location.search);
 
     console.log("props", props);
@@ -168,7 +168,7 @@ class GoSell extends Component {
   }
 
   closeModal(closeUrl) {
-    var URLSearchParams = require("url-search-params");
+    var URLSearchParams = require("@ungap/url-search-params/cjs");
 
     var urlParams = new URLSearchParams(window.location.search);
 

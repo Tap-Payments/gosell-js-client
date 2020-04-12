@@ -8,7 +8,7 @@ module.exports = {
   GoSell: GoSell,
   GoSellElements: GoSellElements,
   config: function(object) {
-    var URLSearchParams = require("url-search-params");
+    var URLSearchParams = require("@ungap/url-search-params/cjs");
 
     var urlParams = new URLSearchParams(window.location.search);
 
@@ -100,7 +100,7 @@ module.exports = {
     module.exports.GoSell.openPaymentPage();
   },
   showResult: function(object) {
-    var URLSearchParams = require("url-search-params");
+    var URLSearchParams = require("@ungap/url-search-params/cjs");
 
     var urlParams = new URLSearchParams(window.location.search);
 
