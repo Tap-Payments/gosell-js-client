@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: {
-    gosell: commonPaths.entryPath
-    // "gosell-demo": commonPaths.demoPath
+    gosell: commonPaths.entryPath,
+    "gosell-demo": commonPaths.demoPath
   },
   module: {
     rules: [
