@@ -1,9 +1,9 @@
 {
   "presets": ["env", "react"],
-  "plugins": ["transform-class-properties"],
-  "env": {
-    "production": {
-      "plugins": ["transform-remove-console"]
-    }
-  }
+  "plugins": ["transform-class-properties", "transform-remove-console"]
+  // "env": {
+  //   "production": {
+  //     "plugins": ["transform-remove-console"]
+  //   }
+  // }
 }

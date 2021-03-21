@@ -26,6 +26,8 @@ module.exports = {
   cssPath: "https://goSellJSLib.b-cdn.net/css/",
   // serverPath: "http://localhost:8000",
   // framePath: "http://localhost:3000/"
+  // serverPath: "https://jslib.payments.gosell.io/api",
+  // framePath: "https://jslib.payments.gosell.io/",
   serverPath: "https://checkout.payments.tap.company/api",
   framePath: "https://checkout.payments.tap.company/"
   // serverPath: "https://sandbox-checkout.payments.tap.company/api",
