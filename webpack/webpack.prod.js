@@ -12,7 +12,7 @@ module.exports = {
     library: "goSell",
     globalObject: "this",
     libraryTarget: "umd",
-    publicPath: "/"
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -20,34 +20,38 @@ module.exports = {
         test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
-          "css-loader"
+          "css-loader",
           // "sass-loader"
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
   devServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
   },
   plugins: [
     new CleanWebpackPlugin([commonPaths.outputPath.split("/").pop()], {
-      root: commonPaths.root
+      root: commonPaths.root,
     }),
     new MiniCssExtractPlugin({
       filename: `${commonPaths.cssFolder}/[name].css`,
-      chunkFilename: "[name].css"
+      chunkFilename: "[name].css",
     }),
-    new UglifyJSPlugin({
-      cache: true,
-      parallel: true,
-      uglifyOptions: {
-        compress: true,
-        ecma: 6,
-        mangle: true
-      },
-      sourceMap: true
-    }),
-    new CompressionPlugin()
+    new CompressionPlugin(),
   ],
-  devtool: "source-map"
+  optimization: {
+    minimizer: [
+      new UglifyJSPlugin({
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: true,
+          ecma: 6,
+          mangle: true,
+        },
+        sourceMap: true,
+      }),
+    ],
+  },
+  devtool: "source-map",
 };

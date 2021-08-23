@@ -4,7 +4,6 @@ import Paths from "../../webpack/paths";
 import RootStore from "../store/RootStore.js";
 import TapLoader from "./TapLoader";
 import "../assets/css/style.css";
-// import ReactDOM from "react-dom";
 
 class GoSell extends Component {
   //open Tap gateway as a light box by JS library
@@ -70,7 +69,7 @@ class GoSell extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tap_id: null
+      tap_id: null,
     };
   }
 
@@ -136,7 +135,7 @@ class GoSell extends Component {
     eventer(
       messageEvent,
       function(e) {
-        // console.log("event", e.data);
+        console.log("event", e.data);
 
         if (e.data.callback) {
           if (
@@ -150,6 +149,11 @@ class GoSell extends Component {
             RootStore.configStore.callbackFunc(e.data);
           }
         }
+        console.log(
+          "CLOSE",
+          e.data.close == RootStore.configStore.redirect_url
+        );
+        console.log("CLOSE", RootStore.configStore.redirect_url);
 
         if (e.data == "close" || e.data.close) {
           console.log("close it");
@@ -208,7 +212,7 @@ class GoSell extends Component {
               right: "0",
               margin: "auto",
               border: "0px",
-              zIndex: "99999999999999999"
+              zIndex: "99999999999999999",
             }}
             src={
               RootStore.uIStore.tap_id != null &&

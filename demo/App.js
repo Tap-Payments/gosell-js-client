@@ -7,8 +7,6 @@ class Popup extends Component {
   state = { elements: false, checkout: true };
 
   onChangeHandler(e) {
-    console.log("e", e.target.checked);
-
     if (e.target.name === "gosell-elements" && e.target.checked) {
       this.setState({
         elements: true,
@@ -117,7 +115,7 @@ class Popup extends Component {
                     email: false,
                     sms: true,
                   },
-                  redirect: "http://localhost:3001",
+                  redirect: null,
                   post: null,
                 },
               }}

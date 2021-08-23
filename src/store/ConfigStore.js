@@ -1,4 +1,3 @@
-// import { decorate, observable } from "mobx";
 import * as mobx from "mobx";
 import Paths from "../../webpack/paths";
 
@@ -28,13 +27,13 @@ class ConfigStore {
         fontSize: "15px",
         "::placeholder": {
           color: "rgba(0, 0, 0, 0.26)",
-          fontSize: this.language === "en" ? "15px" : "10px"
-        }
+          fontSize: this.language === "en" ? "15px" : "10px",
+        },
       },
       invalid: {
         color: "red",
-        iconColor: "#fa755a "
-      }
+        iconColor: "#fa755a ",
+      },
     };
 
     this.browser = null;
@@ -43,14 +42,10 @@ class ConfigStore {
 
     this.token = null;
     this.notifications = "standard";
-    // this.legalConfig = true;
     this.redirect_url = null;
-
-    // this.ip = null;
   }
 
   callbackFunc(data) {
-    // //console.log('hey ', data);
     if (this.RootStore.configStore.gateway.callback) {
       this.RootStore.configStore.gateway.callback(data);
     }
@@ -64,7 +59,7 @@ class ConfigStore {
         navigator.userAgent,
         navigator.appVersion,
         navigator.vendor,
-        window.opera
+        window.opera,
       ],
       dataos: [
         { name: "Windows Phone", value: "Windows Phone", version: "OS" },
@@ -77,7 +72,7 @@ class ConfigStore {
         { name: "BlackBerry", value: "BlackBerry", version: "/" },
         { name: "Macintosh", value: "Mac", version: "OS X" },
         { name: "Linux", value: "Linux", version: "rv" },
-        { name: "Palm", value: "Palm", version: "PalmOS" }
+        { name: "Palm", value: "Palm", version: "PalmOS" },
       ],
       databrowser: [
         { name: "Chrome", value: "Chrome", version: "Chrome" },
@@ -86,7 +81,7 @@ class ConfigStore {
         { name: "Internet Explorer", value: "MSIE", version: "MSIE" },
         { name: "Opera", value: "Opera", version: "Opera" },
         { name: "BlackBerry", value: "CLDC", version: "CLDC" },
-        { name: "Mozilla", value: "Mozilla", version: "Mozilla" }
+        { name: "Mozilla", value: "Mozilla", version: "Mozilla" },
       ],
       init: function() {
         var agent = this.header.join(" "),
@@ -131,27 +126,15 @@ class ConfigStore {
             }
             return {
               name: data[i].name,
-              version: parseFloat(version)
+              version: parseFloat(version),
             };
           }
         }
         return { name: "unknown", version: 0 };
-      }
+      },
     };
 
     var e = module.init();
-
-    // debug += "os.name = " + e.os.name + "<br/>";
-    // debug += "os.version = " + e.os.version + "<br/>";
-    // debug += "browser.name = " + e.browser.name + "<br/>";
-    // debug += "browser.version = " + e.browser.version + "<br/>";
-
-    // debug += "<br/>";
-    // debug += "navigator.userAgent = " + navigator.userAgent + "<br/>";
-    // debug += "navigator.appVersion = " + navigator.appVersion + "<br/>";
-    // debug += "navigator.platform = " + navigator.platform + "<br/>";
-    // debug += "navigator.vendor = " + navigator.vendor + "<br/>";
-    // console.log("debug", debug);
 
     this.browser = e.browser;
     this.os = e.os;
@@ -161,14 +144,14 @@ class ConfigStore {
       app_locale: this.language,
       requirer: "web.checkout",
       app_id: "gosell.checkout.web",
-      app_client_version: "1.6.0",
-      app_server_version: "1.6.0",
+      app_client_version: "1.6.2",
+      app_server_version: "1.6.2",
       requirer_os: this.os != null ? this.os.name : "unknown",
       requirer_os_version: this.os != null ? this.os.version : "unknown",
       requirer_browser: this.browser != null ? this.browser.name : "unknown",
       requirer_browser_version:
         this.browser != null ? this.browser.version : "unknown",
-      user_agent: this.navigator != null ? this.navigator.userAgent : "unknown"
+      user_agent: this.navigator != null ? this.navigator.userAgent : "unknown",
     };
 
     console.log("app ==> ", this.app);
@@ -184,7 +167,7 @@ class ConfigStore {
     this.config["location"] = {
       protocol: window.location.protocol,
       host: window.location.host,
-      path: window.location.pathname
+      path: window.location.pathname,
     };
 
     // this.getAppDetails();
@@ -194,9 +177,7 @@ class ConfigStore {
     console.log("config", this.config);
 
     if (value.gateway) {
-      // this.gateway = value.gateway ? value.gateway : {};
       this.language = value.gateway.language ? value.gateway.language : "en";
-      // console.log("language", this.language);
 
       if (value.gateway.labels) {
         this.labels = {
@@ -223,7 +204,7 @@ class ConfigStore {
             : this.RootStore.localizationStore.getContent(
                 "card_input_cardholder_name_placeholder",
                 null
-              )
+              ),
         };
       } else {
         this.labels = {
@@ -242,7 +223,7 @@ class ConfigStore {
           cardHolder: this.RootStore.localizationStore.getContent(
             "card_input_cardholder_name_placeholder",
             null
-          )
+          ),
         };
       }
 
@@ -263,16 +244,16 @@ class ConfigStore {
                 fontSize: "15px",
                 "::placeholder": {
                   color: "rgba(0, 0, 0, 0.26)",
-                  fontSize: "15px"
-                }
+                  fontSize: "15px",
+                },
               },
         invalid:
           value.gateway.style && value.gateway.style.invalid
             ? value.gateway.style.invalid
             : {
                 color: "red",
-                iconColor: "#fa755a "
-              }
+                iconColor: "#fa755a ",
+              },
       };
     }
 
@@ -296,6 +277,7 @@ class ConfigStore {
             : "standard",
           callback: value.gateway.callback ? value.gateway.callback : null,
           onClose: value.gateway.onClose ? value.gateway.onClose : null,
+          onLoad: value.gateway.onLoad ? value.gateway.onLoad : null,
           backgroundImg: value.gateway.backgroundImg
             ? value.gateway.backgroundImg
             : null,
@@ -310,7 +292,7 @@ class ConfigStore {
             ? value.gateway.supportedPaymentMethods
             : "all",
           labels: value.gateway.labels ? value.gateway.labels : this.labels,
-          style: value.gateway.style ? value.gateway.style : this.style
+          style: value.gateway.style ? value.gateway.style : this.style,
         }
       : {};
 
@@ -329,22 +311,47 @@ class ConfigStore {
     if (view === "GOSELL") {
       switch (transaction_mode) {
         case "charge":
-          self.redirect_url = self.config.transaction.charge
-            ? self.config.transaction.charge.redirect
-            : window.location.href;
+          if (self.config.transaction.charge) {
+            self.redirect_url =
+              self.config.transaction.charge.redirect &&
+              self.config.transaction.charge.redirect != null
+                ? self.config.transaction.charge.redirect
+                : window.location.protocol +
+                  "//" +
+                  window.location.host +
+                  window.location.pathname;
+
+            self.config.transaction.charge.redirect = self.redirect_url;
+            console.log("redirect", self.redirect_url);
+
+            self.RootStore.apiStore.generateToken(this.config).then((obj) => {
+              self.token = obj.token;
+              console.log("token", this.token);
+            });
+          }
+
           break;
         case "authorize":
-          self.redirect_url = self.config.transaction.authorize
-            ? self.config.transaction.authorize.redirect
-            : window.location.href;
+          if (self.config.transaction.authorize) {
+            self.redirect_url =
+              self.config.transaction.authorize.redirect &&
+              self.config.transaction.authorize.redirect == null
+                ? self.config.transaction.authorize.redirect
+                : window.location.protocol +
+                  "//" +
+                  window.location.host +
+                  window.location.pathname;
+
+            self.config.transaction.authorize.redirect = self.redirect_url;
+            console.log("redirect", self.redirect_url);
+
+            self.RootStore.apiStore.generateToken(this.config).then((obj) => {
+              self.token = obj.token;
+              console.log("token", this.token);
+            });
+          }
           break;
       }
-
-      console.log("token inside ===> ", this.token);
-      this.RootStore.apiStore.generateToken(this.config).then(obj => {
-        self.token = obj.token;
-        console.log("token", this.token);
-      });
     }
   }
 }
@@ -357,9 +364,7 @@ mobx.decorate(ConfigStore, {
   redirect_url: mobx.observable,
   language: mobx.observable,
   app: mobx.observable,
-  oldConfig: mobx.observable
-  // ip: observable
-  // legalConfig:observable
+  oldConfig: mobx.observable,
 });
 
 export default ConfigStore;
