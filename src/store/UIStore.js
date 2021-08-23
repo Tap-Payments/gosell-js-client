@@ -106,7 +106,7 @@ decorate(UIStore, {
   modalID: observable,
   tap_id: observable,
   errorHandler: observable,
-  isLoading: observable
+  isLoading: observable,
 });
 
 export default UIStore;

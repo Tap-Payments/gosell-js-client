@@ -71,22 +71,21 @@ class GoSell extends Component {
     this.state = {
       tap_id: null,
     };
+
+    GoSell.config(props);
   }
 
-  componentWillMount() {
-    this.config(this.props);
-    // console.log('iframe', document.querySelector('iframe'));
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps != prevState) GoSell.config(nextProps);
+
+    return nextProps;
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.config(nextProps);
-  }
-
-  config(props) {
+  static config(props) {
     var URLSearchParams = require("@ungap/url-search-params/cjs");
     var urlParams = new URLSearchParams(window.location.search);
 
-    console.log("props", props);
+    // console.log("props", props);
     if (
       // Object.keys(props).length > 1 &&
       JSON.stringify(props) != RootStore.configStore.oldConfig &&
@@ -98,12 +97,6 @@ class GoSell extends Component {
 
   componentDidMount() {
     GoSell.showResult();
-
-    console.log("RootStore.uIStore.modalMode", RootStore.uIStore.modalMode);
-    console.log(
-      "document.getElementById",
-      document.getElementById("gosell-gateway")
-    );
 
     if (
       document.getElementById("gosell-gateway") != null &&

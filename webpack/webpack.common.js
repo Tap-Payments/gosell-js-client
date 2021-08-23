@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   entry: {
     gosell: commonPaths.entryPath,
-    // "gosell-demo": commonPaths.demoPath,
+    "gosell-demo": commonPaths.demoPath,
   },
   module: {
     rules: [
@@ -43,13 +43,6 @@ module.exports = {
       },
     ],
   },
-  // resolve: {
-  // 	extensions: ["*", ".js", ".jsx"],
-  // 	alias: {
-  // 		react: "preact-compat",
-  // 		"react-dom": "preact-compat"
-  // 	}
-  // },
   resolve: {
     extensions: [".js", ".jsx"],
   },

@@ -30,7 +30,6 @@ class Popup extends Component {
   }
 
   render() {
-    console.log("language", RootStore.configStore.language);
     return (
       <div className="App">
         <div>

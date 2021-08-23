@@ -1,19 +1,12 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
-// import NotificationBar from './NotificationBar';
 import RootStore from "../store/RootStore.js";
 
 class GoSellElements extends Component {
-  constructor(props) {
-    super(props);
-  }
+  state = {};
 
   static async submit() {
     await RootStore.formStore.generateToken();
-  }
-
-  componentWillMount() {
-    this.config(this.props);
   }
 
   componentDidMount() {
@@ -25,8 +18,12 @@ class GoSellElements extends Component {
     RootStore.formStore.generateCardForm("gosell-gateway-element-container");
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.config(nextProps);
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps !== prevState) {
+      RootStore.configStore.setConfig(nextProps, "GOSELLELEMENTS");
+    }
+
+    return null;
   }
 
   config(props) {

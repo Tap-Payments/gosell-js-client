@@ -54,7 +54,7 @@ module.exports = {
               authorize:
                 object.transaction && object.transaction.authorize
                   ? object.transaction.authorize
-                  : null
+                  : null,
             }}
           />,
           document.getElementById(object.containerID)
@@ -83,7 +83,7 @@ module.exports = {
               authorize:
                 object.transaction && object.transaction.authorize
                   ? object.transaction.authorize
-                  : null
+                  : null,
             }}
           />,
           document.getElementById("gosell-js-lib")
@@ -133,5 +133,5 @@ module.exports = {
   },
   submit: function() {
     module.exports.GoSellElements.submit();
-  }
+  },
 };

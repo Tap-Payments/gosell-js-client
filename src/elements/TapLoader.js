@@ -6,25 +6,37 @@ import * as shortBlackLoader from "../assets/black-loader.json";
 import "../assets/css/style.css";
 
 class TapLoader extends Component {
+  state = {
+    status: this.props.status,
+    type: this.props.type,
+    loader: shortWhiteLoader,
+    second: true,
+    duration: this.props.duration,
+  };
+
   constructor(props) {
     super(props);
-    this.state = {
-      status: this.props.status,
-      type: this.props.type,
-      loader: shortWhiteLoader,
-      second: true,
-      duration: this.props.duration
-    };
 
     this.handleClose = this.handleClose.bind(this);
   }
 
-  componentWillMount() {
-    this.load(this.props);
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   this.load(nextProps);
+  // }
 
-  componentWillReceiveProps(nextProps) {
-    this.load(nextProps);
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.status !== prevState.status) {
+      return {
+        status: nextProps.status,
+        type: nextProps.type,
+        loader:
+          nextProps.color === "white" ? shortWhiteLoader : shortBlackLoader,
+        second: null,
+        duration: nextProps.duration,
+      };
+    }
+
+    return null;
   }
 
   load(value) {
@@ -33,7 +45,7 @@ class TapLoader extends Component {
       type: value.type,
       loader: value.color === "white" ? shortWhiteLoader : shortBlackLoader,
       second: null,
-      duration: value.duration
+      duration: value.duration,
     });
   }
 
@@ -44,7 +56,7 @@ class TapLoader extends Component {
   render() {
     let style = {
       position: "relative",
-      top: 50 - (Math.floor(window.innerHeight / 100) % 100) + "%"
+      top: 50 - (Math.floor(window.innerHeight / 100) % 100) + "%",
     };
 
     return (
@@ -54,7 +66,7 @@ class TapLoader extends Component {
           backgroundColor:
             // this.props.store.uIStore.modalMode == "popup"
             // ?
-            "rgba(0, 0, 0, 0.6)"
+            "rgba(0, 0, 0, 0.6)",
           // : "#f0f1f2"
         }}
       >
@@ -67,7 +79,7 @@ class TapLoader extends Component {
               width: "60px",
               height: "60px",
               margin: "auto",
-              display: this.state.status ? "block" : "none"
+              display: this.state.status ? "block" : "none",
             }}
           >
             <Loader
@@ -87,7 +99,8 @@ class TapLoader extends Component {
           <p
             className="gosell-gateway-msg-title"
             style={{
-              color: this.props.color === "white" ? this.props.color : "#4b4847"
+              color:
+                this.props.color === "white" ? this.props.color : "#4b4847",
             }}
           >
             {this.props.title}
@@ -95,7 +108,7 @@ class TapLoader extends Component {
           <p
             className="gosell-gateway-msg-desc"
             style={{
-              color: this.props.color === "white" ? "#a4a5a7" : "#797777"
+              color: this.props.color === "white" ? "#a4a5a7" : "#797777",
             }}
           >
             {this.props.desc}

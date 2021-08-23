@@ -158,6 +158,7 @@ class ConfigStore {
   }
 
   setConfig(value, view) {
+    console.log("in setConfig");
     var self = this;
 
     this.config = value;
