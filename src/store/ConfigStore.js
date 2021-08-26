@@ -9,8 +9,8 @@ class ConfigStore {
   }
 
   reset() {
-    this.config = null;
-    this.oldConfig = null;
+    this.config = {};
+    this.oldConfig = {};
     this.gateway = {};
     this.language = "en";
 
@@ -158,11 +158,11 @@ class ConfigStore {
   }
 
   setConfig(value, view) {
-    console.log("in setConfig");
+    console.log("in setConfig", value);
     var self = this;
 
     this.config = value;
-    this.oldConfig = JSON.stringify(mobx.toJS(this.config));
+    // this.oldConfig = mobx.toJS(this.config);
 
     this.config = Object.assign({}, value);
     this.config["location"] = {
@@ -324,11 +324,6 @@ class ConfigStore {
 
             self.config.transaction.charge.redirect = self.redirect_url;
             console.log("redirect", self.redirect_url);
-
-            self.RootStore.apiStore.generateToken(this.config).then((obj) => {
-              self.token = obj.token;
-              console.log("token", this.token);
-            });
           }
 
           break;
@@ -345,14 +340,16 @@ class ConfigStore {
 
             self.config.transaction.authorize.redirect = self.redirect_url;
             console.log("redirect", self.redirect_url);
-
-            self.RootStore.apiStore.generateToken(this.config).then((obj) => {
-              self.token = obj.token;
-              console.log("token", this.token);
-            });
           }
           break;
       }
+
+      self.RootStore.apiStore.generateToken(this.config).then((obj) => {
+        if (obj && obj.token) {
+          self.token = obj.token;
+          console.log("token ==> ", this.token);
+        }
+      });
     }
   }
 }

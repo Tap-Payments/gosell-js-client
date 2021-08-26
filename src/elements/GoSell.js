@@ -10,9 +10,20 @@ class GoSell extends Component {
   static openLightBox() {
     RootStore.uIStore.modalMode = "popup";
     RootStore.uIStore.setOpenModal(true);
+    RootStore.uIStore.isLoading = true;
 
     var body = document.getElementsByTagName("BODY")[0];
     body.classList.add("gosell-payment-gateway-open");
+
+    setTimeout(function() {
+      var iframe = document.getElementById("gosell-gateway");
+
+      iframe.addEventListener("load", function() {
+        setTimeout(function() {
+          RootStore.uIStore.isLoading = false;
+        }, 500);
+      });
+    }, 100);
   }
 
   //redirect to Tap gateway from JS library without calling charge / authrorize API from merchant side
@@ -22,7 +33,6 @@ class GoSell extends Component {
     RootStore.uIStore.isLoading = true;
 
     if (RootStore.configStore.token != null) {
-      // RootStore.uIStore.isLoading = false;
       window.open(
         Paths.framePath +
           "?mode=" +
@@ -39,6 +49,7 @@ class GoSell extends Component {
     var urlParams = new URLSearchParams(window.location.search);
 
     if (urlParams.has("tap_id") && urlParams.has("token")) {
+      RootStore.uIStore.modalMode = "popup";
       RootStore.uIStore.isLoading = true;
       RootStore.uIStore.setOpenModal(true);
 
@@ -53,7 +64,7 @@ class GoSell extends Component {
         var iframe = document.getElementById("gosell-gateway");
 
         iframe.addEventListener("load", function() {
-          console.log("hey loaded!");
+          // console.log("hey loaded!");
           setTimeout(function() {
             RootStore.uIStore.isLoading = false;
           }, 500);
@@ -70,27 +81,31 @@ class GoSell extends Component {
     super(props);
     this.state = {
       tap_id: null,
+      config: {},
     };
-
-    GoSell.config(props);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps != prevState) GoSell.config(nextProps);
+    console.log("new props: ", JSON.stringify(nextProps));
+    console.log("old props: ", JSON.stringify(prevState.config));
+    console.log(
+      "compare props: ",
+      JSON.stringify(nextProps) != JSON.stringify(prevState.config)
+    );
 
-    return nextProps;
+    if (JSON.stringify(nextProps) != JSON.stringify(prevState.config)) {
+      GoSell.config(nextProps);
+      prevState.config = nextProps;
+    }
+
+    return null;
   }
 
   static config(props) {
     var URLSearchParams = require("@ungap/url-search-params/cjs");
     var urlParams = new URLSearchParams(window.location.search);
 
-    // console.log("props", props);
-    if (
-      // Object.keys(props).length > 1 &&
-      JSON.stringify(props) != RootStore.configStore.oldConfig &&
-      !urlParams.has("tap_id")
-    ) {
+    if (!urlParams.has("tap_id")) {
       RootStore.configStore.setConfig(props, "GOSELL");
     }
   }
@@ -98,19 +113,16 @@ class GoSell extends Component {
   componentDidMount() {
     GoSell.showResult();
 
-    if (
-      document.getElementById("gosell-gateway") != null &&
-      RootStore.uIStore.modalMode == "popup"
-    ) {
+    setTimeout(function() {
       var iframe = document.getElementById("gosell-gateway");
 
-      iframe.addEventListener("load", function() {
-        console.log("hey loaded!");
-        setTimeout(function() {
-          RootStore.uIStore.isLoading = false;
-        }, 500);
-      });
-    }
+      iframe &&
+        iframe.addEventListener("load", function() {
+          setTimeout(function() {
+            RootStore.uIStore.isLoading = false;
+          }, 500);
+        });
+    }, 100);
 
     this.callbacks();
   }
@@ -137,20 +149,17 @@ class GoSell extends Component {
             self.props.callback != null
           ) {
             self.props.callback(e.data);
-            // console.log("inside event ", self.props);
           } else {
             RootStore.configStore.callbackFunc(e.data);
           }
         }
-        console.log(
-          "CLOSE",
-          e.data.close == RootStore.configStore.redirect_url
-        );
-        console.log("CLOSE", RootStore.configStore.redirect_url);
 
         if (e.data == "close" || e.data.close) {
           console.log("close it");
+
           RootStore.uIStore.setOpenModal(false);
+          self.setState({ config: {} });
+          self.props = {};
 
           RootStore.configStore.gateway.onClose
             ? RootStore.configStore.gateway.onClose()
@@ -172,12 +181,13 @@ class GoSell extends Component {
     if (urlParams.has("tap_id")) {
       window.open(closeUrl, "_self");
     }
+
     var body = document.getElementsByTagName("BODY")[0];
     body.classList.remove("gosell-payment-gateway-open");
 
-    var iframe = document.getElementById("gosell-gateway");
+    // var iframe = document.getElementById("gosell-gateway");
+    // iframe.setAttribute("src", iframe.getAttribute("src"));
 
-    iframe.setAttribute("src", iframe.getAttribute("src"));
     RootStore.uIStore.setOpenModal(false);
     RootStore.uIStore.isLoading = true;
   }
@@ -190,14 +200,12 @@ class GoSell extends Component {
   render() {
     return (
       <React.Fragment>
-        {RootStore.uIStore.modalMode == "popup" ? (
+        {RootStore.uIStore.modalMode == "popup" &&
+        RootStore.uIStore.openModal ? (
           <iframe
             id="gosell-gateway"
             style={{
-              display:
-                RootStore.uIStore.openModal && !RootStore.uIStore.isLoading
-                  ? "block"
-                  : "none",
+              display: !RootStore.uIStore.isLoading ? "block" : "none",
               position: "absolute",
               top: "0",
               bottom: "0",

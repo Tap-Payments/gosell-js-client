@@ -25,6 +25,7 @@ class ApiStore {
     var self = this;
 
     var res = null;
+
     await axios
       .post(Paths.serverPath + "/generate", body)
       .then(async function(response) {

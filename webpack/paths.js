@@ -29,7 +29,7 @@ module.exports = {
   serverPath: "https://jslib.payments.gosell.io/api",
   framePath: "https://jslib.payments.gosell.io/",
   // serverPath: "https://checkout.payments.tap.company/api",
-  // framePath: "https://checkout.payments.tap.company/"
+  // framePath: "https://checkout.payments.tap.company/",
   // serverPath: "https://sandbox-checkout.payments.tap.company/api",
   // framePath: "https://sandbox-checkout.payments.tap.company/"
 };
