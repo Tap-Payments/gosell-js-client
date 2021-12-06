@@ -8,9 +8,9 @@ import "../assets/css/style.css";
 class GoSell extends Component {
   //open Tap gateway as a light box by JS library
   static openLightBox() {
-    RootStore.uIStore.modalMode = "popup";
+    RootStore.uIStore.setMode("popup");
     RootStore.uIStore.setOpenModal(true);
-    RootStore.uIStore.isLoading = true;
+    RootStore.uIStore.setLoader(true);
 
     var body = document.getElementsByTagName("BODY")[0];
     body.classList.add("gosell-payment-gateway-open");
@@ -20,7 +20,7 @@ class GoSell extends Component {
 
       iframe.addEventListener("load", function() {
         setTimeout(function() {
-          RootStore.uIStore.isLoading = false;
+          RootStore.uIStore.setLoader(false);
         }, 500);
       });
     }, 100);
@@ -28,9 +28,9 @@ class GoSell extends Component {
 
   //redirect to Tap gateway from JS library without calling charge / authrorize API from merchant side
   static openPaymentPage() {
-    RootStore.uIStore.modalMode = "page";
+    RootStore.uIStore.setMode("page");
     RootStore.uIStore.setOpenModal(true);
-    RootStore.uIStore.isLoading = true;
+    RootStore.uIStore.setLoader(true);
 
     if (RootStore.configStore.token != null) {
       window.open(
@@ -39,7 +39,7 @@ class GoSell extends Component {
           RootStore.uIStore.modalMode +
           "&token=" +
           RootStore.configStore.token,
-        "_self"
+        "_self",
       );
     }
   }
@@ -49,9 +49,9 @@ class GoSell extends Component {
     var urlParams = new URLSearchParams(window.location.search);
 
     if (urlParams.has("tap_id") && urlParams.has("token")) {
-      RootStore.uIStore.modalMode = "popup";
-      RootStore.uIStore.isLoading = true;
+      RootStore.uIStore.setMode("popup");
       RootStore.uIStore.setOpenModal(true);
+      RootStore.uIStore.setLoader(true);
 
       var body = document.getElementsByTagName("BODY")[0];
       body.classList.add("gosell-payment-gateway-open");
@@ -66,7 +66,7 @@ class GoSell extends Component {
         iframe.addEventListener("load", function() {
           // console.log("hey loaded!");
           setTimeout(function() {
-            RootStore.uIStore.isLoading = false;
+            RootStore.uIStore.setLoader(false);
           }, 500);
         });
       }, 100);
@@ -86,12 +86,12 @@ class GoSell extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("new props: ", JSON.stringify(nextProps));
-    console.log("old props: ", JSON.stringify(prevState.config));
-    console.log(
-      "compare props: ",
-      JSON.stringify(nextProps) != JSON.stringify(prevState.config)
-    );
+    // console.log("new props: ", JSON.stringify(nextProps));
+    // console.log("old props: ", JSON.stringify(prevState.config));
+    // console.log(
+    //   "compare props: ",
+    //   JSON.stringify(nextProps) != JSON.stringify(prevState.config),
+    // );
 
     if (JSON.stringify(nextProps) != JSON.stringify(prevState.config)) {
       GoSell.config(nextProps);
@@ -119,7 +119,7 @@ class GoSell extends Component {
       iframe &&
         iframe.addEventListener("load", function() {
           setTimeout(function() {
-            RootStore.uIStore.isLoading = false;
+            RootStore.uIStore.setLoader(false);
           }, 500);
         });
     }, 100);
@@ -169,7 +169,7 @@ class GoSell extends Component {
             : self.closeModal(e.data.close);
         }
       },
-      false
+      false,
     );
   }
 
@@ -189,7 +189,7 @@ class GoSell extends Component {
     // iframe.setAttribute("src", iframe.getAttribute("src"));
 
     RootStore.uIStore.setOpenModal(false);
-    RootStore.uIStore.isLoading = true;
+    RootStore.uIStore.setLoader(true);
   }
 
   componentWillUnMount() {

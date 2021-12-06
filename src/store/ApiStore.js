@@ -1,4 +1,4 @@
-import { decorate } from "mobx";
+import { makeObservable } from "mobx";
 import axios from "axios";
 import Paths from "../../webpack/paths";
 
@@ -64,7 +64,5 @@ class ApiStore {
     return await res;
   }
 }
-
-decorate(ApiStore, {});
 
 export default ApiStore;

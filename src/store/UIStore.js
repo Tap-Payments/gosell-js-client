@@ -1,11 +1,26 @@
 import React from "react";
-import { decorate, observable } from "mobx";
+import { computed, action, makeObservable, observable } from "mobx";
 import NotificationBar from "../elements/NotificationBar";
 
 class UIStore {
   constructor(RootStore) {
     this.RootStore = RootStore;
+
     this.reset();
+
+    makeObservable(this, {
+      openModal: observable,
+      modalMode: observable,
+      modalID: observable,
+      tap_id: observable,
+      errorHandler: observable,
+      isLoading: observable,
+      setOpenModal: action,
+      setMode: action,
+      setLoader: action,
+      generateCustomNotification: computed,
+      getErrorHandler: computed,
+    });
   }
 
   reset() {
@@ -22,7 +37,15 @@ class UIStore {
     this.openModal = value;
   }
 
-  computed;
+  setMode(value) {
+    this.modalMode = value;
+  }
+
+  setLoader(value) {
+    this.isLoading = value;
+  }
+
+  // computed;
   get generateCustomNotification() {
     var self = this;
     //console.log('notifications type', this.RootStore.configStore.notifications);
@@ -35,7 +58,7 @@ class UIStore {
       ////console.log('id', this.RootStore.configStore.notifications);
 
       var el = document.getElementById(
-        this.RootStore.configStore.notifications
+        this.RootStore.configStore.notifications,
       );
       ////console.log('element', el);
 
@@ -69,7 +92,7 @@ class UIStore {
 
     if (this.RootStore.configStore.notifications !== "standard") {
       var el = document.getElementById(
-        this.RootStore.configStore.notifications
+        this.RootStore.configStore.notifications,
       );
       el.innerHTML = "";
     } else {
@@ -78,7 +101,7 @@ class UIStore {
     }
   }
 
-  computed;
+  // computed;
   get getErrorHandler() {
     return this.errorHandler;
   }
@@ -99,14 +122,5 @@ class UIStore {
     }, 5000);
   }
 }
-
-decorate(UIStore, {
-  openModal: observable,
-  modalMode: observable,
-  modalID: observable,
-  tap_id: observable,
-  errorHandler: observable,
-  isLoading: observable,
-});
 
 export default UIStore;

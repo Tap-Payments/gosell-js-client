@@ -4,7 +4,7 @@ import RootStore from "../src/store/RootStore";
 import { observer } from "mobx-react";
 
 class Popup extends Component {
-  state = { elements: false, checkout: true };
+  state = { elements: false, checkout: true, lang: "en" };
 
   onChangeHandler(e) {
     if (e.target.name === "gosell-elements" && e.target.checked) {
@@ -26,7 +26,9 @@ class Popup extends Component {
   }
 
   changeConfig() {
-    RootStore.configStore.language = "ar";
+    this.setState({
+      lang: "ar",
+    });
   }
 
   render() {
@@ -52,7 +54,7 @@ class Popup extends Component {
               gateway={{
                 publicKey: "pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
                 // merchant_id: "1124340",
-                language: RootStore.configStore.language,
+                language: this.state.lang,
                 contactInfo: false,
                 supportedCurrencies: "all",
                 supportedPaymentMethods: "all",
@@ -150,7 +152,7 @@ class Popup extends Component {
               }}
             />
             <div id="msg"></div>
-            <button onClick={GoSellElements.submit}>Submit</button>
+            <button onClick={() => GoSellElements.submit()}>Submit</button>
             <br />
           </React.Fragment>
         ) : null}

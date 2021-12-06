@@ -1,6 +1,6 @@
 {
   "name": "@tap-payments/gosell",
-  "version": "1.6.3",
+  "version": "2.0.0",
   "description": "Web Checkout Library",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -23,8 +23,8 @@
   "peerDependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "mobx": "^4.11.0",
-    "mobx-react": "^5.4.4"
+    "mobx": "^6.3.8",
+    "mobx-react": "^7.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -51,12 +51,11 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@tap-payments/loader": "^1.0.14",
+    "@tap-payments/loader": "^1.2.2",
     "@ungap/url-search-params": "^0.1.4",
     "axios": "^0.18.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "bluebird": "^3.5.5",
-    "lottie-web": "^5.5.5",
     "prop-types": "^15.7.2"
   }
 }

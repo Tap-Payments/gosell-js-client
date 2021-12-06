@@ -6,6 +6,18 @@ class ConfigStore {
     this.RootStore = RootStore;
     this.reset();
     this.getAppDetails();
+
+    mobx.makeObservable(this, {
+      config: mobx.observable,
+      token: mobx.observable,
+      notifications: mobx.observable,
+      gateway: mobx.observable,
+      redirect_url: mobx.observable,
+      language: mobx.observable,
+      app: mobx.observable,
+      oldConfig: mobx.observable,
+      setLanguage: mobx.action,
+    });
   }
 
   reset() {
@@ -49,6 +61,10 @@ class ConfigStore {
     if (this.RootStore.configStore.gateway.callback) {
       this.RootStore.configStore.gateway.callback(data);
     }
+  }
+
+  setLanguage(lang) {
+    this.language = lang;
   }
 
   getAppDetails() {
@@ -186,44 +202,44 @@ class ConfigStore {
             ? value.gateway.labels.cardNumber
             : this.RootStore.localizationStore.getContent(
                 "card_input_card_number_placeholder",
-                null
+                null,
               ),
           expirationDate: value.gateway.labels.expirationDate
             ? value.gateway.labels.expirationDate
             : this.RootStore.localizationStore.getContent(
                 "card_input_expiration_date_placeholder",
-                null
+                null,
               ),
           cvv: value.gateway.labels.cvv
             ? value.gateway.labels.cvv
             : this.RootStore.localizationStore.getContent(
                 "card_input_cvv_placeholder",
-                null
+                null,
               ),
           cardHolder: value.gateway.labels.cardHolder
             ? value.gateway.labels.cardHolder
             : this.RootStore.localizationStore.getContent(
                 "card_input_cardholder_name_placeholder",
-                null
+                null,
               ),
         };
       } else {
         this.labels = {
           cardNumber: this.RootStore.localizationStore.getContent(
             "card_input_card_number_placeholder",
-            null
+            null,
           ),
           expirationDate: this.RootStore.localizationStore.getContent(
             "card_input_expiration_date_placeholder",
-            null
+            null,
           ),
           cvv: this.RootStore.localizationStore.getContent(
             "card_input_cvv_placeholder",
-            null
+            null,
           ),
           cardHolder: this.RootStore.localizationStore.getContent(
             "card_input_cardholder_name_placeholder",
-            null
+            null,
           ),
         };
       }
@@ -353,16 +369,5 @@ class ConfigStore {
     }
   }
 }
-
-mobx.decorate(ConfigStore, {
-  config: mobx.observable,
-  token: mobx.observable,
-  notifications: mobx.observable,
-  gateway: mobx.observable,
-  redirect_url: mobx.observable,
-  language: mobx.observable,
-  app: mobx.observable,
-  oldConfig: mobx.observable,
-});
 
 export default ConfigStore;

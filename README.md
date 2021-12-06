@@ -39,7 +39,7 @@ You can integrate with goSell by:
 - JavaScript Library, which allows front end developers to setup the payment gateway on their stores easily by adding a very basic snippet of JavaScript using the following script tag:
 
 ```
-<script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.6.0/js/gosell.js"></script>
+<script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v2.0.0/js/gosell.js"></script>
 ```
 
 ** Take care, the configurations structure has been changed in this version **
@@ -57,6 +57,8 @@ import the library inside your code:
 ```
 import { GoSell } from "@tap-payments/gosell";
 ```
+
+> _NOTE:_ this version is working with mobx 6 and later only. in case you're using lower version please integrate with v1.6.3 instead.
 
 #### goSell Usage
 
@@ -180,11 +182,11 @@ Example with transaction mode 'charge':
     <title>goSell Demo</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <link rel="shortcut icon" href="https://goSellJSLib.b-cdn.net/v1.6.0/imgs/tap-favicon.ico" />
-    <link href="https://goSellJSLib.b-cdn.net/v1.6.0/css/gosell.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="https://goSellJSLib.b-cdn.net/v2.0.0/imgs/tap-favicon.ico" />
+    <link href="https://goSellJSLib.b-cdn.net/v2.0.0/css/gosell.css" rel="stylesheet" />
 </head>
 <body>
-    <script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.6.0/js/gosell.js"></script>
+    <script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v2.0.0/js/gosell.js"></script>
 
     <div id="root"></div>
     <button id="openLightBox" onclick="goSell.openLightBox()">open goSell LightBox</button>
@@ -334,10 +336,10 @@ Redirect page defined in charge configurations `redirect.html`:
 
     <link
       rel="shortcut icon"
-      href="https://goSellJSLib.b-cdn.net/v1.6.0/imgs/tap-favicon.ico"
+      href="https://goSellJSLib.b-cdn.net/v2.0.0/imgs/tap-favicon.ico"
     />
     <link
-      href="https://goSellJSLib.b-cdn.net/v1.6.0/css/gosell.css"
+      href="https://goSellJSLib.b-cdn.net/v2.0.0/css/gosell.css"
       rel="stylesheet"
     />
   </head>
@@ -345,7 +347,7 @@ Redirect page defined in charge configurations `redirect.html`:
 
     <script
       type="text/javascript"
-      src="https://goSellJSLib.b-cdn.net/v1.6.0/js/gosell.js"
+      src="https://goSellJSLib.b-cdn.net/v2.0.0/js/gosell.js"
     ></script>
 
     <div id="root"></div>
@@ -514,7 +516,7 @@ You can integrate with goSellElements by:
 - JavaScript Library, which allows front end developers to setup the payment gateway on their stores easily by adding a very basic snippet of JavaScript using the following script tag:
 
 ```
-<script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.6.0/js/gosell.js"></script>
+<script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v2.0.0/js/gosell.js"></script>
 ```
 
 > Use the goSellElements in server side environment, otherwise the credit card section will not work.
@@ -568,11 +570,11 @@ When your page loads, you should call the configurations of your payment gateway
       <title>goSell Elements Demo</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-      <link rel="shortcut icon" href="https://goSellJSLib.b-cdn.net/v1.6.0/imgs/tap-favicon.ico" />
-      <link href="https://goSellJSLib.b-cdn.net/v1.6.0/css/gosell.css" rel="stylesheet" />
+      <link rel="shortcut icon" href="https://goSellJSLib.b-cdn.net/v2.0.0/imgs/tap-favicon.ico" />
+      <link href="https://goSellJSLib.b-cdn.net/v2.0.0/css/gosell.css" rel="stylesheet" />
    </head>
    <body>
-      <script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v1.6.0/js/gosell.js"></script>
+      <script type="text/javascript" src="https://goSellJSLib.b-cdn.net/v2.0.0/js/gosell.js"></script>
       <div id="root"></div>
       <p id="msg"></p>
       <button id="submit-elements" onclick="goSell.submit()">Submit</button>

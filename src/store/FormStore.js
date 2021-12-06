@@ -1,4 +1,4 @@
-import { decorate, observable, computed } from "mobx";
+import { makeObservable, observable, computed } from "mobx";
 import "bluebird";
 
 class FormStore {
@@ -18,6 +18,13 @@ class FormStore {
 
     // this.checkFocus = this.checkFocus.bind(this);
     this.generateToken = this.generateToken.bind(this);
+
+    makeObservable(this, {
+      lock: observable,
+      currencyCode: observable,
+      tap: observable,
+      card: observable,
+    });
   }
 
   objectToQueryString(obj, prefix) {
@@ -44,7 +51,7 @@ class FormStore {
       str.push(
         typeof v == "object"
           ? this.objectToQueryString(v, k)
-          : k + "=" + encodeURIComponent(v)
+          : k + "=" + encodeURIComponent(v),
       );
     }
     return str.join("&");
@@ -70,7 +77,7 @@ class FormStore {
     function _ensureHTTPS(key) {
       if (window.location.protocol == "http:" && 0 === key.indexOf("pk_live")) {
         throw new Error(
-          "goSell integrations must use HTTPS.You're using live public key, which should be used with ssl certificate."
+          "goSell integrations must use HTTPS.You're using live public key, which should be used with ssl certificate.",
         );
       }
       var e = window.location.protocol,
@@ -78,13 +85,13 @@ class FormStore {
         n =
           -1 !==
           ["localhost", "127.0.0.1", "0.0.0.0"].indexOf(
-            window.location.hostname
+            window.location.hostname,
           ),
         o = "Live goSell integrations must use HTTPS.";
       if (!t) {
         window.console &&
           console.warn(
-            "You may test your goSell integration over HTTP. However, live goSell integrations must use HTTPS."
+            "You may test your goSell integration over HTTP. However, live goSell integrations must use HTTPS.",
           );
       } else {
         window.console && console.warn(o);
@@ -93,11 +100,11 @@ class FormStore {
 
     if ("" === key)
       throw new Error(
-        "Please call goSell() with your publishable key. You used an empty string."
+        "Please call goSell() with your publishable key. You used an empty string.",
       );
     if (0 === key.indexOf("sk_"))
       throw new Error(
-        "You should not use your secret key with goSell.\n        Please pass a publishable key instead."
+        "You should not use your secret key with goSell.\n        Please pass a publishable key instead.",
       );
     _ensureHTTPS(key);
 
@@ -129,7 +136,7 @@ class FormStore {
             key: self._apiKey,
             encryption_key: self._encryption_key,
           },
-          protocol + "//" + frameurl + "/tap_payment_widget_ui"
+          protocol + "//" + frameurl + "/tap_payment_widget_ui",
         );
 
         window.addEventListener("message", receivertoken, false);
@@ -176,7 +183,7 @@ class FormStore {
             var iframeWin = document.getElementById("myFrame").contentWindow;
             iframeWin.postMessage(
               { action: "currency", key: self._apiKey, currency: crncy },
-              protocol + "//" + frameurl + "/tap_payment_widget_ui"
+              protocol + "//" + frameurl + "/tap_payment_widget_ui",
             );
           }
         });
@@ -188,7 +195,7 @@ class FormStore {
             var iframeWin = document.getElementById("myFrame").contentWindow;
             iframeWin.postMessage(
               { action: "clearForm", key: self._apiKey },
-              protocol + "//" + frameurl + "/tap_payment_widget_ui"
+              protocol + "//" + frameurl + "/tap_payment_widget_ui",
             );
           }
         });
@@ -206,7 +213,7 @@ class FormStore {
             var iframeWin = document.getElementById("myFrame").contentWindow;
             iframeWin.postMessage(
               { action: "blurForm", key: self._apiKey },
-              protocol + "//" + frameurl + "/tap_payment_widget_ui"
+              protocol + "//" + frameurl + "/tap_payment_widget_ui",
             );
           }
         });
@@ -219,7 +226,7 @@ class FormStore {
           d.setAttribute("id", "privateTapElement");
           d.setAttribute(
             "style",
-            "height:inherit;margin: 0px !important; padding: 0px !important; border: medium none !important; display: block !important; background: transparent none repeat scroll 0% 0% !important; position: relative !important; opacity: 1 !important; width:100%;"
+            "height:inherit;margin: 0px !important; padding: 0px !important; border: medium none !important; display: block !important; background: transparent none repeat scroll 0% 0% !important; position: relative !important; opacity: 1 !important; width:100%;",
           );
 
           s.appendChild(d);
@@ -253,7 +260,7 @@ class FormStore {
                   .contentWindow;
                 iframeWin.postMessage(
                   { action: "client_ip", key: self._apiKey, client_ip: ip },
-                  protocol + "//" + frameurl + "/tap_payment_widget"
+                  protocol + "//" + frameurl + "/tap_payment_widget",
                 );
               });
             }
@@ -282,7 +289,7 @@ class FormStore {
 
         x.setAttribute(
           "style",
-          "border: none !important;margin: 0px !important;padding: 0px !important;min-width: 100% !important;overflow: hidden !important;display: block !important;"
+          "border: none !important;margin: 0px !important;padding: 0px !important;min-width: 100% !important;overflow: hidden !important;display: block !important;",
         );
 
         x.setAttribute(
@@ -297,7 +304,7 @@ class FormStore {
             "&key=" +
             key +
             "&" +
-            self.objectToQueryString(paymentOptions)
+            self.objectToQueryString(paymentOptions),
         );
 
         this.card._iframe = x;
@@ -323,7 +330,7 @@ class FormStore {
 
     this.tap = this.generateForm(
       this.RootStore.configStore.gateway.publicKey,
-      merchant_id
+      merchant_id,
     );
 
     var elements = this.tap.elements({});
@@ -373,7 +380,7 @@ class FormStore {
       } else {
         var msg = self.RootStore.localizationStore.getContent(
           event.error_interactive.key,
-          null
+          null,
         );
       }
 
@@ -402,7 +409,7 @@ class FormStore {
           } else {
             var msg = self.RootStore.localizationStore.getContent(
               event.error.key,
-              null
+              null,
             );
           }
 
@@ -433,7 +440,7 @@ class FormStore {
           code: 0,
           msg: self.RootStore.localizationStore.getContent(
             result.error.key,
-            null
+            null,
           ),
           type: "error",
         });
@@ -441,7 +448,7 @@ class FormStore {
         self.RootStore.uIStore.setErrorHandler({});
 
         self.RootStore.configStore.callbackFunc(result);
-
+        console.log("result", result);
         // self.RootStore.uIStore.setErrorHandler({
         //        visable: true,
         //        code: 200,
@@ -461,12 +468,5 @@ class FormStore {
     }
   }
 }
-
-decorate(FormStore, {
-  lock: observable,
-  currencyCode: observable,
-  tap: observable,
-  card: observable,
-});
 
 export default FormStore;

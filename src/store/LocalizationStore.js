@@ -1,46 +1,41 @@
-import {decorate, observable, computed} from 'mobx';
-import axios from 'axios';
+import { makeObservable, observable, computed } from "mobx";
+import axios from "axios";
 // import myjson from 'https://goselljslib.b-cdn.net/local.json';
-import Paths from '../../webpack/paths';
+import Paths from "../../webpack/paths";
 
 class LocalizationStore {
-
   constructor(RootStore) {
     this.RootStore = RootStore;
-    // this.strings = require('./local.json');
-
-    // this.strings = null;
     this.isLoading = true;
-    // this.getLocalization()
-    this.strings = require('./localization.json');
+    this.strings = require("./localization.json");
+
+    makeObservable(this, {
+      isLoading: observable,
+      strings: observable,
+    });
   }
 
   getContent(key, lang) {
-    if(this.strings!==null){
-      const _defaultLang  = this.RootStore.configStore.language ? this.RootStore.configStore.language.toLowerCase() : 'en'
+    if (this.strings !== null) {
+      const _defaultLang = this.RootStore.configStore.language
+        ? this.RootStore.configStore.language.toLowerCase()
+        : "en";
       const _lang = lang ? lang.toLowerCase() : _defaultLang;
-      if(key){
+      if (key) {
         const txt = this.strings[key][_lang];
         if (txt) {
           // //console.log('txt',txt);
           return txt;
         } else {
-          return ' ';
+          return " ";
         }
       } else {
-        return ' ';
+        return " ";
       }
-    }
-    else{
-      return ' ';
+    } else {
+      return " ";
     }
   }
-
 }
-
-decorate(LocalizationStore, {
-  isLoading: observable,
-  strings: observable
-});
 
 export default LocalizationStore;

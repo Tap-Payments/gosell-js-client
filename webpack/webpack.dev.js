@@ -9,7 +9,7 @@ module.exports = {
     library: "goSell",
     globalObject: "this",
     libraryTarget: "umd",
-    publicPath: "/"
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -17,16 +17,18 @@ module.exports = {
         test: /\.css$/,
         use: [
           "style-loader",
-          "css-loader"
+          "css-loader",
           // "sass-loader"
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
   devServer: {
     historyApiFallback: true,
     contentBase: commonPaths.templatePath,
     port: 3001,
-    open: true
-  }
+    open: true,
+  },
+  mode: "development",
+  devtool: "source-map",
 };
