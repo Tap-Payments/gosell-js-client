@@ -1,5 +1,6 @@
 import * as mobx from "mobx";
 import Paths from "../../webpack/paths";
+import PACKAGE from "../../package.json";
 
 class ConfigStore {
   constructor(RootStore) {
@@ -16,6 +17,7 @@ class ConfigStore {
       language: mobx.observable,
       app: mobx.observable,
       oldConfig: mobx.observable,
+      callback: mobx.observable,
       setLanguage: mobx.action,
     });
   }
@@ -55,11 +57,13 @@ class ConfigStore {
     this.token = null;
     this.notifications = "standard";
     this.redirect_url = null;
+
+    this.callback = null;
   }
 
   callbackFunc(data) {
-    if (this.RootStore.configStore.gateway.callback) {
-      this.RootStore.configStore.gateway.callback(data);
+    if (this.callback) {
+      this.callback(data);
     }
   }
 
@@ -156,12 +160,14 @@ class ConfigStore {
     this.os = e.os;
     this.navigator = navigator;
 
+    // var PACKAGE = require("../../package.json");
+
     this.app = {
       app_locale: this.language,
       requirer: "web.checkout",
       app_id: "gosell.checkout.web",
-      app_client_version: "1.6.2",
-      app_server_version: "1.6.2",
+      app_client_version: PACKAGE.version,
+      app_server_version: PACKAGE.version,
       requirer_os: this.os != null ? this.os.name : "unknown",
       requirer_os_version: this.os != null ? this.os.version : "unknown",
       requirer_browser: this.browser != null ? this.browser.name : "unknown",
@@ -315,6 +321,7 @@ class ConfigStore {
 
     this.config.gateway = gatewayObj;
     this.gateway = gatewayObj;
+    this.callback = gatewayObj.callback;
 
     var transaction_mode = this.config.transaction
       ? this.config.transaction.mode

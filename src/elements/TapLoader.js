@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Loader from "@tap-payments/loader";
+import { Loader } from "@tap-payments/loader";
 import * as shortWhiteLoader from "../assets/white-loader.json";
 import * as shortBlackLoader from "../assets/black-loader.json";
 

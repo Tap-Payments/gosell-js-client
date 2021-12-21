@@ -14,6 +14,13 @@
   - [goSellElements Transaction Modes](#gosellelements-transaction-modes)
   - [goSellElements Examples](#gosellelements-examples)
 
+## This version
+
+- Upgrades mobx to version 6.
+- Fixes some bugs in the previous versions.
+
+> _NOTE:_ if you're using lower version please integrate with v1.6.3 instead.
+
 ## Brief Description
 
 goSell Payment Gateway accepts online payments. You can integrate with it in a different way based on your app's specifications.
@@ -57,8 +64,6 @@ import the library inside your code:
 ```
 import { GoSell } from "@tap-payments/gosell";
 ```
-
-> _NOTE:_ this version is working with mobx 6 and later only. in case you're using lower version please integrate with v1.6.3 instead.
 
 #### goSell Usage
 
@@ -104,13 +109,13 @@ The **JavaScript Library** allows you to use any HTML element or JavaScript even
 - order **[Object]\***:
   It's a required field for the JS library. Includes the order details, it's required for _charge_, _authorize_ modes only.
 
-| property name | Type   | Status       | Default value | Description                                |
-| ------------- | ------ | ------------ | ------------- | ------------------------------------------ |
-| amount        | string | **required** |               | The total amount of the order.             |
-| currency      | string | **required** |               | The ISO currency code of the total amount. |
-| items         | string | **optional** | null          | Items details.                             |
-| shipping      | string | **optional** | null          | Shipping details.                          |
-| taxes         | object | **optional** | null          | taxes detail.                              |
+| property name | Type   | Status       | Default value | Description                                                                                                                                                                                                                                               |
+| ------------- | ------ | ------------ | ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| amount        | string | **required** |               | The total amount of the order.                                                                                                                                                                                                                            |
+| currency      | string | **required** |               | The ISO currency code of the total amount.                                                                                                                                                                                                                |
+| items         | Array  | **optional** | null          | Items details in the following format: <br><br> items: [<br> {<br> "amount": 10,<br> "currency": "KWD",<br> "description": "test",<br> "discount": {<br> "type": "P",<br>"value": 0<br> },<br> "image": "",<br>"name": "test",<br>"quantity": 1<br>}<br>] |
+| shipping      | Object | **optional** | null          | Shipping details in the following fomrat:<br><br> shipping: { <br>"amount": 1,<br> "currency": "KWD",<br> "description": "test",<br> "provider": "ARAMEX",<br> "service": "test"<br>}                                                                     |
+| taxes         | Array  | **optional** | null          | taxes details in the following fomrat: <br><br> taxes: [<br> {<br> "description": "test",<br> "name": "VAT",<br> "rate": {<br> "type": "F",<br> "value": 1<br> },<br> }, <br>]                                                                            |
 
 - transaction **[object]**:
   It's a required field for the JS library. Includes the transaction mode and it's configurations.
@@ -504,6 +509,67 @@ class GoSellDemo extends Component {
 }
 
 export default GoSellDemo;
+
+```
+
+Redirect page defined in charge configurations `redirect.js`:
+
+```
+import React, { Component }  from "react";
+import { GoSell } from "@tap-payments/gosell";
+
+class Redirect extends Component {
+
+  componentDidMount() {
+    var URLSearchParams = require("@ungap/url-search-params/cjs");
+    var urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.has("tap_id") && urlParams.has("token")) {
+      GoSell.showResult({
+        callback: (response) => {
+          console.log("callback", response);
+        },
+      });
+    }
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <GoSell />
+      </div>
+    );
+  }
+}
+
+export default Redirect;
+
+```
+
+OR
+
+```
+import React, { Component }  from "react";
+import { GoSell } from "@tap-payments/gosell";
+
+class Redirect extends Component {
+
+ render() {
+    return (
+      <div className="App">
+        <GoSell
+          gateway={{
+            callback: (response) => {
+              console.log("callback", response);
+            },
+          }}
+        />
+      </div>
+    );
+  }
+}
+
+export default Redirect;
 
 ```
 

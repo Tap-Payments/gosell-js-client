@@ -44,11 +44,21 @@ class GoSell extends Component {
     }
   }
 
-  static showResult() {
+  static showResult(props) {
     var URLSearchParams = require("@ungap/url-search-params/cjs");
     var urlParams = new URLSearchParams(window.location.search);
 
     if (urlParams.has("tap_id") && urlParams.has("token")) {
+      let callback = null;
+
+      if (props.gateway && props.gateway.callback) {
+        callback = props.gateway.callback;
+      } else if (props.callback) {
+        callback = props.callback;
+      }
+
+      RootStore.configStore.callback = callback;
+
       RootStore.uIStore.setMode("popup");
       RootStore.uIStore.setOpenModal(true);
       RootStore.uIStore.setLoader(true);
@@ -111,7 +121,7 @@ class GoSell extends Component {
   }
 
   componentDidMount() {
-    GoSell.showResult();
+    GoSell.showResult(this.props);
 
     setTimeout(function() {
       var iframe = document.getElementById("gosell-gateway");
@@ -140,7 +150,7 @@ class GoSell extends Component {
     eventer(
       messageEvent,
       function(e) {
-        console.log("event", e.data);
+        // console.log("event", e.data);
 
         if (e.data.callback) {
           if (

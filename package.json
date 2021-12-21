@@ -21,10 +21,10 @@
   "author": "Hala Q. <h.qutmosh@tap.company> (https://tap.company)",
   "license": "ISC",
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "mobx": "^6.3.8",
-    "mobx-react": "^7.2.1"
+    "mobx-react": "^7.2.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -51,11 +51,10 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@tap-payments/loader": "^1.2.2",
+    "@tap-payments/loader": "^2.0.1",
     "@ungap/url-search-params": "^0.1.4",
     "axios": "^0.18.1",
     "babel-plugin-transform-remove-console": "^6.9.4",
-    "bluebird": "^3.5.5",
-    "prop-types": "^15.7.2"
+    "bluebird": "^3.5.5"
   }
 }
