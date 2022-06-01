@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { observer } from "mobx-react"
+import { parse as ParseURL } from "query-string"
 import { CONFIGS } from "../constants"
 import RootStore from "../store/RootStore.js"
 import TapLoader from "./TapLoader"
@@ -38,10 +39,11 @@ class GoSell extends Component {
   }
 
   static showResult(props) {
-    var URLSearchParams = require("@ungap/url-search-params/cjs")
-    var urlParams = new URLSearchParams(window.location.search)
-
-    if (urlParams.has("tap_id") && urlParams.has("token")) {
+    var urlParams = ParseURL(window.location.search)
+    const tapId = urlParams.tap_id
+    const pageToken = urlParams.token
+    const pageMode = urlParams.mode
+    if (tapId && pageToken) {
       let callback = null
 
       if (props.gateway && props.gateway.callback) {
@@ -59,9 +61,9 @@ class GoSell extends Component {
       var body = document.getElementsByTagName("BODY")[0]
       body.classList.add("gosell-payment-gateway-open")
 
-      RootStore.uIStore.tap_id = urlParams.get("tap_id")
-      RootStore.configStore.token = urlParams.get("token")
-      RootStore.uIStore.modalMode = urlParams.get("mode")
+      RootStore.uIStore.tap_id = tapId
+      RootStore.configStore.token = pageToken
+      RootStore.uIStore.modalMode = pageMode
 
       setTimeout(function() {
         var iframe = document.getElementById("gosell-gateway")
@@ -105,10 +107,10 @@ class GoSell extends Component {
   }
 
   static config(props) {
-    var URLSearchParams = require("@ungap/url-search-params/cjs")
-    var urlParams = new URLSearchParams(window.location.search)
+    var urlParams = ParseURL(window.location.search)
+    const tapId = urlParams.tap_id
 
-    if (!urlParams.has("tap_id")) {
+    if (!tapId) {
       RootStore.configStore.setConfig(props, "GOSELL")
     }
   }
@@ -167,11 +169,10 @@ class GoSell extends Component {
   }
 
   closeModal(closeUrl) {
-    var URLSearchParams = require("@ungap/url-search-params/cjs")
+    var urlParams = ParseURL(window.location.search)
+    const tapId = urlParams.tap_id
 
-    var urlParams = new URLSearchParams(window.location.search)
-
-    if (urlParams.has("tap_id")) {
+    if (tapId) {
       window.open(closeUrl, "_self")
     }
 

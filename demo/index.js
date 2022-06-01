@@ -1,7 +1,7 @@
-import "@babel/polyfill/noConflict";
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
+import "@babel/polyfill/noConflict"
+import React from "react"
+import ReactDOM from "react-dom"
+import App from "./App"
 // import App from "./App2";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"))

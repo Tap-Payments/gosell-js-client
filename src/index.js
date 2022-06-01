@@ -1,75 +1,77 @@
-import "@babel/polyfill/noConflict";
-import React from "react";
-import ReactDOM from "react-dom";
-import GoSell from "./elements/GoSell.js";
-import GoSellElements from "./elements/GoSellElements.js";
+import "@babel/polyfill/noConflict"
+import React from "react"
+import { parse as ParseURL } from "query-string"
+import ReactDOM from "react-dom"
+import GoSell from "./elements/GoSell.js"
+import GoSellElements from "./elements/GoSellElements.js"
 
-module.exports = {
-  GoSell: GoSell,
-  GoSellElements: GoSellElements,
-  config: function(object) {
-    var elementExists = document.getElementById("gosell-js-lib");
+const config = (object) => {
+  var elementExists = document.getElementById("gosell-js-lib")
 
-    if (!object.containerID && elementExists) {
-      object.containerID = "gosell-js-lib";
-    } else if (
-      !elementExists &&
-      object.containerID == null &&
-      document.getElementById("gosell-gateway") == null
-    ) {
-      var container = document.createElement("div");
-      container.setAttribute("id", "gosell-js-lib");
+  if (!object.containerID && elementExists) {
+    object.containerID = "gosell-js-lib"
+  } else if (!elementExists && object.containerID == null && document.getElementById("gosell-gateway") == null) {
+    var container = document.createElement("div")
+    container.setAttribute("id", "gosell-js-lib")
 
-      document.body.insertBefore(container, document.body.childNodes[0]);
+    document.body.insertBefore(container, document.body.childNodes[0])
 
-      object.containerID = "gosell-js-lib";
-    }
+    object.containerID = "gosell-js-lib"
+  }
 
-    ReactDOM.render(<GoSell />, document.getElementById(object.containerID));
+  ReactDOM.render(<GoSell />, document.getElementById(object.containerID))
 
-    module.exports.GoSell.config(object);
-  },
-  openLightBox: function() {
-    module.exports.GoSell.openLightBox();
-  },
-  openPaymentPage: function() {
-    //this option only for charge & authorize cases
-    //The function calls create charge or Authorize API
-    module.exports.GoSell.openPaymentPage();
-  },
-  showResult: function(object) {
-    var URLSearchParams = require("@ungap/url-search-params/cjs");
+  module.exports.GoSell.config(object)
+}
 
-    var urlParams = new URLSearchParams(window.location.search);
+const openLightBox = () => {
+  module.exports.GoSell.openLightBox()
+}
 
-    if (urlParams.has("tap_id")) {
-      if (document.getElementById("gosell-gateway") == null) {
-        var container = document.createElement("div");
-        container.setAttribute("id", "gosell-js-lib");
+const openPaymentPage = () => {
+  //this option only for charge & authorize cases
+  //The function calls create charge or Authorize API
+  module.exports.GoSell.openPaymentPage()
+}
 
-        document.body.insertBefore(container, document.body.childNodes[0]);
+const showResult = (object) => {
+  var urlParams = ParseURL(window.location.search)
 
-        if (object && object.callback) {
-          ReactDOM.render(
-            <GoSell callback={object.callback} />,
-            document.getElementById("gosell-js-lib")
-          );
-        } else {
-          ReactDOM.render(<GoSell />, document.getElementById("gosell-js-lib"));
-        }
+  if (urlParams.tap_id) {
+    if (document.getElementById("gosell-gateway") == null) {
+      var container = document.createElement("div")
+      container.setAttribute("id", "gosell-js-lib")
+
+      document.body.insertBefore(container, document.body.childNodes[0])
+
+      if (object && object.callback) {
+        ReactDOM.render(<GoSell callback={object.callback} />, document.getElementById("gosell-js-lib"))
+      } else {
+        ReactDOM.render(<GoSell />, document.getElementById("gosell-js-lib"))
       }
     }
-  },
-  goSellElements: function(object) {
-    ReactDOM.render(
-      <GoSellElements
-        gateway={object.gateway}
-        transaction={{ mode: "token" }}
-      />,
-      document.getElementById(object.containerID)
-    );
-  },
-  submit: function() {
-    module.exports.GoSellElements.submit();
-  },
-};
+  }
+}
+
+const goSellElements = (object) => {
+  ReactDOM.render(<GoSellElements gateway={object.gateway} transaction={{ mode: "token" }} />, document.getElementById(object.containerID))
+}
+
+const submit = () => {
+  module.exports.GoSellElements.submit()
+}
+
+// for NPM
+export { config, GoSell, GoSellElements, openLightBox, openPaymentPage, showResult, goSellElements, submit }
+
+// for browser
+window.goSell = {
+  config,
+  GoSell,
+  GoSellElements,
+  openLightBox,
+  openPaymentPage,
+  showResult,
+  goSellElements,
+  submit
+}

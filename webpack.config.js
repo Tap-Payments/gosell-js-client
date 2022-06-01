@@ -1,14 +1,11 @@
-const common = require("./webpack/webpack.common.js");
-const webpackMerge = require("webpack-merge");
+/**
+ * Created by: Ahmed Elsharkawy (a.elsharkawy@tap.company)
+ */
 
-const envs = {
-  development: "dev",
-  production: "prod",
-};
+const { merge } = require("webpack-merge")
+const baseConfig = require("./webpack/base")
+const devConfig = require("./webpack/dev")
+const prodConfig = require("./webpack/prod")
+const { isProd } = require("./webpack/utils/env")
 
-const env = envs[process.env.NODE_ENV || "development"];
-
-/* eslint-disable global-require,import/no-dynamic-require */
-const envConfig = require(`./webpack/webpack.${env}.js`);
-
-module.exports = webpackMerge(common, envConfig);
+module.exports = isProd ? merge(baseConfig, prodConfig) : merge(baseConfig, devConfig)
