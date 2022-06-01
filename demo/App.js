@@ -62,6 +62,7 @@ class Popup extends Component {
                 onClose: () => {
                   console.log("onclose hey")
                 },
+                onLoad: () => console.log("Successfully loaded"),
                 style: {
                   base: {
                     color: "red",

@@ -25,13 +25,13 @@ const config = (object) => {
 }
 
 const openLightBox = () => {
-  module.exports.GoSell.openLightBox()
+  GoSell.openLightBox()
 }
 
 const openPaymentPage = () => {
   //this option only for charge & authorize cases
   //The function calls create charge or Authorize API
-  module.exports.GoSell.openPaymentPage()
+  GoSell.openPaymentPage()
 }
 
 const showResult = (object) => {
@@ -58,7 +58,7 @@ const goSellElements = (object) => {
 }
 
 const submit = () => {
-  module.exports.GoSellElements.submit()
+  GoSellElements.submit()
 }
 
 // for NPM

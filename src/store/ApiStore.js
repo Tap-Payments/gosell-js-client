@@ -1,4 +1,3 @@
-import { makeObservable } from "mobx"
 import axios from "axios"
 import { CONFIGS } from "../constants"
 
@@ -18,7 +17,7 @@ class ApiStore {
         console.error(error)
       })
 
-    return await res
+    return res
   }
 
   async generateToken(body) {
@@ -30,14 +29,13 @@ class ApiStore {
       .post(CONFIGS.serverPath + "/generate", body)
       .then(async function(response) {
         res = response.data
-
         self.RootStore.configStore.gateway.onLoad ? self.RootStore.configStore.gateway.onLoad() : null
       })
       .catch(function(error) {
         console.error(error)
       })
 
-    return await res
+    return res
   }
 
   async getIP() {
@@ -59,7 +57,7 @@ class ApiStore {
         console.error(error)
       })
 
-    return await res
+    return res
   }
 }
 
