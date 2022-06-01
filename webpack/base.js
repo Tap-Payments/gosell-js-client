@@ -2,7 +2,6 @@
  * Created by: Ahmed Elsharkawy (a.elsharkawy@tap.company)
  */
 const path = require("path")
-const { aliasItems } = require("./config")
 const entry = require("./entry")
 const optimization = require("./optimization")
 const plugins = require("./plugins")
@@ -24,27 +23,10 @@ module.exports = {
     clean: true
   },
   module: {
-    rules: arrayFilterEmpty([
-      rules.javascriptRule,
-      rules.typescriptRule,
-      rules.htmlRule,
-      rules.imagesRule,
-      rules.fontsRule,
-      rules.cssRule,
-      ...rules.lessRules,
-      ...rules.sassRules
-    ])
+    rules: arrayFilterEmpty([rules.javascriptRule, rules.htmlRule, rules.imagesRule, rules.fontsRule, rules.cssRule])
   },
-  plugins: arrayFilterEmpty([
-    plugins.htmlWebpackPlugin,
-    plugins.providePlugin,
-    plugins.definePlugin,
-    // plugins.forkTsCheckerWebpackPlugin,
-    // plugins.esLintPlugin,
-    plugins.progressPlugin
-  ]),
+  plugins: arrayFilterEmpty([plugins.htmlWebpackPlugin, plugins.providePlugin, plugins.definePlugin, plugins.progressPlugin]),
   resolve: {
-    alias: aliasItems,
     extensions: [".tsx", ".ts", ".js", ".jsx", ".json"]
   },
   optimization

@@ -4,18 +4,6 @@
 const { babelLoader } = require("./useLoaderRuleItems")
 
 /**
- * @see https://webpack.js.org/guides/typescript/#loader
- */
-
-module.exports.typescriptRule = {
-  test: /\.tsx?$/,
-  loader: "ts-loader",
-  options: {
-    transpileOnly: true
-  },
-  exclude: /node_modules/
-}
-/**
  * @see https://webpack.js.org/loaders/babel-loader
  */
 module.exports.javascriptRule = {

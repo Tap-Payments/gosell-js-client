@@ -9,20 +9,6 @@ const cssLoader = {
   loader: "css-loader"
 }
 
-/**
- * Sass loader with sass-resources-loader
- */
-const sassLoaderItems = [
-  {
-    loader: "sass-loader",
-    options: {
-      sourceMap: true,
-      // Prefer `dart-sassRules`
-      implementation: require("sass")
-    }
-  }
-]
-
 const postCssLoader = {
   loader: "postcss-loader",
   options: {
@@ -53,19 +39,6 @@ const miniCssExtractLoader = isProd
     }
 
 /**
- * @see https://webpack.js.org/loaders/less-loader/#root
- */
-const lessLoader = {
-  loader: "less-loader",
-  options: {
-    sourceMap: true,
-    lessOptions: {
-      javascriptEnabled: true
-    }
-  }
-}
-
-/**
  * Using to convert CSS modules from css-loader to TypeScript typings
  * @see https://github.com/TeamSupercell/typings-for-css-modules-loader
  */
@@ -77,20 +50,10 @@ const typingsCssModulesLoader = {
   }
 }
 
-/**
- * @see https://webpack.js.org/loaders/sass-loader/#problems-with-url
- */
-const resolveUrlLoader = {
-  loader: "resolve-url-loader",
-  options: {
-    sourceMap: true
-  }
-}
-
 const babelLoader = {
   loader: "babel-loader",
   options: {
-    configFile: join(rootDir, "/.babelrc.js")
+    configFile: join(__dirname, "babelrc.js")
   }
 }
 
@@ -115,11 +78,8 @@ module.exports = {
   cssLoaderItems,
   cssModulesSupportLoaderItems,
   babelLoader,
-  resolveUrlLoader,
   typingsCssModulesLoader,
-  lessLoader,
   miniCssExtractLoader,
   postCssLoader,
-  sassLoaderItems,
   cssLoader
 }

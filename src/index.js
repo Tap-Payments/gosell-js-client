@@ -21,7 +21,7 @@ const config = (object) => {
 
   ReactDOM.render(<GoSell />, document.getElementById(object.containerID))
 
-  module.exports.GoSell.config(object)
+  GoSell.config(object)
 }
 
 const openLightBox = () => {

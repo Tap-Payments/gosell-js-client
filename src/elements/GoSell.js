@@ -16,11 +16,11 @@ class GoSell extends Component {
     var body = document.getElementsByTagName("BODY")[0]
     body.classList.add("gosell-payment-gateway-open")
 
-    setTimeout(function() {
+    setTimeout(function () {
       var iframe = document.getElementById("gosell-gateway")
 
-      iframe.addEventListener("load", function() {
-        setTimeout(function() {
+      iframe.addEventListener("load", function () {
+        setTimeout(function () {
           RootStore.uIStore.setLoader(false)
         }, 500)
       })
@@ -65,12 +65,12 @@ class GoSell extends Component {
       RootStore.configStore.token = pageToken
       RootStore.uIStore.modalMode = pageMode
 
-      setTimeout(function() {
+      setTimeout(function () {
         var iframe = document.getElementById("gosell-gateway")
 
-        iframe.addEventListener("load", function() {
+        iframe.addEventListener("load", function () {
           // console.log("hey loaded!");
-          setTimeout(function() {
+          setTimeout(function () {
             RootStore.uIStore.setLoader(false)
           }, 500)
         })
@@ -118,12 +118,12 @@ class GoSell extends Component {
   componentDidMount() {
     GoSell.showResult(this.props)
 
-    setTimeout(function() {
+    setTimeout(function () {
       var iframe = document.getElementById("gosell-gateway")
 
       iframe &&
-        iframe.addEventListener("load", function() {
-          setTimeout(function() {
+        iframe.addEventListener("load", function () {
+          setTimeout(function () {
             RootStore.uIStore.setLoader(false)
           }, 500)
         })
@@ -142,7 +142,7 @@ class GoSell extends Component {
     // Listen to message from child window
     eventer(
       messageEvent,
-      function(e) {
+      function (e) {
         // console.log("event", e.data);
 
         if (e.data.callback) {
