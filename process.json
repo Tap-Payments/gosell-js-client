@@ -1,14 +1,6 @@
 {
   "apps": [
     {
-      "name": "tap-gosell-backend-v1",
-      "script": "./client/server.js",
-      "env": {
-        "NODE_ENV": "production",
-        "PORT": "8000"
-      }
-    },
-    {
       "name": "tap-gosell-frontend-v1",
       "script": "serve",
       "args": "-s",

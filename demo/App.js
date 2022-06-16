@@ -47,7 +47,9 @@ class Popup extends Component {
 
             <GoSell
               gateway={{
-                publicKey: "pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
+                //paypal allowed
+                publicKey: "pk_test_EtHFV4BuPQokJT6jiROls87Y",
+                // publicKey: "pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
                 // merchant_id: "1124340",
                 language: this.state.lang,
                 contactInfo: false,
@@ -130,7 +132,9 @@ class Popup extends Component {
             <br />
             <GoSellElements
               gateway={{
-                publicKey: "pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
+                //paypal allowed
+                publicKey: "pk_test_EtHFV4BuPQokJT6jiROls87Y",
+                // publicKey: "pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
                 language: "en",
                 contactInfo: false,
                 supportedCurrencies: "all",

@@ -11,7 +11,7 @@ module.exports = {
   isDev: mode === "development",
   rootDir: join(__dirname, "../../"),
   webpackDir: join(__dirname, "../"),
-  defaultPort: 3000,
+  defaultPort: 3001,
   imgsFolder: "imgs",
   fontsFolder: "fonts",
   cssFolder: "css",
