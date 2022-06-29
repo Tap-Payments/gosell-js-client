@@ -1,6 +1,6 @@
 {
-  "name": "@tap-payments/web-checkout-sdk-testing",
-  "version": "1.0.0-staging",
+  "name": "@tap-payments/web-checkout-sdk-staging",
+  "version": "1.0.0",
   "description": "Web Checkout Library",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -13,14 +13,10 @@
     "online-demo": "gh-pages -d demo/dist",
     "publish-all": "npm run build && npm run online-demo"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "author": "Hala Q. <h.qutmosh@tap.company> (https://tap.company)",
   "license": "ISC",
   "peerDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react": ">=17.0.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
