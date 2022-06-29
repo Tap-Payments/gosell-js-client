@@ -1,6 +1,6 @@
 {
-  "name": "@tap-payments/gosellsandbox",
-  "version": "2.1.0",
+  "name": "@tap-payments/web-checkout-sdk-testing",
+  "version": "1.0.0-staging",
   "description": "Web Checkout Library",
   "main": "dist/index.js",
   "module": "src/index.js",
