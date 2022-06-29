@@ -10,10 +10,10 @@ class ApiStore {
     var res = null
     await axios
       .post(CONFIGS.serverPath + "/localization", {})
-      .then(async function(response) {
+      .then(async function (response) {
         res = response.data
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.error(error)
       })
 
@@ -27,11 +27,11 @@ class ApiStore {
 
     await axios
       .post(CONFIGS.serverPath + "/generate", body)
-      .then(async function(response) {
+      .then(async function (response) {
         res = response.data
         self.RootStore.configStore.gateway.onLoad ? self.RootStore.configStore.gateway.onLoad() : null
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.error(error)
       })
 
@@ -39,8 +39,6 @@ class ApiStore {
   }
 
   async getIP() {
-    var self = this
-
     var header = {
       "Content-Type": "application/json"
     }
@@ -48,12 +46,12 @@ class ApiStore {
     var res = null
     await axios
       .get("https://api.ipify.org?format=jsonp&callback=", header)
-      .then(async function(response) {
+      .then(async function (response) {
         if (response.status == 200) {
           res = eval(response.data).ip
         }
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.error(error)
       })
 

@@ -19,11 +19,12 @@ class GoSell extends Component {
     setTimeout(function () {
       var iframe = document.getElementById("gosell-gateway")
 
-      iframe.addEventListener("load", function () {
-        setTimeout(function () {
-          RootStore.uIStore.setLoader(false)
-        }, 500)
-      })
+      iframe &&
+        iframe.addEventListener("load", function () {
+          setTimeout(function () {
+            RootStore.uIStore.setLoader(false)
+          }, 500)
+        })
     }, 100)
   }
 
@@ -68,12 +69,13 @@ class GoSell extends Component {
       setTimeout(function () {
         var iframe = document.getElementById("gosell-gateway")
 
-        iframe.addEventListener("load", function () {
-          // console.log("hey loaded!");
-          setTimeout(function () {
-            RootStore.uIStore.setLoader(false)
-          }, 500)
-        })
+        iframe &&
+          iframe.addEventListener("load", function () {
+            // console.log("hey loaded!");
+            setTimeout(function () {
+              RootStore.uIStore.setLoader(false)
+            }, 500)
+          })
       }, 100)
 
       return true
@@ -117,7 +119,6 @@ class GoSell extends Component {
 
   componentDidMount() {
     GoSell.showResult(this.props)
-
     setTimeout(function () {
       var iframe = document.getElementById("gosell-gateway")
 
