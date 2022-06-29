@@ -1,11 +1,11 @@
 const CONFIGS = {
   // ************************ staging URL *************************
-  // serverPath: "https://checkout.staging.tap.company/api",
-  // framePath: "https://checkout.staging.tap.company/"
+  serverPath: "https://checkout.staging.tap.company/api",
+  framePath: "https://checkout.staging.tap.company/",
 
   // ************************ sandbox URL *************************
-  serverPath: "https://sandbox-checkout.payments.tap.company/api",
-  framePath: "https://sandbox-checkout.payments.tap.company/",
+  // serverPath: "https://sandbox-checkout.payments.tap.company/api",
+  // framePath: "https://sandbox-checkout.payments.tap.company/",
 
   // ************************ production URL *************************
   // serverPath: "https://checkout.payments.tap.company/api",
