@@ -1,6 +1,6 @@
 {
-  "name": "@tap-payments/gosellsandbox",
-  "version": "2.1.0",
+  "name": "@tap-payments/web-checkout-sdk-sandbox",
+  "version": "1.0.0",
   "description": "Web Checkout Library",
   "main": "dist/index.js",
   "module": "src/index.js",
@@ -12,9 +12,6 @@
     "prepublishOnly": "npm run transpile",
     "online-demo": "gh-pages -d demo/dist",
     "publish-all": "npm run build && npm run online-demo"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
   },
   "author": "Hala Q. <h.qutmosh@tap.company> (https://tap.company)",
   "license": "ISC",
