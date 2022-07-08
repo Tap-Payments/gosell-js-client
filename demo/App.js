@@ -96,7 +96,18 @@ class Popup extends Component {
               order={{
                 amount: 100,
                 currency: "KWD",
-                items: []
+                items: [
+                  {
+                    amount_per_unit: 0,
+                    description: "Item Desc 0",
+                    id: 0,
+                    name: "Item ",
+                    old_quantity: 1,
+                    old_total_amount: 0,
+                    quantity: 1,
+                    total_amount: 100
+                  }
+                ]
               }}
               transaction={{
                 mode: "charge",
