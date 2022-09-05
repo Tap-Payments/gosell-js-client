@@ -1,7 +1,7 @@
 {
-  "name": "@tap-payments/gosellsandbox",
-  "version": "2.1.0",
-  "description": "Web Checkout Library",
+  "name": "@tap-payments/localhost",
+  "version": "0.0.0",
+  "description": "Web Checkout Library, development purposes only",
   "main": "dist/index.js",
   "module": "src/index.js",
   "scripts": {
