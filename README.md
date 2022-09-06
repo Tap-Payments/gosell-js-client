@@ -13,11 +13,11 @@
   - [goSellElements General Configurations](#gosellelements-general-configurations)
   - [goSellElements Transaction Modes](#gosellelements-transaction-modes)
   - [goSellElements Examples](#gosellelements-examples)
-- [Google Pay™](#google-pay™)
-  - [Google Pay™ Integration](#google-pay™-integration)
-  - [Tokenize the Google Pay™ Payment Data](#tokenize-the-google-pay™-payment-data)
+- [Google Pay™](#google-pay)
+  - [Google Pay™ Integration](#google-pay-integration)
+  - [Tokenize the Google Pay™ Payment Data](#tokenize-the-google-pay-payment-data)
   - [Request the Payment](#request-the-payment)
-  - [Test Google Pay™](#test-google-pay™)
+  - [Test Google Pay™](#test-google-pay)
 
 ## This version
 
@@ -928,7 +928,7 @@ in case you are going with out Checkout SDK, you will not need to do that.
 ### Test Google Pay™
 
 - To start testing you need to create an account in tap to get your keys.
-  **NOTE:** Google Pay does not allow the configuration of test cards within its online wallet. However, when using Google's test environment, if a real card is selected when making the online purchase, Google Pay provides a test card in the encrypted payment data; ensuring that no actual transaction takes place.
+- **NOTE:** Google Pay does not allow the configuration of test cards within its online wallet. However, when using Google's test environment, if a real card is selected when making the online purchase, Google Pay provides a test card in the encrypted payment data; ensuring that no actual transaction takes place.
 
 ## Author
 
