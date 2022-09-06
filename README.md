@@ -762,11 +762,11 @@ Once you integrate Google Pay™ in your web application, your customers can sec
 #### Google Pay™ Enablement
 
 - Reach to your Account success manager to enable Google Pay™ in your account.
-- make sure that you added our library to your project by following the steps:
+- Make sure that you added our library to your project by following the steps:
 
-  - install our library using npm or yarn by running the following command:
+  - Install our library using npm or yarn by running the following command:
     `npm install @tap-payments/gosell` or `yarn add @tap-payments/gosell`
-  - import our library in your project by adding the following line to your
+  - Import our library in your project by adding the following line to your
     code:
 
   ```javascript
@@ -775,7 +775,7 @@ Once you integrate Google Pay™ in your web application, your customers can sec
   </head>
   ```
 
-- make sure that you allow Google Pay™ payment method to be in the Tap JS Checkout library by adding the following line to your code:
+- Make sure that you allow Google Pay™ payment method to be in the Tap JS Checkout library by adding the following line to your code:
 
 ```javascript
 <body>
@@ -824,8 +824,8 @@ without using Tap JS Checkout library.
 
 - You need to add setup Google Pay™ button in your application by following the steps:
 
-  - **Note** that you must be signed in as a Google Developer to do this.
-  - you need to follow [Google Pay™](https://developers.google.com/pay/api) to
+  - **Note:** you must be signed in as a Google Developer to do this.
+  - You need to follow [Google Pay™](https://developers.google.com/pay/api) to
     know how you can integrate with Google Pay™ in your application.
 
 - When you submit a payment data request to the Google API, be sure to include
@@ -857,7 +857,7 @@ without using Tap JS Checkout library.
 
 ### Tokenize the Google Pay™ Payment Data
 
-**Note**: Only we will mention hwo you can tokenize payment data in case you
+**Note:** only we will mention hwo you can tokenize payment data in case you
 are going to use Google Pay™ directly without using Tap JS Checkout library, because
 in case you are going with out Tap JS Checkout library, you will not need to do that.
 
@@ -923,7 +923,7 @@ in case you are going with out Tap JS Checkout library, you will not need to do 
 - Now you have the token, it's time to authorize the payment. Take the token,
   and use it in the body of a card to preform the [charge](https://www.tap.company/developers) request from your application or
   website's backend server
-- if you you further questions, please contact ask us [support](https://www.tap.company/support)
+- If you you further questions, please contact ask us [support](https://www.tap.company/support)
 
 ### Test Google Pay™
 
