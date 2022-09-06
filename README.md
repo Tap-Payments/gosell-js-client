@@ -16,7 +16,7 @@
 - [Google Pay™](#google-pay)
   - [Google Pay™ Integration](#google-pay-integration)
   - [Tokenize the Google Pay™ Payment Data](#tokenize-the-google-pay-payment-data)
-  - [Request the Payment](#request-the-payment)
+  - [Google Pay™ with 3D Secure](#google-pay-with-3d-secure)
   - [Test Google Pay™](#test-google-pay)
 
 ## This version
@@ -753,7 +753,7 @@ export default GoSellElementsDemo;
 
 ```
 
- ## Google Pay™
+## Google Pay™
 
 Once you integrate Google Pay™ in your web application, your customers can securely make one-touch payments using any credit or debit card connected to their Google account.
 
@@ -809,7 +809,7 @@ const RenderCheckout = () => {
 ```
 
 - Once you have done the above steps, you can start using Google Pay™ in the
- Tap JS Checkout library.
+  Tap JS Checkout library.
 - Google Pay™ button will be supported by all the browsers that support
   Google Pay™.
 - Google Pay™ button will be supported with all the currencies that are supported
@@ -908,7 +908,47 @@ without using Tap JS Checkout library.
 
 - After getting the response successfully you can get the token id from the
   response data and use it in the charge request.
-- If you have further questions, please contact ask us [support](https://www.tap.company/support)
+- If you have further questions, please contact ask us
+  [support](https://www.tap.company/support)
+
+### Google Pay™ with 3D Secure
+
+Google Pay offers two authentication modes:
+
+- `PAN_ONLY`
+  - the card is stored on file with your customer's Google account. Thus, the
+    payment credentials are not bound to an Android device (for example, desktop
+    or non-Android mobile web).
+  - Google handles the authentication and provides a payload that meets the SCA
+    requirements.
+- `CRYPTOGRAM_3DS`
+  - Google Pay offers SCA compliance by binding payment credentials to an
+    Android device and allowing issuers to delegate the authentication to
+    Google for all subsequent payments on that device.
+  - For in-scope transactions, the payment should use a 3D Secure exemption or
+    be processed as 3D Secure.
+
+#### Request a 3D Secure payment using Google Pay
+
+After receiving your token, you can authenticate the transaction as follows:
+
+- To process this transaction as a 3D Secure payment, set the `threeDSecure`
+  field to `true` as in the request example below.
+- Example: Request body
+
+  ```json
+  {
+    "amount": 100,
+    "currency": "USD",
+    "threeDSecure": true,
+    "source": {
+      "id": "tok_zMMQ40227330XHU6SH88276"
+    },
+    "description": "Test 3DS payment",
+    "statement_descriptor": "Test 3DS payment"
+    ...
+  }
+  ```
 
 ### Test Google Pay™
 
@@ -919,4 +959,3 @@ without using Tap JS Checkout library.
 
 - [Hala Q.](https://www.npmjs.com/~hala.q)
 - [A.Elsharkawy](https://www.npmjs.com/~elsharkawy)
-
