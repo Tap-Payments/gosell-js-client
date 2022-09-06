@@ -753,7 +753,7 @@ export default GoSellElementsDemo;
 
 ```
 
-## Google Pay™
+ ## Google Pay™
 
 Once you integrate Google Pay™ in your web application, your customers can securely make one-touch payments using any credit or debit card connected to their Google account.
 
@@ -761,12 +761,12 @@ Once you integrate Google Pay™ in your web application, your customers can sec
 
 #### Google Pay™ Enablement
 
-- Reach to your Account success manager to enable Google Pay™ in your account.
+- Reach your Account success manager to enable Google Pay™ in your account.
 - Make sure that you added our library to your project by following the steps:
 
   - Install our library using npm or yarn by running the following command:
     `npm install @tap-payments/gosell` or `yarn add @tap-payments/gosell`
-  - Import our library in your project by adding the following line to your
+  - Import our library to your project by adding the following line to your
     code:
 
   ```javascript
@@ -775,7 +775,7 @@ Once you integrate Google Pay™ in your web application, your customers can sec
   </head>
   ```
 
-- Make sure that you allow Google Pay™ payment method to be in the Tap JS Checkout library by adding the following line to your code:
+- Make sure that you allow the Google Pay™ payment method to be in the Tap JS Checkout library by adding the following line to your code:
 
 ```javascript
 <body>
@@ -809,12 +809,12 @@ const RenderCheckout = () => {
 ```
 
 - Once you have done the above steps, you can start using Google Pay™ in the
-  Tap JS Checkout library.
-- Google Pay™ button will be supported with all the browsers that support
+ Tap JS Checkout library.
+- Google Pay™ button will be supported by all the browsers that support
   Google Pay™.
-- Google Pay™ button will be supported with all the currencies that supported
+- Google Pay™ button will be supported with all the currencies that are supported
   by Google Pay™.
-- Once you click on Google Pay™ button, Google Pay™ popup will be opened and
+- Once you click on the Google Pay™ button, a Google Pay™ popup will be opened and
   you can complete the payment using Google Pay™.
 
 ### Integrate with Google Pay™ directly
@@ -822,7 +822,7 @@ const RenderCheckout = () => {
 Here we will go through how you can integrate Google Pay™
 without using Tap JS Checkout library.
 
-- You need to add setup Google Pay™ button in your application by following the steps:
+- You need to add the setup Google Pay™ button in your application by following the steps:
 
   - **Note:** you must be signed in as a Google Developer to do this.
   - You need to follow [Google Pay™](https://developers.google.com/pay/api) to
@@ -857,19 +857,10 @@ without using Tap JS Checkout library.
 
 ### Tokenize the Google Pay™ Payment Data
 
-**Note:** only we will mention hwo you can tokenize payment data in case you
-are going to use Google Pay™ directly without using Tap JS Checkout library, because
-in case you are going with out Tap JS Checkout library, you will not need to do that.
-
-- Once you have received the payment data from Google, you then need to
-  tap.company’s endpoint for tokenizing the encrypted payment data; you can find
-  this payment data in the paymentMethodToken property of the Google Pay™ payment
-  data request's response.
-- To find out more about Google Pay payment requests, read the [Google Pay™
-  object reference](https://developers.google.com/pay/api/web/object-reference)
-- Use the details below to set up your request. To get a detailed view of all
-  required and optional fields, see our [API
-  reference](https://www.tap.company/developers)
+- Once you have received the payment data from Google, call Tap token API for tokenizing the encrypted payment data; you can find
+  this payment data is in the paymentMethodToken property of the Google Pay™ payment data response payload.
+- To find out more about Google Pay payment requests, read the [Google Pay™ object reference](https://developers.google.com/pay/api/web/object-reference)
+- Use the details below to set up your request. To get a detailed view of all required and optional fields, see our [API reference](https://www.tap.company/developers)
 
   - Method `POST`
   - URL `https://api.tap.company/v2/tokens`
@@ -917,20 +908,15 @@ in case you are going with out Tap JS Checkout library, you will not need to do 
 
 - After getting the response successfully you can get the token id from the
   response data and use it in the charge request.
-
-### Request the Payment
-
-- Now you have the token, it's time to authorize the payment. Take the token,
-  and use it in the body of a card to preform the [charge](https://www.tap.company/developers) request from your application or
-  website's backend server
-- If you you further questions, please contact ask us [support](https://www.tap.company/support)
+- If you have further questions, please contact ask us [support](https://www.tap.company/support)
 
 ### Test Google Pay™
 
-- To start testing you need to create an account in tap to get your keys.
+- To start testing you need to create an account in Tap to get your keys.
 - **NOTE:** Google Pay does not allow the configuration of test cards within its online wallet. However, when using Google's test environment, if a real card is selected when making the online purchase, Google Pay provides a test card in the encrypted payment data; ensuring that no actual transaction takes place.
 
 ## Author
 
 - [Hala Q.](https://www.npmjs.com/~hala.q)
 - [A.Elsharkawy](https://www.npmjs.com/~elsharkawy)
+
