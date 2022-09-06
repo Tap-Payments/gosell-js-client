@@ -759,9 +759,9 @@ Once you integrate Google Pay™ in your web application, your customers can sec
 
 ### Google Pay™ Integration
 
-#### Allow Google Pay™ to be in the checkout SDK
+#### Google Pay™ Enablement
 
-- Ask `Tap Payments Team` to enable Google Pay™ in your account.
+- Reach to your Account success manager to enable Google Pay™ in your account.
 - make sure that you added our library to your project by following the steps:
 
   - install our library using npm or yarn by running the following command:
@@ -775,7 +775,7 @@ Once you integrate Google Pay™ in your web application, your customers can sec
   </head>
   ```
 
-- make sure that you allow Google Pay™ payment method to be in the checkout SDK by adding the following line to your code:
+- make sure that you allow Google Pay™ payment method to be in the Tap JS Checkout library by adding the following line to your code:
 
 ```javascript
 <body>
@@ -809,7 +809,7 @@ const RenderCheckout = () => {
 ```
 
 - Once you have done the above steps, you can start using Google Pay™ in the
-  checkout SDK.
+  Tap JS Checkout library.
 - Google Pay™ button will be supported with all the browsers that support
   Google Pay™.
 - Google Pay™ button will be supported with all the currencies that supported
@@ -819,8 +819,8 @@ const RenderCheckout = () => {
 
 ### Integrate with Google Pay™ directly
 
-**Description**: Here we will go through how you can integrate Google Pay™
-without using checkout SDK.
+Here we will go through how you can integrate Google Pay™
+without using Tap JS Checkout library.
 
 - You need to add setup Google Pay™ button in your application by following the steps:
 
@@ -858,8 +858,8 @@ without using checkout SDK.
 ### Tokenize the Google Pay™ Payment Data
 
 **Note**: Only we will mention hwo you can tokenize payment data in case you
-are going to use Google Pay™ directly without using checkout SDK, because
-in case you are going with out Checkout SDK, you will not need to do that.
+are going to use Google Pay™ directly without using Tap JS Checkout library, because
+in case you are going with out Tap JS Checkout library, you will not need to do that.
 
 - Once you have received the payment data from Google, you then need to
   tap.company’s endpoint for tokenizing the encrypted payment data; you can find
