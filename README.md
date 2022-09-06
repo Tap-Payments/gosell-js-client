@@ -13,10 +13,11 @@
   - [goSellElements General Configurations](#gosellelements-general-configurations)
   - [goSellElements Transaction Modes](#gosellelements-transaction-modes)
   - [goSellElements Examples](#gosellelements-examples)
-- [Google Pay™](#google-pay)
-  - [Google Pay™ Installation](#google-pay-installation)
-  - [Google Pay™ Usage](#google-pay-usage)
-  - [Google Pay™ Implementation Details](#google-pay-Implementation-details)
+- [Google Pay™](#google-pay™)
+  - [Google Pay™ Integration](#google-pay™-integration)
+  - [Tokenize the Google Pay™ Payment Data](#tokenize-the-google-pay™-payment-data)
+  - [Request the Payment](#request-the-payment)
+  - [Test Google Pay™](#test-google-pay™)
 
 ## This version
 
@@ -752,46 +753,184 @@ export default GoSellElementsDemo;
 
 ```
 
-## google-pay
+## Google Pay™
 
-- **Description**: This method is used to initialize Google Pay payment method.
+- **Description**: Once you integrate Google Pay™ in your web application, your customers can securely make one-touch payments using any credit or debit card connected to their Google account.
 
-### google-pay-installation
+### Google Pay™ Integration
 
-- Google pay feature is enabled for `@tap-payments/gosell@*.*.*` [all the versions of SDK]
-- you have to allow google pay in your merchant account.
-- you have to allow google pay in your configurations `supportedPaymentMethods`
-- Google pay feature are supported by all browsers that support google pay.
-- example:
+#### Allow Google Pay™ to be in the checkout SDK
+
+- Ask `Tap Payments Team` to enable Google Pay™ in your account.
+- make sure that you added our library to your project by following the steps:
+
+  - install our library using npm or yarn by running the following command:
+    `npm install @tap-payments/gosell` or `yarn add @tap-payments/gosell`
+  - import our library in your project by adding the following line to your
+    code:
+
+  ```javascript
+  <head>
+    <script type='text/javascript' src='https://goSellJSLib.b-cdn.net/v2.0.0/js/gosell.js'></script>
+  </head>
+  ```
+
+- make sure that you allow Google Pay™ payment method to be in the checkout SDK by adding the following line to your code:
 
 ```javascript
-goSell.goSellElements({
-  containerID: "root",
-  gateway: {
-   ...
-    supportedPaymentMethods: [...,"GOOGLE_PAY"],
-    ...
-})
+<body>
+  <script>
+    goSell.goSellElements({
+      containerID: "root",
+      gateway: {
+      ...
+        supportedPaymentMethods: [...,"GOOGLE_PAY"],
+        ...
+    })
+  </script>
+</body>
 ```
 
-### google-pay-usage
+```javascript // ReactJs
+import { GoSell } from "@tap-payments/gosell";
 
-- Once you have initialized the google pay payment method, you can see google
-  pay button in the payment methods section.
-- Anybody can use google pay button to pay.
-- Once you click on google pay button it will open google pay popup.
+const RenderCheckout = () => {
+  return (
+    <GoSell
+       ...
+      gateway={{
+        ...
+        supportedPaymentMethods: [...,"GOOGLE_PAY"],
+        ...
+      }}
+    />
+  );
+};
+```
 
-### google-pay-Implementation-details
+- Once you have done the above steps, you can start using Google Pay™ in the
+  checkout SDK.
+- Google Pay™ button will be supported with all the browsers that support
+  Google Pay™.
+- Google Pay™ button will be supported with all the currencies that supported
+  by Google Pay™.
+- Once you click on Google Pay™ button, Google Pay™ popup will be opened and
+  you can complete the payment using Google Pay™.
 
-- Google pay button is hosted in gosell SDK.
-- We have used google pay button from google pay developer documentation.
-- We support 3DS for cards based on merchant configurations
-- We setting `gateway` and `gatewayMerchantID` from our side so the merchant doesn't
-  care about this configurations
-- All the remaining configurations are gotten from our side like `card networks`, `authorization methods`.
-- We collect `billingAddressParameters` from merchant configurations.
-- The merchants haven't care about how they can send `Google encrypted payment data` because we are handling this part from our side.
+### Integrate with Google Pay™ directly
+
+**Description**: Here we will go through how you can integrate Google Pay™
+without using checkout SDK.
+
+- You need to add setup Google Pay™ button in your application by following the steps:
+
+  - **Note** that you must be signed in as a Google Developer to do this.
+  - you need to follow [Google Pay™](https://developers.google.com/pay/api) to
+    know how you can integrate with Google Pay™ in your application.
+
+- When you submit a payment data request to the Google API, be sure to include
+  the following parameters:
+
+  - `gateway`: `tappayments`
+  - `gatewayMerchantId`: `<your merchant ID>`
+  - example:
+
+  ```json
+  {
+    "type": "CARD",
+    "parameters": {
+      "allowedAuthMethods": ["PAN_ONLY", "CRYPTOGRAM_3DS"],
+      "allowedCardNetworks": ["AMEX", "DISCOVER", "JCB", "MASTERCARD", "VISA"]
+    },
+    "tokenizationSpecification": {
+      "type": "PAYMENT_GATEWAY",
+      "parameters": {
+        "gateway": "tappayments",
+        "gatewayMerchantId": "<your merchant ID>"
+      }
+    }
+  }
+  ```
+
+  - You will need to specify which card types and card schemes to support in
+    your payment data request.
+
+### Tokenize the Google Pay™ Payment Data
+
+**Note**: Only we will mention hwo you can tokenize payment data in case you
+are going to use Google Pay™ directly without using checkout SDK, because
+in case you are going with out Checkout SDK, you will not need to do that.
+
+- Once you have received the payment data from Google, you then need to
+  tap.company’s endpoint for tokenizing the encrypted payment data; you can find
+  this payment data in the paymentMethodToken property of the Google Pay™ payment
+  data request's response.
+- To find out more about Google Pay payment requests, read the [Google Pay™
+  object reference](https://developers.google.com/pay/api/web/object-reference)
+- Use the details below to set up your request. To get a detailed view of all
+  required and optional fields, see our [API
+  reference](https://www.tap.company/developers)
+
+  - Method `POST`
+  - URL `https://api.tap.company/v2/tokens`
+  - Request Data:
+
+    ```json
+    {
+      "token_data": {
+        "signature": "MEUCIQCgAIHrd65KhLQR4KMDqwfSYyjdF/rKUQG7eVPAP2NIuAIgWcA02MjvXAD9Xo4u2O6gl6PBjNNJeLTNy++paOGE3nE=",
+        "intermediateSigningKey": {
+          "signedKey": "{\"keyValue\":\"/uCLf1SqYc4feUicYPJSIu1djT3RQXe/71W50TegMLcs94OScACGtOPaiJmZwUPxCA\\u003d\\u003d\",\"keyExpiration\":\"1663134862361\"}",
+          "signatures": ["MEYCIQDf7b5O3xatEfZu9aK1+IebTs1N2otF++MtdgwitZK6iUf2hNdb4XXut+k5H8tHj"]
+        },
+        "protocolVersion": "ECv2",
+        "signedMessage": "{\"encryptedMessage\":\"8tW8iQuL8dOyZ1+OhZMMzVXFggBsE2dKobOsNw00nOQI7JuY7Zfqq4kbae+o48HoXDayEHkjFlnXW/QZBIHBqWgrMce9LJj+jnYTN7WcAAxLNbwf3leZs+zV7GMV+0aMAsOOdvKdurCg7LBIDJZeNbMyomtp9HqQ+paLjgxqtvOGnZ5jJoYMTQqOR+qdFmxvsOqhHZHtiRvdTQi8Z9p9+jvbn28M0DRle1COyQOrhnOVZ7RUu1kYaMm7cOxeXbXP4CuuCb2EQZ\",\"ephemeralPublicKey\":\"BPYdAC923D/jRypCseOUA9bersY0i\\u003d\",\"tag\":\"UcPrx3j4NzXy38/pKZ4nXEViVSKacXEQpxeRxqdkZPU\\u003d\"}"
+      },
+      "type": "googlepay"
+    }
+    ```
+
+  - Response Data:
+
+    ```json
+    {
+      "id": "tok_zMMQ40227330XHU6SH88276",
+      "created": 1662449620276,
+      "object": "token",
+      "live_mode": false,
+      "type": "GOOGLEPAY",
+      "used": false,
+      "card": {
+        "id": "card_3snF4022733eqh56yL8E279",
+        "object": "card",
+        "funding": "CREDIT",
+        "fingerprint": "FEAWi7M8%2BpIXbsraeWsHfuMOg2AeIpG5Pp2wkf4LHPU%3D",
+        "brand": "VISA",
+        "scheme": "VISA",
+        "exp_month": 12,
+        "exp_year": 2027,
+        "last_four": "3478",
+        "first_six": "489537"
+      }
+    }
+    ```
+
+- After getting the response successfully you can get the token id from the
+  response data and use it in the charge request.
+
+### Request the Payment
+
+- Now you have the token, it's time to authorize the payment. Take the token,
+  and use it in the body of a card to preform the [charge](https://www.tap.company/developers) request from your application or
+  website's backend server
+- if you you further questions, please contact ask us [support](https://www.tap.company/support)
+
+### Test Google Pay™
+
+- To start testing you need to create an account in tap to get your keys.
+  **NOTE:** Google Pay does not allow the configuration of test cards within its online wallet. However, when using Google's test environment, if a real card is selected when making the online purchase, Google Pay provides a test card in the encrypted payment data; ensuring that no actual transaction takes place.
 
 ## Author
 
 - [Hala Q.](https://www.npmjs.com/~hala.q)
+- [A.Elsharkawy](https://www.npmjs.com/~elsharkawy)
