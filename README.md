@@ -755,7 +755,7 @@ export default GoSellElementsDemo;
 
 ## Google Pay™
 
-- **Description**: Once you integrate Google Pay™ in your web application, your customers can securely make one-touch payments using any credit or debit card connected to their Google account.
+Once you integrate Google Pay™ in your web application, your customers can securely make one-touch payments using any credit or debit card connected to their Google account.
 
 ### Google Pay™ Integration
 
