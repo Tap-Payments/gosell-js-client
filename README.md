@@ -764,9 +764,9 @@ Once you integrate Google Pay™ in your web application, your customers can sec
 - Reach your Account success manager to enable Google Pay™ in your account.
 - Make sure that you added our library to your project by following the steps:
 
-  - Install our library using npm or yarn by running the following command:
+  - Install our Tap JS Checkout library using npm or yarn by running the following command:
     `npm install @tap-payments/gosell` or `yarn add @tap-payments/gosell`
-  - Import our library to your project by adding the following line to your
+  - Import our Tap JS Checkout library to your project by adding the following line to your
     code:
 
   ```javascript
@@ -916,17 +916,12 @@ without using Tap JS Checkout library.
 Google Pay offers two authentication modes:
 
 - `PAN_ONLY`
-  - the card is stored on file with your customer's Google account. Thus, the
-    payment credentials are not bound to an Android device (for example, desktop
-    or non-Android mobile web).
+  - the card is stored on file with your customer's Google account. Thus, the payment credentials are not linked to an Android device.
   - Google handles the authentication and provides a payload that meets the SCA
     requirements.
-- `CRYPTOGRAM_3DS`
-  - Google Pay offers SCA compliance by binding payment credentials to an
-    Android device and allowing issuers to delegate the authentication to
-    Google for all subsequent payments on that device.
-  - For in-scope transactions, the payment should use a 3D Secure exemption or
-    be processed as 3D Secure.
+- `CRYPTOGRAM_3DS`- Google Pay offers SCA compliance by binding payment credentials to an
+  Android device and allowing issuers to delegate the authentication to
+  Google for all subsequent payments on that device.
 
 #### Request a 3D Secure payment using Google Pay
 
@@ -938,15 +933,60 @@ After receiving your token, you can authenticate the transaction as follows:
 
   ```json
   {
-    "amount": 100,
+    "amount": 10,
     "currency": "USD",
     "threeDSecure": true,
-    "source": {
-      "id": "tok_zMMQ40227330XHU6SH88276"
+    "save_card": false,
+    "description": "Test Description",
+    "statement_descriptor": "Sample",
+    "metadata": {
+      "udf1": "test 1",
+      "udf2": "test 2"
     },
-    "description": "Test 3DS payment",
-    "statement_descriptor": "Test 3DS payment"
-    ...
+    "reference": {
+      "transaction": "txn_0001",
+      "order": "ord_0001"
+    },
+    "receipt": {
+      "email": false,
+      "sms": true
+    },
+    "customer": {
+      "first_name": "test",
+      "middle_name": "test",
+      "last_name": "test",
+      "email": "test@test.com",
+      "phone": {
+        "country_code": "965",
+        "number": "50000000"
+      }
+    },
+    "merchant": {
+      "id": ""
+    },
+    "source": {
+      "id": "src_google_pay"
+    },
+    "destinations": {
+      "destination": [
+        {
+          "id": "480593",
+          "amount": 2,
+          "currency": "USD"
+        },
+        {
+          "id": "486374",
+          "amount": 3,
+          "currency": "USD"
+        }
+      ]
+    },
+    "post": {
+      "url": "http://your_website.com/post_url"
+    },
+    "redirect": {
+      "url": "http://your_website.com/redirect_url"
+    }
   }
   ```
 
