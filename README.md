@@ -762,11 +762,11 @@ Once you integrate Google Pay™ in your web application, your customers can sec
 #### Google Pay™ Enablement
 
 - Reach your Account success manager to enable Google Pay™ in your account.
-- Make sure that you added our library to your project by following the steps:
+- Make sure that you added `goSell` library to your project by following the steps:
 
-  - Install our Tap JS Checkout library using npm or yarn by running the following command:
+  - Install our `goSell` library using npm or yarn by running the following command:
     `npm install @tap-payments/gosell` or `yarn add @tap-payments/gosell`
-  - Import our Tap JS Checkout library to your project by adding the following line to your
+  - Import our `goSell` library to your project by adding the following line to your
     code:
 
   ```javascript
@@ -775,7 +775,7 @@ Once you integrate Google Pay™ in your web application, your customers can sec
   </head>
   ```
 
-- Make sure that you allow the Google Pay™ payment method to be in the Tap JS Checkout library by adding the following line to your code:
+- Make sure that you allow the Google Pay™ payment method to be in the goSell library by adding the following line to your code:
 
 ```javascript
 <body>
@@ -809,7 +809,7 @@ const RenderCheckout = () => {
 ```
 
 - Once you have done the above steps, you can start using Google Pay™ in the
-  Tap JS Checkout library.
+  `goSell` library.
 - Google Pay™ button will be supported by all the browsers that support
   Google Pay™.
 - Google Pay™ button will be supported with all the currencies that are supported
@@ -820,7 +820,7 @@ const RenderCheckout = () => {
 ### Integrate with Google Pay™ directly
 
 Here we will go through how you can integrate Google Pay™
-without using Tap JS Checkout library.
+without using `goSell` library.
 
 - You need to add the setup Google Pay™ button in your application by following the steps:
 
