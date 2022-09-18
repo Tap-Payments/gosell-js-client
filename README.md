@@ -854,8 +854,9 @@ without using `goSell` library.
 
   - You will need to specify which card types and card schemes to support in
     your payment data request.
-For more details you can check the following [Google Pay Web developer documentation](https://developers.google.com/pay/api/web/), [Google Pay Web integration checklist](https://developers.google.com/pay/api/web/guides/test-and-deploy/integration-checklist) and
-[Google Pay Web Brand Guidelines](https://developers.google.com/pay/api/web/guides/brand-guidelines).
+
+  For more details you can check the following [Google Pay Web developer documentation](https://developers.google.com/pay/api/web/), [Google Pay Web integration checklist](https://developers.google.com/pay/api/web/guides/test-and-deploy/integration-checklist) and
+  [Google Pay Web Brand Guidelines](https://developers.google.com/pay/api/web/guides/brand-guidelines).
 
 ### Tokenize the Google Pay™ Payment Data
 
