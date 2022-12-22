@@ -48,8 +48,8 @@ class Popup extends Component {
             <GoSell
               gateway={{
                 //paypal allowed
-                publicKey: "pk_test_EtHFV4BuPQokJT6jiROls87Y",
-                // publicKey: "pk_test_Vlk842B1EA7tDN5QbrfGjYzh",
+                //publicKey: "pk_test_EtHFV4BuPQokJT6jiROls87Y",
+                publicKey: "pk_test_oYJLQj6wHNytRaeF0Db5qTv8",
                 // merchant_id: "1124340",
                 language: this.state.lang,
                 contactInfo: false,
@@ -96,7 +96,25 @@ class Popup extends Component {
               order={{
                 amount: 100,
                 currency: "KWD",
-                items: []
+                items: [
+                  {
+                    amount_per_unit: 0,
+                    description: "Item Desc 0",
+                    id: 0,
+                    name: "Item ",
+                    old_quantity: 1,
+                    old_total_amount: 0,
+                    quantity: 1,
+                    total_amount: 100
+                  }
+                ],
+                shipping: {
+                  amount: 1,
+                  currency: "USD",
+                  description: "test",
+                  provider: "ARAMEX",
+                  service: "test"
+                }
               }}
               transaction={{
                 mode: "charge",
