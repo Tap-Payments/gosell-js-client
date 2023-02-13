@@ -49,6 +49,7 @@ class Popup extends Component {
               gateway={{
                 //paypal allowed
                 //publicKey: "pk_test_EtHFV4BuPQokJT6jiROls87Y",
+                // publicKey: "pk_test_oYJLQj6wHNytRaeF0Db5qTv8",
                 publicKey: "pk_test_oYJLQj6wHNytRaeF0Db5qTv8",
                 // merchant_id: "1124340",
                 language: this.state.lang,
