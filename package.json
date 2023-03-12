@@ -1,6 +1,6 @@
 {
   "name": "@tap-payments/gosell-jlp",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Web Checkout Library",
   "main": "dist/index.js",
   "module": "src/index.js",
