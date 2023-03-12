@@ -8,8 +8,8 @@ const CONFIGS = {
   // framePath: "https://sandbox-checkout.payments.tap.company/",
 
   // ************************ production URL *************************
-  serverPath: "https://checkout.payments.tap.company/api",
-  framePath: "https://checkout.payments.tap.company/",
+  serverPath: "https://checkout-prod-test.payments.tap.company:443/api",
+  framePath: "https://checkout-prod-test.payments.tap.company:443/",
 
   // ************************ localhost URL *************************
   // serverPath: "http://localhost:8000",
