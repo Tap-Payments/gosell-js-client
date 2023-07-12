@@ -4,3 +4,4 @@ dist
 build
 v*.*.*
 build-*
+.DS_store
