@@ -94,14 +94,14 @@ class ConfigStore {
         { name: "BlackBerry", value: "CLDC", version: "CLDC" },
         { name: "Mozilla", value: "Mozilla", version: "Mozilla" }
       ],
-      init: function() {
+      init: function () {
         var agent = this.header.join(" "),
           os = this.matchItem(agent, this.dataos),
           browser = this.matchItem(agent, this.databrowser)
 
         return { os: os, browser: browser }
       },
-      matchItem: function(string, data) {
+      matchItem: function (string, data) {
         var i = 0,
           j = 0,
           html = "",
@@ -256,7 +256,8 @@ class ConfigStore {
           supportedCurrencies: value.gateway.supportedCurrencies ? value.gateway.supportedCurrencies : "all",
           supportedPaymentMethods: value.gateway.supportedPaymentMethods ? value.gateway.supportedPaymentMethods : "all",
           labels: value.gateway.labels ? value.gateway.labels : this.labels,
-          style: value.gateway.style ? value.gateway.style : this.style
+          style: value.gateway.style ? value.gateway.style : this.style,
+          disableSuccessStatus: value.gateway.disableSuccessStatus ? value.gateway.disableSuccessStatus : false
         }
       : {}
 
