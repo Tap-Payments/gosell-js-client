@@ -212,16 +212,17 @@ class GoSell extends Component {
             src={
               RootStore.uIStore.tap_id != null && RootStore.configStore.token != null
                 ? CONFIGS.framePath +
-                  "?mode=" +
-                  RootStore.uIStore.modalMode +
-                  "&token=" +
-                  RootStore.configStore.token +
-                  "&tap_id=" +
-                  RootStore.uIStore.tap_id
+                "?mode=" +
+                RootStore.uIStore.modalMode +
+                "&token=" +
+                RootStore.configStore.token +
+                "&tap_id=" +
+                RootStore.uIStore.tap_id
                 : CONFIGS.framePath + "?mode=" + RootStore.uIStore.modalMode + "&token=" + RootStore.configStore.token
             }
             width='100%'
             height='100%'
+            allow='payment'
           ></iframe>
         ) : null}
 
