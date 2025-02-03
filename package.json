@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "module": "src/index.js",
   "scripts": {
-    "start:demo": "cross-env NODE_ENV=development webpack-dev-server --compress",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --compress",
     "start": "pm2 start process.json --no-daemon",
     "build": "cross-env NODE_ENV=production webpack",
     "transpile": "babel src -d dist --copy-files",
