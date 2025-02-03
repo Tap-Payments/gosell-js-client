@@ -209,6 +209,7 @@ class GoSell extends Component {
               border: "0px",
               zIndex: "99999999999999999"
             }}
+            allow="payment"
             src={
               RootStore.uIStore.tap_id != null && RootStore.configStore.token != null
                 ? CONFIGS.framePath +
